@@ -2,7 +2,7 @@
 title = "欢迎使用 Cmd Markdown 编辑阅读器"  # 文章标题
 date = 2019-02-28T23:48:51+08:00  # 自动添加日期信息
 draft = false  # 设为false可被编译为HTML，true供本地修改
-tags = ["others"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
+tags = ["其他"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
 comments = true  # 是否开启Disqus评论功能
 share = true  # 是否开启分享
 +++
