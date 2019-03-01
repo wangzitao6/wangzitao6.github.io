@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2019</copyright>
-    <lastBuildDate>Thu, 28 Feb 2019 23:53:19 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 01 Mar 2019 13:05:37 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Demo</title>
+      <link>https://wangzitao6.github.io/post/demo/</link>
+      <pubDate>Fri, 01 Mar 2019 13:05:37 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/demo/</guid>
+      <description>测试 Travis CI
+language: go
+Specify which branches to build using a safelist 分支白名单限制: 只有hugo分支的提交才会触发构建 branches: only: - hugo
+git: depth: 1
+install:
+安装最新的hugo  go get github.com/spf13/hugo  script: # 运行hugo命令 - hugo
+deploy: provider: pages # 重要，指定这是一份github pages的部署配置 skip-cleanup: true # 重要，不能省略 # token is set in travis-ci.org dashboard github_token: $GITHUB_API_KEY # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
+local-dir: public # 静态站点文件所在目录 repo: wangzitao6/wangzitao6.github.io target_branch: master # 要将静态站点文件发布到哪个分支 keep-history: true # 是否保持target-branch分支的提交记录 on: branch: hugo # 博客源码的分支</description>
+    </item>
     
     <item>
       <title>Git常用命令</title>

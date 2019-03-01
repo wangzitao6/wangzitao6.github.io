@@ -195,6 +195,50 @@
 	
 	   <article class="post post">
     <header class="post-header">
+        <h2 class="post-title"><a href="https://wangzitao6.github.io/post/demo/">Demo</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>测试 Travis CI
+language: go
+Specify which branches to build using a safelist 分支白名单限制: 只有hugo分支的提交才会触发构建 branches: only: - hugo
+git: depth: 1
+install:
+安装最新的hugo  go get github.com/spf13/hugo  script: # 运行hugo命令 - hugo
+deploy: provider: pages # 重要，指定这是一份github pages的部署配置 skip-cleanup: true # 重要，不能省略 # token is set in travis-ci.org dashboard github_token: $GITHUB_API_KEY # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
+local-dir: public # 静态站点文件所在目录 repo: wangzitao6/wangzitao6.github.io target_branch: master # 要将静态站点文件发布到哪个分支 keep-history: true # 是否保持target-branch分支的提交记录 on: branch: hugo # 博客源码的分支 <a class="read-more" href="https://wangzitao6.github.io/post/demo/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            <img class="author-thumb" src="https://wangzitao6.github.io/images/me.jpg" alt="Author image" nopin="nopin" />
+            
+            
+            
+            王子滔
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io//tags//">#</a>,
+            
+        
+        <time class="post-date" datetime="2019-03-01T13:05:37&#43;08:00">
+            1 Mar 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
         <h2 class="post-title"><a href="https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Git常用命令</a></h2>
     </header>
     <section class="post-excerpt">
