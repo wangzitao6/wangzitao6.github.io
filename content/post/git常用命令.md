@@ -1,22 +1,38 @@
-+++
-title = "Git常用命令"  # 文章标题
-date = 2019-02-28T23:53:19+08:00  # 自动添加日期信息
-draft = false  # 设为false可被编译为HTML，true供本地修改
-tags = ["linux,git"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
-comments = true  # 是否开启Disqus评论功能
-share = true  # 是否开启分享
-+++
+﻿# git常用命令
+标签（空格分隔）： git
+
+**1.创建本地分支**
+git branch 分支名，例如：git branch dev
+注：dev 是分支名称，可以随便定义。
+
+**2.切换本地分支**
+git checkout 分支名，例如从master切换到分支：git checkout dev
+
+**3.远程分支就是本地分支push到服务器上。比如master就是一个最典型的远程分支（默认）**。
+git push origin dev
+
+**4.远程分支和本地分支需要区分好，所以，在从服务器上拉取特定分支的时候，需要指定远程分支的名字。**
+git checkout --track origin/dev
+注意该命令由于带有--track参数，所以要求git1.6.4以上！这样git会自动切换到分支。
+
+**5.提交分支数据到远程服务器**
+git push origin <local_branch_name>:<remote_branch_name>
+例如：
+git push origin dev:dev
+一般当前如果不在该分支时，使用这种方式提交。如果当前在 dev 分支下，也可以直接提交
+git push
+
+**6.删除远程分支**
+git push origin :develop
+
+
+----------
+
 
 克隆bscode分支
-git clone --branch bscode git@ingsys.cn:hscode  
+git clone --branch branchname  repoPath  
 
-git clone --branch sfcode git@ingsys.cn:ruifeng
-
-git clone --branch hxcode git@ingsys.cn:hongxing
-
-git clone git@ingsys.cn:hongxing
-
-git clone  git@github.com:mform/myform.git  克隆仓库
+git clone repoPath
 
 git status   查看这次修改的东西
 
@@ -49,10 +65,9 @@ git show commit版本号  显示此次commit所修改的内容
 
 git  branch 查看所有的分支  高亮的是当前分支
 
-git branch <branchname>，创建新的分支branchname
+git branch branchname，创建新的分支branchname
 
-git branch -d <branchname> ，删除名称为branchname的分支
-
+git branch -d branchname，删除名称为branchname的分支
 
 git checkout -b test  创建并切换到本地test分支
 
@@ -60,8 +75,8 @@ git checkout -b test  创建并切换到 本地test分支
 
 git push origin test  把创建的分支推送到远端
 
-
 git checkout master   切换到master分支
+
 
 
 
