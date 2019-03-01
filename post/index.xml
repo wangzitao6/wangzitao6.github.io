@@ -7,59 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <copyright>All rights reserved - 2019</copyright>
-    <lastBuildDate>Fri, 01 Mar 2019 13:36:48 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 Feb 2019 23:48:51 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>One</title>
-      <link>https://wangzitao6.github.io/post/one/</link>
-      <pubDate>Fri, 01 Mar 2019 13:36:48 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/post/one/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Demo</title>
-      <link>https://wangzitao6.github.io/post/demo/</link>
-      <pubDate>Fri, 01 Mar 2019 13:05:37 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/post/demo/</guid>
-      <description>测试 Travis CI
-language: go
-Specify which branches to build using a safelist 分支白名单限制: 只有hugo分支的提交才会触发构建 branches: only: - hugo
-git: depth: 1
-install:
-安装最新的hugo  go get github.com/spf13/hugo  script: # 运行hugo命令 - hugo
-deploy: provider: pages # 重要，指定这是一份github pages的部署配置 skip-cleanup: true # 重要，不能省略 # token is set in travis-ci.org dashboard github_token: $GITHUB_API_KEY # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
-local-dir: public # 静态站点文件所在目录 repo: wangzitao6/wangzitao6.github.io target_branch: master # 要将静态站点文件发布到哪个分支 keep-history: true # 是否保持target-branch分支的提交记录 on: branch: hugo # 博客源码的分支</description>
-    </item>
-    
-    <item>
-      <title>Git常用命令</title>
-      <link>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Thu, 28 Feb 2019 23:53:19 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>克隆bscode分支 git clone &amp;ndash;branch bscode git@ingsys.cn:hscode
-git clone &amp;ndash;branch sfcode git@ingsys.cn:ruifeng
-git clone &amp;ndash;branch hxcode git@ingsys.cn:hongxing
-git clone git@ingsys.cn:hongxing
-git clone git@github.com:mform/myform.git 克隆仓库
-git status 查看这次修改的东西
-git add . 把所有的修改文件放入暂存区
-git add filepath 把某一个文件加入暂存区
-git reset 撤销所有暂存区文件
-git reset filepath 撤销暂存区中的某一个文件
-git checkout . 回滚所有的修改
-git diff filepath 查看此次修改差异
-git checkout filepath 回滚某一个文件的修改
-git commit -m &amp;ldquo; 修改的信息&amp;rdquo; 提交修改并显示修改的信息
-git push origin/master 推送到远程的master分支 （git push origin master ）
-git pull origin/master 拉去远程的master分支（git pull origin master ） 放在add commit 之后</description>
-    </item>
     
     <item>
       <title>欢迎使用 Cmd Markdown 编辑阅读器</title>
@@ -94,6 +45,27 @@ cd D:\Hugo\Sites hugo new site brent-li.github.io  之后在Site目录下多了�
 接下来我们先在content里放点东西。命令如下：
 cd brent-li.github.io hugo new post/scala-learning-pattern-matching.md  Hugo会在content目录下创建post目录，在post目录下创建scala-learning-pattern-matching.md文件。之后打开md文件，里面已经有些内容
 +++ date = &amp;quot;2017-02-08T22:07:46+08:00&amp;quot; title = &amp;quot;scala learning pattern matching&amp;quot; draft = true +++  +++包起来的内容是TOML配置信息，叫作扉页(front matter)，默认这3项，可以再添加一些，其中draft是true时Hugo不会真正发布它，我修改后的扉页如下：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>git常用命令 标签（空格分隔）： git
+1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。
+2.切换本地分支 git checkout 分支名，例如从master切换到分支：git checkout dev
+3.远程分支就是本地分支push到服务器上。比如master就是一个最典型的远程分支（默认）。 git push origin dev
+4.远程分支和本地分支需要区分好，所以，在从服务器上拉取特定分支的时候，需要指定远程分支的名字。 git checkout &amp;ndash;track origin/dev 注意该命令由于带有&amp;ndash;track参数，所以要求git1.6.4以上！这样git会自动切换到分支。
+5.提交分支数据到远程服务器 git push origin : 例如： git push origin dev:dev 一般当前如果不在该分支时，使用这种方式提交。如果当前在 dev 分支下，也可以直接提交 git push
+6.删除远程分支 git push origin :develop
+克隆bscode分支 git clone &amp;ndash;branch branchname repoPath
+git clone repoPath
+git status 查看这次修改的东西
+git add . 把所有的修改文件放入暂存区
+git add filepath 把某一个文件加入暂存区
+git reset 撤销所有暂存区文件</description>
     </item>
     
   </channel>
