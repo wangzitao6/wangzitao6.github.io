@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="ip地址，子网掩码，网关，dns协议关系"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="ip地址，子网掩码，网关，dns协议关系 &middot; 王子滔的Github Page" />
+  	<meta property="og:site_name" content="王子滔的Github Page" />
+  	<meta property="og:url" content="https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/" />
+
+    
+        
+            <meta property="og:image" content="/images/1.jpg"/>
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-02-28T22:59:30&#43;08:00" />
+
+    
+    <meta property="article:tag" content="网络" />
+    
+    
+
+    <title>ip地址，子网掩码，网关，dns协议关系 &middot; 王子滔的Github Page</title>
+
+    
+    <meta name="description" content="简单来说：
+&amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！
+&amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。
+&amp;ensp;&amp;ensp;默认网关，数据包默认选择的出口！一般是你的路由器地址！
+&amp;ensp;&amp;ensp;DNS服务器，把网站的域名转换成计算机能看懂的IP地址！
+什么是IP地址 &amp;en" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://wangzitao6.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://wangzitao6.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://wangzitao6.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://wangzitao6.github.io/css/nav.css" />
+
+    
+
+    
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+      
+          <link href="https://wangzitao6.github.io/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的Github Page" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.55.0-DEV" />
+
+    <link rel="canonical" href="https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": ,
+        "logo": https://wangzitao6.github.io/images/me.jpg
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "image": {
+            "@type": "ImageObject",
+            "url": https://wangzitao6.github.io/images/me.jpg,
+            "width": 250,
+            "height": 250
+        }, 
+        
+        "url": https://wangzitao6.github.io/,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": ip地址，子网掩码，网关，dns协议关系,
+    "name": ip地址，子网掩码，网关，dns协议关系,
+    "wordCount": 37,
+    "timeRequired": "PT1M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/,
+    "datePublished": 2019-02-28T22:59Z,
+    "dateModified": 2019-02-28T22:59Z,
+    
+    "keywords": 网络,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://wangzitao6.github.io/">主页</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://wangzitao6.github.io/tags/linux">linux</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C">网络</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://wangzitao6.github.io/tags/%E5%85%B6%E4%BB%96">其他</a>
+            </li>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="https://wangzitao6.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://wangzitao6.github.io/"><img src="https://wangzitao6.github.io/images/me.jpg" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">ip地址，子网掩码，网关，dns协议关系</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-02-28T22:59:30&#43;08:00">
+            Feb 28, 2019
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io//tags/%E7%BD%91%E7%BB%9C/">#网络</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>简单来说：</p>
+
+<p>&ensp;&ensp;IP地址，标示你电脑的身份！</p>
+
+<p>&ensp;&ensp;子网掩码，可以标示子网划分的情况，所属子网。</p>
+
+<p>&ensp;&ensp;默认网关，数据包默认选择的出口！一般是你的路由器地址！</p>
+
+<p>&ensp;&ensp;DNS服务器，把网站的域名转换成计算机能看懂的IP地址！</p>
+
+<h4 id="什么是ip地址">什么是IP地址</h4>
+
+<p><strong>&ensp;&ensp;所谓IP地址就是给每个连接在Internet上的主机分配的一个32bit地址。</strong></p>
+
+<p>&ensp;&ensp;按照TCP/IP协议规定，IP地址用二进制来表示，每个IP地址长32bit，比特换算成字节，就是4个字节。例如一个采用二进制形式的IP地址是“00001010 00000000 00000000 00000001”，这么长的地址，人们处理起来也太费劲了。为了方便人们的使用，IP地址经常被写成十进制的形式，中间使用符号“.”分开不同的字节。于是，上面的IP地址可以表示为“10.0.0.1”。IP地址的这种表示法叫做“点分十进制表示法”，这显然比1和0容易记忆得多。</p>
+
+<hr />
+
+<h4 id="什么是子网掩码">什么是子网掩码</h4>
+
+<p><strong>&ensp;&ensp;子网掩码(subnet mask)又叫网络掩码，地址掩码，子网络遮罩。</strong></p>
+
+<p>&ensp;&ensp;子网掩码是一种用来指明一个ip地址的哪些位标识的是主机所在的子网，以及哪些位标识的是主机的位掩码。</p>
+
+<p>&ensp;&ensp;子网掩码不能单独存在，它必须结合IP地址一起使用。子网掩码只有一个作用，就是将某个ip地址划分成网络地址和主机地址</p>
+
+<hr />
+
+<h4 id="什么是网关">什么是网关</h4>
+
+<p><strong>&ensp;&ensp;网关(Gateway)又称网间连接器、协议转换器。</strong></p>
+
+<p>&ensp;&ensp;网关在传输层上以实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。网关既可以用于广域网互连，也可以用于局域网互连。</p>
+
+<p>&ensp;&ensp;网关是一种充当转换重任的计算机系统或设备。在使用不同的通信协议、数据格式或语言，甚至体系结构完全不同的两种系统之间，网关是一个翻译器。与网桥只是简单地传达信息不同，网关对收到的信息要重新打包，以适应目的系统的需求。同时，网关也可以提供过滤和安全功能。大多数网关运行在OSI 7层协议的顶层&ndash;应用层。</p>
+
+<p><img src="https://i.imgur.com/cE4kMHP.png" alt="" /></p>
+
+<hr />
+
+<h4 id="什么是dns">什么是DNS</h4>
+
+<p>&ensp;&ensp;DNS 是域名系统 (Domain Name System) 的缩写，是因特网的一项核心服务，它作为可以将域<br />
+名和IP地址相互映射的一个分布式数据库，能够使人更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。</p>
+
+<hr />
+
+<h4 id="ip地址-子网掩码-网关-dns的关系">IP地址、子网掩码、网关、DNS的关系</h4>
+
+<p>&ensp;&ensp;IP地址，标示你电脑的身份！</p>
+
+<p>&ensp;&ensp;子网掩码，可以标示子网划分的情况，所属子网。</p>
+
+<p>&ensp;&ensp;默认网关，数据包默认选择的出口！一般是你的路由器地址！</p>
+
+<p>&ensp;&ensp;DNS服务器，把网站的域名转换成计算机能看懂的IP地址！</p>
+
+<p>&ensp;&ensp;一般来说，子网掩码 就是判断两个IP地址，是不是在同一个网段(或称子网)，在同一网段的两个地址，可以直接通信。不管是通过IP地址也好，还是通过“计算机名”，都是可以的。如果两个IP地址，不在同一网段，这时候，要想通过IP地址访问另一网段的计算机(也是IP地址)，就需要网关地址。网关地址就是出口的地址，而且，网关地址，是你最近的一个出口的地址。</p>
+
+<p>&ensp;&ensp;网关地址总是与你的计算机的IP地址是同一网段的。这一点是非常重要的。如果两台计算机，不在同一网段，如果想使用计算机名(就是类似于compute1、cp2之类的名称，称为NetBIOS名称)，这时候，必须要使用WINS服务器来解析(或者手动编辑本机的hosts文件)，这就是WINS服务器的做用。如果两台计算机，不在同一网段。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+
+
+
+
+<figure class="author-image">
+    <a class="img" href="https://wangzitao6.github.io/" style="background-image: url(/images/me.jpg)"><span class="hidden">王子滔's Picture</span></a>
+</figure>
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io/">王子滔</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io/">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">GuangZhou, China</span>
+    <span class="author-link icon-link"><a href="https://wangzitao6.github.io/">https://wangzitao6.github.io/</a></span>
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=ip%e5%9c%b0%e5%9d%80%ef%bc%8c%e5%ad%90%e7%bd%91%e6%8e%a9%e7%a0%81%ef%bc%8c%e7%bd%91%e5%85%b3%ef%bc%8cdns%e5%8d%8f%e8%ae%ae%e5%85%b3%e7%b3%bb&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84Github%20Page&amp;url=https%3a%2f%2fwangzitao6.github.io%2fpost%2fip%25E5%259C%25B0%25E5%259D%2580%25E5%25AD%2590%25E7%25BD%2591%25E6%258E%25A9%25E7%25A0%2581%25E7%25BD%2591%25E5%2585%25B3dns%25E5%258D%258F%25E8%25AE%25AE%25E5%2585%25B3%25E7%25B3%25BB%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2fpost%2fip%25E5%259C%25B0%25E5%259D%2580%25E5%25AD%2590%25E7%25BD%2591%25E6%258E%25A9%25E7%25A0%2581%25E7%25BD%2591%25E5%2585%25B3dns%25E5%258D%258F%25E8%25AE%25AE%25E5%2585%25B3%25E7%25B3%25BB%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2fpost%2fip%25E5%259C%25B0%25E5%259D%2580%25E5%25AD%2590%25E7%25BD%2591%25E6%258E%25A9%25E7%25A0%2581%25E7%25BD%2591%25E5%2585%25B3dns%25E5%258D%258F%25E8%25AE%25AE%25E5%2585%25B3%25E7%25B3%25BB%2f&amp;description=ip%e5%9c%b0%e5%9d%80%ef%bc%8c%e5%ad%90%e7%bd%91%e6%8e%a9%e7%a0%81%ef%bc%8c%e7%bd%91%e5%85%b3%ef%bc%8cdns%e5%8d%8f%e8%ae%ae%e5%85%b3%e7%b3%bb"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2fpost%2fip%25E5%259C%25B0%25E5%259D%2580%25E5%25AD%2590%25E7%25BD%2591%25E6%258E%25A9%25E7%25A0%2581%25E7%25BD%2591%25E5%2585%25B3dns%25E5%258D%258F%25E8%25AE%25AE%25E5%2585%25B3%25E7%25B3%25BB%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/post\/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/post\/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://王子滔.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+          <section class="post">
+              <h2>git常用命令</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="https://wangzitao6.github.io/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/">
+          <section class="post">
+              <h2>用Hugo搭建个人网站</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的Github Page</a> All rights reserved - 2019</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://wangzitao6.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://wangzitao6.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://wangzitao6.github.io/js/index.js"></script>
+    
+</body>
+</html>
+
