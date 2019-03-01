@@ -236,6 +236,55 @@ Windows/Mac/Linux 全平台客户端  请保留此份 Cmd Markdown 的欢迎稿�
 	
 	   <article class="post post">
     <header class="post-header">
+        <h2 class="post-title"><a href="https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。
+2.切换本地分支 git checkout 分支名，例如从master切换到分支：git checkout dev
+3.远程分支就是本地分支push到服务器上。比如master就是一个最典型的远程分支（默认）。 git push origin dev
+4.远程分支和本地分支需要区分好，所以，在从服务器上拉取特定分支的时候，需要指定远程分支的名字。 git checkout &ndash;track origin/dev 注意该命令由于带有&ndash;track参数，所以要求git1.6.4以上！这样git会自动切换到分支。
+5.提交分支数据到远程服务器 git push origin : 例如： git push origin dev:dev 一般当前如果不在该分支时，使用这种方式提交。如果当前在 dev 分支下，也可以直接提交 git push
+6.删除远程分支 git push origin :develop
+克隆bscode分支 git clone &ndash;branch branchname repoPath
+git clone repoPath
+git status 查看这次修改的东西
+git add . 把所有的修改文件放入暂存区
+git add filepath 把某一个文件加入暂存区
+git reset 撤销所有暂存区文件
+git reset filepath 撤销暂存区中的某一个文件 <a class="read-more" href="https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            <img class="author-thumb" src="https://wangzitao6.github.io/images/me.jpg" alt="Author image" nopin="nopin" />
+            
+            
+            
+            王子滔
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io//tags/linux/">#linux</a>,
+            
+        
+        <time class="post-date" datetime="2019-02-28T22:59:30&#43;08:00">
+            28 Feb 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
         <h2 class="post-title"><a href="https://wangzitao6.github.io/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/">用Hugo搭建个人网站</a></h2>
     </header>
     <section class="post-excerpt">
@@ -279,51 +328,6 @@ cd brent-li.github.io hugo new post/scala-learning-pattern-matching.md  Hugo会�
         
         <time class="post-date" datetime="2019-02-28T22:59:30&#43;08:00">
             28 Feb 2019
-        </time>
-    </footer>
-</article>
-
-	
-	   <article class="post post">
-    <header class="post-header">
-        <h2 class="post-title"><a href="https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"></a></h2>
-    </header>
-    <section class="post-excerpt">
-        
-            <p>git常用命令 标签（空格分隔）： git
-1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。
-2.切换本地分支 git checkout 分支名，例如从master切换到分支：git checkout dev
-3.远程分支就是本地分支push到服务器上。比如master就是一个最典型的远程分支（默认）。 git push origin dev
-4.远程分支和本地分支需要区分好，所以，在从服务器上拉取特定分支的时候，需要指定远程分支的名字。 git checkout &ndash;track origin/dev 注意该命令由于带有&ndash;track参数，所以要求git1.6.4以上！这样git会自动切换到分支。
-5.提交分支数据到远程服务器 git push origin : 例如： git push origin dev:dev 一般当前如果不在该分支时，使用这种方式提交。如果当前在 dev 分支下，也可以直接提交 git push
-6.删除远程分支 git push origin :develop
-克隆bscode分支 git clone &ndash;branch branchname repoPath
-git clone repoPath
-git status 查看这次修改的东西
-git add . 把所有的修改文件放入暂存区
-git add filepath 把某一个文件加入暂存区
-git reset 撤销所有暂存区文件 <a class="read-more" href="https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">&raquo;</a></p>
-        
-    </section>
-    <footer class="post-meta">
-        
-
-        
-            
-            
-
-            
-            <img class="author-thumb" src="https://wangzitao6.github.io/images/me.jpg" alt="Author image" nopin="nopin" />
-            
-            
-            
-            王子滔
-                 
-        
-
-        
-        <time class="post-date" datetime="0001-01-01T00:00:00Z">
-            1 Jan 0001
         </time>
     </footer>
 </article>
