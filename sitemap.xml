@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC-2/</loc>
+    <lastmod>2019-02-28T22:59:30+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC/</loc>
     <lastmod>2019-02-28T22:59:30+08:00</lastmod>
   </url>
@@ -44,12 +49,6 @@
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/</loc>
-    <lastmod>2019-02-28T23:48:51+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://wangzitao6.github.io/tags/linux/</loc>
     <lastmod>2019-02-28T22:59:30+08:00</lastmod>
     <priority>0</priority>
@@ -57,6 +56,12 @@
   
   <url>
     <loc>https://wangzitao6.github.io/tags/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2019-02-28T23:48:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/</loc>
     <lastmod>2019-02-28T23:48:51+08:00</lastmod>
     <priority>0</priority>
   </url>
