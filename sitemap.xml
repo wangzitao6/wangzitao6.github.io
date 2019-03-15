@@ -18,7 +18,7 @@
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
+    <loc>https://wangzitao6.github.io/2017/11/03/hello-world/</loc>
     <lastmod>2019-02-28T22:59:30+08:00</lastmod>
   </url>
   
@@ -33,6 +33,18 @@
   </url>
   
   <url>
+    <loc>https://wangzitao6.github.io/search/placeholder/</loc>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/top/about/</loc>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/top/books/</loc>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/categories/</loc>
     <priority>0</priority>
   </url>
@@ -44,7 +56,17 @@
   </url>
   
   <url>
+    <loc>https://wangzitao6.github.io/search/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/top/</loc>
     <priority>0</priority>
   </url>
   
