@@ -1,10 +1,12 @@
 ﻿+++
+layout= "post"
 title = "git常用命令"  # 文章标题
+subtitle=  "" # 副标题
 date = 2019-02-28T22:59:30+08:00  # 自动添加日期信息
-draft = false  # 设为false可被编译为HTML，true供本地修改
 tags = ["linux"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
-comments = true  # 是否开启Disqus评论功能
-share = true  # 是否开启分享
+author = "WangZiTao11"
+URL= "/2017/11/03/hello-world/"
+image=    "https://img.zhaohuabing.com/post-bg-2015.jpg"  # 单独图片
 +++
 
 **1.创建本地分支**

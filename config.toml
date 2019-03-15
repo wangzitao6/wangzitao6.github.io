@@ -8,9 +8,8 @@ googleAnalytics = ""
 preserveTaxonomyNames = true
 paginate = 5 #frontpage pagination
 hasCJKLanguage = true
-
 [outputs]
-home = ["HTML", "RSS"]
+home = ["HTML", "RSS", "Algolia"]
 
 [params]
   header_image = "images/1.jpg"
@@ -25,6 +24,12 @@ home = ["HTML", "RSS"]
   page_view_conter = false 
   leancloud_app_id = ""
   leancloud_app_key = ""
+
+  # algolia site search
+  algolia_search = true
+  algolia_appId = "3DH4V2B4JK"
+  algolia_indexName = "wangzitai-blog"
+  algolia_apiKey = "31c446dfcfdf65fe0ff50a8a68194de4"
 
 
   # Sidebar settings
@@ -47,9 +52,9 @@ home = ["HTML", "RSS"]
   reward = false 
   # reward_guide = "如果这篇文章对你有用,请随意打赏" 
 
-  friends = false
+  friends = true
   bookmarks = false
-  about_me = false
+  about_me = true
 
   [params.social]
   rss            = false 
@@ -64,6 +69,40 @@ home = ["HTML", "RSS"]
   wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
   #medium         = "full profile url in medium"
   #pinterest     = "full profile url in pinterest"
+
+  
+  [[params.friend_link]]
+  title = "Linda的博客"
+  href =  "https://zhaozhihan.com"
+
+  [[params.bookmark_link]]
+  title =  "Martin Fowler"
+  href =  "https://martinfowler.com"
+  [[params.bookmark_link]]
+  title = "ServiceMesher"
+  href =  "http://www.servicemesher.com"
+  [[params.bookmark_link]]
+  title =  "Pxhere"
+  href = "https://pxhere.com"
+  [[params.bookmark_link]]
+  title = "unsplash"
+  href = "https://unsplash.com"
+  
+  [[params.addtional_menus]]
+  title =  "BOOKS"
+  href =  "/top/books/"
+  [[params.addtional_menus]]
+  title =  "ABOUT"
+  href =  "/top/about/"
+[outputFormats.Algolia]
+baseName = "algolia"
+isPlainText = true
+mediaType = "application/json"
+notAlternative = true
+
+[params.algolia]
+vars = ["title", "summary", "date", "publishdate", "expirydate", "permalink"]
+params = ["categories", "tags"] 
 
 
   
