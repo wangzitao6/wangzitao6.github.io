@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on WangZiTao Blog</title>
+    <link>https://wangzitao6.github.io/post/</link>
+    <description>Recent content in Posts on WangZiTao Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <lastBuildDate>Thu, 28 Feb 2019 23:48:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>欢迎使用 Cmd Markdown 编辑阅读器</title>
+      <link>https://wangzitao6.github.io/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8/</link>
+      <pubDate>Thu, 28 Feb 2019 23:48:51 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8/</guid>
+      <description>整理知识，学习笔记 发布日记，杂文，所见所想 撰写发布技术文稿（代码支持） 撰写发布学术论文（LaTeX 公式支持） 除了您现在看到的这个 Cmd Markdown 在线版本</description>
+    </item>
+    
+    <item>
+      <title>git常用命令</title>
+      <link>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。 2.切换本地分支 git checkout 分支名，例如从master切换到分支：g</description>
+    </item>
+    
+    <item>
+      <title>ip地址，子网掩码，网关，dns协议关系</title>
+      <link>https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
+      <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
+    </item>
+    
+    <item>
+      <title>用Hugo搭建个人网站</title>
+      <link>https://wangzitao6.github.io/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
+      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
+    </item>
+    
+  </channel>
+</rss>
