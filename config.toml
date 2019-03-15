@@ -1,4 +1,4 @@
-baseurl = "https://github.com/wangzitao6"
+baseurl = "https://wangzitao6.github.io" #一定要用https，github强制安全措施
 title = "WangZiTao Blog"
 theme = "hamburg"
 languageCode = "zh_CN"
@@ -67,7 +67,4 @@ home = ["HTML", "RSS"]
   #pinterest     = "full profile url in pinterest"
 
 
-  [[params.friend_link]]
-  title = "Linda的博客"
-  href =  "https://zhaozhihan.com"
   

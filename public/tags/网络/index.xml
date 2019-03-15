@@ -2,39 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>网络 on WangZiTao Blog</title>
-    <link>https://github.com/wangzitao6/tags/%E7%BD%91%E7%BB%9C/</link>
+    <link>https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/</link>
     <description>Recent content in 网络 on WangZiTao Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <lastBuildDate>Thu, 28 Feb 2019 22:59:30 +0800</lastBuildDate>
     
-	<atom:link href="https://github.com/wangzitao6/tags/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ip地址，子网掩码，网关，dns协议关系</title>
-      <link>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC-2/</link>
+      <link>https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
       <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
       
-      <guid>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC-2/</guid>
-      <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
-    </item>
-    
-    <item>
-      <title>ip地址，子网掩码，网关，dns协议关系</title>
-      <link>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC/</link>
-      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
-      
-      <guid>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC/</guid>
-      <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
-    </item>
-    
-    <item>
-      <title>ip地址，子网掩码，网关，dns协议关系</title>
-      <link>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
-      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
-      
-      <guid>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
+      <guid>https://wangzitao6.github.io/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
       <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
     </item>
     
