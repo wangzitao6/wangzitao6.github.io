@@ -13,6 +13,15 @@
     
     <item>
       <title>git常用命令</title>
+      <link>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC/</guid>
+      <description>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。 2.切换本地分支 git checkout 分支名，例如从master切换到分支：g</description>
+    </item>
+    
+    <item>
+      <title>git常用命令</title>
       <link>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
       
