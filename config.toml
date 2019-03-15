@@ -1,5 +1,5 @@
 baseurl = "https://wangzitao6.github.io" #一定要用https，github强制安全措施
-title = "WangZiTao Blog"
+title = "王子滔的博客"
 theme = "hamburg"
 languageCode = "zh_CN"
 # Enable comments by entering your Disqus shortname
@@ -14,7 +14,6 @@ home = ["HTML", "RSS"]
 
 [params]
   header_image = "images/1.jpg"
-  SEOTitle = "王子滔的博客 "
   description = "王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。"
   keyword = "王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"
   slogan = "~路漫漫其修远兮~"
