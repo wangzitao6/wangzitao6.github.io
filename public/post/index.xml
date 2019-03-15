@@ -1,74 +1,122 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on 王子滔的Github Page</title>
-    <link>https://wangzitao6.github.io/post/</link>
-    <description>Recent content in Posts on 王子滔的Github Page</description>
+    <title>Posts on WangZiTao Blog</title>
+    <link>https://github.com/wangzitao6/post/</link>
+    <description>Recent content in Posts on WangZiTao Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <copyright>All rights reserved - 2019</copyright>
-    <lastBuildDate>Thu, 28 Feb 2019 23:53:19 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 Feb 2019 23:48:51 +0800</lastBuildDate>
     
-	<atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://github.com/wangzitao6/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Git常用命令</title>
-      <link>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Thu, 28 Feb 2019 23:53:19 +0800</pubDate>
+      <title>欢迎使用 Cmd Markdown 编辑阅读器</title>
+      <link>https://github.com/wangzitao6/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8-%E5%89%AF%E6%9C%AC-2/</link>
+      <pubDate>Thu, 28 Feb 2019 23:48:51 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>克隆bscode分支 git clone &amp;ndash;branch bscode git@ingsys.cn:hscode
-git clone &amp;ndash;branch sfcode git@ingsys.cn:ruifeng
-git clone &amp;ndash;branch hxcode git@ingsys.cn:hongxing
-git clone git@ingsys.cn:hongxing
-git clone git@github.com:mform/myform.git 克隆仓库
-git status 查看这次修改的东西
-git add . 把所有的修改文件放入暂存区
-git add filepath 把某一个文件加入暂存区
-git reset 撤销所有暂存区文件
-git reset filepath 撤销暂存区中的某一个文件
-git checkout . 回滚所有的修改
-git diff filepath 查看此次修改差异
-git checkout filepath 回滚某一个文件的修改
-git commit -m &amp;ldquo; 修改的信息&amp;rdquo; 提交修改并显示修改的信息
-git push origin/master 推送到远程的master分支 （git push origin master ）
-git pull origin/master 拉去远程的master分支（git pull origin master ） 放在add commit 之后</description>
+      <guid>https://github.com/wangzitao6/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8-%E5%89%AF%E6%9C%AC-2/</guid>
+      <description>整理知识，学习笔记 发布日记，杂文，所见所想 撰写发布技术文稿（代码支持） 撰写发布学术论文（LaTeX 公式支持） 除了您现在看到的这个 Cmd Markdown 在线版本</description>
     </item>
     
     <item>
       <title>欢迎使用 Cmd Markdown 编辑阅读器</title>
-      <link>https://wangzitao6.github.io/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8/</link>
+      <link>https://github.com/wangzitao6/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8-%E5%89%AF%E6%9C%AC/</link>
       <pubDate>Thu, 28 Feb 2019 23:48:51 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8/</guid>
-      <description>整理知识，学习笔记 发布日记，杂文，所见所想 撰写发布技术文稿（代码支持） 撰写发布学术论文（LaTeX 公式支持）   除了您现在看到的这个 Cmd Markdown 在线版本，您还可以前往以下网址下载：
-Windows/Mac/Linux 全平台客户端  请保留此份 Cmd Markdown 的欢迎稿兼使用说明，如需撰写新稿件，点击顶部工具栏右侧的  新文稿 或者使用快捷键 Ctrl+Alt+N。
- 什么是 Markdown Markdown 是一种方便记忆、书写的纯文本标记语言，用户可以使用这些标记符号以最小的输入代价生成极富表现力的文档：譬如您正在阅读的这份文档。它使用简单的符号标记不同的标题，分割不同的段落，粗体 或者 斜体 某些文字，更棒的是，它还可以
-1. 制作一份待办事宜 Todo 列表 支持以 PDF 格式导出文稿 改进 Cmd 渲染算法，使用局部渲染技术提高渲染效率 新增 Todo 列表功能 修复 LaTex 公式渲染问题 新增 LaTex 公式编号功能  2. 书写一个质能守恒公式1 $$E=mc^2$$
-3. 高亮一段代码2 @requires_authorization class SomeClass: pass if __name__ == &#39;__main__&#39;: # A comment print &#39;hello world&#39;  4.</description>
+      <guid>https://github.com/wangzitao6/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8-%E5%89%AF%E6%9C%AC/</guid>
+      <description>整理知识，学习笔记 发布日记，杂文，所见所想 撰写发布技术文稿（代码支持） 撰写发布学术论文（LaTeX 公式支持） 除了您现在看到的这个 Cmd Markdown 在线版本</description>
+    </item>
+    
+    <item>
+      <title>欢迎使用 Cmd Markdown 编辑阅读器</title>
+      <link>https://github.com/wangzitao6/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8/</link>
+      <pubDate>Thu, 28 Feb 2019 23:48:51 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/%E6%AC%A2%E8%BF%8E%E4%BD%BF%E7%94%A8cmdmarkdown%E7%BC%96%E8%BE%91%E9%98%85%E8%AF%BB%E5%99%A8/</guid>
+      <description>整理知识，学习笔记 发布日记，杂文，所见所想 撰写发布技术文稿（代码支持） 撰写发布学术论文（LaTeX 公式支持） 除了您现在看到的这个 Cmd Markdown 在线版本</description>
+    </item>
+    
+    <item>
+      <title>git常用命令</title>
+      <link>https://github.com/wangzitao6/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC-2/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC-2/</guid>
+      <description>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。 2.切换本地分支 git checkout 分支名，例如从master切换到分支：g</description>
+    </item>
+    
+    <item>
+      <title>git常用命令</title>
+      <link>https://github.com/wangzitao6/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-%E5%89%AF%E6%9C%AC/</guid>
+      <description>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。 2.切换本地分支 git checkout 分支名，例如从master切换到分支：g</description>
+    </item>
+    
+    <item>
+      <title>git常用命令</title>
+      <link>https://github.com/wangzitao6/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。 2.切换本地分支 git checkout 分支名，例如从master切换到分支：g</description>
+    </item>
+    
+    <item>
+      <title>ip地址，子网掩码，网关，dns协议关系</title>
+      <link>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC-2/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC-2/</guid>
+      <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
+    </item>
+    
+    <item>
+      <title>ip地址，子网掩码，网关，dns协议关系</title>
+      <link>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB-%E5%89%AF%E6%9C%AC/</guid>
+      <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
+    </item>
+    
+    <item>
+      <title>ip地址，子网掩码，网关，dns协议关系</title>
+      <link>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
+      <description>简单来说： &amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！ &amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。 &amp;ensp</description>
     </item>
     
     <item>
       <title>用Hugo搭建个人网站</title>
-      <link>https://wangzitao6.github.io/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</link>
+      <link>https://github.com/wangzitao6/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99-%E5%89%AF%E6%9C%AC-2/</link>
       <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
-      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。
-什么是Hugo Hugo是一种静态网站生成器。适用于搭建个人博客、小型公司主页等网站，是一种小型的CMS系统。
-静态站点的好处就是快速、安全、易于部署，最主要是可以通过版本控制来进行管理。
-静态网站生成器有很多种，Github上有总结，知名的有Jekyll，Middle Man App，等等。
-我之所以选择Hugo，首先是因为它支持Windows系统，并且安装很简单。其次是对markdown语法的支持，这对我来说很方便。然后是主题、文档支持等等各方面都比较完善。
-如何用Hugo搭建个人网站 一 下载和安装Hugo Hugo是用Go语言写的，早期版本还要下载Go，目前版本是v0.18.1，直接下载，不再需要额外的依赖了。
-win64x对应的是hugo_0.18.1_Windows-64bit.zip，下载后创建安装目录，例如D:\Hugo，之下建两个子目录bin和Sites，然后解压，例如解压到D:\Hugo\bin，把解压的hugo_0.18.1_windows_amd64.exe文件重命名为hugo.exe，然后加到环境变量Path里，方便在命令行里使用。
-添加成功后打开cmd或者PowerShell，运行命令hugo version，如果安装成功，会输出Hugo Static Site Generator v0.18.1 BuildDate: 2017-02-08T21:36:59+08:00。
-二 搭建个人网站 首先要确定自己要搭建什么网站，我要建的是托管到Github的用户网站，按照Github Pages规则，网站名应该是，所以我第一步创建网站用以下命令：
-cd D:\Hugo\Sites hugo new site brent-li.github.io  之后在Site目录下多了一个brent-li.github.io文件夹，进入文件夹可以看到目录结构如下：
-|-- archetypes |-- config.toml |-- content |-- data |-- layouts `-- static  archetypes目录里可以放一些原型，用于hugo新建内容的配置属性。config.toml是网站的配置属性文件。content文件夹里放你网站的内容，例如你发布的博客文章。data目录是Hugo使用的配置文件存放的地方。layout目录存放布局内容。static目录存放静态资源如图片、css等。
-接下来我们先在content里放点东西。命令如下：
-cd brent-li.github.io hugo new post/scala-learning-pattern-matching.md  Hugo会在content目录下创建post目录，在post目录下创建scala-learning-pattern-matching.md文件。之后打开md文件，里面已经有些内容
-+++ date = &amp;quot;2017-02-08T22:07:46+08:00&amp;quot; title = &amp;quot;scala learning pattern matching&amp;quot; draft = true +++  +++包起来的内容是TOML配置信息，叫作扉页(front matter)，默认这3项，可以再添加一些，其中draft是true时Hugo不会真正发布它，我修改后的扉页如下：</description>
+      <guid>https://github.com/wangzitao6/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99-%E5%89%AF%E6%9C%AC-2/</guid>
+      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
+    </item>
+    
+    <item>
+      <title>用Hugo搭建个人网站</title>
+      <link>https://github.com/wangzitao6/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99-%E5%89%AF%E6%9C%AC/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99-%E5%89%AF%E6%9C%AC/</guid>
+      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
+    </item>
+    
+    <item>
+      <title>用Hugo搭建个人网站</title>
+      <link>https://github.com/wangzitao6/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</link>
+      <pubDate>Thu, 28 Feb 2019 22:59:30 +0800</pubDate>
+      
+      <guid>https://github.com/wangzitao6/post/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
+      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
     </item>
     
   </channel>

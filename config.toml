@@ -1,67 +1,73 @@
-baseurl = "https://wangzitao6.github.io/" #一定要用https，github强制安全措施
+baseurl = "https://github.com/wangzitao6"
+title = "WangZiTao Blog"
+theme = "hamburg"
+languageCode = "zh_CN"
+# Enable comments by entering your Disqus shortname
+DisqusShortname = "WangZiTao"
+googleAnalytics = ""
+preserveTaxonomyNames = true
+paginate = 5 #frontpage pagination
+hasCJKLanguage = true
 
-languageCode = "zh_CN" #语言
-
-title = "王子滔的Github Page" #博客标题
-
-theme = "casper" #主题
-
-paginate = 10 #分页每页记录数
-
-DisqusShortname = "王子滔" #评论时显示的名字
-
-Copyright = "All rights reserved - 2019" #版权
-
-canonifyurls = true 
+[outputs]
+home = ["HTML", "RSS"]
 
 [params]
-  description = "路漫漫其修远兮。" #加段提升逼格的副标题
-  cover = "images/1.jpg" #自己找的博客封面，要够大够酷
-  author = "王子滔" #文章作者
-  authorlocation = "GuangZhou, China" #作者位置
-  authorwebsite = "https://wangzitao6.github.io/" #作者站点
-  bio= "搬砖工程师" #作者简介
-  logo = "images/me.jpg" #作者头像
-  #googleAnalyticsUserID = "UA-79101-12" 
-  # Optional RSS-Link, if not provided it defaults to the standard index.xml
-  #RSSLink = "http://feeds.feedburner.com/..."
-  githubName = "ZiTao-Wang" #github用户名
+  header_image = "images/1.jpg"
+  SEOTitle = "王子滔的博客 "
+  description = "王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。"
+  keyword = "王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"
+  slogan = "~路漫漫其修远兮~"
+
+  image_404 = "images/404-bg.jpg"
+  title_404 = "你来到了没有知识的荒原 :("
+
+  # leancloud storage for page view counter
+  page_view_conter = false 
+  leancloud_app_id = ""
+  leancloud_app_key = ""
+
+
+  # Sidebar settings
+  sidebar_about_description = "搬砖工程师"
+  #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+  sidebar_avatar = "images/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+  featured_tags = true 
+  featured_condition_size = 1 
+
+  # Baidu Analytics
+  ba_track_id = "28c952e35b6e860c096a2cdf52785c6f"
+  
+  # We need a proxy to access Disqus api in China
+  # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
+  disqus_proxy = ""
+  disqus_site = ""
+
+  #Enable wechat pay & alipay to allow readers send reward money if they like the articles 
+  reward = false 
+  # reward_guide = "如果这篇文章对你有用,请随意打赏" 
+
+  friends = false
+  bookmarks = false
+  about_me = false
+
+  [params.social]
+  rss            = false 
   email = "wang_zitao@foxmail.com" #邮箱
-  #twitterName = "" 
-  # facebookName = ""
-  # linkedinName = "" #LinkedIn用户名
-  # set true if you are not proud of using Hugo (true will hide the footer note "Proudly published with HUGO.....")
-  hideHUGOSupport = false
-  # Setting a value will load highlight.js and enable syntax highlighting using the style selected.
-  # See https://github.com/isagalaev/highlight.js/tree/master/src/styles for available styles
-  # A preview of above styles can be viewed at https://highlightjs.org/static/demo/
-  hjsStyle = "atom-one-light"
- 
-[[menu.main]]
-  name = "主页"
-  weight = -1
-  identifier = "blog"
-  url = "/"
-
-[[menu.main]]
-  name = "linux"
-  weight = -2
-  identifier = "linux"
-  url = "/tags/linux"
-
-  [[menu.main]]
-  name = "网络"
-  weight = -3
-  identifier = "网络"
-  url = "/tags/网络"
-
-[[menu.main]]
-  name = "其他"
-  weight = -4
-  identifier = "其他"
-  url = "/tags/其他"
+  #facebook      = "full profile url in facebook"
+  #googleplus    = "full profile url in googleplus"
+  #twitter       = "full profile url in twitter"
+  #linkedin       = "https://www.linkedin.com/in/yourlinkedinid"
+  #stackoverflow  = "https://stackoverflow.com/users/yourstackoverflowid"
+  #instagram     = "full profile url in instagram"
+  github = "https://github.com/wangzitao6" #github用户名
+  wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
+  #medium         = "full profile url in medium"
+  #pinterest     = "full profile url in pinterest"
 
 
- #文章目录 年/月/日/文章
- [permalinks]
-  #post = "/:year/:month/:day/:title/"
+  [[params.friend_link]]
+  title = "Linda的博客"
+  href =  "https://zhaozhihan.com"
+  

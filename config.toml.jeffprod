@@ -1,0 +1,56 @@
+baseurl = "https://wangzitao6.github.io/" #一定要用https，github强制安全措施
+
+languageCode = "zh_CN" #语言
+
+title = "王子滔的Blog" #博客标题
+
+theme = "jeffprod" #主题
+
+paginate = 3 #分页每页记录数
+
+pluralizelisttitles = false
+
+# Disqus Username
+disqusShortname = "王子滔" #评论时显示的名字
+
+Copyright = "All rights reserved" #版权
+
+canonifyurls = true 
+
+enableRobotsTXT = true
+
+PygmentsCodeFences = true
+
+#googleAnalyticsUserID = "UA-79101-12" 
+
+[params]
+  author = "王子滔" #文章作者
+
+  email = "wang_zitao@foxmail.com" #邮箱
+  github = "wangzitao6" #github用户名
+  wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
+  hideHUGOSupport = false
+
+  hjsStyle = "atom-one-light"
+
+ 
+[[menu.main]]
+  name = "主页"
+  weight = 1
+  identifier = "blog"
+  url = "/"
+
+[[menu.main]]
+  name = "标签"
+  weight = 2
+  identifier = "tags"
+  url = "/tags/"
+
+  [taxonomies]
+    tag = "tags"
+    archive = "archives"
+
+
+ #文章目录 年/月/日/文章
+ [permalinks]
+  #post = "/:year/:month/:day/:title/"

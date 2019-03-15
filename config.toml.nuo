@@ -1,0 +1,65 @@
+baseurl = "https://wangzitao6.github.io/" #一定要用https，github强制安全措施
+
+languageCode = "zh_CN" #语言
+
+title = "王子滔的Blog" #博客标题
+
+theme = "hugo-nuo" #主题
+
+paginate = 5 #分页每页记录数
+
+pluralizelisttitles = false
+
+# Disqus Username
+disqusShortname = "王子滔" #评论时显示的名字
+
+Copyright = "All rights reserved" #版权
+
+canonifyurls = true 
+
+enableRobotsTXT = true
+
+PygmentsCodeFences = true
+
+#googleAnalyticsUserID = "UA-79101-12" 
+
+[params]
+  author = "王子滔" #文章作者
+
+  bg = "images/grey-prism.svg"
+  avatar = "images/avatar.png"
+  seotitle = "王子滔的博客."
+  subtitle = "~路漫漫其修远兮~"
+
+  authorlocation = "GuangZhou, China" #作者位置
+
+  authorwebsite = "https://wangzitao6.github.io/" #作者站点
+  bio= "搬砖工程师" #作者简介
+
+  email = "wang_zitao@foxmail.com" #邮箱
+  github = "wangzitao6" #github用户名
+  wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
+  hideHUGOSupport = false
+
+  # Setting a value will load highlight.js and enable syntax highlighting using the style selected.
+  # See https://github.com/isagalaev/highlight.js/tree/master/src/styles for available styles
+  # A preview of above styles can be viewed at https://highlightjs.org/static/demo/
+  hjsStyle = "atom-one-light"
+
+ 
+[[menu.main]]
+  name = "主页"
+  weight = 1
+  identifier = "blog"
+  url = "/"
+
+[[menu.main]]
+  name = "标签"
+  weight = 2
+  identifier = "tags"
+  url = "/tags/"
+
+
+ #文章目录 年/月/日/文章
+ [permalinks]
+  #post = "/:year/:month/:day/:title/"
