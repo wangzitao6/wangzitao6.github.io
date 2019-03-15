@@ -27,9 +27,9 @@ home = ["HTML", "RSS", "Algolia"]
 
   # algolia site search
   algolia_search = true
-  algolia_appId = "3DH4V2B4JK"
-  algolia_indexName = "wangzitai-blog"
-  algolia_apiKey = "31c446dfcfdf65fe0ff50a8a68194de4"
+  algolia_appId = "WM4BEY1UDN"
+  algolia_indexName = "blog"
+  algolia_apiKey = "090c4a77b8bd4b8d2f2c1262afbc4be2"
 
 
   # Sidebar settings
@@ -94,6 +94,7 @@ home = ["HTML", "RSS", "Algolia"]
   [[params.addtional_menus]]
   title =  "ABOUT"
   href =  "/top/about/"
+
 [outputFormats.Algolia]
 baseName = "algolia"
 isPlainText = true
@@ -103,6 +104,3 @@ notAlternative = true
 [params.algolia]
 vars = ["title", "summary", "date", "publishdate", "expirydate", "permalink"]
 params = ["categories", "tags"] 
-
-
-  
