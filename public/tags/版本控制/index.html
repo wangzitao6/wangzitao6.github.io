@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Searches</title>
+    <title>版本控制</title>
 
-    <link rel="canonical" href="/search/">
+    <link rel="canonical" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -162,6 +162,7 @@
 
 
 
+  
 <div class="container">
     <div class="row">
         
@@ -174,113 +175,33 @@
             post-container
         ">
             
-<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css">
 
-<div id="search-searchbar"></div>
- <div class="post-list" id="search-hits">
- </div>
-
-<script>
-const search = instantsearch({
-  appId: 'WM4BEY1UDN',
-  indexName: 'blog',
-  apiKey: '090c4a77b8bd4b8d2f2c1262afbc4be2'
-});
-
-const hitTemplate = function(hit) {
-
-
-  let date = '';
-  if (hit.date) {
-    date = moment.unix(hit.date).format('MMM D, YYYY');
-  }
-  let url = `${hit.url}#${hit.anchor}`;
-  const title = hit._highlightResult.title.value;
-
-  let breadcrumbs = '';
-  if (hit._highlightResult.headings) {
-    breadcrumbs = hit._highlightResult.headings.map(match => {
-      return `<span class="post-breadcrumb">${match.value}</span>`
-    }).join(' > ')
-  }
-
-  let content = "" ; 
-  if (hit._highlightResult.content){
-      content = hit._highlightResult.content.value;
-  }
-  else{
-      content = hit.summary;
-  }
+<div class="post-preview">
+    <a href="https://wangzitao6.github.io/2017/08/28/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/">
+        <h2 class="post-title">
+            用Hugo搭建个人网站
+        </h2>
+	
+        <h3 class="post-subtitle">
+            hugo
+        </h3>
+	
+        <div class="post-content-preview">
+	
+            摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo
+       
+        </div>
+    </a>
+    <p class="post-meta">
+    Posted by 王子滔的博客 Monday, August 28, 2017
+    </p>
+</div>
+<hr>
 
 
-  return `
-    <div class="post-item">
-      <span class="post-meta">${date}</span>
-      <h2><a class="post-link" href="${url}">${title}</a></h2>
-      <a href="${url}" class="post-breadcrumbs">${breadcrumbs}</a>
-      <div class="post-snippet">${content}</div>
-    </div>
-  `;
-}
+            
 
 
-search.addWidget(
-  instantsearch.widgets.searchBox({
-    container: '#search-searchbar',
-    placeholder: 'Search into posts...',
-    poweredBy: true // This is required if you're on the free Community plan
-  })
-);
-
-search.addWidget(
-  instantsearch.widgets.hits({
-    container: '#search-hits',
-    templates: {
-      item: hitTemplate
-    }
-  })
-);
-
-search.start();
-</script>
-
-<style>
-.ais-search-box {
-  max-width: 100%;
-  margin-bottom: 15px;
-}
-.post-item {
-  margin-bottom: 30px;
-}
-.post-link .ais-Highlight {
-  color: #111;
-  font-style: normal;
-  text-decoration: underline;
-}
-.post-breadcrumbs {
-  color: #424242;
-  display: block;
-}
-.post-breadcrumb {
-  font-size: 18px;
-  color: #424242;
-}
-.post-breadcrumb .ais-Highlight {
-  font-weight: bold;
-  font-style: normal;
-}
-.post-snippet .ais-Highlight {
-  color: #2a7ae2;
-  font-style: normal;
-  font-weight: bold;
-}
-.post-snippet img {
-  display: none;
-}
-</style>
 
        	</div>
         
@@ -350,6 +271,8 @@ search.start();
 
 	</div>
 </div>
+
+
 
 
 

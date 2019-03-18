@@ -1,11 +1,11 @@
 ﻿+++
 layout= "post"
 title = "git常用命令"  # 文章标题
-subtitle=  "" # 副标题
+subtitle=  "git" # 副标题
 date = 2017-11-03T22:59:30+08:00  # 自动添加日期信息
 tags = ["其他"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
 author = "WangZiTao"
-URL= "/2017/11/03/"
+URL= "/2017/11/03/git常用命令/"
 image=    "https://img.zhaohuabing.com/post-bg-2015.jpg"  # 单独图片
 +++
 

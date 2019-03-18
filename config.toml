@@ -21,7 +21,7 @@ home = ["HTML", "Algolia"]
   title_404 = "你来到了没有知识的荒原 :("
 
   # leancloud storage for page view counter
-  page_view_conter = false 
+  page_view_conter = false
   leancloud_app_id = ""
   leancloud_app_key = ""
 
@@ -37,27 +37,27 @@ home = ["HTML", "Algolia"]
   #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
   sidebar_avatar = "images/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
-  featured_tags = false 
-  featured_condition_size = 1 
+  featured_tags = false
+  featured_condition_size = 1
 
   # Baidu Analytics
   ba_track_id = "28c952e35b6e860c096a2cdf52785c6f"
-  
+
   # We need a proxy to access Disqus api in China
   # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
   disqus_proxy = ""
   disqus_site = ""
 
-  #Enable wechat pay & alipay to allow readers send reward money if they like the articles 
-  reward = false 
-  # reward_guide = "如果这篇文章对你有用,请随意打赏" 
+  #Enable wechat pay & alipay to allow readers send reward money if they like the articles
+  reward = false
+  # reward_guide = "如果这篇文章对你有用,请随意打赏"
 
   friends = false
   bookmarks = false
   about_me = true
 
   [params.social]
-  rss            = false 
+  rss            = false
   email = "wang_zitao@foxmail.com" #邮箱
   #facebook      = "full profile url in facebook"
   #googleplus    = "full profile url in googleplus"
@@ -70,8 +70,6 @@ home = ["HTML", "Algolia"]
   #medium         = "full profile url in medium"
   #pinterest     = "full profile url in pinterest"
 
-  
-  
 
 [outputFormats.Algolia]
 baseName = "algolia"
@@ -81,4 +79,4 @@ notAlternative = true
 
 [params.algolia]
 vars = ["title", "summary", "date", "publishdate", "expirydate", "permalink"]
-params = ["categories", "tags"] 
+params = ["categories", "tags"]
