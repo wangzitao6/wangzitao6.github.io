@@ -2,10 +2,10 @@
 layout= "post"
 title = "git常用命令"  # 文章标题
 subtitle=  "" # 副标题
-date = 2019-02-28T22:59:30+08:00  # 自动添加日期信息
-tags = ["linux"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
-author = "WangZiTao11"
-URL= "/2017/11/03/hello-world/"
+date = 2017-11-03T22:59:30+08:00  # 自动添加日期信息
+tags = ["其他"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
+author = "WangZiTao"
+URL= "/2017/11/03/"
 image=    "https://img.zhaohuabing.com/post-bg-2015.jpg"  # 单独图片
 +++
 
@@ -84,8 +84,3 @@ git checkout -b test  创建并切换到 本地test分支
 git push origin test  把创建的分支推送到远端
 
 git checkout master   切换到master分支
-
-
-
-
-

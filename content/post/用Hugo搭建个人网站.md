@@ -1,6 +1,6 @@
 +++
 title = "用Hugo搭建个人网站"  # 文章标题
-date = 2019-02-28T22:59:30+08:00  # 自动添加日期信息
+date = 2017-10-01T22:59:30+08:00  # 自动添加日期信息
 draft = false  # 设为false可被编译为HTML，true供本地修改
 tags = ["其他"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
 comments = true  # 是否开启Disqus评论功能
@@ -88,8 +88,8 @@ Hugo主题网站提供了很多主题，选择自己喜欢的下载，我选择�
     paginate = 5 #分页每页记录数
     DisqusShortname = "李子峰" #评论时显示的名字
     Copyright = "All rights reserved - 2017" #版权
-    canonifyurls = true 
-    
+    canonifyurls = true
+
     [params]
       description = "知其雄，守其雌，为天下溪。" #加段提升逼格的副标题
       cover = "images/cover.jpg" #自己找的博客封面，要够大够酷
@@ -98,24 +98,24 @@ Hugo主题网站提供了很多主题，选择自己喜欢的下载，我选择�
       authorwebsite = "https://brent-li.github.io/" #作者站点
       bio= "京东|高级软件工程师" #作者简介
       logo = "images/Einstan.jpg" #作者头像
-      #googleAnalyticsUserID = "UA-79101-12" 
+      #googleAnalyticsUserID = "UA-79101-12"
       # Optional RSS-Link, if not provided it defaults to the standard index.xml
       #RSSLink = "http://feeds.feedburner.com/..."
       githubName = "Brent-Li" #github用户名
-      #twitterName = "vjeantet" 
+      #twitterName = "vjeantet"
       # facebookName = ""
       linkedinName = "zifeng" #LinkedIn用户名
       # set true if you are not proud of using Hugo (true will hide the footer note "Proudly published with HUGO.....")
       hideHUGOSupport = false #是否显示Hugo水印
       [params.social]
         linkedin = "https://cn.linkedin.com/in/zifeng"
-    	
+
     [[menu.main]] #页面菜单参数
       name = "李子峰的博客"
       weight = -120
       identifier = "blog"
       url = "/"
-    
+
     [[menu.main]]
       name = "About me"
       weight = -110
@@ -129,7 +129,7 @@ Hugo主题网站提供了很多主题，选择自己喜欢的下载，我选择�
 
 Hugo自带服务器，可以用命令行启动：
 
-    hugo server -t casper 
+    hugo server -t casper
 
 服务器启动后访问http://localhost:1313访问网站，发现问题可以及时修改。
 
@@ -149,4 +149,3 @@ Hugo将编译所有文件并输出到public目录，你需要在github上创建r
     git push -u origin master
 
 稍等片刻后，打开<你的用户名>.github.io网址，就可以看到你的个人网站了。
-
