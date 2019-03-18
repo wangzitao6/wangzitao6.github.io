@@ -1,14 +1,15 @@
-+++
-title = "用Hugo搭建个人网站"  # 文章标题
-subtitle=  "hugo"
-date = 2017-08-28T22:59:30+08:00  # 自动添加日期信息
-draft = false  # 设为false可被编译为HTML，true供本地修改
-tags = ["版本控制"]  # 文章标签，可设置多个，用逗号隔开。Hugo会自动生成标签的子URL
-comments = false  # 是否开启Disqus评论功能
-share = true  # 是否开启分享
-URL=  "/2017/08/28/用Hugo搭建个人网站/"
-categories= ["other" ]
-+++
+---
+title:     "用Hugo搭建个人网站"  # 文章标题
+subtitle:    "hugo"  # 文章标题
+description: "用Hugo搭建个人网站"
+date:         2017-08-28T23:41:16+08:00  # 自动添加日期信息
+author:   "WangZiTao"
+image:   ""
+tags:        ["其他"]
+url:    "/2017/08/28/用Hugo搭建个人网站/"
+categories:  ["other"]
+---
+
 
 - 摘要：
   本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。
