@@ -6,19 +6,10 @@
     <description>Recent content in 其他 on 王子滔的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Fri, 03 Nov 2017 22:59:30 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 28 Oct 2017 22:59:30 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/tags/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>git常用命令</title>
-      <link>https://wangzitao6.github.io/2017/11/03/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Fri, 03 Nov 2017 22:59:30 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2017/11/03/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>1.创建本地分支 git branch 分支名，例如：git branch dev 注：dev 是分支名称，可以随便定义。 2.切换本地分支 git checkout 分支名，例如从master切换到分支：g</description>
-    </item>
     
     <item>
       <title>Markdown常用语法</title>
@@ -27,6 +18,15 @@
       
       <guid>https://wangzitao6.github.io/2017/10/28/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</guid>
       <description>1.内容目录 在段落中填写 [TOC] 以显示全文内容的目录结构。 2.标题 # 这是一级标题 ## 这是二级标题 ### 这是三级标题 #### 这是四级标题 ##### 这是五级标题 ###### 这是六级</description>
+    </item>
+    
+    <item>
+      <title>用Hugo搭建个人网站</title>
+      <link>https://wangzitao6.github.io/2017/08/28/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</link>
+      <pubDate>Mon, 28 Aug 2017 23:41:16 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2017/08/28/%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
+      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
     </item>
     
   </channel>
