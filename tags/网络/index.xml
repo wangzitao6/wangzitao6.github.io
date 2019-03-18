@@ -20,23 +20,5 @@
       <description>简介 IP地址，标示你电脑的身份！ 子网掩码，可以标示子网划分的情况，所属子网。 默认网关，数据包默认选择的出口！一般是你的路由器地址！ DNS服务</description>
     </item>
     
-    <item>
-      <title>Ip地址，子网掩码，网关，dns协议关系</title>
-      <link>https://wangzitao6.github.io/2018/02/15/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
-      <pubDate>Thu, 15 Feb 2018 23:44:45 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018/02/15/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
-      <description>简介 IP地址，标示你电脑的身份！ 子网掩码，可以标示子网划分的情况，所属子网。 默认网关，数据包默认选择的出口！一般是你的路由器地址！ DNS服务</description>
-    </item>
-    
-    <item>
-      <title>Ip地址，子网掩码，网关，dns协议关系</title>
-      <link>https://wangzitao6.github.io/2018/02/15/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
-      <pubDate>Thu, 15 Feb 2018 23:44:45 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018/02/15/ip%E5%9C%B0%E5%9D%80%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E7%BD%91%E5%85%B3dns%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
-      <description>简介 IP地址，标示你电脑的身份！ 子网掩码，可以标示子网划分的情况，所属子网。 默认网关，数据包默认选择的出口！一般是你的路由器地址！ DNS服务</description>
-    </item>
-    
   </channel>
 </rss>
