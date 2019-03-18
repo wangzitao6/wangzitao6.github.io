@@ -37,7 +37,8 @@ home = ["HTML", "Algolia"]
   #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
   sidebar_avatar = "images/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
-  featured_tags = false
+  # 右侧的数千
+  featured_tags = true
   featured_condition_size = 1
 
   # Baidu Analytics
@@ -47,10 +48,6 @@ home = ["HTML", "Algolia"]
   # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
   disqus_proxy = ""
   disqus_site = ""
-
-  #Enable wechat pay & alipay to allow readers send reward money if they like the articles
-  reward = false
-  # reward_guide = "如果这篇文章对你有用,请随意打赏"
 
   friends = false
   bookmarks = false
@@ -70,6 +67,29 @@ home = ["HTML", "Algolia"]
   #medium         = "full profile url in medium"
   #pinterest     = "full profile url in pinterest"
 
+  # h好友博客链接
+  [[params.friend_link]]
+  title = "Linda的博客"
+  href =  "https://zhaozhihan.com"
+
+  # 右侧书签链接
+  [[params.bookmark_link]]
+  title =  "Martin Fowler"
+  href =  "https://martinfowler.com"
+  [[params.bookmark_link]]
+  title = "ServiceMesher"
+  href =  "http://www.servicemesher.com"
+  [[params.bookmark_link]]
+  title =  "Pxhere"
+  href = "https://pxhere.com"
+  [[params.bookmark_link]]
+  title = "unsplash"
+  href = "https://unsplash.com"
+
+  # 上方文件夹总结，界面
+  [[params.addtional_menus]]
+  title =  "ABOUT"
+  href =  "/top/about/"
 
 [outputFormats.Algolia]
 baseName = "algolia"
