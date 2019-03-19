@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="zh_CN">
 <head>
     <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
     <meta name="baidu-site-verification" content="LRrmH41lz7" />
@@ -18,15 +18,15 @@
     
 
     
-    <meta name="title" content="TcpIp协议族与socket区别" />
-    <meta property="og:title" content="TcpIp协议族与socket区别" />
-    <meta property="twitter:title" content="TcpIp协议族与socket区别" />
+    <meta name="title" content="如何使用非root用户执行docker命令" />
+    <meta property="og:title" content="如何使用非root用户执行docker命令" />
+    <meta property="twitter:title" content="如何使用非root用户执行docker命令" />
     
 
     
-    <meta name="description" content="网络的基本知识点">
-    <meta property="og:description" content="网络的基本知识点" />
-    <meta property="twitter:description" content="网络的基本知识点" />
+    <meta name="description" content="如何使用非root用户执行docker命令">
+    <meta property="og:description" content="如何使用非root用户执行docker命令" />
+    <meta property="twitter:description" content="如何使用非root用户执行docker命令" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>TcpIp协议族与socket区别</title>
+    <title>如何使用非root用户执行docker命令</title>
 
-    <link rel="canonical" href="/2018-05-28-tcpip%e5%8d%8f%e8%ae%ae%e6%97%8f%e4%b8%8esocket%e5%8c%ba%e5%88%ab">
+    <link rel="canonical" href="/2018/02/09/docker-without-sudo/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -97,19 +97,21 @@
                     </li>
                     
                     <li>
-                        <a href="/categories/build">build</a>
+                        <a href="/categories/life">Life</a>
                     </li>
                     
                     <li>
-                        <a href="/categories/net">net</a>
+                        <a href="/categories/tech">Tech</a>
                     </li>
                     
                     <li>
-                        <a href="/categories/other">other</a>
+                        <a href="/categories/tips">Tips</a>
                     </li>
                     
                     
 		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
                         <li><a href="/top/about/">ABOUT</a></li>
                     
 
@@ -159,7 +161,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/images/1.jpg')
+        background-image: url('https://img.zhaohuabing.com/in-post/docker.jpg')
     }
 </style>
 <header class="intro-header">
@@ -169,154 +171,24 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
+                        <a class="tag" href="/tags/tips" title="Tips">
+                            Tips
+                        </a>
+                        
+                        <a class="tag" href="/tags/docker" title="Docker">
+                            Docker
                         </a>
                         
                     </div>
-                    <h1>TcpIp协议族与socket区别</h1>
-                    <h2 class="subheading">network</h2>
+                    <h1>如何使用非root用户执行docker命令</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
 			Posted by 
 			
-			    WangZiTao
+			    赵化冰
 			 
 			on 
-			Monday, May 28, 2018
-                        
-                            <span id="/2018-05-28-tcpip协议族与socket区别" class="leancloud_visitors meta_data_item" data-flag-title="">
-    <span class="post-meta-item-icon">
-      <span class="octicon octicon-eye"></span> 
-    </span>
-    <i class="fa fa-eye"></i>
-    <span class="old-visitors-count" style="display: none;"></span>
-    <span class="leancloud-visitors-count"></span>
-</span>
-
-
-
-<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-
-<script>
-	AV.initialize("", "");
-</script>
-
-<script type="text/javascript">
-function showTime(Counter) {
-    var query = new AV.Query(Counter);
-    var entries = [];
-    var $visitors = $(".leancloud_visitors");
-
-    $visitors.each(function() {
-        entries.push($(this).attr("id").trim());
-    });
-
-    query.containedIn('url', entries);
-    query.find()
-        .done(function(results) {
-            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-
-            
-            
-            
-            
-
-            for (var i = 0; i < results.length; i++) {
-                var item = results[i];
-                var url = item.get('url');
-                var time = item.get('time');
-                var element = document.getElementById(url);
-
-                $(element).find(COUNT_CONTAINER_REF).text(time);
-            }
-            for (var i = 0; i < entries.length; i++) {
-                var url = entries[i];
-                var element = document.getElementById(url);
-                var countSpan = $(element).find(COUNT_CONTAINER_REF);
-                if (countSpan.text() == '') {
-                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
-                    if(oldCountSpan!=''){
-                        countSpan.text(0+parseInt(oldCountSpan));
-                    }else{
-                        countSpan.text(0);          
-                    }
-                }
-            }
-        })
-        .fail(function(object, error) {
-            console.log("Error: " + error.code + " " + error.message);
-        });
-}
-
-function addCount(Counter) {
-    var $visitors = $(".leancloud_visitors");
-    var url = $visitors.attr('id').trim();
-    var title = $visitors.attr('data-flag-title').trim();
-    var query = new AV.Query(Counter);
-
-    query.equalTo("url", url);
-    query.find({
-        success: function(results) {
-            if (results.length > 0) {
-                var counter = results[0];
-                counter.fetchWhenSave(true);
-                counter.increment("time");
-                counter.save(null, {
-                    success: function(counter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
-                    },
-                    error: function(counter, error) {
-                        console.log('Failed to save Visitor num, with error message: ' + error.message);
-                    }
-                });
-            } else {
-                var newcounter = new Counter();
-                 
-                var acl = new AV.ACL();
-                acl.setPublicReadAccess(true);
-                acl.setPublicWriteAccess(true);
-                newcounter.setACL(acl);
-                 
-                newcounter.set("title", title);
-                newcounter.set("url", url);
-                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-                var $element = $(document.getElementById(url));
-                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
-                if(oldCountSpan!=''){
-                    newcounter.set("time", parseInt(oldCountSpan)+1);
-                }else{
- 	                    newcounter.set("time",  1);
-                }
-                newcounter.save(null, {
-                    success: function(newcounter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-                    },
-                    error: function(newcounter, error) {
-                        console.log('Failed to create');
-                    }
-                });
-            }
-        },
-        error: function(error) {
-            console.log('Error:' + error.code + " " + error.message);
-        }
-    });
-}
-$(function() {
-    var Counter = AV.Object.extend("Counter");
-    
-    
-    if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-    } else {
-        showTime(Counter);
-    }
-});
-</script>
-
+			Friday, February 9, 2018
                         
                     </span>
                 </div>
@@ -339,27 +211,18 @@ $(function() {
                 post-container">
 
                 
-                <header>
-                    <h2>TOC</h2>
-                </header>
-                <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#简介">简介</a></li>
-</ul></li>
-</ul>
-</nav>
                 
                 
 
-<h2 id="简介">简介</h2>
+<h3 id="add-the-docker-group-if-it-doesn-t-already-exist">Add the docker group if it doesn&rsquo;t already exist:</h3>
 
-<p>TCP/IP协议是指因特网整个TCP/IP协议族。不同于ISO模型的七个分层，TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层中
-- 应用层：TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet 等等
-- 传输层：TCP，UDP
-- 网络层：IP，ICMP，OSPF，EIGRP，IGMP
-- 数据链路层：SLIP，CSLIP，PPP，MTU</p>
+<p>sudo groupadd docker</p>
+
+<h3 id="add-the-connected-user-user-to-the-docker-group-change-the-user-name-to-match-your-preferred-user-if-you-do-not-want-to-use-your-current-user">Add the connected user &ldquo;$USER&rdquo; to the docker group. Change the user name to match your preferred user if you do not want to use your current user:</h3>
+
+<p>sudo gpasswd -a $USER docker</p>
+
+<h3 id="either-do-a-newgrp-docker-or-log-out-in-to-activate-the-changes-to-groups">Either do a newgrp docker or log out/in to activate the changes to groups.</h3>
 
 
                 
@@ -367,6 +230,16 @@ $(function() {
                 <hr>
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/2018/05/22/user_authentication_authorization/" data-toggle="tooltip" data-placement="top" title="如何构建安全的微服务应用？">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/02/09/vim-tips/" data-toggle="tooltip" data-placement="top" title="Vim Tips">Next
+                            Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -414,15 +287,71 @@ $(function() {
                         
                         
                         
+                        <a href="/tags/docker" title="Docker">
+                            Docker
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/istio" title="Istio">
+                            Istio
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="Kubernetes">
+                            Kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/microservice" title="Microservice">
+                            Microservice
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="Security">
+                            Security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="Service Mesh">
+                            Service Mesh
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/tips" title="Tips">
+                            Tips
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/linux" title="linux">
+                            linux
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
                             其他
                         </a>
                         
                         
-                        
-                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
-                        </a>
                         
                         
                     </div>
@@ -430,6 +359,16 @@ $(function() {
                 
 
                 
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://zhaozhihan.com">Linda的博客</a></li>
+                        
+                    </ul>
+                </section>
                 
             </div>
         </div>
@@ -455,7 +394,7 @@ $(function() {
                         </a>
                     </li>
 		    
-
+                    
                     
                     
                     
@@ -488,7 +427,6 @@ $(function() {
                 </ul>
 		<p class="copyright text-muted">
                     Copyright &copy; 王子滔的博客 2019
-                    <br>
                 </p>
             </div>
         </div>

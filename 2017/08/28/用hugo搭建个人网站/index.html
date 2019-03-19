@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的博客">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="用Hugo搭建个人网站" />
+    <meta property="og:title" content="用Hugo搭建个人网站" />
+    <meta property="twitter:title" content="用Hugo搭建个人网站" />
+    
+
+    
+    <meta name="description" content="用Hugo搭建个人网站">
+    <meta property="og:description" content="用Hugo搭建个人网站" />
+    <meta property="twitter:description" content="用Hugo搭建个人网站" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>用Hugo搭建个人网站</title>
+
+    <link rel="canonical" href="/2017/08/28/%e7%94%a8Hugo%e6%90%ad%e5%bb%ba%e4%b8%aa%e4%ba%ba%e7%bd%91%e7%ab%99/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的博客</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/build">build</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/net">net</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/other">other</a>
+                    </li>
+                    
+                    
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                    </div>
+                    <h1>用Hugo搭建个人网站</h1>
+                    <h2 class="subheading">hugo</h2>
+                    <span class="meta">
+			Posted by 
+			
+			    WangZiTao
+			 
+			on 
+			Monday, August 28, 2017
+                        
+                            <span id="/2017/08/28/用Hugo搭建个人网站/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#什么是hugo">什么是Hugo</a></li>
+<li><a href="#如何用hugo搭建个人网站">如何用Hugo搭建个人网站</a>
+<ul>
+<li><a href="#1-下载和安装hugo">1.下载和安装Hugo</a></li>
+<li><a href="#2-搭建个人网站">2.搭建个人网站</a></li>
+<li><a href="#3-本地测试">3.本地测试</a></li>
+<li><a href="#4-发布到github">4.发布到github</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<ul>
+<li>摘要：
+本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。</li>
+</ul>
+
+<h2 id="什么是hugo">什么是Hugo</h2>
+
+<hr />
+
+<p>Hugo是一种静态网站生成器。适用于搭建个人博客、小型公司主页等网站，是一种小型的CMS系统。</p>
+
+<p>静态站点的好处就是快速、安全、易于部署，最主要是可以通过版本控制来进行管理。</p>
+
+<p>静态网站生成器有很多种，Github上有总结，知名的有Jekyll，Middle Man App，等等。</p>
+
+<p>我之所以选择Hugo，首先是因为它支持Windows系统，并且安装很简单。其次是对markdown语法的支持，这对我来说很方便。然后是主题、文档支持等等各方面都比较完善。</p>
+
+<h2 id="如何用hugo搭建个人网站">如何用Hugo搭建个人网站</h2>
+
+<p>=============</p>
+
+<h3 id="1-下载和安装hugo">1.下载和安装Hugo</h3>
+
+<hr />
+
+<p>Hugo是用Go语言写的，早期版本还要下载Go，目前版本是v0.18.1，直接下载，不再需要额外的依赖了。</p>
+
+<p>win64x对应的是hugo_0.18.1_Windows-64bit.zip，下载后创建安装目录，例如D:\Hugo，之下建两个子目录bin和Sites，然后解压，例如解压到D:\Hugo\bin，把解压的hugo_0.18.1_windows_amd64.exe文件重命名为hugo.exe，然后加到环境变量Path里，方便在命令行里使用。</p>
+
+<p>添加成功后打开cmd或者PowerShell，运行命令hugo version，如果安装成功，会输出Hugo Static Site Generator v0.54.0-B1A82C61 windows/amd64 BuildDate: 2017-08-01T09:42:02Z。</p>
+
+<h3 id="2-搭建个人网站">2.搭建个人网站</h3>
+
+<hr />
+
+<p>首先要确定自己要搭建什么网站，我要建的是托管到Github的用户网站，按照Github Pages规则，网站名应该是<username.github.io>，所以我第一步创建网站用以下命令：</p>
+
+<pre><code>cd D:\Hugo\Sites
+hugo new site brent-li.github.io
+</code></pre>
+
+<p>之后在Site目录下多了一个brent-li.github.io文件夹，进入文件夹可以看到目录结构如下：</p>
+
+<pre><code>|-- archetypes
+|-- config.toml
+|-- content
+|-- data
+|-- layouts
+`-- static
+</code></pre>
+
+<p>archetypes目录里可以放一些原型，用于hugo新建内容的配置属性。config.toml是网站的配置属性文件。content文件夹里放你网站的内容，例如你发布的博客文章。data目录是Hugo使用的配置文件存放的地方。layout目录存放布局内容。static目录存放静态资源如图片、css等。</p>
+
+<p>接下来我们先在content里放点东西。命令如下：</p>
+
+<pre><code>cd brent-li.github.io
+hugo new post/first.md
+</code></pre>
+
+<p>Hugo会在content目录下创建post目录，在post目录下创建 first.md文件。之后打开md文件，里面已经有些内容</p>
+
+<pre><code>+++
+date = &quot;2017-10-08T22:07:46+08:00&quot;
+title = &quot;first&quot;
+draft = true
++++
+</code></pre>
+
+<p>+++包起来的内容是TOML配置信息，叫作扉页(front matter)，默认这3项，可以再添加一些，其中draft是true时Hugo不会真正发布它，我修改后的扉页如下：</p>
+
+<pre><code>+++
+date = &quot;2017-02-08T22:07:46+08:00&quot;
+title = &quot;Scala学习笔记之模式匹配&quot;
+draft = false
+tags = [&quot;scala&quot;,&quot;pattern matching&quot;,&quot;模式匹配&quot;]
+share = true
++++
+</code></pre>
+
+<p>然后再把我的博客内容复制进md文件，一篇博客完成了。接下来该给网站添加主题来装饰一下了。</p>
+
+<p>Hugo主题网站提供了很多主题，选择自己喜欢的下载，我选择了casper，在自己网站目录下创建themes目录，然后下载主题：</p>
+
+<pre><code>cd themes
+git clone git clone https://github.com/zhaohuabing/hugo-theme-cleanwhite.git white
+</code></pre>
+
+<p>然后配置config.toml文件如下：</p>
+
+<pre><code>  baseurl = &quot;https://wangzitao6.github.io&quot; #一定要用https，github强制安全措施
+  title = &quot;王子滔的博客&quot;
+  theme = &quot;white&quot;
+  languageCode = &quot;zh_CN&quot;
+  # Enable comments by entering your Disqus shortname
+  DisqusShortname = &quot;WangZiTao&quot;
+  googleAnalytics = &quot;&quot;
+  preserveTaxonomyNames = true
+  paginate = 5 #frontpage pagination
+  hasCJKLanguage = true
+  [outputs]
+  home = [&quot;HTML&quot;, &quot;Algolia&quot;]
+
+  [params]
+    header_image = &quot;images/1.jpg&quot;
+    description = &quot;王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。&quot;
+    keyword = &quot;王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice&quot;
+    slogan = &quot;~路漫漫其修远兮~&quot;
+
+    image_404 = &quot;images/404-bg.jpg&quot;
+    title_404 = &quot;你来到了没有知识的荒原 :(&quot;
+
+    # leancloud storage for page view counter
+    page_view_conter = false
+    leancloud_app_id = &quot;&quot;
+    leancloud_app_key = &quot;&quot;
+
+    # algolia site search
+    algolia_search = true
+    algolia_appId = &quot;WM4BEY1UDN&quot;
+    algolia_indexName = &quot;blog&quot;
+    algolia_apiKey = &quot;090c4a77b8bd4b8d2f2c1262afbc4be2&quot;
+
+
+    # Sidebar settings
+    sidebar_about_description = &quot;搬砖工程师&quot;
+    #sidebar_avatar = &quot;images/avatar-1.jpg&quot;      # use absolute URL, seeing it's used in both `/` and `/about/`
+    sidebar_avatar = &quot;images/me.jpg&quot;      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+    featured_tags = false
+    featured_condition_size = 1
+
+    # Baidu Analytics
+    ba_track_id = &quot;28c952e35b6e860c096a2cdf52785c6f&quot;
+
+    # We need a proxy to access Disqus api in China
+    # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
+    disqus_proxy = &quot;&quot;
+    disqus_site = &quot;&quot;
+
+    friends = false
+    bookmarks = false
+    about_me = true
+
+    [params.social]
+    rss            = false
+    email = &quot;wang_zitao@foxmail.com&quot; #邮箱
+    #facebook      = &quot;full profile url in facebook&quot;
+    #googleplus    = &quot;full profile url in googleplus&quot;
+    #twitter       = &quot;full profile url in twitter&quot;
+    #linkedin       = &quot;https://www.linkedin.com/in/yourlinkedinid&quot;
+    #stackoverflow  = &quot;https://stackoverflow.com/users/yourstackoverflowid&quot;
+    #instagram     = &quot;full profile url in instagram&quot;
+    github = &quot;https://github.com/wangzitao6&quot; #github用户名
+    wechat= &quot;images/qrcode.jpg&quot;  # Replace with your wechat qrcode image
+    #medium         = &quot;full profile url in medium&quot;
+    #pinterest     = &quot;full profile url in pinterest&quot;
+
+
+  [outputFormats.Algolia]
+  baseName = &quot;algolia&quot;
+  isPlainText = true
+  mediaType = &quot;application/json&quot;
+  notAlternative = true
+
+  [params.algolia]
+  vars = [&quot;title&quot;, &quot;summary&quot;, &quot;date&quot;, &quot;publishdate&quot;, &quot;expirydate&quot;, &quot;permalink&quot;]
+  params = [&quot;categories&quot;, &quot;tags&quot;]
+</code></pre>
+
+<blockquote>
+<p>配置完不要忘了把封面、头像图片都拷贝到static\images目录下。</p>
+</blockquote>
+
+<h3 id="3-本地测试">3.本地测试</h3>
+
+<p>Hugo自带服务器，可以用命令行启动：</p>
+
+<pre><code>hugo server -t white
+</code></pre>
+
+<p>服务器启动后访问<a href="http://localhost:1313访问网站，发现问题可以及时修改。">http://localhost:1313访问网站，发现问题可以及时修改。</a></p>
+
+<h3 id="4-发布到github">4.发布到github</h3>
+
+<hr />
+
+<p>本地测试网站没有问题后，就可以准备发布了。执行以下命令</p>
+
+<pre><code>hugo -t casper
+</code></pre>
+
+<p>Hugo将编译所有文件并输出到public目录，你需要在github上创建repository，名字就是&lt;你的用户名&gt;.github.io，创建完后，返回你本地命令行，进入public目录，执行以下命令：</p>
+
+<pre><code>git init
+git add .
+git commit -m &quot;Initial commit.&quot;
+git remote add origin git@github.com:Brent-Li/brent-li.github.io.git
+git push -u origin master
+</code></pre>
+
+<p>稍等片刻后，打开&lt;你的用户名&gt;.github.io网址，就可以看到你的个人网站了。</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/10/28/Markdown%e5%b8%b8%e7%94%a8%e8%af%ad%e6%b3%95/" data-toggle="tooltip" data-placement="top" title="Markdown常用语法">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "WangZiTao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的博客 2019
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+</body>
+</html>
