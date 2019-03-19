@@ -7,7 +7,7 @@ title: "River's Site"
 theme: "beautifulhugo"
 metaDataFormat: "yaml"
 algolia:
-  index: "wangzitai-blog"
+  index: "hugo"
   key: "31c446dfcfdf65fe0ff50a8a68194de4"
   appID: "3DH4V2B4JK"
 ---

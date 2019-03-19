@@ -11,11 +11,29 @@
     
     
     <item>
-      <title>Tech</title>
-      <link>https://wangzitao6.github.io/categories/tech/</link>
+      <title>build</title>
+      <link>https://wangzitao6.github.io/categories/build/</link>
+      <pubDate>Fri, 03 Nov 2017 23:10:30 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/build/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>net</title>
+      <link>https://wangzitao6.github.io/categories/net/</link>
+      <pubDate>Mon, 28 May 2018 00:08:48 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/net/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>other</title>
+      <link>https://wangzitao6.github.io/categories/other/</link>
       <pubDate>Sat, 28 Oct 2017 22:59:30 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/tech/</guid>
+      <guid>https://wangzitao6.github.io/categories/other/</guid>
       <description></description>
     </item>
     
