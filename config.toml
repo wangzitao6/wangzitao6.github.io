@@ -42,7 +42,11 @@ home = ["HTML", "Algolia"]
   featured_condition_size = 1
 
   # 是否开启评论系统
-  gitment =true
+  gitment = true
+  gitment_owner = "wangzitao6"
+  gitment_repo = "wangzitao6.github.io"
+  gitment_client_id = "a09fff4950f8823cd23b"
+  gitment_client_secret = "ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9"
 
   # Baidu Analytics
   ba_track_id = "28c952e35b6e860c096a2cdf52785c6f"

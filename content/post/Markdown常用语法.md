@@ -8,7 +8,6 @@ image:   "https://img.zhaohuabing.com/post-bg-2015.jpg"
 tags:        ["其他"]
 url:    "/2017-10-28-markdown常用语法/"
 categories:  ["other" ]
-gitment: true
 ---
 
 ## 1.内容目录

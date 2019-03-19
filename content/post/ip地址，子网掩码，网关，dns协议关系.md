@@ -8,7 +8,6 @@ image:   ""
 tags:        ["网络"]
 url:    "/2018-02-15-协议关系/"
 categories:  ["net"]
-gitment: true
 ---
 
 ### 简介

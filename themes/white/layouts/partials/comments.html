@@ -1,17 +1,20 @@
-<!-- disqus 评论框 end -->
-<div id="disqus-comment"></div>
-{{ if .Site.Params.disqus_proxy }}
-<script src="{{ "js/iDisqus.js" | relURL }}"></script>
-<script>
-var disq = new iDisqus('disqus-comment', {
-    forum: '{{ .Site.DisqusShortname}}',
-    api: '{{ .Site.Params.disqus_proxy }}',
-	site: '{{ .Site.Params.disqus_site }}',
-    mode: 1,
-    timeout: 5000,
-    init: true
-});
-</script>
-{{ else if .Site.DisqusShortname }}
-{{ template "_internal/disqus.html" . }}
+<!-- Gitment 评论框 end -->
+{{ if ( .Site.Params.gitment ) }}
+  <div id="git-comments"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="{{ "js/gitment.browser.js" | relURL }}"></script>
+  <!-- <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script> -->
+  <script>
+    var gitment = new Gitment({
+      id: '{{ .File.BaseFileName }}', // 可选, 默认为 location.href
+      title: '{{ .File.BaseFileName }}',
+      owner: '{{ .Site.Params.gitment_owner }}',
+      repo: '{{ .Site.Params.gitment_repo }}',
+      oauth: {
+        client_id: '{{ .Site.Params.gitment_client_id }}',
+        client_secret: '{{ .Site.Params.gitment_client_secret}}',
+      }
+    })
+    gitment.render('git-comments')
+  </script>
 {{ end }}
