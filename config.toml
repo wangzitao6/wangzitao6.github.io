@@ -37,9 +37,12 @@ home = ["HTML", "Algolia"]
   #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
   sidebar_avatar = "images/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
-  # 右侧的数千
+  # 右侧的书签
   featured_tags = true
   featured_condition_size = 1
+
+  # 是否开启评论系统
+  gitment =true
 
   # Baidu Analytics
   ba_track_id = "28c952e35b6e860c096a2cdf52785c6f"
@@ -56,16 +59,8 @@ home = ["HTML", "Algolia"]
   [params.social]
   rss            = false
   email = "wang_zitao@foxmail.com" #邮箱
-  #facebook      = "full profile url in facebook"
-  #googleplus    = "full profile url in googleplus"
-  #twitter       = "full profile url in twitter"
-  #linkedin       = "https://www.linkedin.com/in/yourlinkedinid"
-  #stackoverflow  = "https://stackoverflow.com/users/yourstackoverflowid"
-  #instagram     = "full profile url in instagram"
   github = "https://github.com/wangzitao6" #github用户名
   wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
-  #medium         = "full profile url in medium"
-  #pinterest     = "full profile url in pinterest"
 
   # h好友博客链接
   [[params.friend_link]]

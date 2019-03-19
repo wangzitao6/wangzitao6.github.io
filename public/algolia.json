@@ -33,7 +33,8 @@
         "url": "/2017-11-03-git常用命令/",
         "categories": [
             "build"
-        ]
+        ],
+        "gitment": true
     },
     {
         "title": "ip地址,子网掩码,网关,dns协议关系",
@@ -51,7 +52,8 @@
         "url": "/2018-02-15-协议关系/",
         "categories": [
             "net"
-        ]
+        ],
+        "gitment": true
     },
     {
         "title": "markdown常用语法",
@@ -69,7 +71,8 @@
         "url": "/2017-10-28-markdown常用语法/",
         "categories": [
             "other"
-        ]
+        ],
+        "gitment": true
     },
     {
         "title": "用hugo搭建个人网站",
@@ -87,6 +90,7 @@
         "url": "/2017-08-28-用hugo搭建个人网站/",
         "categories": [
             "other"
-        ]
+        ],
+        "gitment": false
     }
 ]
