@@ -6,7 +6,7 @@ date:         2018-05-28T00:08:48+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["网络"]
-url:    "/2018/05/28/TcpIp协议族与socket区别"
+url:    "/2018-05-28-tcpip协议族与socket区别"
 categories:  ["net"]
 ---
 ## 简介

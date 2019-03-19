@@ -19,11 +19,12 @@ const hitTemplate = function(hit) {
 /*  if (hit === null){
       return;
   }*/
+  // debugger;
   let date = '';
   if (hit.date) {
-    date = moment.unix(hit.date).format('MMM D, YYYY');
+    date = moment(hit.date).format('MMM D, YYYY');
   }
-  let url = `${hit.url}#${hit.anchor}`;
+  let url = `${hit.url}#${hit.author}`;
   const title = hit._highlightResult.title.value;
 
   let breadcrumbs = '';
@@ -33,21 +34,21 @@ const hitTemplate = function(hit) {
     }).join(' > ')
   }
 
-  let content = "" ; 
-  if (hit._highlightResult.content){
-      content = hit._highlightResult.content.value;
+  let description = "" ;
+  if (hit._highlightResult.description){
+      description = hit._highlightResult.description.value;
   }
   else{
-      content = hit.summary;
+      description = hit.summary;
   }
 
 
   return `
     <div class="post-item">
-      <span class="post-meta">${date}</span>
-      <h2><a class="post-link" href="${url}">${title}</a></h2>
+      <h3><a class="post-link" href="${url}">${title}</a></h3>
       <a href="${url}" class="post-breadcrumbs">${breadcrumbs}</a>
-      <div class="post-snippet">${content}</div>
+      <div class="post-snippet">${description}</div>
+      <span class="post-meta">${date}</span>
     </div>
   `;
 }
