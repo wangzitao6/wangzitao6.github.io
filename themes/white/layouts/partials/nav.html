@@ -29,7 +29,7 @@
                         <a href="{{ "categories/" | relLangURL }}{{ $name | urlize }}">{{ $name }}</a>
                     </li>
                     {{ end }}
-                    
+
 		    {{ range .Site.Params.addtional_menus }}
                         <li><a href="{{.href | relLangURL}}">{{.title}}</a></li>
                     {{ end }}

@@ -8,6 +8,7 @@ image:   ""
 tags:        ["其他"]
 url:    "/2017-08-28-用hugo搭建个人网站/"
 categories:  ["other"]
+gitment: false
 ---
 
 

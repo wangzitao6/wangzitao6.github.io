@@ -20,13 +20,13 @@
                     <h1>{{ .Title }}</h1>
                     <h2 class="subheading">{{ .Params.subtitle }}</h2>
                     <span class="meta">
-			Posted by 
+			Posted by
 			{{ if .Params.author }}
 			    {{ .Params.author }}
 			{{ else }}
 		            {{ .Site.Title }}
-			{{ end }} 
-			on 
+			{{ end }}
+			on
 			{{ .Date.Format "Monday, January 2, 2006" }}
                         {{ if .Site.Params.page_view_conter }}
                             {{ partial "page_view_counter.html" . }}
@@ -122,5 +122,23 @@
         </div>
     </div>
 </article>
+{{ end }}
 
+{{ if (.Params.gitment) }}
+<div id="git-comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+  var gitment = new Gitment({
+    id:  '{{ .File.BaseFileName }}',// 可选, 默认为 location.href
+    title: '{{ .File.BaseFileName }}',
+    owner: 'wangzitao6',
+    repo: 'demo',
+    oauth: {
+      client_id: 'a09fff4950f8823cd23b',
+      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+    }
+  })
+  gitment.render('git-comments')
+</script>
 {{ end }}

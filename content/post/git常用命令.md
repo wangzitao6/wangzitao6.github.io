@@ -8,6 +8,7 @@ image:   ""
 tags:        ["git"]
 url:    "/2017-11-03-git常用命令/"
 categories:  ["build"]
+gitment: true
 ---
 ## 1. 分支操作
 
