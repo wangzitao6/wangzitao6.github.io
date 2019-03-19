@@ -186,28 +186,24 @@
          	<p>美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。</p>
 
                 
-<div id="disqus-comment"></div>
 
-<div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "WangZiTao" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  <div id="git-comments"></div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="/js/gitment.browser.js"></script>
+  
+  <script>
+    var gitment = new Gitment({
+      id: 'about', 
+      title: 'about',
+      owner: 'wangzitao6',
+      repo: 'wangzitao6.github.io',
+      oauth: {
+        client_id: 'a09fff4950f8823cd23b',
+        client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+      }
+    })
+    gitment.render('git-comments')
+  </script>
 
 
 
