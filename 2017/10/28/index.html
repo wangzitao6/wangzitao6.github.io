@@ -373,6 +373,8 @@ $(function() {
 <li><a href="#11-表格">11.表格</a></li>
 <li><a href="#张飞-骂-三弟">张飞|骂|三弟</a></li>
 <li><a href="#12-流程图">12.流程图</a></li>
+<li><a href="#13-待办事宜-todo-列表">13. 待办事宜 Todo 列表</a></li>
+<li><a href="#14-html-标签">14. Html 标签</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -535,31 +537,30 @@ https://wangzitao6.github.io/ - 自动生成！
 </code></pre>
 
 <ul>
-<li><p>一级无序列表内容</p>
+<li>一级无序列表内容
 
 <ul>
 <li>二级有序列表内容</li>
-
-<li><p>三级有序列表内容</p>
-
-<ul>
-<li><p>四级有序列表内容</p>
+<li>三级有序列表内容
 
 <ul>
-<li><p>五级有序列表内容</p>
+<li>四级有序列表内容
 
-<pre><code>1. 一级有序列表内容
-
-2. 二级无序列表内容
-
-3. 二级无序列表内容
-
-4. 二级无序列表内容
-</code></pre></li>
+<ul>
+<li>五级有序列表内容</li>
 </ul></li>
 </ul></li>
 </ul></li>
 </ul>
+
+<pre><code>1. 一级有序列表内容
+
+    2. 二级无序列表内容
+
+       3. 二级无序列表内容
+
+          4. 二级无序列表内容
+</code></pre>
 
 <ol>
 <li><p>一级有序列表内容</p>
@@ -755,9 +756,7 @@ https://wangzitao6.github.io/ - 自动生成！
 <h2 id="12-流程图">12.流程图</h2>
 
 <pre><code>  流程图
-</code></pre>
-
-<p>flow
+  ```flow
   st=&gt;start: 开始
   op=&gt;operation: My Operation
   cond=&gt;condition: Yes or No?
@@ -765,68 +764,78 @@ https://wangzitao6.github.io/ - 自动生成！
   st-&gt;op-&gt;cond
   cond(yes)-&gt;e
   cond(no)-&gt;op
-  &amp;```</p>
+  &amp;```
+</code></pre>
 
-<pre><code></code></pre>
-
-<p>flow
-st=&gt;start: Start:&gt;<a href="https://www.zybuluo.com">https://www.zybuluo.com</a>
+<pre><code class="language-flow">st=&gt;start: Start:&gt;https://www.zybuluo.com
 io=&gt;inputoutput: verification
 op=&gt;operation: Your Operation
 cond=&gt;condition: Yes or No?
 sub=&gt;subroutine: Your Subroutine
-e=&gt;end</p>
+e=&gt;end
 
-<p>st-&gt;io-&gt;op-&gt;cond
+st-&gt;io-&gt;op-&gt;cond
 cond(yes)-&gt;e
-cond(no)-&gt;sub-&gt;io</p>
+cond(no)-&gt;sub-&gt;io
+</code></pre>
 
-<pre><code>
--------
+<hr />
 
-## 13. 待办事宜 Todo 列表
+<h2 id="13-待办事宜-todo-列表">13. 待办事宜 Todo 列表</h2>
+
+<pre><code>- [ ] ** Todo 列表**
+       - [ ] one
+       - [ ] two
+       - [x] three
+       - [x] four
+           - [x] Todo事件
+           - [x] Todo事件
+   - [ ] **Todo 列表2**
+       - [ ] Todo事件
+       - [ ] Todo事件
+       - [x] Todo事件
 </code></pre>
 
 <ul class="task-list">
-<li><p>[ ] ** Todo 列表**</p>
+<li><label><input type="checkbox" disabled class="task-list-item"> ** Todo 列表**
 
 <ul class="task-list">
 <li><label><input type="checkbox" disabled class="task-list-item"> one</label></li>
 <li><label><input type="checkbox" disabled class="task-list-item"> two</label></li>
 <li><label><input type="checkbox" checked disabled class="task-list-item"> three</label></li>
-<li><label><input type="checkbox" checked disabled class="task-list-item"> four
+<li><label><input type="checkbox" checked disabled class="task-list-item"> four</label></li>
+</ul></label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> <strong>Todo 列表2</strong>
 
 <ul class="task-list">
-<li><label><input type="checkbox" checked disabled class="task-list-item"> Todo事件</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Todo事件</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> Todo事件</label></li>
 <li><label><input type="checkbox" checked disabled class="task-list-item"> Todo事件</label></li>
 </ul></label></li>
-
-<li><p>[ ] <strong>Todo 列表2</strong></p>
-
-<ul class="task-list">
-<li><label><input type="checkbox" disabled class="task-list-item"> Todo事件</label></li>
-<li><label><input type="checkbox" disabled class="task-list-item"> Todo事件</label></li>
-
-<li><p>[x] Todo事件</p>
-
-<pre><code>
-- [ ] ** Todo 列表**
-- [ ] one
-- [ ] two
-- [x] three
-- [x] four
-- [ ] **Todo 列表2**
-- [ ] Todo事件
-- [ ] Todo事件
-- [x] Todo事件
-
-----
-## 14. Html 标签
-
-本站支持在 Markdown 语法中嵌套 Html 标签，譬如，你可以用 Html 写一个纵跨两行的表格：
-</code></pre></li>
-</ul></li>
 </ul>
+
+<hr />
+
+<h2 id="14-html-标签">14. Html 标签</h2>
+
+<p>本站支持在 Markdown 语法中嵌套 Html 标签，譬如，你可以用 Html 写一个纵跨两行的表格：</p>
+
+<pre><code>    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th rowspan=&quot;2&quot;&gt;值班人员&lt;/th&gt;
+            &lt;th&gt;星期一&lt;/th&gt;
+            &lt;th&gt;星期二&lt;/th&gt;
+            &lt;th&gt;星期三&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;李强&lt;/td&gt;
+            &lt;td&gt;张明&lt;/td&gt;
+            &lt;td&gt;王平&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+</code></pre>
+
+<p>效果：</p>
 
 <table>
     <tr>
@@ -841,23 +850,6 @@ cond(no)-&gt;sub-&gt;io</p>
         <td>王平</td>
     </tr>
 </table>
-```
-效果：
-
-<table>
-<tr>
-    <th rowspan="2">值班人员</th>
-    <th>星期一</th>
-    <th>星期二</th>
-    <th>星期三</th>
-</tr>
-<tr>
-    <td>李强</td>
-    <td>张明</td>
-    <td>王平</td>
-</tr>
-</table></li>
-</ul>
 
 
                 
