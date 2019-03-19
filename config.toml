@@ -28,7 +28,7 @@ home = ["HTML", "Algolia"]
   # algolia site search
   algolia_search = true
   algolia_appId = "WM4BEY1UDN"
-  algolia_indexName = "blog"
+  algolia_indexName = "hugo"
   algolia_apiKey = "090c4a77b8bd4b8d2f2c1262afbc4be2"
 
 
