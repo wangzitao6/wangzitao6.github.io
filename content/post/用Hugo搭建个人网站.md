@@ -1,12 +1,12 @@
 ---
-title:     "用Hugo搭建个人网站"  # 文章标题
+title:     "用hugo搭建个人网站"  # 文章标题
 subtitle:    "hugo"  # 文章标题
 description: "用Hugo搭建个人网站"
 date:         2017-08-28T23:41:16+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["其他"]
-url:    "/2017/08/28/用Hugo搭建个人网站/"
+url:    "/2017-08-28-用hugo搭建个人网站/"
 categories:  ["other"]
 ---
 

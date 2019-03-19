@@ -1,12 +1,12 @@
 ---
-title:     "Git常用命令"  # 文章标题
+title:     "git常用命令"  # 文章标题
 subtitle:    "git"  # 文章标题
-description: "git的一些命令总结"
+description: "Git的一些命令总结"
 date:         2017-11-03T23:10:30+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["git"]
-url:    "/2017/11/03/git常用命令/"
+url:    "/2017-11-03-git常用命令/"
 categories:  ["build"]
 ---
 ## 1. 分支操作

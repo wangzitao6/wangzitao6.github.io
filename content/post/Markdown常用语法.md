@@ -1,12 +1,12 @@
 ---
-title:       "Markdown常用语法"
+title:       "markdown常用语法"
 subtitle:    "Markdown"
 description: "Markdown的一些简单语法笔记"
 date:         2017-10-28T22:59:30+08:00
 author:   "WangZiTao"
 image:   "https://img.zhaohuabing.com/post-bg-2015.jpg"
 tags:        ["其他"]
-url:    "/2017/10/28/Markdown常用语法/"
+url:    "/2017-10-28-markdown常用语法/"
 categories:  ["other" ]
 ---
 

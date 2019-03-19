@@ -1,12 +1,12 @@
 ---
-title:     "Ip地址，子网掩码，网关，dns协议关系"  # 文章标题
+title:     "ip地址,子网掩码,网关,dns协议关系"  # 文章标题
 subtitle:    "Network"  # 文章标题
 description: "网络基础知识"
 date:         2018-02-15T23:44:45+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["网络"]
-url:    "/2018/02/15/ip地址，子网掩码，网关，dns协议关系/"
+url:    "/2018-02-15-协议关系/"
 categories:  ["net"]
 ---
 
