@@ -127,7 +127,7 @@
 {{ if (.Params.gitment) }}
 <div id="git-comments"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script src="{{ "js/gitment.browser.js" | relURL }}"></script>
 <script>
   var gitment = new Gitment({
     id:  '{{ .File.BaseFileName }}',// 可选, 默认为 location.href
