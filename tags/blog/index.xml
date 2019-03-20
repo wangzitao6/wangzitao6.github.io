@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog on 王子滔的博客</title>
+    <link>https://wangzitao6.github.io/tags/blog/</link>
+    <description>Recent content in blog on 王子滔的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Mar 2019 09:31:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://wangzitao6.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gitment登录失败</title>
+      <link>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</link>
+      <pubDate>Wed, 20 Mar 2019 09:31:57 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</guid>
+      <description>Gitment登录失败 搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent]</description>
+    </item>
+    
+  </channel>
+</rss>
