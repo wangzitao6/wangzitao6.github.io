@@ -29,14 +29,5 @@
       <description>1.内容目录 在段落中填写 [TOC] 以显示全文内容的目录结构。 2.标题 # 这是一级标题 ## 这是二级标题 ### 这是三级标题 #### 这是四级标题 ##### 这是五级标题 ###### 这是六级</description>
     </item>
     
-    <item>
-      <title>用hugo搭建个人网站</title>
-      <link>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</link>
-      <pubDate>Mon, 28 Aug 2017 23:41:16 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
-      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
-    </item>
-    
   </channel>
 </rss>
