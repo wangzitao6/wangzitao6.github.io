@@ -6,12 +6,12 @@ date:         2019-03-20T09:31:57+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["blog"]
-url:    "/2018-06-12-Gitment登录失败"
+url:    "/2018-06-12-gitment登录失败"
 categories:  ["other"]
 ---
 ## Gitment登录失败
-搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名过期了,地址:
-  `https://github.com/imsun/gitment/issues/170`
+搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名https://gh-oauth.imsun.net证书过期了,
+地址:`https://github.com/imsun/gitment/issues/170`
 里面有几种解决方法
 ## 解决方法
 ### 1.本地解决
@@ -49,3 +49,7 @@ https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png)
    <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
    ```
 ### 3.自己搭建服务
+
+这个我没有试过,有兴趣的朋友可以参考这里:
+
+  **[参考链接](https://smalbox.club/2018/10/24/an-zhuang-gitment-ji-chang-jian-wen-ti-jie-jue/)**

@@ -20,7 +20,7 @@
     {
         "title": "Gitment登录失败",
         "uri": "post/gitment登录失败",
-        "content": "Gitment                      gitment        gitment         object ProgressEvent                    https   github com imsun gitment issues 170                1            gitment js              _utils http post  https   gh oauth imsun net     code  code  clientid  clientid  clientsecret  clientsecret        then function  data    this accessToken   data accesstoken  _this update       catch function  e    _this state user isLoggingIn   false  alert e                                                      github         utils http post  https   github com login oauth accesstoken                          2                                                                       https   wangzitao blog oss cn hangzhou aliyuncs com 18 06 001 png   Install              3",
+        "content": "Gitment                      gitment        gitment         object ProgressEvent            https   gh oauth imsun net          https   github com imsun gitment issues 170                1            gitment js              _utils http post  https   gh oauth imsun net     code  code  clientid  clientid  clientsecret  clientsecret        then function  data    this accessToken   data accesstoken  _this update       catch function  e    _this state user isLoggingIn   false  alert e                                                      github         utils http post  https   github com login oauth accesstoken                          2                                                                       https   wangzitao blog oss cn hangzhou aliyuncs com 18 06 001 png   Install              3",
         "objectID": "post/gitment登录失败",
         "subtitle": "Gitment登录失败",
         "description": "博客评论插件gitment登录失败修复",
@@ -30,7 +30,7 @@
         "tags": [
             "blog"
         ],
-        "url": "/2018-06-12-Gitment登录失败",
+        "url": "/2018-06-12-gitment登录失败",
         "categories": [
             "other"
         ]
