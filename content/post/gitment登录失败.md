@@ -2,7 +2,7 @@
 title:     "Gitment登录失败"  # 文章标题
 subtitle:    "Gitment登录失败"  # 文章标题
 description: "博客评论插件gitment登录失败修复"
-date:         2019-03-20T09:31:57+08:00  # 自动添加日期信息
+date:         2018-06-12T09:31:57+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["blog"]

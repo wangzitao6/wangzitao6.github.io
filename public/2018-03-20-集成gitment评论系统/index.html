@@ -18,15 +18,15 @@
     
 
     
-    <meta name="title" content="Gitment登录失败" />
-    <meta property="og:title" content="Gitment登录失败" />
-    <meta property="twitter:title" content="Gitment登录失败" />
+    <meta name="title" content="Hugo集成gitment评论系统" />
+    <meta property="og:title" content="Hugo集成gitment评论系统" />
+    <meta property="twitter:title" content="Hugo集成gitment评论系统" />
     
 
     
-    <meta name="description" content="博客评论插件gitment登录失败修复">
-    <meta property="og:description" content="博客评论插件gitment登录失败修复" />
-    <meta property="twitter:description" content="博客评论插件gitment登录失败修复" />
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Gitment登录失败</title>
+    <title>Hugo集成gitment评论系统</title>
 
-    <link rel="canonical" href="/2018-06-12-gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5">
+    <link rel="canonical" href="/2018-03-20-%e9%9b%86%e6%88%90gitment%e8%af%84%e8%ae%ba%e7%b3%bb%e7%bb%9f">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -178,17 +178,17 @@
                         </a>
                         
                     </div>
-                    <h1>Gitment登录失败</h1>
-                    <h2 class="subheading">Gitment登录失败</h2>
+                    <h1>Hugo集成gitment评论系统</h1>
+                    <h2 class="subheading">Hugo集成gitment评论系统</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Tuesday, June 12, 2018
+			Tuesday, March 20, 2018
                         
-                            <span id="/2018-06-12-gitment登录失败" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2018-03-20-集成gitment评论系统" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -350,70 +350,93 @@ $(function() {
 <ul>
 <li>
 <ul>
-<li><a href="#gitment登录失败">Gitment登录失败</a></li>
-<li><a href="#解决方法">解决方法</a>
-<ul>
-<li><a href="#1-本地解决">1.本地解决</a></li>
-<li><a href="#2-借用别人的服务">2.借用别人的服务</a></li>
-<li><a href="#3-自己搭建服务">3.自己搭建服务</a></li>
-</ul></li>
+<li><a href="#引言">引言</a></li>
+<li><a href="#1-注册-oauth-application">1. 注册 OAuth Application</a></li>
+<li><a href="#2-引入-gitment">2. 引入 Gitment</a></li>
+<li><a href="#3-初始化评论">3. 初始化评论</a></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<h2 id="gitment登录失败">Gitment登录失败</h2>
+<h2 id="引言">引言</h2>
 
-<p>搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名<a href="https://gh-oauth.imsun.net证书过期了">https://gh-oauth.imsun.net证书过期了</a>,
-地址:<code>https://github.com/imsun/gitment/issues/170</code>
-里面有几种解决方法</p>
+<p>Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown / GFM 和代码高亮支持。尤为适合各种基于 GitHub Pages 的静态博客或项目页面。</p>
 
-<h2 id="解决方法">解决方法</h2>
+<p>本博客评论系统已迁移至 Gitment。虽然 Gitment 只能使用 GitHub 账号进行评论，但考虑到博客受众，这是可以接受的。</p>
 
-<h3 id="1-本地解决">1.本地解决</h3>
+<p><a href="https://github.com/imsun/gitment">项目地址</a>
+<a href="https://imsun.github.io/gitment/">示例页面</a></p>
 
-<p>由于引入的 gitment.js 中有这样的一段代码：</p>
+<h2 id="1-注册-oauth-application">1. 注册 OAuth Application</h2>
 
-<pre><code>   _utils.http.post('https://gh-oauth.imsun.net', {
-      code: code,
-      client_id: client_id,
-      client_secret: client_secret
-    }, '').then(function (data) {
-      _this.accessToken = data.access_token;
-      _this.update();
-    }).catch(function (e) {
-      _this.state.user.isLoggingIn = false;
-      alert(e);
-    });
+<p>点击此处 来注册一个新的 OAuth Application,<a href="https://github.com/settings/developers">申请地址</a></p>
+
+<p>其他内容可以随意填写，但要确保填入正确的Authorization callback URL（一般是评论页面对应的域名，
+如 <code>https://wangzitao6.github.io</code>）注意域名后不要带斜杠</p>
+
+<p>Homepage URL也可以填写域名<code>https://wangzitao6.github.io</code>。</p>
+
+<p>你会得到一个 client ID 和一个 client secret，这个将被用于之后的用户登录。</p>
+
+<h2 id="2-引入-gitment">2. 引入 Gitment</h2>
+
+<p>将下面的代码添加到你的页面：</p>
+
+<pre><code>  &lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://imsun.github.io/gitment/style/default.css&quot;&gt;
+  &lt;script src=&quot;https://imsun.github.io/gitment/dist/gitment.browser.js&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;
+  var gitment = new Gitment({
+    id: '页面 ID', // 可选。默认为 location.href
+    owner: '你的 GitHub ID',
+    repo: '存储评论的 repo',
+    oauth: {
+      client_id: '你的 client ID',
+      client_secret: '你的 client secret',
+    },
+  })
+  gitment.render('container')
+  &lt;/script&gt;
+</code></pre>
+
+<p>注意，上述代码引用的 Gitment 将会随着开发变动。如果你希望始终使用最新的界面与特性即可引入上述代码。</p>
+
+<p>如果你希望引用确定版本的 Gitment，则应该使用 npm 进行安装。</p>
+
+<p><code>$ npm install --save gitment</code>
+关于构造函数中的更多可用参数</p>
+
+<ul>
+<li>owner:是你的github登录名,</li>
+<li>repo:是你的github里面的项目名,初始化的评论会放在项目的issues中</li>
+<li>id:页面评论在issues的唯一标示,不宜过长,否则会报错</li>
+</ul>
+
+<p>我的示例:</p>
+
+<pre><code>  &lt;script&gt;
+    var gitment = new Gitment({
+      id: '{{ .File.BaseFileName }}',
+      owner: 'wangzitao6',
+      repo: 'wangzitao6.github.io',
+      oauth: {
+        client_id: 'a09xxxxxxxxxxxxxxx',
+        client_secret: 'ec6b34b6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+      }
+    })
+    gitment.render('git-comments')
+  &lt;/script&gt;
 
 </code></pre>
 
-<p>请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
-这里可以直接改为请求 github 认证的接口</p>
+<h2 id="3-初始化评论">3. 初始化评论</h2>
 
-<pre><code> _utils.http.post('https://github.com/login/oauth/access_token', {...}
-</code></pre>
+<p>页面发布后，你需要访问页面并使用你的 GitHub 账号登录（请确保你的账号是第二步所填 repo 的 owner），点击初始化按钮。
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/03/002.png" alt="" /></p>
 
-<p>就可以了,不用经过作者的服务</p>
-
-<h3 id="2-借用别人的服务">2.借用别人的服务</h3>
-
-<p>由于作者貌似已经弃坑,无法登陆的问题一直没有得到修复,许多大牛已经自己搭建了服务,可以在征得他们同意后,修改配置</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png" alt="" /></p>
-
-<p>把Install那一步换成这两个：</p>
-
-<pre><code>   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://jjeejj.github.io/css/gitment.css&quot;&gt;
-   &lt;script src=&quot;https://www.wenjunjiang.win/js/gitment.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-
-<h3 id="3-自己搭建服务">3.自己搭建服务</h3>
-
-<p>这个我没有试过,有兴趣的朋友可以参考这里:</p>
-
-<p><strong><a href="https://smalbox.club/2018/10/24/an-zhuang-gitment-ji-chang-jian-wen-ti-jie-jue/">参考链接</a></strong></p>
+<p>之后其他用户即可在该页面发表评论。</p>
 
 
                 
@@ -422,10 +445,14 @@ $(function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018-03-20-%e9%9b%86%e6%88%90gitment%e8%af%84%e8%ae%ba%e7%b3%bb%e7%bb%9f" data-toggle="tooltip" data-placement="top" title="Hugo集成gitment评论系统">&larr;
+                        <a href="/2018-02-15-%e5%8d%8f%e8%ae%ae%e5%85%b3%e7%b3%bb/" data-toggle="tooltip" data-placement="top" title="ip地址,子网掩码,网关,dns协议关系">&larr;
                             上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2018-06-12-gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5" data-toggle="tooltip" data-placement="top" title="Gitment登录失败">下一篇 &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -440,8 +467,8 @@ $(function() {
 
 <script>
   var gitment = new Gitment({
-    id: 'gitment登录失败', 
-    title: 'gitment登录失败',
+    id: 'hugo集成gitment评论系统', 
+    title: 'hugo集成gitment评论系统',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {

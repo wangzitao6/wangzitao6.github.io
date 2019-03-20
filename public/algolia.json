@@ -24,7 +24,7 @@
         "objectID": "post/gitment登录失败",
         "subtitle": "Gitment登录失败",
         "description": "博客评论插件gitment登录失败修复",
-        "date": "2019-03-20T01:31:57.000Z",
+        "date": "2018-06-12T01:31:57.000Z",
         "author": "WangZiTao",
         "image": "",
         "tags": [
@@ -51,6 +51,24 @@
         "url": "/2017-11-03-git常用命令/",
         "categories": [
             "build"
+        ]
+    },
+    {
+        "title": "Hugo集成gitment评论系统",
+        "uri": "post/hugo集成gitment评论系统",
+        "content": "Gitment            GitHub Issues                                                        Markdown   GFM                  GitHub Pages                         Gitment    Gitment      GitHub                                    1     OAuth Application              OAuth Application                          Authorization callback URL                 https   wangzitao6 github io            Homepage URL       https   wangzitao6 github io         client ID     client secret                2     Gitment                  var gitment   new Gitment   id      ID             location href owner      GitHub ID   repo         repo   oauth    client_id      client ID   client_secret      client secret         gitment render  container                Gitment                                                  Gitment       npm         npm install   save gitment                owner    github     repo    github                   issues  id      issues                         var gitment   new Gitment   id       File BaseFileName      owner   wangzitao6   repo   wangzitao6 github io   oauth    client_id   a09xxxxxxxxxxxxxxx   client_secret   ec6b34b6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx        gitment render  git comments     3                           GitHub                    repo   owner                https   wangzitao blog oss cn hangzhou aliyuncs com 18 03 002 png",
+        "objectID": "post/hugo集成gitment评论系统",
+        "subtitle": "Hugo集成gitment评论系统",
+        "description": "",
+        "date": "2018-03-20T03:06:11.000Z",
+        "author": "WangZiTao",
+        "image": "",
+        "tags": [
+            "blog"
+        ],
+        "url": "/2018-03-20-集成gitment评论系统",
+        "categories": [
+            "other"
         ]
     },
     {
