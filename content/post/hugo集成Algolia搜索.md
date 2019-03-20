@@ -6,7 +6,7 @@ date:         2018-04-10T18:21:17+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["blog","其他"]
-url:    "/2018-04-10-集成algolia搜索"
+url:    "/2018-04-10-集成algolia搜索/"
 categories:  ["other"]
 showtoc: true
 ---
