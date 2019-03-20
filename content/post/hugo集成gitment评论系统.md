@@ -5,7 +5,7 @@ description: ""
 date:         2018-03-20T11:06:11+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["blog"]
+tags:        ["blog","其他"]
 url:    "/2018-03-20-集成gitment评论系统"
 categories:  ["other"]
 showtoc: true

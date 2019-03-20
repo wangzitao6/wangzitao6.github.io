@@ -5,7 +5,7 @@ description: "用Hugo搭建个人网站"
 date:         2017-08-28T23:41:16+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["blog"]
+tags:        ["blog","其他"]
 url:    "/2017-08-28-用hugo搭建个人网站/"
 categories:  ["other"]
 ---

@@ -5,7 +5,7 @@ description: "博客评论插件gitment登录失败修复"
 date:         2018-06-12T09:31:57+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["blog"]
+tags:        ["blog","其他"]
 url:    "/2018-06-12-gitment登录失败"
 categories:  ["other"]
 ---
