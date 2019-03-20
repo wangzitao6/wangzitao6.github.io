@@ -7,7 +7,7 @@ author:   "WangZiTao"
 image:   ""
 tags:        ["blog"]
 url:    "/2017-08-28-用hugo搭建个人网站/"
-categories:  ["其他"]
+categories:  ["other"]
 ---
 
 

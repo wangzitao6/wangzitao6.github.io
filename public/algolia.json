@@ -18,11 +18,11 @@
         ]
     },
     {
-        "title": "Gitment登录失败",
+        "title": "gitment登录失败",
         "uri": "post/gitment登录失败",
-        "content": "Gitment                      gitment        gitment         object ProgressEvent            https   gh oauth imsun net          https   github com imsun gitment issues 170                1            gitment js              _utils http post  https   gh oauth imsun net     code  code  clientid  clientid  clientsecret  clientsecret        then function  data    this accessToken   data accesstoken  _this update       catch function  e    _this state user isLoggingIn   false  alert e                                                      github         utils http post  https   github com login oauth accesstoken                          2                                                                       https   wangzitao blog oss cn hangzhou aliyuncs com 18 06 001 png   Install              3",
+        "content": "gitment                      gitment        gitment         object ProgressEvent            https   gh oauth imsun net          https   github com imsun gitment issues 170                1            gitment js              _utils http post  https   gh oauth imsun net     code  code  clientid  clientid  clientsecret  clientsecret        then function  data    this accessToken   data accesstoken  _this update       catch function  e    _this state user isLoggingIn   false  alert e                                                      github         utils http post  https   github com login oauth accesstoken                          2                                                                       https   wangzitao blog oss cn hangzhou aliyuncs com 18 06 001 png   Install              3",
         "objectID": "post/gitment登录失败",
-        "subtitle": "Gitment登录失败",
+        "subtitle": "gitment登录失败",
         "description": "博客评论插件gitment登录失败修复",
         "date": "2018-06-12T01:31:57.000Z",
         "author": "WangZiTao",
@@ -69,7 +69,8 @@
         "url": "/2018-03-20-集成gitment评论系统",
         "categories": [
             "other"
-        ]
+        ],
+        "showtoc": true
     },
     {
         "title": "ip地址,子网掩码,网关,dns协议关系",
@@ -122,7 +123,7 @@
         ],
         "url": "/2017-08-28-用hugo搭建个人网站/",
         "categories": [
-            "其他"
+            "other"
         ]
     }
 ]
