@@ -92,4 +92,7 @@ Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。
 
 ## 4.自动部署
 
-上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署
+上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署,可以在Travis CI中看到构建日志。
+
+
+![](https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png)
