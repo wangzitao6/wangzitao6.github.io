@@ -549,29 +549,29 @@ https://wangzitao6.github.io/ - 自动生成！
 </code></pre>
 
 <ul>
-<li>一级无序列表内容
+<li><p>一级无序列表内容</p>
 
 <ul>
-<li>二级有序列表内容
+<li><p>二级有序列表内容</p>
 
 <ul>
-<li>三级有序列表内容
+<li><p>三级有序列表内容</p>
 
 <ul>
-<li>四级有序列表内容</li>
+<li><p>四级有序列表内容</p>
+
+<pre><code>1. 一级有序列表内容
+
+2. 二级无序列表内容
+
+3. 二级无序列表内容
+
+4. 二级无序列表内容
+</code></pre></li>
 </ul></li>
 </ul></li>
 </ul></li>
 </ul>
-
-<pre><code>  1. 一级有序列表内容
-
-      2. 二级无序列表内容
-
-         3. 二级无序列表内容
-
-            4. 二级无序列表内容
-</code></pre>
 
 <ol>
 <li><p>一级有序列表内容</p>
@@ -801,15 +801,16 @@ https://wangzitao6.github.io/ - 自动生成！
 <ul>
 <li><strong>:&mdash;</strong> 代表左对齐</li>
 <li><strong>:&ndash;:</strong> 代表居中对齐</li>
-<li><strong>&mdash;:</strong>  代表右对齐</li>
+
+<li><p><strong>&mdash;:</strong>  代表右对齐</p>
+
+<pre><code>| left | center | right |
+| :--- | :----: | ----: |
+| aaaa | bbbbbb | ccccc |
+| a    | b      | c     |
+
+</code></pre></li>
 </ul>
-
-<pre><code>  | left | center | right |
-  | :--- | :----: | ----: |
-  | aaaa | bbbbbb | ccccc |
-  | a    | b      | c     |
-
-</code></pre>
 
 <p>效果:
   | left | center | right |
@@ -960,23 +961,24 @@ cond(no)-&gt;sub-&gt;io
 
                 
 
-  <div id="git-comments"></div>
-  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-  <script src="/js/gitment.browser.js"></script>
-  
-  <script>
-    var gitment = new Gitment({
-      id: 'Markdown常用语法', 
-      title: 'Markdown常用语法',
-      owner: 'wangzitao6',
-      repo: 'wangzitao6.github.io',
-      oauth: {
-        client_id: 'a09fff4950f8823cd23b',
-        client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
-      }
-    })
-    gitment.render('git-comments')
-  </script>
+<div id="git-comments"></div>
+<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+<script src="https://billts.site/js/gitment.js"></script>
+
+
+<script>
+  var gitment = new Gitment({
+    id: 'Markdown常用语法', 
+    title: 'Markdown常用语法',
+    owner: 'wangzitao6',
+    repo: 'wangzitao6.github.io',
+    oauth: {
+      client_id: 'a09fff4950f8823cd23b',
+      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+    }
+  })
+  gitment.render('git-comments')
+</script>
 
 
 
