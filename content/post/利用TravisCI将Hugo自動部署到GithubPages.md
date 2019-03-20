@@ -41,9 +41,12 @@ Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。
 ### 3.2 配置Travis CI构建选项
 > 1.用GitHub方式登录[Travis CI](https://travis-ci.org/)
 
-> 2.“Settings”-“General” 勾选”Build only if .travis.yml is present”和”Build pushed branches”两项。
+> 2.“Settings”-“General” 勾选`Build pushed branches`和`Build pushed pull requests`两项。
 
-> 3.“Settings”-“Environment Variables” 添加”GITHUBTOKEN“，值是上一步得到的Token
+> 3.“Settings”-“Environment Variables” 添加`GITHUB_API_KEY`，值是上一步得到的Token
+
+![](https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png)
+
 
 ### 3.3 添加配置文件
 
