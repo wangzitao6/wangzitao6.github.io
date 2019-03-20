@@ -6,7 +6,7 @@
     <description>Recent content in blog on 王子滔的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Mar 2019 09:31:57 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 12 Jun 2018 09:31:57 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,10 +14,19 @@
     <item>
       <title>Gitment登录失败</title>
       <link>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</link>
-      <pubDate>Wed, 20 Mar 2019 09:31:57 +0800</pubDate>
+      <pubDate>Tue, 12 Jun 2018 09:31:57 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</guid>
       <description>Gitment登录失败 搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent]</description>
+    </item>
+    
+    <item>
+      <title>Hugo集成gitment评论系统</title>
+      <link>https://wangzitao6.github.io/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Tue, 20 Mar 2018 11:06:11 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
+      <description>引言 Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown</description>
     </item>
     
     <item>
