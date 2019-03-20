@@ -18,15 +18,15 @@
     
 
     
-    <meta name="title" content="TcpIp协议族与socket区别" />
-    <meta property="og:title" content="TcpIp协议族与socket区别" />
-    <meta property="twitter:title" content="TcpIp协议族与socket区别" />
+    <meta name="title" content="Gitment登录失败" />
+    <meta property="og:title" content="Gitment登录失败" />
+    <meta property="twitter:title" content="Gitment登录失败" />
     
 
     
-    <meta name="description" content="网络的基本知识点">
-    <meta property="og:description" content="网络的基本知识点" />
-    <meta property="twitter:description" content="网络的基本知识点" />
+    <meta name="description" content="博客评论插件gitment登录失败修复">
+    <meta property="og:description" content="博客评论插件gitment登录失败修复" />
+    <meta property="twitter:description" content="博客评论插件gitment登录失败修复" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>TcpIp协议族与socket区别</title>
+    <title>Gitment登录失败</title>
 
-    <link rel="canonical" href="/2018-05-28-tcpip%e5%8d%8f%e8%ae%ae%e6%97%8f%e4%b8%8esocket%e5%8c%ba%e5%88%ab">
+    <link rel="canonical" href="/2018-06-12-Gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -169,22 +169,22 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
+                        <a class="tag" href="/tags/blog" title="blog">
+                            blog
                         </a>
                         
                     </div>
-                    <h1>TcpIp协议族与socket区别</h1>
-                    <h2 class="subheading">network</h2>
+                    <h1>Gitment登录失败</h1>
+                    <h2 class="subheading">Gitment登录失败</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Monday, May 28, 2018
+			Wednesday, March 20, 2019
                         
-                            <span id="/2018-05-28-tcpip协议族与socket区别" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2018-06-12-Gitment登录失败" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -346,26 +346,77 @@ $(function() {
 <ul>
 <li>
 <ul>
-<li><a href="#简介">简介</a></li>
+<li><a href="#gitment登录失败">Gitment登录失败</a></li>
+<li><a href="#解决方法">解决方法</a>
+<ul>
+<li><a href="#1-本地解决">1.本地解决</a></li>
+<li><a href="#2-借用别人的服务">2.借用别人的服务</a></li>
+<li><a href="#3-自己搭建服务">3.自己搭建服务</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<h2 id="简介">简介</h2>
+<h2 id="gitment登录失败">Gitment登录失败</h2>
 
-<p>TCP/IP协议是指因特网整个TCP/IP协议族。不同于ISO模型的七个分层，TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层中
-- 应用层：TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet 等等
-- 传输层：TCP，UDP
-- 网络层：IP，ICMP，OSPF，EIGRP，IGMP
-- 数据链路层：SLIP，CSLIP，PPP，MTU</p>
+<p>搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名过期了,地址:
+  <code>https://github.com/imsun/gitment/issues/170</code>
+里面有几种解决方法</p>
+
+<h2 id="解决方法">解决方法</h2>
+
+<h3 id="1-本地解决">1.本地解决</h3>
+
+<p>由于引入的 gitment.js 中有这样的一段代码：</p>
+
+<pre><code>   _utils.http.post('https://gh-oauth.imsun.net', {
+      code: code,
+      client_id: client_id,
+      client_secret: client_secret
+    }, '').then(function (data) {
+      _this.accessToken = data.access_token;
+      _this.update();
+    }).catch(function (e) {
+      _this.state.user.isLoggingIn = false;
+      alert(e);
+    });
+
+</code></pre>
+
+<p>请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
+这里可以直接改为请求 github 认证的接口</p>
+
+<pre><code> _utils.http.post('https://github.com/login/oauth/access_token', {...}
+</code></pre>
+
+<p>就可以了,不用经过作者的服务</p>
+
+<h3 id="2-借用别人的服务">2.借用别人的服务</h3>
+
+<p>由于作者貌似已经弃坑,无法登陆的问题一直没有得到修复,许多大牛已经自己搭建了服务,可以在征得他们同意后,修改配置</p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png" alt="" /></p>
+
+<p>把Install那一步换成这两个：</p>
+
+<pre><code>   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://jjeejj.github.io/css/gitment.css&quot;&gt;
+   &lt;script src=&quot;https://www.wenjunjiang.win/js/gitment.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<h3 id="3-自己搭建服务">3.自己搭建服务</h3>
 
 
                 
 
                 <hr>
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018-02-15-%e5%8d%8f%e8%ae%ae%e5%85%b3%e7%b3%bb/" data-toggle="tooltip" data-placement="top" title="ip地址,子网掩码,网关,dns协议关系">&larr;
+                            上一篇</a>
+                    </li>
                     
                     
                 </ul>
@@ -381,8 +432,8 @@ $(function() {
 
 <script>
   var gitment = new Gitment({
-    id: 'TcpIp协议族与socket区别', 
-    title: 'TcpIp协议族与socket区别',
+    id: 'gitment登录失败', 
+    title: 'gitment登录失败',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
