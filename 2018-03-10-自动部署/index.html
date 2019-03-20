@@ -403,10 +403,12 @@ $(function() {
 <blockquote>
 <p>1.用GitHub方式登录<a href="https://travis-ci.org/">Travis CI</a></p>
 
-<p>2.“Settings”-“General” 勾选”Build only if .travis.yml is present”和”Build pushed branches”两项。</p>
+<p>2.“Settings”-“General” 勾选<code>Build pushed branches</code>和<code>Build pushed pull requests</code>两项。</p>
 
-<p>3.“Settings”-“Environment Variables” 添加”GITHUBTOKEN“，值是上一步得到的Token</p>
+<p>3.“Settings”-“Environment Variables” 添加<code>GITHUB_API_KEY</code>，值是上一步得到的Token</p>
 </blockquote>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png" alt="" /></p>
 
 <h3 id="3-3-添加配置文件">3.3 添加配置文件</h3>
 
