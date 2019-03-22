@@ -18,9 +18,9 @@
     
 
     
-    <meta name="title" content="利用Travis CI将Hugo自動部署到Github Pages" />
-    <meta property="og:title" content="利用Travis CI将Hugo自動部署到Github Pages" />
-    <meta property="twitter:title" content="利用Travis CI将Hugo自動部署到Github Pages" />
+    <meta name="title" content="校验手机号码正则表达式" />
+    <meta property="og:title" content="校验手机号码正则表达式" />
+    <meta property="twitter:title" content="校验手机号码正则表达式" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>利用Travis CI将Hugo自動部署到Github Pages</title>
+    <title>校验手机号码正则表达式</title>
 
-    <link rel="canonical" href="/2018-03-10-%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2/">
+    <link rel="canonical" href="/2018-05-29-%e6%a0%a1%e9%aa%8c%e6%89%8b%e6%9c%ba%e5%8f%b7%e7%a0%81%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -169,26 +169,22 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/blog" title="blog">
-                            blog
-                        </a>
-                        
-                        <a class="tag" href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                            其他
+                        <a class="tag" href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
                         </a>
                         
                     </div>
-                    <h1>利用Travis CI将Hugo自動部署到Github Pages</h1>
-                    <h2 class="subheading">利用Travis CI将Hugo自動部署到Github Pages</h2>
+                    <h1>校验手机号码正则表达式</h1>
+                    <h2 class="subheading">校验手机号码正则表达式</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Saturday, March 10, 2018
+			Tuesday, May 29, 2018
                         
-                            <span id="/2018-03-10-自动部署/" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2018-05-29-校验手机号码正则表达式" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -346,120 +342,66 @@ $(function() {
                 <header>
                     <h2>目录</h2>
                 </header>
-                <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-简介">1.简介</a></li>
-<li><a href="#2-travis-ci是什么">2.Travis CI是什么</a></li>
-<li><a href="#3-配置travis-ci">3.配置Travis CI</a>
-<ul>
-<li><a href="#3-1-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</a></li>
-<li><a href="#3-2-配置travis-ci构建选项">3.2 配置Travis CI构建选项</a></li>
-<li><a href="#3-3-添加配置文件">3.3 添加配置文件</a></li>
-</ul></li>
-<li><a href="#4-自动部署">4.自动部署</a></li>
-</ul></li>
-</ul>
-</nav>
                 
                 
+                <p>需要通过的手机号：</p>
 
-<h2 id="1-简介">1.简介</h2>
-
-<p>Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个人博客的绝佳选择。但是用hugo一段时间后,发现新增博客时部署比较麻烦,经过几天的折腾后发现了Travis CI。</p>
-
-<h2 id="2-travis-ci是什么">2.Travis CI是什么</h2>
-
-<p>一个持续化集成平台，类似Jenkins。功能强大，和GitHub的集成尤其好，我们用它部署个人博客算大材小用。它有两个版本:</p>
-
-<ul>
-<li><p><a href="https://travis-ci.org/">https://travis-ci.org/</a> 免费版本，可以集成GitHub的public项目</p></li>
-
-<li><p><a href="https://travis-ci.com/">https://travis-ci.com/</a> 商业版本，可以集成GitHub的private项目</p></li>
-</ul>
-
-<p>我们使用第一个，免费版本。</p>
-
-<h2 id="3-配置travis-ci">3.配置Travis CI</h2>
-
-<h3 id="3-1-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</h3>
-
-<p>打开GitHub。路径: “Settings”-&gt;“Developer settings”-&gt;“Personal access tokens”-&gt;“Generate new token”。<a href="https://github.com/settings/tokens/new">直达车</a></p>
-
-<p>因为是public项目，而且Travis CI是用来push代码，所以只需勾选 public_repo, repo:status, repo_deployment 三项。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png" alt="" /></p>
+<p>中国移动：<strong>134、135、136、137、138、139、148、150、151、152、157(TD)、158、159、182、183、184、187、178、188、198、147（数据卡号段） 、1705（虚拟运营商移动号段）、144十三位移动物联网</strong></p>
 
 <p></br>
-然后点击Generate Token 生成token.</p>
+中国联通：<strong>130、131、132、145(数据卡号段)155、146、156、166、176、185、186、1709（虚拟运营商联通号段）、141十三位电信物联网</strong></p>
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png" alt="" /></p>
+<p></br>
+中国电信：<strong>133、153、177、180、181、189、199、1740、1349（卫星通讯号段）、1741（卫星通信号段）、1700（虚拟运营商电信号段）</strong></p>
 
-<p>Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。</p>
+<p>整理后:</p>
 
-<h3 id="3-2-配置travis-ci构建选项">3.2 配置Travis CI构建选项</h3>
+<pre><code>  130、131、132、133、134、135、136、137、138、139、
+  145、146、147、148、
+  150、151、152、153、155、156、157、158、159、
+  166、
+  176、177、178、
+
+  180、181、182、183、184、185、186、187、188、189、198、199
+</code></pre>
+
+<pre><code>   ^((13[0-9])|(14[5-8])|(15([0-3]|[5-9]))|(16[6])|(17[0|4|6|7|8])|(18[0-9])|(19[8-9]))\d{8}$
+</code></pre>
+
+<p></br></p>
 
 <blockquote>
-<p>1.用GitHub方式登录<a href="https://travis-ci.org/">Travis CI</a></p>
-
-<p>2.“Settings”-“General” 勾选<code>Build pushed branches</code>和<code>Build pushed pull requests</code>两项。</p>
-
-<p>3.“Settings”-“Environment Variables” 添加<code>GITHUB_API_KEY</code>，值是上一步得到的Token</p>
+<p>特殊：<strong>1349、1700、1705、1740、1741</strong></p>
 </blockquote>
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png" alt="" /></p>
+<pre><code>    ^((134[9])|(170[0|5])|(174[0|1]))\d{7}$
+</code></pre>
 
-<h3 id="3-3-添加配置文件">3.3 添加配置文件</h3>
-
-<p><strong>在git根目录下添加 .travis.yml 文件</strong></p>
+<p></br></p>
 
 <blockquote>
-<p>注意我的项目背景,项目有两个git分支</p>
-
-<ul>
-<li><p>hugo: 存放博客源码</p></li>
-
-<li><p>master: 存放Hugo生成的静态站点文件</p></li>
-</ul>
+<p>十三位：<strong>141、144</strong></p>
 </blockquote>
 
-<pre><code class="language-yml">  language: go
-  # Specify which branches to build using a safelist
-  # 分支白名单限制: 只有hugo分支的提交才会触发构建
-  branches:
-    only:
-      - hugo
-  git:
-    depth: 1
-  install:
-  # 安装最新的hugo
-    - go get github.com/spf13/hugo
-  script:
-    # 运行hugo命令
-    - hugo
-  deploy:
-    provider: pages  # 重要，指定这是一份github pages的部署配置
-    skip-cleanup: true  # 重要，不能省略
-    # token is set in travis-ci.org dashboard
-    github_token: $GITHUB_API_KEY  # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
+<pre><code>     ^(14[1|4])\d{10}$
+</code></pre>
 
-    local-dir: public # 静态站点文件所在目录
-    repo: wangzitao6/wangzitao6.github.io # github用户名/博客仓库名称
-    target_branch: master # 要将静态站点文件发布到哪个分支
-    keep-history: true # 是否保持target-branch分支的提交记录
-    on:
-      branch: hugo # 博客源码的分支
+<p>全部校验的正则：</p>
+
+<pre><code>  (^((13[0-9])|(14[5-8])|(15([0-3]|[5-9]))|(16[6])|(17[0|4|6|7|8])|(18[0-9])|(19[8-9]))\d{8}$)|(^((170[0|5])|(174[0|1]))\d{7}$)|(^(14[1|4])\d{10}$)
 
 </code></pre>
 
-<p>把 .travis.yml 放到hugo分支，push到GitHub。</p>
+<hr />
 
-<h2 id="4-自动部署">4.自动部署</h2>
+<p><strong>最后觉得太麻烦,改成</strong></p>
 
-<p>上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署,可以在Travis CI中看到构建日志。</p>
+<blockquote>
+<p>12位,13-19开头</p>
+</blockquote>
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png" alt="" /></p>
+<pre><code> ^(1[3-9])\\d{9}$
+</code></pre>
 
 
                 
@@ -468,13 +410,13 @@ $(function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018-02-15-%e5%8d%8f%e8%ae%ae%e5%85%b3%e7%b3%bb/" data-toggle="tooltip" data-placement="top" title="ip地址,子网掩码,网关,dns协议关系">&larr;
+                        <a href="/2018-04-10-%e9%9b%86%e6%88%90algolia%e6%90%9c%e7%b4%a2/" data-toggle="tooltip" data-placement="top" title="Hugo集成Algolia搜索">&larr;
                             上一篇</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018-03-20-%e9%9b%86%e6%88%90gitment%e8%af%84%e8%ae%ba%e7%b3%bb%e7%bb%9f/" data-toggle="tooltip" data-placement="top" title="Hugo集成gitment评论系统">下一篇 &rarr;</a>
+                        <a href="/2018-06-12-gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5/" data-toggle="tooltip" data-placement="top" title="gitment登录失败">下一篇 &rarr;</a>
                     </li>
                     
                 </ul>
@@ -490,8 +432,8 @@ $(function() {
 
 <script>
   var gitment = new Gitment({
-    id: '利用TravisCI将Hugo自動部署到GithubPages', 
-    title: '利用TravisCI将Hugo自動部署到GithubPages',
+    id: '校验手机号码正则表达式', 
+    title: '校验手机号码正则表达式',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
