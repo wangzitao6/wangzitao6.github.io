@@ -376,6 +376,11 @@ $(function() {
 <li><a href="#13-流程图">13.流程图</a></li>
 <li><a href="#14-待办事宜-todo-列表">14. 待办事宜 Todo 列表</a></li>
 <li><a href="#15-html-标签">15. Html 标签</a></li>
+<li><a href="#16-注释">16.注释</a>
+<ul>
+<li><a href="#16-1-html语法">16.1 html语法</a></li>
+<li><a href="#16-2-hack方法">16.2 hack方法</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
@@ -941,6 +946,46 @@ cond(no)-&gt;sub-&gt;io
     </tr>
 </table>
 
+<h2 id="16-注释">16.注释</h2>
+
+<h3 id="16-1-html语法">16.1 html语法</h3>
+
+<p>既然支持html语法，那也支持html注释。</p>
+
+<pre><code>  &lt;!--哈哈我是注释，不会在浏览器中显示。--&gt;
+
+  &lt;!--
+  哈哈我是多段
+  注释，
+  不会在浏览器中显示。
+  --&gt;
+</code></pre>
+
+<h3 id="16-2-hack方法">16.2 hack方法</h3>
+
+<p>hack方法就是利用markdown的解析原理来实现注释的。</p>
+
+<p>一般有的markdown解析器不支持上面的注释方法，这个时候就可以用hack方法。</p>
+
+<p>hack方法比上面2种方法稳定得多，但是语义化太差。</p>
+
+<pre><code>[comment]: &lt;&gt; (哈哈我是注释，不会在浏览器中显示。)
+[comment]: &lt;&gt; (哈哈我是注释，不会在浏览器中显示。)
+[comment]: &lt;&gt; (哈哈我是注释，不会在浏览器中显示。)
+[//]: &lt;&gt; (哈哈我是注释，不会在浏览器中显示。)
+[//]: # (哈哈我是注释，不会在浏览器中显示。)
+</code></pre>
+
+<p>其中，这种方法最稳定，适用性最强：</p>
+
+<pre><code class="language-[//]:">
+
+这种方法最可爱，超级无敌萌啊：
+
+</code></pre>
+
+<p>[^_^]: # (哈哈我是注释，不会在浏览器中显示。)```</p>
+
 
                 
 
@@ -1019,6 +1064,12 @@ cond(no)-&gt;sub-&gt;io
                         
                         <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
                             正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
                         </a>
                         
                         
