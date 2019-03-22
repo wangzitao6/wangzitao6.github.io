@@ -32,6 +32,9 @@ home = ["HTML", "Algolia"]
   algolia_apiKey = "31c446dfcfdf65fe0ff50a8a68194de4"
 
 
+  #打赏
+  reward = false
+
   # Sidebar settings
   sidebar_about_description = "搬砖工程师"
   #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
@@ -57,7 +60,7 @@ home = ["HTML", "Algolia"]
   disqus_proxy = ""
   disqus_site = ""
 
-  friends = false
+  friends = true
   bookmarks = false
   about_me = true
 
@@ -69,8 +72,8 @@ home = ["HTML", "Algolia"]
 
   # h好友博客链接
   [[params.friend_link]]
-  title = "Linda的博客"
-  href =  "https://zhaozhihan.com"
+  title = "IBM Developer 中国 "
+  href =  "https://www.ibm.com/developerworks/cn/"
 
   # 右侧书签链接
   [[params.bookmark_link]]

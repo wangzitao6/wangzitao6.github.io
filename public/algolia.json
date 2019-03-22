@@ -167,7 +167,7 @@
         "categories": [
             "other"
         ],
-        "showtoc": true
+        "showtoc": false
     },
     {
         "title": "用hugo搭建个人网站",
