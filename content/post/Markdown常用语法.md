@@ -90,11 +90,20 @@ categories:  ["other" ]
 ## 6.图片
 ```
 网络图片
-![bb](https://edu-image.nosdn.127.net/C0124E0336721FF65563B76A16A8143F.png?imageView&thumbnail=190y28&quality=100)
+![bb](https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/background/1.jpeg)
 ```
 
 效果:
-![bb](https://edu-image.nosdn.127.net/C0124E0336721FF65563B76A16A8143F.png?imageView&thumbnail=190y28&quality=100)
+![bb](https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/background/1.jpeg)
+
+本地图片:
+
+  ```
+  ![aa](/images/bg-blog.jpg)
+  ```
+
+效果:
+![aa](/images/bg-blog.jpg)
 
 
 ------
