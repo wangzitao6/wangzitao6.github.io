@@ -47,7 +47,7 @@ home = ["HTML", "Algolia"]
   featured_condition_size = 0
 
   # 是否开启评论系统
-  gitment = false
+  gitment = true
   gitment_owner = "wangzitao6"
   gitment_repo = "wangzitao6.github.io"
   gitment_client_id = "a09fff4950f8823cd23b"
