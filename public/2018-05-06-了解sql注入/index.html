@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的博客">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="了解SQL注入" />
+    <meta property="og:title" content="了解SQL注入" />
+    <meta property="twitter:title" content="了解SQL注入" />
+    
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>了解SQL注入</title>
+
+    <link rel="canonical" href="/2018-05-06-%e4%ba%86%e8%a7%a3sql%e6%b3%a8%e5%85%a5">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的博客</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/build">build</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/jvm">jvm</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/net">net</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/other">other</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/sql">sql</a>
+                    </li>
+                    
+
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/sql%E6%B3%A8%E5%85%A5" title="SQL注入">
+                            SQL注入
+                        </a>
+                        
+                    </div>
+                    <h1>了解SQL注入</h1>
+                    <h2 class="subheading">了解SQL注入</h2>
+                    <span class="meta">
+			Posted by
+			
+			    WangZiTao
+			
+			on
+			Sunday, May 6, 2018
+                        
+                            <span id="/2018-05-06-了解sql注入" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>目录</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#1-简介">1.简介</a></li>
+<li><a href="#2-sql注入的位置">2.SQL注入的位置</a></li>
+<li><a href="#3-sql注入方法">3.SQL注入方法</a>
+<ul>
+<li><a href="#4-1-绕开验证">4.1 绕开验证</a></li>
+<li><a href="#4-2-暴库">4.2 暴库</a></li>
+<li><a href="#4-3-增删改查-任意数据库操作">4.3 增删改查，任意数据库操作</a></li>
+<li><a href="#4-4-读写文件">4.4 读写文件</a></li>
+</ul></li>
+<li><a href="#5-防范sql注入">5.防范SQL注入</a></li>
+<li><a href="#6-参考">6.参考</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="1-简介">1.简介</h2>
+
+<p>SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。一般来说，它是利用现有应用程序，将（恶意的）SQL命令注入到后台数据库引擎执行的能力，它可以通过在Web表单中输入（恶意）SQL语句得到一个存在安全漏洞的网站上的数据库，而不是按照设计者意图去执行SQL语句。</p>
+
+<h2 id="2-sql注入的位置">2.SQL注入的位置</h2>
+
+<p>SQL注入只有在SQL语句中插入了用户输入的字符串并没有做好相应的处理时才会发生，用户输入的来源可以是URL参数，POST数据，外部用户输入信息等。程序员在编写代码时往往需要在SQL中填入用户输入的参数，譬如根据用户ID查询用户信息，查询链接类似于/get_user_info.php?uid=123，具体到SQL代码可能是下面这样：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE uid = 123
+</code></pre>
+
+<p>或者是根据用户名来查找用户，链接类似于/search_user.php?name=Zhangsan，具体到SQL代码类似于下面：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE name = 'Zhangsan'
+</code></pre>
+
+<p>上面例子中123和Zhangsan就是用户输入的参数，同时也是可能的注入点。常见的SQL注入位置有下面几种（当然程序员可以把用户参数写到任何地方，不仅仅是WHERE条件里，也可以是ORDER BY或GROUP BY子句，甚至是SQL语句本身）：</p>
+
+<pre><code class="language-sql">  SELECT * FROM table WHERE id = XXX
+  SELECT * FROM table WHERE name = 'XXX'
+  SELECT * FROM table WHERE name = 'XXX' AND pass = 'YYY'
+  SELECT * FROM table WHERE name = &quot;XXX&quot;
+  SELECT * FROM table WHERE id IN (XXX)
+  SELECT * FROM table WHERE name like '%XXX%'
+</code></pre>
+
+<h2 id="3-sql注入方法">3.SQL注入方法</h2>
+
+<p>从上面列出的SQL语句可以看出，常见的查询参数有可能是数字类型，也可能是字符串类型。两种类型的参数有不同的注入检测方法，字符串类型的参数可以使用 &lsquo; &ldquo; &rdquo; &ldquo;&rdquo; \ \\ 进行试探，而数字类型时可以用AND 1、AND 0、AND true、AND false、1-false、1-true、2-1、1*100等方法进行试探。下面举例说明： 一般情况下，如果程序对用户输入的参数做了正确的处理，那么输入任何参数页面都不会报错。如下面两句SQL：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE name = 'Zhangsan''
+  SELECT * FROM User WHERE name = 'Zhangsan'''
+</code></pre>
+
+<p>这两个SQL第二个是合法的，只要引号成对出现都没问题。如果用户分别输入Zhangsan&rsquo;和Zhangsan&rdquo;页面都能正常返回，则表明不存在注入问题，如果第一个输入页面异常，而第二个输入正常则表明该参数很可能是一个可以利用的注入点。 数字类型的参数看下面这个例子，如果用户输入123 AND 1和123 AND 0页面返回正常，并且结果一样，则说明程序对参数作了处理，而如果输入123 AND 1返回正常，输入123 AND 0返回空页面，则说明存在注入的可能。</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE uid = 123 AND 1
+  SELECT * FROM User WHERE uid = 123 AND 0
+</code></pre>
+
+<p>##　4.注入能做什么
+如果SQL注入只是简单的让页面出错或者返回空页面的话，那么SQL注入也就不会这么吸引人了。SQL注入的强大之处在于可以在服务器上做几乎任何事，听起来似乎是危言耸听，但事实确实如此，要不然SQL注入怎么会和DOS攻击一起成为最流行的网络攻击方法呢。下面我们就来看下通过一个简单的URL参数，可以做多么不可思议的事。</p>
+
+<h3 id="4-1-绕开验证">4.1 绕开验证</h3>
+
+<p>在用户登陆时，往往要根据用户输入的用户名和密码到数据库中进行查询比较，如果用户名和密码匹配则认为登陆成功。相应的SQL语句如下：</p>
+
+<pre><code class="language-sql">  SELECT * FROM Customer WHERE name = 'XX' AND pass = 'YY'
+</code></pre>
+
+<p>如果没有对用户输入的参数进行检查，则当输入用户名为admin，密码为&rsquo; OR &ldquo; = &lsquo; 时，执行下面的SQL语句：</p>
+
+<pre><code class="language-sql">  SELECT * FROM Customer WHERE name = 'admin' AND pass = '' OR '' = ''
+</code></pre>
+
+<p>这个SQL语句中的&rdquo; = &ldquo;将这个WHERE条件变成了恒等于TRUE，所以会返回所有记录。如果程序通过判断返回的记录数是否大于0来判断验证是否通过的话，这样我们就绕过了程序的验证。</p>
+
+<h3 id="4-2-暴库">4.2 暴库</h3>
+
+<p>根据上面的例子可以看到原本是想查询用户名为admin的用户记录，SQL注入后返回的却是数据库中的所有记录。通过这种方式连接其他的表，利用一点点的手段，就几乎可以获取所有数据库、所有表、所有字段的信息，并可以根据这些信息进一步查询数据库中的任意数据。这就是所谓的暴库。譬如还是上面的SQL例子，通过下面的SQL可以获取MySQL版本：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE name = 'Zhangsan' AND MID(VERSION(),1,1) = '5'
+</code></pre>
+
+<p>通过下面的SQL可以爆出所有表：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE name = 'Zhangsan' UNION SELECT TABLE_SCHEMA, TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE = 'BASE TABLE'-- -'
+
+</code></pre>
+
+<p>这种方法称为Union法。要让这个SQL能够正确执行，User表的字段必须和后面UNION SELECT的字段个数一致，如果字段个数不一致SQL执行会报错。所以要让这种方法生效首先得确定User表字段个数，一般通过ORDER BY试探法，如下所示，通过递增ORDER BY的数值直到页面出错来确定字段个数。</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE name = 'Zhangsan' ORDER BY 1 -- -'  -- 正常
+  SELECT * FROM User WHERE name = 'Zhangsan' ORDER BY 2 -- -'  -- 正常
+  SELECT * FROM User WHERE name = 'Zhangsan' ORDER BY 3 -- -'  -- 正常
+  SELECT * FROM User WHERE name = 'Zhangsan' ORDER BY 4 -- -'  -- 正常
+  SELECT * FROM User WHERE name = 'Zhangsan' ORDER BY 5 -- -'  -- 页面出错，可推测User表字段数为4
+</code></pre>
+
+<p>确定好User表的字段个数后，后面的UNION SELECT语句也需要做相应的调整，可以用数字1来填充，如下：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE name = 'Zhangsan' UNION SELECT TABLE_SCHEMA, TABLE_NAME, 1, 1 FROM information_schema.TABLES WHERE TABLE_TYPE = 'BASE TABLE'-- -'
+</code></pre>
+
+<h3 id="4-3-增删改查-任意数据库操作">4.3 增删改查，任意数据库操作</h3>
+
+<p>一旦知道了所有的数据库信息，则可以修改注入语句任意操作数据库。如下的例子将Product表清空：</p>
+
+<pre><code class="language-sql">  SELECT * FROM User WHERE uid = 123; TRUNCATE TABLE Product
+</code></pre>
+
+<h3 id="4-4-读写文件">4.4 读写文件</h3>
+
+<p>MySQL提供了两个方法可以从本地读取和写入文件，如下：</p>
+
+<pre><code class="language-sql">  SELECT LOAD_FILE('/etc/passwd');
+  SELECT '&lt;? system($_GET[\'c\']); ?&gt;' INTO OUTFILE '/var/www/shell.php';
+</code></pre>
+
+<p>上面两个例子展现了SQL注入的强大威力，如果MySQL用户拥有读写文件的权限，那么SQL注入将对站点带来巨大的威胁。第一个例子可以爆出linux服务器上的账号密码文件，第二个例子是向网站根目录写一个webshell，通过这个webshell用户就可以执行linux的系统命令了。譬如：<a href="http://www.example.com/shell.php?c=ls，通过webshell攻击者可以进一步做更多的事情了，最后直到控制整个服务器。">http://www.example.com/shell.php?c=ls，通过webshell攻击者可以进一步做更多的事情了，最后直到控制整个服务器。</a></p>
+
+<h2 id="5-防范sql注入">5.防范SQL注入</h2>
+
+<p>针对SQL注入的特点，总结以下几点基本的防范原则：</p>
+
+<ol>
+<li><strong>永远不要相信用户输入，对用户输入进行校验</strong></li>
+<li><strong>永远不要自己拼接SQL</strong></li>
+<li><strong>永远不要用管理员权限的数据库连接</strong></li>
+<li><strong>永远不要明文保存机密信息</strong></li>
+<li><strong>尽量不要显示程序的异常信息，保存到表或日志文件中</strong></li>
+<li><strong>使用WAF（绕过WAF又是另一个话题了）</strong></li>
+</ol>
+
+<p>从编程的角度来看可以做如下的事情：</p>
+
+<ol>
+<li><strong>用户输入验证：类型转换、正则表达式、特殊符号过滤（引号，分号，注释符号等）</strong></li>
+<li><strong>使用参数化存储过程</strong></li>
+<li><strong>使用参数化SQL语句</strong></li>
+<li><strong>采用ORM框架</strong></li>
+</ol>
+
+<p>其中将拼接的SQL语句改为使用参数化的SQL语句是最常用的防范方法，另外，参数化的SQL不仅比拼接的更安全，而且性能要更高。 SQL语句的执行过程分几个步骤：语法检查、分析、执行、返回结果。当一条SQL通过语法检查后，会在共享池里寻找是否有跟其相同的语句，如果有则用已有的执行计划执行语句，如果没有找到，则生成执行计划，然后才执行语句。 自己拼接的SQL语句会随着变量的不同而不同，如下面的两句SQL，执行每个SQL的时候都会生成一次执行计划，而这些执行计划其实都是一样的。</p>
+
+<pre><code class="language-sql">  SELECT * FROM Customer WHERE uid = 1
+  SELECT * FROM Customer WHERE uid = 2
+</code></pre>
+
+<p>当这种SQL语句被大量调用时，会导致共享池中的SQL语句增多，而重用性极低，导致共享池内命中率下降。维护共享池内部结构消耗了大量的CPU和内存资源，而并没有充分利用执行计划的缓存优势，这样会带来性能问题。采用参数绑定的方式，可以解决这个问题：</p>
+
+<pre><code>  $uid = 1;
+  $pdo = new PDO(...);
+  $sql = &quot;SELECT * FROM Customer WHERE uid = :ID&quot;;
+  $stmt = $pdo-&gt;prepare($sql);
+  $stmt-&gt;bindValue(&quot;:ID&quot;, $uid, PDO::PARAM_INT);
+  $result = $stmt-&gt;execute();
+</code></pre>
+
+<h2 id="6-参考">6.参考</h2>
+
+<p><a href="https://websec.ca/kb/sql_injection">sql_injection</a></p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018-04-10-%e9%9b%86%e6%88%90algolia%e6%90%9c%e7%b4%a2/" data-toggle="tooltip" data-placement="top" title="Hugo集成Algolia搜索">&larr;
+                            上一篇</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018-05-12-%e4%ba%86%e8%a7%a3ssh%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91" data-toggle="tooltip" data-placement="top" title="SSH端口转发">下一篇 &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+<div id="git-comments"></div>
+
+
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+
+<script>
+  var gitment = new Gitment({
+    id: '了解SQL注入', 
+    title: '了解SQL注入',
+    owner: 'wangzitao6',
+    repo: 'wangzitao6.github.io',
+    oauth: {
+      client_id: 'a09fff4950f8823cd23b',
+      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+    }
+  })
+  gitment.render('git-comments')
+</script>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="SQL注入">
+                            SQL注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的博客 2019
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+</body>
+</html>
