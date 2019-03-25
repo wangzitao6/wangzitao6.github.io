@@ -7,7 +7,7 @@ author:   "WangZiTao"
 image:   ""
 tags:        ["SQL注入"]
 url:    "/2018-05-06-了解sql注入"
-categories:  ["SQL"]
+categories:  ["sql"]
 showtoc: true   # 是否显示目录
 ---
 ## 1.简介
