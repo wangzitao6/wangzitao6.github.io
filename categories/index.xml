@@ -6,16 +6,35 @@
     <description>Recent content in Categories on 王子滔的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Wed, 25 Jul 2018 15:36:47 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>build</title>
-      <link>https://wangzitao6.github.io/categories/build/</link>
-      <pubDate>Fri, 03 Nov 2017 23:10:30 +0800</pubDate>
+      <title>sql</title>
+      <link>https://wangzitao6.github.io/categories/sql/</link>
+      <pubDate>Wed, 25 Jul 2018 15:36:47 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/build/</guid>
+      <guid>https://wangzitao6.github.io/categories/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>other</title>
+      <link>https://wangzitao6.github.io/categories/other/</link>
+      <pubDate>Tue, 12 Jun 2018 09:31:57 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/other/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jvm</title>
+      <link>https://wangzitao6.github.io/categories/jvm/</link>
+      <pubDate>Tue, 05 Jun 2018 11:05:33 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/jvm/</guid>
       <description></description>
     </item>
     
@@ -29,11 +48,11 @@
     </item>
     
     <item>
-      <title>other</title>
-      <link>https://wangzitao6.github.io/categories/other/</link>
-      <pubDate>Tue, 12 Jun 2018 09:31:57 +0800</pubDate>
+      <title>build</title>
+      <link>https://wangzitao6.github.io/categories/build/</link>
+      <pubDate>Fri, 03 Nov 2017 23:10:30 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/other/</guid>
+      <guid>https://wangzitao6.github.io/categories/build/</guid>
       <description></description>
     </item>
     
