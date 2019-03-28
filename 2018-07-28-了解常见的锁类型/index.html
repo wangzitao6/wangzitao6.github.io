@@ -729,7 +729,7 @@ mysql&gt; select * from orders where order_id = 5 for update;
 
 <p><a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-locking.html#innodb-insert-intention-locks">插入意向锁</a> 是一种特殊的间隙锁（所以有的地方把它简写成 II GAP），这个锁表示插入的意向，只有在 INSERT 的时候才会有这个锁。注意，这个锁虽然也叫意向锁，但是和上面介绍的表级意向锁是两个完全不同的概念，不要搞混淆了。插入意向锁和插入意向锁之间互不冲突，所以可以在同一个间隙中有多个事务同时插入不同索引的记录。譬如在上面的例子中，id = 1 和 id = 5 之间如果有两个事务要同时分别插入 id = 2 和 id = 3 是没问题的，虽然两个事务都会在 id = 1 和 id = 5 之间加上插入意向锁，但是不会冲突。</p>
 
-<p>插入意向锁只会和间隙锁或 Next-key 锁冲突，正如上面所说，间隙锁唯一的作用就是防止其他事务插入记录造成幻读，那么间隙锁是如何防止幻读的呢？正是由于在执行 INSERT 语句时需要加插入意向锁，而插入意向锁和间隙锁冲突，从而阻止了插入操作的执行。</p>
+<p>插入意向锁只会和间隙锁或 Next-key 锁冲突，正如上面所说，<font color=red>间隙锁唯一的作用就是防止其他事务插入记录造成幻读</font> ，那么间隙锁是如何防止幻读的呢？<strong>正是由于在执行 INSERT 语句时需要加插入意向锁，而插入意向锁和间隙锁冲突，从而阻止了插入操作的执行</strong>。</p>
 
 <h3 id="行锁的兼容矩阵">行锁的兼容矩阵</h3>
 
@@ -739,25 +739,29 @@ mysql&gt; select * from orders where order_id = 5 for update;
 <p>其中，<strong>第一行表示已有的锁，第一列表示要加的锁</strong>。这个矩阵看起来很复杂，因为它是不对称的，如果要死记硬背可能会晕掉。其实仔细看可以发现，不对称的只有插入意向锁，所以我们先对插入意向锁做个总结，如下：</p>
 
 <ul>
-<li>插入意向锁不影响其他事务加其他任何锁。也就是说，一个事务已经获取了插入意向锁，对其他事务是没有任何影响的；</li>
-<li>插入意向锁与间隙锁和 Next-key 锁冲突。也就是说，一个事务想要获取插入意向锁，如果有其他事务已经加了间隙锁或 Next-key 锁，则会阻塞。
-了解插入意向锁的特点之后，我们将它从矩阵中移去，兼容矩阵就变成了下面这个样子：
-<img src="/images/post/18/07/011.png" alt="" /></li>
+<li><font color=red> 插入意向锁不影响其他事务加其他任何锁。也就是说，一个事务已经获取了插入意向锁，对其他事务是没有任何影响的；</li>
+<li>插入意向锁与间隙锁和 Next-key 锁冲突。也就是说，一个事务想要获取插入意向锁，如果有其他事务已经加了间隙锁或 Next-key 锁，则会阻塞。</font></li>
 </ul>
+
+<p>了解插入意向锁的特点之后，我们将它从矩阵中移去，兼容矩阵就变成了下面这个样子：</p>
+
+<p><img src="/images/post/18/07/011.png" alt="" /></p>
 
 <p>这个看起来就非常简单了，可以得出下面的结论：</p>
 
 <ul>
-<li>间隙锁不和其他锁（不包括插入意向锁）冲突；</li>
-<li>记录锁和记录锁冲突，Next-key 锁和 Next-key 锁冲突，记录锁和 Next-key 锁冲突；</li>
+<li><font color=red>间隙锁不和其他锁（不包括插入意向锁）冲突；</li>
+<li>记录锁和记录锁冲突，Next-key 锁和 Next-key 锁冲突，记录锁和 Next-key 锁冲突；</font></li>
 </ul>
 
 <h3 id="在-mysql-中观察行锁">在 MySQL 中观察行锁</h3>
 
-<p>为了更好的理解不同的行锁，下面我们在 MySQL 中对不同的锁实际操作一把。有两种方式可以在 MySQL 中观察行锁，第一种是通过下面的 SQL 语句：
-1
-mysql&gt; select * from information_schema.innodb_locks;
-这个命令会打印出 InnoDb 的所有锁信息，包括锁 ID、事务 ID、以及每个锁的类型和模式等其他信息。第二种是使用下面的 SQL 语句：</p>
+<p>为了更好的理解不同的行锁，下面我们在 MySQL 中对不同的锁实际操作一把。有两种方式可以在 MySQL 中观察行锁，第一种是通过下面的 SQL 语句：</p>
+
+<pre><code class="language-SQL">mysql&gt; select * from information_schema.innodb_locks;
+</code></pre>
+
+<p>这个命令会打印出 InnoDb 的所有锁信息，包括锁 ID、事务 ID、以及每个锁的类型和模式等其他信息。第二种是使用下面的 SQL 语句：</p>
 
 <pre><code class="language-SQL">mysql&gt; show engine innodb status\G
 </code></pre>

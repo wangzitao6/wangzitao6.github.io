@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的博客">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="了解MySQL死锁日志" />
+    <meta property="og:title" content="了解MySQL死锁日志" />
+    <meta property="twitter:title" content="了解MySQL死锁日志" />
+    
+
+    
+    <meta name="description" content="讲解mysql死锁日志里面的一些重要信息">
+    <meta property="og:description" content="讲解mysql死锁日志里面的一些重要信息" />
+    <meta property="twitter:description" content="讲解mysql死锁日志里面的一些重要信息" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>了解MySQL死锁日志</title>
+
+    <link rel="canonical" href="/2018-08-05-%e6%ad%bb%e9%94%81%e6%97%a5%e5%bf%97">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的博客</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/build">build</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/jvm">jvm</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/net">net</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/other">other</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/sql">sql</a>
+                    </li>
+                    
+
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                    </div>
+                    <h1>了解MySQL死锁日志</h1>
+                    <h2 class="subheading">了解MySQL死锁日志</h2>
+                    <span class="meta">
+			Posted by
+			
+			    WangZiTao
+			
+			on
+			Sunday, August 5, 2018
+                        
+                            <span id="/2018-08-05-死锁日志" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <p>表格信息：</p>
+
+<pre><code class="language-SQL">  CREATE TABLE `t_bitfly` (
+    `id` bigint(20) NOT NULL DEFAULT '0',
+    `num` int(20) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `num_key` (`num`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+</code></pre>
+
+<p>表中数据：</p>
+
+<pre><code class="language-SQL">  mysql&gt; select * from t_bitfly;
+  +----+------+
+  | id | num  |
+  +----+------+
+  |  1 |    2 |
+  |  3 |    5 |
+  |  8 |    7 |
+  +----+------+
+  3 rows in set (0.04 sec)
+</code></pre>
+
+<p>数据库隔离级别为：可重复读（REPEATABLE-READ）</p>
+
+<p>模拟死锁场景：</p>
+
+<pre><code class="language-SQL">  session 1:                                                       session 2:
+
+  begin;                                                           begin;                                                     
+  select * from t_bitfly where num = 7 lock in share mode ;
+                                                                   select * from t_bitfly where num = 5 lock in share mode ;
+  update  t_bitfly set num = 6 where num = 5
+                                                                   update  t_bitfly set num = 8 where num = 7
+</code></pre>
+
+<p>结果：</p>
+
+<pre><code class="language-SQL">  update  t_bitfly set num = 6 where num = 5
+  &gt; 1213 - Deadlock found when trying to get lock; try restarting transaction
+  &gt; 时间: 2.392s
+</code></pre>
+
+<p>查询日志 ：<code>show engine innodb status ;</code></p>
+
+<p>结果如下</p>
+
+<pre><code class="language-log">
+=====================================
+2018-08-05 21:20:27 0x7fd40c082700 INNODB MONITOR OUTPUT
+=====================================
+Per second averages calculated from the last 4 seconds
+-----------------
+BACKGROUND THREAD
+-----------------
+srv_master_thread loops: 245 srv_active, 0 srv_shutdown, 15331 srv_idle
+srv_master_thread log flush and writes: 15567
+----------
+SEMAPHORES
+----------
+OS WAIT ARRAY INFO: reservation count 486
+OS WAIT ARRAY INFO: signal count 428
+RW-shared spins 0, rounds 539, OS waits 271
+RW-excl spins 0, rounds 127, OS waits 1
+RW-sx spins 0, rounds 0, OS waits 0
+Spin rounds per wait: 539.00 RW-shared, 127.00 RW-excl, 0.00 RW-sx
+------------------------
+LATEST DETECTED DEADLOCK
+------------------------
+2018-08-05 21:14:20 0x7fd40c0b3700
+*** (1) TRANSACTION:
+TRANSACTION 1095001, ACTIVE 11 sec starting index read
+mysql tables in use 1, locked 1
+LOCK WAIT 4 lock struct(s), heap size 1136, 3 row lock(s)
+MySQL thread id 16, OS thread handle 140548578129664, query id 2959 183.6.50.229 root Searching rows for update
+update  t_bitfly set num = 6 where num = 5
+*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 2514 page no 4 n bits 72 index num_key of table `test`.`t_bitfly` trx id 1095001 lock_mode X waiting
+Record lock, heap no 4 PHYSICAL RECORD: n_fields 2; compact format; info bits 0
+ 0: len 4; hex 80000005; asc     ;;
+ 1: len 8; hex 8000000000000003; asc         ;;
+
+*** (2) TRANSACTION:
+TRANSACTION 1095002, ACTIVE 6 sec starting index read
+mysql tables in use 1, locked 1
+5 lock struct(s), heap size 1136, 3 row lock(s)
+MySQL thread id 17, OS thread handle 140548711855872, query id 2963 183.6.50.229 root Searching rows for update
+update  t_bitfly set num = 8 where num = 7
+*** (2) HOLDS THE LOCK(S):
+RECORD LOCKS space id 2514 page no 4 n bits 72 index num_key of table `test`.`t_bitfly` trx id 1095002 lock mode S
+Record lock, heap no 4 PHYSICAL RECORD: n_fields 2; compact format; info bits 0
+ 0: len 4; hex 80000005; asc     ;;
+ 1: len 8; hex 8000000000000003; asc         ;;
+
+*** (2) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 2514 page no 4 n bits 72 index num_key of table `test`.`t_bitfly` trx id 1095002 lock_mode X waiting
+Record lock, heap no 3 PHYSICAL RECORD: n_fields 2; compact format; info bits 0
+ 0: len 4; hex 80000007; asc     ;;
+ 1: len 8; hex 8000000000000008; asc         ;;
+
+省略。。。
+</code></pre>
+
+<p>一些注释：</p>
+
+<ul>
+<li><p><strong>LATEST DETECTED DEADLOCK</strong>：标示为最新发生的死锁；</p></li>
+
+<li><p><strong>(1) TRANSACTION</strong>：此处表示事务1开始 ；</p></li>
+
+<li><p><strong>TRANSACTION 1095001, ACTIVE 11 sec starting index read</strong>：事务编号为 1095001 ，活跃11秒；</p></li>
+
+<li><p><strong>mysql tables in use 1, locked 1</strong>：说明当前的事务使用一个表。locked 1 表示表上有一个表锁,对于DML语句为LOCK_IX；</p></li>
+
+<li><p><strong>MySQL thread id 17, OS thread handle 140548711855872, query id 2963 183.6.50.229 root Searching rows for update</strong>：此处为记录当前数据库线程id；</p></li>
+
+<li><p><strong>update  t_bitfly set num = 6 where num = 5</strong>：表示事务1在执行的sql ，不过比较悲伤的事情是show engine innodb status 是查看不到完整的事务的sql 的，通常显示当前正在等待锁的sql；</p></li>
+
+<li><p><strong>(1) WAITING FOR THIS LOCK TO BE GRANTED</strong>：此处表示当前事务1等待获取行锁；</p></li>
+
+<li><p><strong>(2) TRANSACTION</strong>：此处表示事务2开始 ；</p></li>
+
+<li><p><strong>update  t_bitfly set num = 8 where num = 7</strong>：表示事务2在执行的sql</p></li>
+
+<li><p><strong>(2) HOLDS THE LOCK(S)</strong>：此处表示当前事务2持有的行锁；</p></li>
+
+<li><p><strong>(2) WAITING FOR THIS LOCK TO BE GRANTED</strong>：此处表示当前事务2等待获取行锁；</p></li>
+</ul>
+
+<p>结合上文中的sql语境和死锁日志，可以看出事务一执行<code>update  t_bitfly set num = 6 where num = 5</code>时，需要加上X锁，此条记录已经在事务二中加了S锁，事务一等待事务二释放锁，事务二在执行<code>update  t_bitfly set num = 8 where num = 7</code>时，需要加上X锁，此条记录已经在事务一中加了S锁，事务二待事务一释放锁，产生了死锁。</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018-08-03-mysql%e5%8a%a0%e9%94%81%e5%a4%84%e7%90%86%e5%88%86%e6%9e%90" data-toggle="tooltip" data-placement="top" title="MySQL加锁处理分析">&larr;
+                            上一篇</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+<div id="git-comments"></div>
+
+
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+
+<script>
+  var gitment = new Gitment({
+    id: '了解MySQL死锁日志', 
+    title: '了解MySQL死锁日志',
+    owner: 'wangzitao6',
+    repo: 'wangzitao6.github.io',
+    oauth: {
+      client_id: 'a09fff4950f8823cd23b',
+      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+    }
+  })
+  gitment.render('git-comments')
+</script>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
+                            sql注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的博客 2019
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+</body>
+</html>
