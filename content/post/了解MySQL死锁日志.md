@@ -227,15 +227,20 @@ Record lock, heap no 3 PHYSICAL RECORD: n_fields 2; compact format; info bits 32
 * **(2) WAITING FOR THIS LOCK TO BE GRANTED**：此处表示当前事务2等待获取行锁；
 
 
-根据死锁日志可以看出事务一执行`insert into t_bitfly values(7,7)`时，在等待GAP锁和插入意向锁，事务二在执行`insert into t_bitfly values(5,5)`时，持有next-key锁，在等待GAP锁和插入意向锁。</br>
+根据死锁日志可以看出：
+
+事务一在执行`insert into t_bitfly values(7,7)`时，插入意向锁加锁时卡住；
+
+事务二在执行`insert into t_bitfly values(5,5)`时，持有next-key锁，插入意向锁加锁时卡住。
+
 结合上面执行的sql来分析：
 
 * 事务一执行`delete from t_bitfly  where num = 5 ;`后，获取了 Gap Locks + Record Locks 也就是 next-key锁；
 
 * 事务二执行`delete from t_bitfly  where num = 7 ;`后，获取了 Gap Locks + Record Locks 也就是 next-key锁；
 
-* 事务一执行`insert into t_bitfly values(7,7)`时，持有next-key锁，在等待事务二的GAP锁和插入意向锁；
+* 事务一执行`insert into t_bitfly values(7,7)`时，持有next-key锁，插入意向锁，等待事务二的next-key锁解锁；
 
-* 事务二执行`insert into t_bitfly values(5,5)`时，持有next-key锁，在等待事务一的GAP锁和插入意向锁；
+* 事务二执行`insert into t_bitfly values(5,5)`时，持有next-key锁，插入意向锁，等待事务二的next-key锁解锁；
 
 产生死锁。
