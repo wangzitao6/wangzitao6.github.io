@@ -17,7 +17,7 @@
       <pubDate>Sun, 05 Aug 2018 13:36:46 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</guid>
-      <description>表格信息： CREATE TABLE `t_bitfly` ( `id` bigint(20) NOT NULL DEFAULT &#39;0&#39;, `num` int(20) DEFAULT NULL, PRIMARY KEY (`id`), KEY `num_key` (`num`) ) ENGINE=InnoDB DEFAULT CHARSET=gbk; 表中数据： mysql&amp;gt; select * from t_bitfly; +----+------+ | id | num | +----+------+ | 1 | 2 | | 3 | 5 | | 8 | 7 | +----+------+ 3 rows in set (0.04 sec) 数据</description>
+      <description>锁的种类&amp;amp;概念 Shared and Exclusive Locks * Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row eg：select * from xx where a=1 lock in share mode * Exclusive Locks：</description>
     </item>
     
     <item>
