@@ -370,7 +370,12 @@ $(function() {
 <li><a href="#2-5-组合五-id主键-rr">2.5 组合五：id主键+RR</a></li>
 <li><a href="#2-6-组合六-id唯一索引-rr">2.6 组合六：id唯一索引+RR</a></li>
 <li><a href="#２-7-组合七-id非唯一索引-rr">２.7 组合七：id非唯一索引+RR</a></li>
+<li><a href="#2-8-组合八-id无索引-rr">2.8 组合八：id无索引+RR</a></li>
+<li><a href="#2-9-组合九-serializable">2.9 组合九：Serializable</a></li>
 </ul></li>
+<li><a href="#3-一条复杂的sql">3 一条复杂的SQL</a></li>
+<li><a href="#4-死锁原理与分析">4 死锁原理与分析</a></li>
+<li><a href="#5-总结">5 总结</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -561,19 +566,102 @@ $(function() {
 
 <p>此图，相对于组合三：<a href="https://wangzitao6.github.io/2018-08-03-mysql加锁处理分析/#2-3-组合三-id非唯一索引-rc">id列上非唯一锁，Read Committed</a>看似相同，其实却有很大的区别。最大的区别在于，这幅图中多了一个GAP锁，而且GAP锁看起来也不是加在记录上的，倒像是加载两条记录之间的位置，GAP锁有何用？</p>
 
-<p>其实这个多出来的GAP锁，就是RR隔离级别，相对于RC隔离级别，不会出现幻读的关键。确实，GAP锁锁住的位置，也不是记录本身，而是两条记录之间的GAP。所谓幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id = 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第一次返回更多的记录 (幻象)。</p>
+<p><strong>其实这个多出来的GAP锁，就是RR隔离级别，相对于RC隔离级别，不会出现幻读的关键</strong>。确实，GAP锁锁住的位置，也不是记录本身，而是两条记录之间的GAP。所谓幻读，就是同一个事务，连续做两次当前读 (例如：select * from t1 where id = 10 for update;)，那么这两次当前读返回的是完全相同的记录 (记录数量一致，记录本身也一致)，第二次的当前读，不会比第一次返回更多的记录 (幻象)。</p>
 
 <p>如何保证两次当前读返回一致的记录，那就需要在第一次当前读与第二次当前读之间，其他的事务不会插入新的满足条件的记录并提交。为了实现这个功能，GAP锁应运而生。</p>
 
 <p>如图中所示，有哪些位置可以插入新的满足条件的项 (id = 10)，考虑到B+树索引的有序性，满足条件的项一定是连续存放的。记录[6,c]之前，不会插入id=10的记录；[6,c]与[10,b]间可以插入[10, aa]；[10,b]与[10,d]间，可以插入新的[10,bb],[10,c]等；[10,d]与[11,f]间可以插入满足条件的[10,e],[10,z]等；而[11,f]之后也不会插入满足条件的记录。因此，为了保证[6,c]与[10,b]间，[10,b]与[10,d]间，[10,d]与[11,f]不会插入新的满足条件的记录，MySQL选择了用GAP锁，将这三个GAP给锁起来。</p>
 
-<p>Insert操作，如insert [10,aa]，首先会定位到[6,c]与[10,b]间，然后在插入前，会检查这个GAP是否已经被锁上，如果被锁上，则Insert不能插入记录。因此，通过第一遍的当前读，不仅将满足条件的记录锁上 (X锁)，与组合三类似。同时还是增加3把GAP锁，将可能插入满足条件记录的3个GAP给锁上，保证后续的Insert不能插入新的id=10的记录，也就杜绝了同一事务的第二次当前读，出现幻象的情况。</p>
+<p><font color=red> <strong>Insert操作，如insert [10,aa]，首先会定位到[6,c]与[10,b]间，然后在插入前，会检查这个GAP是否已经被锁上，如果被锁上，则Insert不能插入记录。因此，通过第一遍的当前读，不仅将满足条件的记录锁上 (X锁)，与组合三[id列上非唯一锁，Read Committed]类似。同时还是增加3把GAP锁，将可能插入满足条件记录的3个GAP给锁上，保证后续的Insert不能插入新的id=10的记录，也就杜绝了同一事务的第二次当前读，出现幻象的情况。</strong></font></p>
 
 <p>有心的朋友看到这儿，可以会问：既然防止幻读，需要靠GAP锁的保护，为什么组合五、组合六，也是RR隔离级别，却不需要加GAP锁呢？</p>
 
-<p>首先，这是一个好问题。其次，回答这个问题，也很简单。GAP锁的目的，是为了防止同一事务的两次当前读，出现幻读的情况。而组合五，id是主键；组合六，id是unique键，都能够保证唯一性。一个等值查询，最多只能返回一条记录，而且新的相同取值的记录，一定不会在新插入进来，因此也就避免了GAP锁的使用。其实，针对此问题，还有一个更深入的问题：如果组合五、组合六下，针对SQL：select * from t1 where id = 10 for update; 第一次查询，没有找到满足查询条件的记录，那么GAP锁是否还能够省略？此问题留给大家思考。</p>
+<p>首先，这是一个好问题。其次，回答这个问题，也很简单。GAP锁的目的，是为了防止同一事务的两次当前读，出现幻读的情况。而组合五，id是主键；组合六，id是unique键，都能够保证唯一性。一个等值查询，最多只能返回一条记录，而且新的相同取值的记录，一定不会在新插入进来，因此也就避免了GAP锁的使用。其实，针对此问题，还有一个更深入的问题：如果组合五、组合六下，针对SQL：<code>select * from t1 where id = 10 for update;</code> 第一次查询，没有找到满足查询条件的记录，那么GAP锁是否还能够省略？此问题留给大家思考。</p>
 
-<p>结论：Repeatable Read隔离级别下，id列上有一个非唯一索引，对应SQL：delete from t1 where id = 10; 首先，通过id索引定位到第一条满足查询条件的记录，加记录上的X锁，加GAP上的GAP锁，然后加主键聚簇索引上的记录X锁，然后返回；然后读取下一条，重复进行。直至进行到第一条不满足条件的记录[11,f]，此时，不需要加记录X锁，但是仍旧需要加GAP锁，最后返回结束。</p>
+<p>结论：<font color=red> Repeatable Read隔离级别下，id列上有一个非唯一索引，对应SQL：<code>delete from t1 where id = 10;</code> 首先，通过id索引定位到第一条满足查询条件的记录，加记录上的X锁，加GAP上的GAP锁，然后加主键聚簇索引上的记录X锁，然后返回；然后读取下一条，重复进行。直至进行到第一条不满足条件的记录[11,f]，此时，不需要加记录X锁，但是仍旧需要加GAP锁，最后返回结束。</font></p>
+
+<h3 id="2-8-组合八-id无索引-rr">2.8 组合八：id无索引+RR</h3>
+
+<p>组合八，Repeatable Read隔离级别下的最后一种情况，id列上没有索引。此时SQL：<code>delete from t1 where id = 10;</code> 没有其他的路径可以选择，只能进行全表扫描。最终的加锁情况，如下图所示：
+<img src="/images/post/18/08/8.jpg" alt="" /></p>
+
+<p>如图，这是一个很恐怖的现象。首先，聚簇索引上的所有记录，都被加上了X锁。其次，聚簇索引每条记录间的间隙(GAP)，也同时被加上了GAP锁。这个示例表，只有6条记录，一共需要6个记录锁，7个GAP锁。试想，如果表上有1000万条记录呢？</p>
+
+<p>在这种情况下，这个表上，除了不加锁的快照度，其他任何加锁的并发SQL，均不能执行，不能更新，不能删除，不能插入，全表被锁死。</p>
+
+<p>当然，跟组合四：<a href="https://wangzitao6.github.io/2018-08-03-mysql加锁处理分析/#2-4-组合四-id无索引-rc">id无索引, Read Committed</a>类似，这个情况下，MySQL也做了一些优化，就是所谓的semi-consistent read。semi-consistent read开启的情况下，对于不满足查询条件的记录，MySQL会提前放锁。针对上面的这个用例，就是除了记录[d,10]，[g,10]之外，所有的记录锁都会被释放，同时不加GAP锁。semi-consistent read如何触发：要么是read committed隔离级别；要么是Repeatable Read隔离级别，同时设置了 <a href="https://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html">innodb_locks_unsafe_for_binlog</a> 参数。更详细的关于semi-consistent read的介绍，可参考我之前的一篇博客：<a href="http://hedengcheng.com/?p=220">MySQL+InnoDB semi-consitent read原理及实现分析</a> 。</p>
+
+<p>结论：<strong>在Repeatable Read隔离级别下，如果进行全表扫描的当前读，那么会锁上表中的所有记录，同时会锁上聚簇索引内的所有GAP，杜绝所有的并发 更新/删除/插入 操作。当然，也可以通过触发semi-consistent read，来缓解加锁开销与并发影响，但是semi-consistent read本身也会带来其他问题，不建议使用。</strong></p>
+
+<h3 id="2-9-组合九-serializable">2.9 组合九：Serializable</h3>
+
+<p>针对前面提到的简单的SQL，最后一个情况：Serializable隔离级别。对于SQL2：<code>delete from t1 where id = 10;</code> 来说，Serializable隔离级别与Repeatable Read隔离级别完全一致，因此不做介绍。</p>
+
+<p>Serializable隔离级别，影响的是SQL1：<code>select * from t1 where id = 10;</code> 这条SQL，在RC，RR隔离级别下，都是快照读，不加锁。但是在Serializable隔离级别，SQL1会加读锁，也就是说快照读不复存在，MVCC并发控制降级为Lock-Based CC。</p>
+
+<p>结论：<font color=red> 在MySQL/InnoDB中，所谓的读不加锁，并不适用于所有的情况，而是隔离级别相关的。Serializable隔离级别，读不加锁就不再成立，所有的读操作，都是当前读。</font></p>
+
+<h2 id="3-一条复杂的sql">3 一条复杂的SQL</h2>
+
+<p>写到这里，其实MySQL的加锁实现也已经介绍的八八九九。只要将本文上面的分析思路，大部分的SQL，都能分析出其会加哪些锁。而这里，再来看一个稍微复杂点的SQL，用于说明MySQL加锁的另外一个逻辑。SQL用例如下：
+<img src="/images/post/18/08/9.jpg" alt="复杂SQL" /></p>
+
+<p>如图中的SQL，会加什么锁？假定在Repeatable Read隔离级别下 (Read Committed隔离级别下的加锁情况，留给读者分析。)，同时，假设SQL走的是idx_t1_pu索引。</p>
+
+<p>在详细分析这条SQL的加锁情况前，还需要有一个知识储备，那就是一个SQL中的where条件如何拆分？具体的介绍，建议阅读我之前的一篇文章：<a href="http://hedengcheng.com/?p=577">SQL中的where条件，在数据库中提取与应用浅析</a> 。在这里，我直接给出分析后的结果：</p>
+
+<ul>
+<li><p>Index key：pubtime &gt; 1 and puptime &lt; 20。此条件，用于确定SQL在idx_t1_pu索引上的查询范围。</p></li>
+
+<li><p>Index Filter：userid = ‘hdc’ 。此条件，可以在idx_t1_pu索引上进行过滤，但不属于Index Key。</p></li>
+
+<li><p>Table Filter：comment is not NULL。此条件，在idx_t1_pu索引上无法过滤，只能在聚簇索引上过滤。</p></li>
+</ul>
+
+<p>在分析出SQL where条件的构成之后，再来看看这条SQL的加锁情况 (RR隔离级别)，如下图所示：</p>
+
+<p><img src="/images/post/18/08/10.jpg" alt="SQL加锁" /></p>
+
+<p>从图中可以看出，在Repeatable Read隔离级别下，由Index Key所确定的范围，被加上了GAP锁；Index Filter锁给定的条件 (userid = ‘hdc’)何时过滤，视MySQL的版本而定，在MySQL 5.6版本之前，不支持Index Condition Pushdown(ICP)，因此Index Filter在MySQL Server层过滤，在5.6后支持了Index Condition Pushdown，则在index上过滤。若不支持ICP，不满足Index Filter的记录，也需要加上记录X锁，若支持ICP，则不满足Index Filter的记录，无需加记录X锁 (图中，用红色箭头标出的X锁，是否要加，视是否支持ICP而定)；而Table Filter对应的过滤条件，则在聚簇索引中读取后，在MySQL Server层面过滤，因此聚簇索引上也需要X锁。最后，选取出了一条满足条件的记录[8,hdc,d,5,good]，但是加锁的数量，要远远大于满足条件的记录数量。</p>
+
+<p>结论：在Repeatable Read隔离级别下，针对一个复杂的SQL，首先需要提取其where条件。Index Key确定的范围，需要加上GAP锁；Index Filter过滤条件，视MySQL版本是否支持ICP，若支持ICP，则不满足Index Filter的记录，不加X锁，否则需要X锁；Table Filter过滤条件，无论是否满足，都需要加X锁。</p>
+
+<h2 id="4-死锁原理与分析">4 死锁原理与分析</h2>
+
+<p>本文前面的部分，基本上已经涵盖了MySQL/InnoDB所有的加锁规则。深入理解MySQL如何加锁，有两个比较重要的作用：</p>
+
+<ul>
+<li>可以根据MySQL的加锁规则，写出不会发生死锁的SQL；</li>
+<li>可以根据MySQL的加锁规则，定位出线上产生死锁的原因；
+下面，来看看两个死锁的例子 (一个是两个Session的两条SQL产生死锁；另一个是两个Session的一条SQL，产生死锁)：
+<img src="/images/post/18/08/11.jpg" alt="死锁用例" /></li>
+</ul>
+
+<p><img src="/images/post/18/08/12.jpg" alt="死锁用例2" /></p>
+
+<p>上面的两个死锁用例。第一个非常好理解，也是最常见的死锁，每个事务执行两条SQL，分别持有了一把锁，然后加另一把锁，产生死锁。</p>
+
+<p>第二个用例，虽然每个Session都只有一条语句，仍旧会产生死锁。要分析这个死锁，首先必须用到本文前面提到的MySQL加锁的规则。针对Session 1，从name索引出发，读到的[hdc, 1]，[hdc, 6]均满足条件，不仅会加name索引上的记录X锁，而且会加聚簇索引上的记录X锁，加锁顺序为先[1,hdc,100]，后[6,hdc,10]。而Session 2，从pubtime索引出发，[10,6],[100,1]均满足过滤条件，同样也会加聚簇索引上的记录X锁，加锁顺序为[6,hdc,10]，后[1,hdc,100]。发现没有，跟Session 1的加锁顺序正好相反，如果两个Session恰好都持有了第一把锁，请求加第二把锁，死锁就发生了。</p>
+
+<p>结论：死锁的发生与否，并不在于事务中有多少条SQL语句，死锁的关键在于：两个(或以上)的Session加锁的顺序不一致。而使用本文上面提到的，分析MySQL每条SQL语句的加锁规则，分析出每条语句的加锁顺序，然后检查多个并发SQL间是否存在以相反的顺序加锁的情况，就可以分析出各种潜在的死锁情况，也可以分析出线上死锁发生的原因。</p>
+
+<h2 id="5-总结">5 总结</h2>
+
+<p>写到这儿，本文也告一段落，做一个简单的总结，要做的完全掌握MySQL/InnoDB的加锁规则，甚至是其他任何数据库的加锁规则，需要具备以下的一些知识点：</p>
+
+<ul>
+<li><p>了解数据库的一些基本理论知识：数据的存储格式 (堆组织表 vs 聚簇索引表)；并发控制协议 (MVCC vs Lock-Based CC)；Two-Phase Locking；数据库的隔离级别定义 (Isolation Level)；</p></li>
+
+<li><p>了解SQL本身的执行计划 (主键扫描 vs 唯一键扫描 vs 范围扫描 vs 全表扫描)；</p></li>
+
+<li><p>了解数据库本身的一些实现细节 (过滤条件提取；Index Condition Pushdown；Semi-Consistent Read)；</p></li>
+
+<li><p>了解死锁产生的原因及分析的方法 (加锁顺序不一致；分析每个SQL的加锁顺序)</p></li>
+</ul>
+
+<p>有了这些知识点，再加上适当的实战经验，全面掌控MySQL/InnoDB的加锁规则，当不在话下。</p>
+
+<p>转载自：<a href="http://hedengcheng.com/?p=771">何登成的技术博客</a></p>
 
 
                 
@@ -586,6 +674,10 @@ $(function() {
                             上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2018-08-05-%e6%ad%bb%e9%94%81%e6%97%a5%e5%bf%97" data-toggle="tooltip" data-placement="top" title="了解MySQL死锁日志">下一篇 &rarr;</a>
+                    </li>
                     
                 </ul>
 
