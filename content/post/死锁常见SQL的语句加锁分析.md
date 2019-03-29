@@ -5,7 +5,7 @@ description: ""
 date:       2018-07-29T10:20:22+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["死锁"]
+tags:        ["死锁","MySQL"]
 url:    "/2018-07-29-常见sql的语句加锁分析"
 categories:  ["sql"]
 showtoc: true   # 是否显示目录

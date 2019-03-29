@@ -5,7 +5,7 @@ description: "讲解mysql死锁日志里面的一些重要信息"
 date:       2018-08-05T13:36:46+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["死锁"]
+tags:        ["死锁","MySQL"]
 url:    "/2018-08-05-死锁日志"
 categories:  ["sql"]
 showtoc: false   # 是否显示目录

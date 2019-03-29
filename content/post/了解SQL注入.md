@@ -5,7 +5,7 @@ description: ""
 date:         2018-05-06T10:41:29+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["SQL注入"]
+tags:        ["SQL注入","MySQL"]
 url:    "/2018-05-06-了解sql注入"
 categories:  ["sql"]
 showtoc: true   # 是否显示目录
