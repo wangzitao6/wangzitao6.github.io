@@ -18,9 +18,9 @@
     
 
     
-    <meta name="title" content="了解MySQL死锁日志" />
-    <meta property="og:title" content="了解MySQL死锁日志" />
-    <meta property="twitter:title" content="了解MySQL死锁日志" />
+    <meta name="title" content="死锁-了解MySQL死锁日志" />
+    <meta property="og:title" content="死锁-了解MySQL死锁日志" />
+    <meta property="twitter:title" content="死锁-了解MySQL死锁日志" />
     
 
     
@@ -37,7 +37,7 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>了解MySQL死锁日志</title>
+    <title>死锁-了解MySQL死锁日志</title>
 
     <link rel="canonical" href="/2018-08-05-%e6%ad%bb%e9%94%81%e6%97%a5%e5%bf%97">
 
@@ -182,8 +182,8 @@
                         </a>
                         
                     </div>
-                    <h1>了解MySQL死锁日志</h1>
-                    <h2 class="subheading">了解MySQL死锁日志</h2>
+                    <h1>死锁-了解MySQL死锁日志</h1>
+                    <h2 class="subheading">死锁-了解MySQL死锁日志</h2>
                     <span class="meta">
 			Posted by
 			
@@ -370,7 +370,7 @@ eg: select * from xx where a=1 for update
 </code></pre>
 
 <p></br>
-* <strong>Record Locks: lock_mode X locks rec but not gap</strong></p>
+* <strong>Record Locks</strong></p>
 
 <pre><code>  1. 在数据库层看到的结果是这样的：
       RECORD LOCKS space id 281 page no 3 n bits 72 index PRIMARY of table `lc_3`.`a` trx id 133588125 lock_mode X locks rec but not gap
@@ -379,7 +379,7 @@ eg: select * from xx where a=1 for update
 </code></pre>
 
 <p></br>
-* <strong>Gap Locks: lock_mode X locks gap before rec</strong></p>
+* <strong>Gap Locks</strong></p>
 
 <pre><code>  1. 在数据库层看到的结果是这样的：
       RECORD LOCKS space id 281 page no 5 n bits 72 index idx_c of table `lc_3`.`a` trx id 133588125 lock_mode X locks gap before rec  
@@ -388,7 +388,7 @@ eg: select * from xx where a=1 for update
 </code></pre>
 
 <p></br>
-* <strong>Next-Key Locks: lock_mode X</strong></p>
+* <strong>Next-Key Locks</strong></p>
 
 <pre><code>  1. 在数据库层看到的结果是这样的：
       RECORD LOCKS space id 281 page no 5 n bits 72 index idx_c of table `lc_3`.`a` trx id 133588125 lock_mode X
@@ -397,7 +397,7 @@ eg: select * from xx where a=1 for update
 </code></pre>
 
 <p></br>
-*  <strong>Insert Intention Locks:lock_mode X insert intention waiting</strong></p>
+*  <strong>Insert Intention Locks</strong></p>
 
 <pre><code>  1. 在数据库层看到的结果是这样的：
       RECORD LOCKS space id 279 page no 3 n bits 72 index PRIMARY of table `lc_3`.`t1` trx id 133587907 lock_mode X insert intention waiting
@@ -433,6 +433,18 @@ eg: select * from xx where a=1 for update
   1. 对于聚集索引上面的记录，有db_trx_id,如果该事务id在活跃事务列表中，那么说明还没有提交，那么implicit则存在  
   2. 对于非聚集索引：由于上面没有事务id，那么可以通过上面的主键id，再通过主键id上面的事务id来判断，不过算法要非常复杂，这里不做介绍
 </code></pre>
+
+<p>记录锁，间隙锁，Next-key 锁和插入意向锁。这四种锁对应的死锁如下：</p>
+
+<ul>
+<li><p><font color=red>记录锁（LOCK_REC_NOT_GAP）: lock_mode X locks rec but not gap </font></p></li>
+
+<li><p><font color=red>间隙锁（LOCK_GAP）: lock_mode X locks gap before rec </font></p></li>
+
+<li><p><font color=red>Next-key 锁（LOCK_ORNIDARY）: lock_mode X </font></p></li>
+
+<li><p><font color=red>插入意向锁（LOCK_INSERT_INTENTION）: lock_mode X locks gap before rec insert intention </font></p></li>
+</ul>
 
 <p>表格信息：</p>
 
@@ -609,8 +621,8 @@ Record lock, heap no 3 PHYSICAL RECORD: n_fields 2; compact format; info bits 32
 
 <script>
   var gitment = new Gitment({
-    id: '了解MySQL死锁日志', 
-    title: '了解MySQL死锁日志',
+    id: '死锁了解MySQL死锁日志', 
+    title: '死锁了解MySQL死锁日志',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
