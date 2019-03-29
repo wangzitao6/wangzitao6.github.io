@@ -1,6 +1,6 @@
 ---
-title:     "了解MySQL死锁日志"  # 文章标题
-subtitle:    "了解MySQL死锁日志"  # 文章标题
+title:     "死锁-了解MySQL死锁日志"  # 文章标题
+subtitle:    "死锁-了解MySQL死锁日志"  # 文章标题
 description: "讲解mysql死锁日志里面的一些重要信息"
 date:       2018-08-05T13:36:46+08:00  # 自动添加日期信息
 author:   "WangZiTao"
@@ -31,7 +31,7 @@ showtoc: false   # 是否显示目录
       TABLE LOCK table `lc_3`.`a` trx id 133588125 lock mode IX
   ```
 </br>
-* **Record Locks: lock_mode X locks rec but not gap**
+* **Record Locks**
 
   ```
   1. 在数据库层看到的结果是这样的：
@@ -40,7 +40,7 @@ showtoc: false   # 是否显示目录
   3. 记录锁可以有两种类型：lock_mode X locks rec but not gap  && lock_mode S locks rec but not gap
   ```
 </br>
-* **Gap Locks: lock_mode X locks gap before rec**
+* **Gap Locks**
 
   ```
   1. 在数据库层看到的结果是这样的：
@@ -49,7 +49,7 @@ showtoc: false   # 是否显示目录
   3. Gap锁，中文名间隙锁，锁住的不是记录，而是范围,比如：(negative infinity, 10），(10, 11）区间，这里都是开区间哦
   ```
 </br>
-* **Next-Key Locks: lock_mode X**
+* **Next-Key Locks**
 
   ```
   1. 在数据库层看到的结果是这样的：
@@ -58,7 +58,7 @@ showtoc: false   # 是否显示目录
      比如： (negative infinity, 10】，(10, 11】区间，这些右边都是闭区间哦
   ```
 </br>
-*  **Insert Intention Locks:lock_mode X insert intention waiting**
+*  **Insert Intention Locks**
 
   ```
   1. 在数据库层看到的结果是这样的：
@@ -96,6 +96,15 @@ showtoc: false   # 是否显示目录
   2. 对于非聚集索引：由于上面没有事务id，那么可以通过上面的主键id，再通过主键id上面的事务id来判断，不过算法要非常复杂，这里不做介绍
   ```
 
+记录锁，间隙锁，Next-key 锁和插入意向锁。这四种锁对应的死锁如下：
+
+  - <font color=red>记录锁（LOCK_REC_NOT_GAP）: lock_mode X locks rec but not gap </font>
+
+  - <font color=red>间隙锁（LOCK_GAP）: lock_mode X locks gap before rec </font>
+
+  - <font color=red>Next-key 锁（LOCK_ORNIDARY）: lock_mode X </font>
+
+  - <font color=red>插入意向锁（LOCK_INSERT_INTENTION）: lock_mode X locks gap before rec insert intention </font>
 
 表格信息：
 
