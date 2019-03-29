@@ -11,6 +11,15 @@
     
     
     <item>
+      <title>了解MySQL中EXPLAIN解释命令</title>
+      <link>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 13 Aug 2018 11:49:13 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</guid>
+      <description>EXPLAIN优化查询 EXPLAIN会向我们提供一些MySQL是执行sql的信息： EXPLAIN可以解释说明 SELECT, DELETE, INSERT, REPLACE, and UPDATE 等语句. 当EXPLA</description>
+    </item>
+    
+    <item>
       <title>死锁-了解MySQL死锁日志</title>
       <link>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</link>
       <pubDate>Sun, 05 Aug 2018 13:36:46 +0800</pubDate>
