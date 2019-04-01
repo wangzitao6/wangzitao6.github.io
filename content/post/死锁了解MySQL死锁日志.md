@@ -15,12 +15,13 @@ showtoc: false   # 是否显示目录
 * **Shared and Exclusive Locks**
 
   ```
-  * Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row
+  1. Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row
   eg：select * from xx where a=1 lock in share mode
-  * Exclusive Locks：排他锁： permits the transaction that holds the lock to update or delete a row
+  2. Exclusive Locks：排他锁： permits the transaction that holds the lock to update or delete a row
   eg: select * from xx where a=1 for update
-  ```
+  ```  
 </br>
+
 * **Intention Locks**
 
   ```
@@ -31,6 +32,7 @@ showtoc: false   # 是否显示目录
       TABLE LOCK table `lc_3`.`a` trx id 133588125 lock mode IX
   ```
 </br>
+
 * **Record Locks**
 
   ```
@@ -40,6 +42,7 @@ showtoc: false   # 是否显示目录
   3. 记录锁可以有两种类型：lock_mode X locks rec but not gap  && lock_mode S locks rec but not gap
   ```
 </br>
+
 * **Gap Locks**
 
   ```
@@ -49,6 +52,7 @@ showtoc: false   # 是否显示目录
   3. Gap锁，中文名间隙锁，锁住的不是记录，而是范围,比如：(negative infinity, 10），(10, 11）区间，这里都是开区间哦
   ```
 </br>
+
 * **Next-Key Locks**
 
   ```
@@ -58,6 +62,7 @@ showtoc: false   # 是否显示目录
      比如： (negative infinity, 10】，(10, 11】区间，这些右边都是闭区间哦
   ```
 </br>
+
 *  **Insert Intention Locks**
 
   ```
@@ -65,35 +70,37 @@ showtoc: false   # 是否显示目录
       RECORD LOCKS space id 279 page no 3 n bits 72 index PRIMARY of table `lc_3`.`t1` trx id 133587907 lock_mode X insert intention waiting
   2. Insert Intention Locks 可以理解为特殊的Gap锁的一种，用以提升并发写入的性能
   ```
-</br>
+  </br>
+
 * **AUTO-INC Locks**
 
   ```
-1. 在数据库层看到的结果是这样的：
-    TABLE LOCK table xx trx id 7498948 lock mode AUTO-INC waiting
-2. 属于表级别的锁  
-3. 自增锁的详细情况可以之前的一篇文章:
-    http://keithlan.github.io/2017/03/03/auto_increment_lock/
+  1. 在数据库层看到的结果是这样的：
+      TABLE LOCK table xx trx id 7498948 lock mode AUTO-INC waiting
+  2. 属于表级别的锁  
+  3. 自增锁的详细情况可以之前的一篇文章:
+      http://keithlan.github.io/2017/03/03/auto_increment_lock/
   ```
 </br>
+
 * **显示锁 vs 隐示锁**
 
   ```
-* 显示锁(explicit lock)
-    显示的加锁，在show engine innoDB status 中能够看到  ，会在内存中产生对象，占用内存  
-    eg: select ... for update , select ... lock in share mode   
-* 隐示锁(implicit lock)
-    implicit lock 是在索引中对记录逻辑的加锁，但是实际上不产生锁对象，不占用内存空间  
+  * 显示锁(explicit lock)
+      显示的加锁，在show engine innoDB status 中能够看到  ，会在内存中产生对象，占用内存  
+      eg: select ... for update , select ... lock in share mode   
+  * 隐示锁(implicit lock)
+      implicit lock 是在索引中对记录逻辑的加锁，但是实际上不产生锁对象，不占用内存空间  
 
-* 哪些语句会产生implicit lock 呢？
-   eg: insert into xx values(xx)
-   eg: update xx set t=t+1 where id = 1 ; 会对辅助索引加implicit lock  
-* implicit lock 在什么情况下会转换成 explicit lock
-  eg： 只有implicit lock 产生冲突的时候，会自动转换成explicit lock,这样做的好处就是降低锁的开销    
-  eg: 比如：我插入了一条记录10，本身这个记录加上implicit lock，如果这时候有人再去更新这条10的记录，那么就会自动转换成explicit lock
-* 数据库怎么知道implicit lock的存在呢？如何实现锁的转化呢？
-  1. 对于聚集索引上面的记录，有db_trx_id,如果该事务id在活跃事务列表中，那么说明还没有提交，那么implicit则存在  
-  2. 对于非聚集索引：由于上面没有事务id，那么可以通过上面的主键id，再通过主键id上面的事务id来判断，不过算法要非常复杂，这里不做介绍
+  * 哪些语句会产生implicit lock 呢？
+     eg: insert into xx values(xx)
+     eg: update xx set t=t+1 where id = 1 ; 会对辅助索引加implicit lock  
+  * implicit lock 在什么情况下会转换成 explicit lock
+    eg： 只有implicit lock 产生冲突的时候，会自动转换成explicit lock,这样做的好处就是降低锁的开销    
+    eg: 比如：我插入了一条记录10，本身这个记录加上implicit lock，如果这时候有人再去更新这条10的记录，那么就会自动转换成explicit lock
+  * 数据库怎么知道implicit lock的存在呢？如何实现锁的转化呢？
+    1. 对于聚集索引上面的记录，有db_trx_id,如果该事务id在活跃事务列表中，那么说明还没有提交，那么implicit则存在  
+    2. 对于非聚集索引：由于上面没有事务id，那么可以通过上面的主键id，再通过主键id上面的事务id来判断，不过算法要非常复杂，这里不做介绍
   ```
 
 记录锁，间隙锁，Next-key 锁和插入意向锁。这四种锁对应的死锁如下：
@@ -135,23 +142,22 @@ showtoc: false   # 是否显示目录
 
 模拟死锁场景：
 
-  ```SQL
-  session 1:                                    session 2:
-
-  begin;                                        begin;                                                     
+  ```
+  session 1:                                session 2:
+  begin;                                    begin;
   delete from t_bitfly  where num = 5 ;
-                                                delete from t_bitfly where num = 7 ;
+                                            delete from t_bitfly where num = 7 ;
   insert into t_bitfly values(7,7) ;
-                                                insert into t_bitfly values(5,5) ;
+                                            insert into t_bitfly values(5,5) ;
   ```
 
 结果：
 
-    ```SQL
-    insert into t_bitfly values(5,5)
-    > 1213 - Deadlock found when trying to get lock; try restarting transaction
-    > 时间: 0.085s
-    ```
+  ```SQL
+  insert into t_bitfly values(5,5)
+  > 1213 - Deadlock found when trying to get lock; try restarting transaction
+  > 时间: 0.085s
+  ```
 
 查询日志 ：`show engine innodb status ;`
 
