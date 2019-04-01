@@ -17,7 +17,7 @@
       <pubDate>Mon, 13 Aug 2018 11:49:13 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</guid>
-      <description>EXPLAIN优化查询 EXPLAIN会向我们提供一些MySQL是执行sql的信息： EXPLAIN可以解释说明 SELECT, DELETE, INSERT, REPLACE, and UPDATE 等语句. 当EXPLA</description>
+      <description>1 EXPLAIN概念 EXPLAIN会向我们提供一些MySQL是执行sql的信息： EXPLAIN可以解释说明 SELECT, DELETE, INSERT, REPLACE, and UPDATE 等语句. 当EXPLAI</description>
     </item>
     
     <item>
