@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
-    <meta property="og:site_name" content="王子滔的博客">
+    <meta property="og:site_name" content="王子滔的学习笔记">
     <meta property="og:type" content="article">
 
     
@@ -24,9 +24,9 @@
     
 
     
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。">
-    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。" />
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
     
 
     
@@ -34,7 +34,7 @@
     
     
 
-    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>死锁 - 了解常见的锁类型</title>
@@ -84,7 +84,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">王子滔的博客</a>
+            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
         </div>
 
         
@@ -179,6 +179,10 @@
                         
                         <a class="tag" href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
                             死锁
+                        </a>
+                        
+                        <a class="tag" href="/tags/mysql" title="MySQL">
+                            MySQL
                         </a>
                         
                     </div>
@@ -915,7 +919,7 @@ mysql&gt; insert into accounts(name, level) value('lisi', 7);
 
 <h2 id="乐观锁-vs-悲观锁">乐观锁 vs. 悲观锁</h2>
 
-<p>关于 MySQL 下的锁类型到这里就告一段落了。在结束这边博客之前，我认为还有必要介绍下乐观锁和悲观锁的概念，这两个概念听起来很像是一种特殊的锁，但实际上它并不是什么具体的锁，而是一种锁的思想。这种思想无论是在操作数据库时，还是在编程项目中，都非常实用。</p>
+<p>关于 MySQL 下的锁类型到这里就告一段落了。在结束这边博客之前，我认为还有必要介绍下乐观锁和悲观锁的概念，<strong>这两个概念听起来很像是一种特殊的锁，但实际上它并不是什么具体的锁，而是一种锁的思想</strong>。这种思想无论是在操作数据库时，还是在编程项目中，都非常实用。</p>
 
 <p>我们知道，不同的隔离级别解决不同的并发问题，MySQL 能够根据设置的隔离级别自动管理事务内的锁，不需要开发人员关心就能避免那些并发问题的发生，譬如在 RC 级别下，开发人员不用担心会出现脏读问题，只要正常的写 SQL 语句就可以了。但对于当前隔离级别无法解决的并发问题，我们就需要自己来处理了，譬如在 MySQL 的 RR 级别下（不是标准的 RR 级别），你肯定会遇到丢失更新问题，对于这种问题，通常有两种解决思路。其实在讲 MVCC 的时候也提到过，解决并发问题的方式除了锁，还可以利用时间戳或者版本号等等手段。前一种处理数据的方式通常叫做 <strong>悲观锁（Pessimistic Lock）</strong>，第二种无锁方式叫做 <strong>乐观锁（Optimistic Lock）</strong>。</p>
 
@@ -942,15 +946,18 @@ mysql&gt; insert into accounts(name, level) value('lisi', 7);
 <li>线程 A 需要买 5 个商品，校验通过，并下单；</li>
 <li>线程 B 需要买 5 个商品，校验通过，并下单；</li>
 <li>线程 A 下单完成，更新库存值为 10 - 5 = 5；</li>
-<li>线程 B 下单完成，更新库存值为 10 - 5 = 5；
-如果采用悲观锁的思想，我们在线程 A 获取商品库存的时候对该商品记录加 X 锁，并在最后下单完成并更新库存值之后再释放锁，这样线程 B 在获取库存值时就会等待，从而也不会出现线程 B 并发修改库存的情况了。</li>
+<li>线程 B 下单完成，更新库存值为 10 - 5 = 5；</li>
 </ul>
+
+<p>如果采用悲观锁的思想，我们在线程 A 获取商品库存的时候对该商品记录加 X 锁，并在最后下单完成并更新库存值之后再释放锁，这样线程 B 在获取库存值时就会等待，从而也不会出现线程 B 并发修改库存的情况了。</p>
 
 <p>如果采用乐观锁的思想，我们不对记录加锁，于是线程 A 获取库存值为 10，线程 B 获取库存也为 10，然后线程 A 更新库存为 5 的时候使用类似于这样的 SQL 来校验当前库存值是否被修改过：<code>UPDATE product SET stock = new_stock WHERE id = 100 AND stock = 10;</code> 如果 UPDATE 成功则认为没有修改过，下单成功；同样线程 B 更新库存为 5 的时候也用同样的方式校验，很显然校验失败，这个时候我们可以重新查询最新的库存值并下单，或者直接抛出异常提示下单失败。这种带条件的更新就是乐观锁。但是要注意的是，这种带条件的更新还可能会遇到 <a href="https://en.wikipedia.org/wiki/ABA_problem">ABA 问题</a>（关于 ABA 问题可以参考 <a href="https://en.wikipedia.org/wiki/Compare-and-swap">CAS</a>），解决方法则是为每一条记录增加一个唯一的版本号字段，使用版本号字段来进行判断。再举一个很现实的例子，我们通常使用 svn 更新和提交代码，也是使用了乐观锁的思想，当用户提交代码时，会根据你提交的版本号和代码仓库中最新的版本号进行比较，如果一致则允许提交，如果不一致，则提示用户更新代码到最新版本。</p>
 
 <p>总的来说，<strong>悲观锁需要使用数据库的锁机制来实现，而乐观锁是通过程序的手段来实现</strong>，这两种锁各有优缺点，不可认为一种好于另一种，像乐观锁适用于读多写少的情况下，即冲突真的很少发生，这样可以省去锁的开销，加大系统的吞吐量。但如果经常产生冲突，上层应用不断的进行重试，这样反倒是降低了性能，所以这种情况下用悲观锁更合适。虽然使用带版本检查的乐观锁能够同时保持高并发和高可伸缩性，但它也不是万能的，譬如它不能解决脏读问题，所以在实际应用中还是会和数据库的隔离级别一起使用。</p>
 
 <p>不仅仅是数据库，其实在分布式系统中，我们也可以看到悲观锁和乐观锁的影子。譬如酷壳上的这篇文章《<a href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a>》中提到的案例，就是一个典型的提交覆盖问题，可以通过悲观锁或者乐观锁来解决。</p>
+
+<p>转载自：[aneasystone&rsquo;s blog]<a href="https://www.aneasystone.com/archives/2017/11/solving-dead-locks-two.html)">https://www.aneasystone.com/archives/2017/11/solving-dead-locks-two.html)</a></p>
 
 
                 
@@ -965,7 +972,7 @@ mysql&gt; insert into accounts(name, level) value('lisi', 7);
                     
                     
                     <li class="next">
-                        <a href="/2018-08-03-mysql%e5%8a%a0%e9%94%81%e5%a4%84%e7%90%86%e5%88%86%e6%9e%90" data-toggle="tooltip" data-placement="top" title="MySQL加锁处理分析">下一篇 &rarr;</a>
+                        <a href="/2018-07-29-%e5%b8%b8%e8%a7%81sql%e7%9a%84%e8%af%ad%e5%8f%a5%e5%8a%a0%e9%94%81%e5%88%86%e6%9e%90" data-toggle="tooltip" data-placement="top" title="死锁-常见SQL的语句加锁分析">下一篇 &rarr;</a>
                     </li>
                     
                 </ul>
@@ -1141,7 +1148,7 @@ mysql&gt; insert into accounts(name, level) value('lisi', 7);
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的博客 2019
+                    Copyright &copy; 王子滔的学习笔记 2019
                     <br>
                 </p>
             </div>

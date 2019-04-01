@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>jvm on 王子滔的博客</title>
+    <title>jvm on 王子滔的学习笔记</title>
     <link>https://wangzitao6.github.io/categories/jvm/</link>
-    <description>Recent content in jvm on 王子滔的博客</description>
+    <description>Recent content in jvm on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 05 Jun 2018 11:05:33 +0800</lastBuildDate>

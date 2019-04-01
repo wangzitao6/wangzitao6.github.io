@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on 王子滔的博客</title>
+    <title>Categories on 王子滔的学习笔记</title>
     <link>https://wangzitao6.github.io/categories/</link>
-    <description>Recent content in Categories on 王子滔的博客</description>
+    <description>Recent content in Categories on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
@@ -13,7 +13,7 @@
     <item>
       <title>build</title>
       <link>https://wangzitao6.github.io/categories/build/</link>
-      <pubDate>Fri, 03 Nov 2017 23:10:30 +0800</pubDate>
+      <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/categories/build/</guid>
       <description></description>
@@ -49,7 +49,7 @@
     <item>
       <title>sql</title>
       <link>https://wangzitao6.github.io/categories/sql/</link>
-      <pubDate>Sun, 05 Aug 2018 13:36:46 +0800</pubDate>
+      <pubDate>Mon, 13 Aug 2018 11:49:13 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/categories/sql/</guid>
       <description></description>

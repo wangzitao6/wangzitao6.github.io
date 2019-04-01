@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>git on 王子滔的博客</title>
+    <title>git on 王子滔的学习笔记</title>
     <link>https://wangzitao6.github.io/tags/git/</link>
-    <description>Recent content in git on 王子滔的博客</description>
+    <description>Recent content in git on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Nov 2017 23:10:30 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 03 Nov 2016 23:10:30 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>git常用命令</title>
       <link>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Fri, 03 Nov 2017 23:10:30 +0800</pubDate>
+      <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
       <description>1. 分支操作 1.创建，删除本地分支 git branch 分支名 创建名称为branchname的本地分支 git branch branchName git branch -d 分支名 删除名称为branchname的本地分支</description>

@@ -207,6 +207,25 @@
         "showtoc": true
     },
     {
+        "title": "了解MySQL中EXPLAIN解释命令",
+        "uri": "post/了解MySQL中EXPLAIN解释命令",
+        "content": "1 EXPLAIN   EXPLAIN        MySQL   sql     EXPLAIN       SELECT  DELETE  INSERT  REPLACE  UPDATE       EXPLAIN             mysql              sql         mysql                                EXPLAIN              EXPLAIN        connection_id                           SELECT   EXPLAIN                    SHOW WARNINGS      EXPLAIN                   FORMAT                   FORMAT             JSON       json      2 EXPLAIN             sql mysql  show create table t_a            ta   CREATE TABLE ta   id bigint 20  NOT NULL DEFAULT  0   age int 20  DEFAULT NULL  code int 20  NOT NULL  PRIMARY KEY  id   UNIQUE KEY uk_code  code   KEY age_key  age    ENGINE InnoDB DEFAULT CHARSET gbk                                                        1 row set  0 03 sec    EXPLAIN                    FORMAT   JSON                          Column   JSON Name   Meaning                                 id  select_id  select     select_type  None  select    table  table_name                partitions  partitions                     type  access_type                  possiblekeys possiblekeys  MySQL                key  key  MySQL              keylen  keylength  MySQL             NULL    NULL  ref  ref           rows  rows  mysql    sql           filtered  filtered                     Extra  None       2 1 id SELECT    SELECT               2 2 select_type SELECT              JSON   EXPLAIN SELECT     query_block        SIMPLE PRIMARY  JSON       None          select_type Value  JSON Name  Meaning                                SIMPLE  None    SELECT    UNION        PRIMARY  None               UNION  None  UNION         SELECT    DEPENDENT UNION  dependent  true   UNION         SELECT            UNION RESULT  union_result  UNION     SUBQUERY  None              DEPENDENT SUBQUERY  dependent  true                       DERIVED  None                   MATERIALIZED  materializedfromsubquery         UNCACHEABLE SUBQUERY  cacheable  false                                 UNCACHEABLE UNION  cacheable  false   UNION                        UNCACHEABLE SUBQUERY  SIMPLE   SELECT    UNION        sql mysql  explain select   t_a id  1                                                                                                                            id   selecttype   table   partitions   type   possiblekeys   key   key_len   ref   rows   filtered   Extra                                                                                                                             1   SIMPLE   t_a   NULL   const   PRIMARY   PRIMARY   8   const   1   100 00   NULL                                                                                                                           1 row set  1 warning  0 03 sec    PRIMARY              sql mysql  explain select   ta num   select num ta id   3                                                                                                                                                id   selecttype   table   partitions   type   possiblekeys   key   key_len   ref   rows   filtered   Extra                                                                                                                                                1   PRIMARY   ta   NULL   range   numkey   num_key   5   NULL   6   100 00   Using where  Using index     2   SUBQUERY   t_a   NULL   const   PRIMARY   PRIMARY   8   const   1   100 00   NULL                                                                                                                                              2 rows set  1 warning  0 03 sec    UNION UNION         SELECT    sql mysql  explain select   ta id  9 union select   ta                                                                                                                                  id   selecttype   table   partitions   type   possiblekeys   key   key_len   ref   rows   filtered   Extra                                                                                                                                   1   PRIMARY   t_a   NULL   const   PRIMARY   PRIMARY   8   const   1   100 00   NULL     2   UNION   ta   NULL   index   NULL   numkey   5   NULL   9   100 00   Using index                                                                                                                                 2 rows set  1 warning  0 04 sec    DEPENDENT UNION UNION         SELECT            sql mysql  explain select   ta id  select id ta id  8 union select id t_a id  5                                                                                                                                                        id   selecttype   table   partitions   type   possiblekeys   key   key_len   ref   rows   filtered   Extra                                                                                                                                                        1   PRIMARY   ta   NULL   index   NULL   numkey   5   NULL   9   100 00   Using where  Using index     2   DEPENDENT SUBQUERY   ta   NULL   eqref   PRIMARY   PRIMARY   8   func   1   100 00   Using where  Using index     3   DEPENDEN",
+        "objectID": "post/了解MySQL中EXPLAIN解释命令",
+        "subtitle": "了解MySQL中EXPLAIN解释命令",
+        "description": "EXPLAIN会向我们提供一些MySQL是执行sql的信息",
+        "date": "2018-08-13T03:49:13.000Z",
+        "author": "WangZiTao",
+        "image": "",
+        "tags": [
+            "MySQL"
+        ],
+        "url": "/2018-08-13-了解explain解释命令",
+        "categories": [
+            "sql"
+        ],
+        "showtoc": true
+    },
+    {
         "title": "了解SQL注入",
         "uri": "post/了解SQL注入",
         "content": "1    SQL        SQL     Web                                   SQL                         SQL                        Web         SQL                                  SQL    2 SQL      SQL     SQL                                        URL   POST                           SQL                 ID               getuserinfo php uid 123    SQL            sql SELECT   User uid   123                       search_user php name Zhangsan    SQL          sql SELECT   User name    Zhangsan         123 Zhangsan                        SQL                                 WHERE        ORDER BY GROUP BY      SQL        sql SELECT   table id   XXX SELECT   table name    XXX  SELECT   table name    XXX  pass    YYY  SELECT   table name    XXX  SELECT   table id  XXX  SELECT   table name   XXX     3 SQL           SQL                                                                                              AND 1 AND 0 AND true AND false 1 false 1 true 2 1 1 100                                                               SQL   sql SELECT   User name    Zhangsan   SELECT   User name    Zhangsan         SQL                             Zhangsan  Zhangsan                                                                                     123 1 123 0                                123 1       123 0                   sql SELECT   User uid   123 1 SELECT   User uid   123 0   4          SQL                        SQL             SQL                                             SQL      DOS                                 URL                4 1                                                              SQL       sql SELECT   Customer name    XX  pass    YY                             admin                    SQL     sql SELECT   Customer name    admin  pass                  SQL              WHERE        TRUE                             0                           4 2                         admin      SQL                                                                                                         SQL        SQL    MySQL     sql SELECT   User name    Zhangsan  MID VERSION   1 1     5         SQL          sql SELECT   User name    Zhangsan  UNION SELECT TABLESCHEMA  TABLENAME informationschema TABLES TABLETYPE    BASE TABLE               Union      SQL       User         UNION SELECT                 SQL                     User          ORDER BY             ORDER BY                   sql SELECT   User name    Zhangsan  ORDER 1             SELECT   User name    Zhangsan  ORDER 2             SELECT   User name    Zhangsan  ORDER 3             SELECT   User name    Zhangsan  ORDER 4             SELECT   User name    Zhangsan  ORDER 5                  User     4      User           UNION SELECT                 1         sql SELECT   User name    Zhangsan  UNION SELECT TABLESCHEMA  TABLENAME  1  1 informationschema TABLES TABLETYPE    BASE TABLE         4 3                                                   Product      sql SELECT   User uid   123  TRUNCATE TABLE Product   4 4      MySQL                         sql SELECT LOAD_FILE   etc passwd    SELECT    OUTFILE   var www shell php              SQL          MySQL              SQL                       linux                           webshell     webshell       linux          http   www example com shell php c ls   webshell                             5   SQL     SQL                                                  SQL                                                          WAF   WAF                                                                                 SQL     ORM         SQL          SQL                   SQL                   SQL                                SQL                                                                         SQL                    SQL     SQL                               sql SELECT   Customer uid   1 SELECT   Customer uid   2      SQL                 SQL                                       CPU                                                         uid   1   pdo   new PDO        sql    SELECT   Customer uid    ID    stmt    pdo  prepare  sql    stmt  bindValue   ID    uid  PDO  PARAM_INT    result    stmt  execute      6    sql_injection",
@@ -217,7 +236,8 @@
         "author": "WangZiTao",
         "image": "",
         "tags": [
-            "SQL注入"
+            "SQL注入",
+            "MySQL"
         ],
         "url": "/2018-05-06-了解sql注入",
         "categories": [
@@ -275,7 +295,8 @@
         "author": "WangZiTao",
         "image": "",
         "tags": [
-            "死锁"
+            "死锁",
+            "MySQL"
         ],
         "url": "/2018-08-05-死锁日志",
         "categories": [
@@ -294,7 +315,8 @@
         "author": "WangZiTao",
         "image": "",
         "tags": [
-            "死锁"
+            "死锁",
+            "MySQL"
         ],
         "url": "/2018-07-25-了解事务与隔离级别",
         "categories": [
@@ -313,7 +335,8 @@
         "author": "WangZiTao",
         "image": "",
         "tags": [
-            "死锁"
+            "死锁",
+            "MySQL"
         ],
         "url": "/2018-07-28-了解常见的锁类型",
         "categories": [
@@ -332,7 +355,8 @@
         "author": "WangZiTao",
         "image": "",
         "tags": [
-            "死锁"
+            "死锁",
+            "MySQL"
         ],
         "url": "/2018-07-29-常见sql的语句加锁分析",
         "categories": [

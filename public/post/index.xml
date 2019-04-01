@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on 王子滔的博客</title>
+    <title>Posts on 王子滔的学习笔记</title>
     <link>https://wangzitao6.github.io/post/</link>
-    <description>Recent content in Posts on 王子滔的博客</description>
+    <description>Recent content in Posts on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Aug 2018 13:36:46 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 13 Aug 2018 11:49:13 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>了解MySQL死锁日志</title>
+      <title>了解MySQL中EXPLAIN解释命令</title>
+      <link>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 13 Aug 2018 11:49:13 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</guid>
+      <description>1 EXPLAIN概念 EXPLAIN会向我们提供一些MySQL是执行sql的信息： EXPLAIN可以解释说明 SELECT, DELETE, INSERT, REPLACE, and UPDATE 等语句. 当EXPLAI</description>
+    </item>
+    
+    <item>
+      <title>死锁-了解MySQL死锁日志</title>
       <link>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</link>
       <pubDate>Sun, 05 Aug 2018 13:36:46 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</guid>
-      <description>表格信息： CREATE TABLE `t_bitfly` ( `id` bigint(20) NOT NULL DEFAULT &#39;0&#39;, `num` int(20) DEFAULT NULL, PRIMARY KEY (`id`), KEY `num_key` (`num`) ) ENGINE=InnoDB DEFAULT CHARSET=gbk; 表中数据： mysql&amp;gt; select * from t_bitfly; +----+------+ | id | num | +----+------+ | 1 | 2 | | 3 | 5 | | 8 | 7 | +----+------+ 3 rows in set (0.04 sec) 数据</description>
+      <description>锁的种类&amp;amp;概念 Shared and Exclusive Locks * Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row eg：select * from xx where a=1 lock in share mode * Exclusive Locks：</description>
     </item>
     
     <item>
@@ -27,6 +36,15 @@
       
       <guid>https://wangzitao6.github.io/2018-08-03-mysql%E5%8A%A0%E9%94%81%E5%A4%84%E7%90%86%E5%88%86%E6%9E%90/</guid>
       <description>1 背景 MySQL/InnoDB的加锁分析，一直是一个比较困难的话题。我在工作过程中，经常会有同事咨询这方面的问题。同时，微博上也经常会收到M</description>
+    </item>
+    
+    <item>
+      <title>死锁-常见SQL的语句加锁分析</title>
+      <link>https://wangzitao6.github.io/2018-07-29-%E5%B8%B8%E8%A7%81sql%E7%9A%84%E8%AF%AD%E5%8F%A5%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 29 Jul 2018 10:20:22 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-07-29-%E5%B8%B8%E8%A7%81sql%E7%9A%84%E8%AF%AD%E5%8F%A5%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/</guid>
+      <description>解决死锁之路 - 常见 SQL 语句的加锁分析 这篇博客将对一些常见的 SQL 语句进行加锁分析，看看我们平时执行的那些 SQL 都会加什么锁。只有对我们所写的 SQL 语句加锁</description>
     </item>
     
     <item>
@@ -129,15 +147,6 @@
     </item>
     
     <item>
-      <title>git常用命令</title>
-      <link>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Fri, 03 Nov 2017 23:10:30 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>1. 分支操作 1.创建，删除本地分支 git branch 分支名 创建名称为branchname的本地分支 git branch branchName git branch -d 分支名 删除名称为branchname的本地分支</description>
-    </item>
-    
-    <item>
       <title>markdown常用语法</title>
       <link>https://wangzitao6.github.io/2017-10-28-markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</link>
       <pubDate>Sat, 28 Oct 2017 22:59:30 +0800</pubDate>
@@ -153,6 +162,15 @@
       
       <guid>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
       <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
+    </item>
+    
+    <item>
+      <title>git常用命令</title>
+      <link>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>1. 分支操作 1.创建，删除本地分支 git branch 分支名 创建名称为branchname的本地分支 git branch branchName git branch -d 分支名 删除名称为branchname的本地分支</description>
     </item>
     
   </channel>
