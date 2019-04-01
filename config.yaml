@@ -8,6 +8,6 @@ theme: "beautifulhugo"
 metaDataFormat: "yaml"
 algolia:
   index: "hugo"
-  key: "31c446dfcfdf65fe0ff50a8a68194de4"
-  appID: "3DH4V2B4JK"
+  key: "c80c8c4252e7cc2e0c778b4546b64534"
+  appID: "NKWT8RBXVN"
 ---

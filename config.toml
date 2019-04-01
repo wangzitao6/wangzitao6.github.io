@@ -28,9 +28,9 @@ home = ["HTML", "Algolia"]
 
   # algolia site search
   algolia_search = true
-  algolia_appId = "3DH4V2B4JK"
+  algolia_appId = "NKWT8RBXVN"
   algolia_indexName = "hugo"
-  algolia_apiKey = "31c446dfcfdf65fe0ff50a8a68194de4"
+  algolia_apiKey = "c80c8c4252e7cc2e0c778b4546b64534"
 
 
   #打赏
