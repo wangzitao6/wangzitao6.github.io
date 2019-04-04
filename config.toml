@@ -6,7 +6,7 @@ languageCode = "en-us"
 DisqusShortname = "WangZiTao"
 googleAnalytics = ""
 preserveTaxonomyNames = true
-paginate = 5 #frontpage pagination
+paginate = 8  #frontpage pagination
 archive-paginate = 20
 hasCJKLanguage = true
 [outputs]
