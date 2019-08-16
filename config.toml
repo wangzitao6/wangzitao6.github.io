@@ -9,8 +9,6 @@ preserveTaxonomyNames = true
 paginate = 8  #frontpage pagination
 archive-paginate = 20
 hasCJKLanguage = true
-[outputs]
-home = ["HTML", "Algolia"]
 
 [params]
   header_image = "images/1.jpg"
@@ -28,9 +26,9 @@ home = ["HTML", "Algolia"]
 
   # algolia site search
   algolia_search = true
-  algolia_appId = "NKWT8RBXVN"
+  algolia_appId = "ERVNYCU0PI"
   algolia_indexName = "hugo"
-  algolia_apiKey = "c80c8c4252e7cc2e0c778b4546b64534"
+  algolia_apiKey = "5190c8b2fe47aa98509827362cd12f03"
 
 
   #打赏
@@ -104,3 +102,6 @@ notAlternative = true
 [params.algolia]
 vars = ["title", "summary", "date", "publishdate", "expirydate", "permalink"]
 params = ["categories", "tags"]
+
+[outputs]
+home = ["HTML", "RSS", "Algolia"]
