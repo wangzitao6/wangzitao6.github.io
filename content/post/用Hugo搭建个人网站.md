@@ -175,7 +175,7 @@ Hugo自带服务器，可以用命令行启动：
 
     hugo server -t white
 
-服务器启动后访问http://localhost:1313访问网站，发现问题可以及时修改。
+服务器启动后访问 http://localhost:1313 , 访问网站，发现问题可以及时修改。
 
 ### 4.发布到github
 -----------

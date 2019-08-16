@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Aug 2018 11:49:13 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 02 Aug 2019 13:59:37 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Markdown进阶语法</title>
+      <link>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</link>
+      <pubDate>Fri, 02 Aug 2019 13:59:37 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</guid>
+      <description>字体、大小、颜色 &amp;lt;font face=&amp;quot;黑体&amp;quot;&amp;gt;我是黑体字&amp;lt;/font&amp;gt; &amp;lt;font face=&amp;quot;微软雅黑&amp;quo</description>
+    </item>
     
     <item>
       <title>了解MySQL中EXPLAIN解释命令</title>
@@ -26,7 +35,7 @@
       <pubDate>Sun, 05 Aug 2018 13:36:46 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</guid>
-      <description>锁的种类&amp;amp;概念 Shared and Exclusive Locks * Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row eg：select * from xx where a=1 lock in share mode * Exclusive Locks：</description>
+      <description>锁的种类&amp;amp;概念 Shared and Exclusive Locks 1. Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row eg：select * from xx where a=1 lock in share mode 2. Exclusive Locks：</description>
     </item>
     
     <item>

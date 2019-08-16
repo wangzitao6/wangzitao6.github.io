@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content=" &middot; 王子滔的学习笔记" />
+  	<meta property="og:site_name" content="王子滔的学习笔记" />
+  	<meta property="og:url" content="https://wangzitao6.github.io/bak/readme/" />
+
+    
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="0001-01-01T00:00:00Z" />
+
+    
+    
+
+    <title> &middot; 王子滔的学习笔记</title>
+
+    
+    <meta name="description" content=" 23.1 Customizing the Banner 启动时打印的banner可以通过向类路径中添加banner.txt文件或通过将banner.location设置为这样一个文件的位置来更改。 如果文件有不寻常的编码，你可以设置banner.charset。字符集(默认为UTF-8 )。
+ ${applicati" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
+
+    
+
+    
+
+    
+      
+          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="https://wangzitao6.github.io/bak/readme/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": 
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "url": ,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": ,
+    "name": ,
+    "wordCount": 43,
+    "timeRequired": "PT1M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": https://wangzitao6.github.io/bak/readme/,
+    "datePublished": 0001-01-01T00:00Z,
+    "dateModified": 0001-01-01T00:00Z,
+    
+    
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://wangzitao6.github.io/bak/readme/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post bak">
+
+    <header class="post-header">
+        <h1 class="post-title"></h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h3 id="23-1-customizing-the-banner">23.1 Customizing the Banner</h3>
+
+<p>启动时打印的banner可以通过向类路径中添加<code>banner.txt</code>文件或通过将<code>banner.location</code>设置为这样一个文件的位置来更改。
+如果文件有不寻常的编码，你可以设置<code>banner.charset</code>。字符集(默认为<code>UTF-8</code> )。</p>
+
+<ul>
+<li><p>${application.version}：MANIFEST.MF文件中的版本号,例如 <code>Implementation-Version: 1.0</code> 打印为 <code>1.0</code>.</p></li>
+
+<li><p>${application.formatted-version}：格式化后的MANIFEST.MF文件中的版本号,(用括号括起来，前缀为v). 例如 <code>(v1.0)</code>.</p></li>
+
+<li><p>${spring-boot.version}：正在使用的SpringBoot版本. 例如 <code>1.3.7.RELEASE</code>.</p></li>
+
+<li><p>${spring-boot.formatted-version}：格式化后的正在使用的SpringBoot版本.,(用括号括起来，前缀为v). 例如 <code>(v1.3.7.RELEASE)</code>.</p></li>
+
+<li><p>${Ansi.NAME} (or ${AnsiColor.NAME}, ${AnsiBackground.NAME}, ${AnsiStyle.NAME})： NAME是一个ANSI 码. 详情看 <a href="https://github.com/spring-projects/spring-boot/blob/v1.3.7.RELEASE/spring-boot/src/main/java/org/springframework/boot/ansi/AnsiPropertySource.java">AnsiPropertySource</a>.</p></li>
+
+<li><p>${application.title}：：MANIFEST.MF文件中的标题. 例如 Implementation-Title: MyApp 展示为 MyApp.</p></li>
+</ul>
+
+<p>您还可以使用spring.main.banner模式属性来确定是否必须使用配置的日志记录器(log)在System.out (console)上打印横幅，或者根本不打印横幅(off)。</p>
+
+<blockquote>
+<p>如果你想关闭banner,同样可以在YAML配置off或者false来关闭。</p>
+</blockquote>
+
+<pre><code>spring:
+    main:
+        banner-mode: &quot;off&quot;
+
+</code></pre>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+    
+<section class="share">
+  <h4>Share this bak</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2fbak%2freadme%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2fbak%2freadme%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2fbak%2freadme%2f&amp;description="
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2fbak%2freadme%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/bak\/readme\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/bak\/readme\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2018-05-28-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/">
+          <section class="post">
+              <h2>TcpIp协议族与socket区别</h2>
+              
+          </section>
+      </a>
+  
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    
+</body>
+</html>
+

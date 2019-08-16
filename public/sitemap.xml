@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</loc>
+    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2018-08-13T11:49:13+08:00</lastmod>
   </url>
@@ -98,6 +103,10 @@
   </url>
   
   <url>
+    <loc>https://wangzitao6.github.io/bak/readme/</loc>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/search/placeholder/</loc>
   </url>
   
@@ -128,7 +137,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/post/</loc>
-    <lastmod>2018-08-13T11:49:13+08:00</lastmod>
+    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -173,13 +182,13 @@
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/tags/jvm/</loc>
+    <loc>https://wangzitao6.github.io/categories/jvm/</loc>
     <lastmod>2018-06-05T11:05:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/categories/jvm/</loc>
+    <loc>https://wangzitao6.github.io/tags/jvm/</loc>
     <lastmod>2018-06-05T11:05:33+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -192,7 +201,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/categories/other/</loc>
-    <lastmod>2018-06-12T09:31:57+08:00</lastmod>
+    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -204,7 +213,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/tags/%E5%85%B6%E4%BB%96/</loc>
-    <lastmod>2018-06-12T09:31:57+08:00</lastmod>
+    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -222,7 +231,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/</loc>
-    <lastmod>2018-08-13T11:49:13+08:00</lastmod>
+    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   
