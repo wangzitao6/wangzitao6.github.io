@@ -4,7 +4,7 @@ theme = "white"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
 DisqusShortname = "WangZiTao"
-googleAnalytics = ""
+googleAnalytics = "UA-135479251-2"
 preserveTaxonomyNames = true
 paginate = 8  #frontpage pagination
 archive-paginate = 20
