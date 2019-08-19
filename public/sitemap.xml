@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/</loc>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</loc>
     <lastmod>2019-08-02T13:59:37+08:00</lastmod>
   </url>
@@ -131,13 +136,13 @@
   
   <url>
     <loc>https://wangzitao6.github.io/tags/mysql/</loc>
-    <lastmod>2018-08-13T11:49:13+08:00</lastmod>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wangzitao6.github.io/post/</loc>
-    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -154,7 +159,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/tags/</loc>
-    <lastmod>2018-08-13T11:49:13+08:00</lastmod>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -182,13 +187,13 @@
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/categories/jvm/</loc>
+    <loc>https://wangzitao6.github.io/tags/jvm/</loc>
     <lastmod>2018-06-05T11:05:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/tags/jvm/</loc>
+    <loc>https://wangzitao6.github.io/categories/jvm/</loc>
     <lastmod>2018-06-05T11:05:33+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -207,7 +212,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/categories/sql/</loc>
-    <lastmod>2018-08-13T11:49:13+08:00</lastmod>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -231,7 +236,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/</loc>
-    <lastmod>2019-08-02T13:59:37+08:00</lastmod>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -244,6 +249,12 @@
   <url>
     <loc>https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2018-05-28T00:08:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/tags/%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2019-08-19T15:06:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
