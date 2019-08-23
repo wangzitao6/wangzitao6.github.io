@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Aug 2019 15:06:29 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 23 Aug 2019 16:28:33 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>原码 补码 反码</title>
+      <link>https://wangzitao6.github.io/2019/</link>
+      <pubDate>Fri, 23 Aug 2019 16:28:33 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019/</guid>
+      <description>Java数据类型 了解原码、补码、反码之前，我们先看下java的数据类型： Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环</description>
+    </item>
     
     <item>
       <title>MYSQL配置读取</title>
