@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>基础 on 王子滔的学习笔记</title>
+    <link>https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/</link>
+    <description>Recent content in 基础 on 王子滔的学习笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Aug 2019 16:28:33 +0800</lastBuildDate>
+    
+	<atom:link href="https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>原码 补码 反码</title>
+      <link>https://wangzitao6.github.io/2019/</link>
+      <pubDate>Fri, 23 Aug 2019 16:28:33 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019/</guid>
+      <description>Java数据类型 了解原码、补码、反码之前，我们先看下java的数据类型： Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环</description>
+    </item>
+    
+  </channel>
+</rss>

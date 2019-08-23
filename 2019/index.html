@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的学习笔记">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="原码 补码 反码" />
+    <meta property="og:title" content="原码 补码 反码" />
+    <meta property="twitter:title" content="原码 补码 反码" />
+    
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>原码 补码 反码</title>
+
+    <link rel="canonical" href="/2019/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/build">build</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/jvm">jvm</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/net">net</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/other">other</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/sql">sql</a>
+                    </li>
+                    
+
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
+                            基础
+                        </a>
+                        
+                    </div>
+                    <h1>原码 补码 反码</h1>
+                    <h2 class="subheading">原码 补码 反码</h2>
+                    <span class="meta">
+			Posted by
+			
+			    WangZiTao
+			
+			on
+			Friday, August 23, 2019
+                        
+                            <span id="/2019/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>目录</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#java数据类型">Java数据类型</a></li>
+<li><a href="#原码-补码-反码">原码 补码 反码</a>
+<ul>
+<li><a href="#机器数和真值">机器数和真值</a>
+<ul>
+<li><a href="#机器数">机器数</a></li>
+<li><a href="#真值">真值</a></li>
+</ul></li>
+<li><a href="#原码概念">原码概念</a></li>
+<li><a href="#反码概念">反码概念</a></li>
+<li><a href="#补码概念">补码概念</a>
+<ul>
+<li><a href="#补码计算规则">补码计算规则：</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="java数据类型">Java数据类型</h2>
+
+<p>了解原码、补码、反码之前，我们先看下java的数据类型：</p>
+
+<p>Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环境或者操作系统的改变而改变。实际上，JAVA中还存在另外一种基本类型void，它也有对应的包装类 java.lang.Void，不过我们无法直接对它们进行操作。8 中类型表示范围如下：</p>
+
+<ul>
+<li><p>byte：8位，最大存储数据量是255，存放的数据范围是-128~127之间。</p></li>
+
+<li><p>short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。</p></li>
+
+<li><p>int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。</p></li>
+
+<li><p>long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。</p></li>
+
+<li><p>float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。</p></li>
+
+<li><p>double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。</p></li>
+
+<li><p>boolean：只有true和false两个取值。</p></li>
+
+<li><p>char：16位，存储Unicode码，用单引号赋值。</p></li>
+</ul>
+
+<p>以上各种类型占用内存：</p>
+
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>类别</th>
+<th>大小/位</th>
+<th>大小范围</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>byte(位)</td>
+<td>整型</td>
+<td>8</td>
+<td>-128~127</td>
+</tr>
+
+<tr>
+<td>short(短整数)</td>
+<td>整型</td>
+<td>16</td>
+<td>-32768~32767</td>
+</tr>
+
+<tr>
+<td>int(整数)</td>
+<td>整型</td>
+<td>32</td>
+<td>-2147483648~2147483647</td>
+</tr>
+
+<tr>
+<td>long(长整数)</td>
+<td>整型</td>
+<td>64</td>
+<td>-9223372036854775808~9223372036854775807</td>
+</tr>
+
+<tr>
+<td>float(单精度)</td>
+<td>浮点型</td>
+<td>32</td>
+<td>1.4E-45~3.4028235E38</td>
+</tr>
+
+<tr>
+<td>double(双精度)</td>
+<td>浮点型</td>
+<td>64</td>
+<td>4.9E-324~1.7976931348623157E308</td>
+</tr>
+
+<tr>
+<td>char(字符)</td>
+<td>字符型</td>
+<td>16</td>
+<td>0~65535</td>
+</tr>
+
+<tr>
+<td>boolean</td>
+<td>布尔型</td>
+<td>8</td>
+<td>true或false</td>
+</tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>byte占用一个字节，取值范围是-128~127,因为在二进制中，最高位是符号位，0表示正、1表示负，其他位是数据位。 byte共占8个bit，最大值为01111111，转成十进制为127，最小值为10000000，1是符号位，表示负数，转成十进制为128。所以最小值为-128 ，具体为什么是-128？二进制和十进制如何在底层转换？将涉及到原码、反码、补码，我们往下继续看</p>
+</blockquote>
+
+<h2 id="原码-补码-反码">原码 补码 反码</h2>
+
+<h3 id="机器数和真值">机器数和真值</h3>
+
+<p>我们先了解下数据在计算机中是怎么表示的</p>
+
+<h4 id="机器数">机器数</h4>
+
+<p>　一个数在计算机中的二进制表示形式,  叫做这个数的机器数。机器数是带符号的，在计算机用一个数的最高位存放符号, 正数为0, 负数为1.比如，十进制中的数 <strong>3</strong> ，计算机字长为8位，转换成二进制就是00000011。如果是 -3 ，就是 10000011 。那么，这里的 00000011 和 10000011 就是机器数。</p>
+
+<h4 id="真值">真值</h4>
+
+<p>因为第一位是符号位，所以机器数的形式值就不等于真正的数值。
+例如上面的有符号数10000011，其最高位1代表负，其真正数值是-3而不是形式值131（10000011转换成十进制等于131）。所以，为区别起见，将带符号位的机器数对应的真正数值称为机器数的真值。</br>
+例：0000 0001的真值 = +000 0001 = +1，1000 0001的真值 = –000 0001 = –1</p>
+
+<h3 id="原码概念">原码概念</h3>
+
+<p>数值X的原码记为[x]原，如果机器字长为n(即采用n个二进制位表示数据)。则<font color = "red">最高位是符号位。0表示正号，1表示负号</font>，其余的n-1位表示数值的绝对值。</br></p>
+
+<p>数值零的原码表示有两种形式:[+0]原=0000 0000   ,-[0]原=1000 0000.</p>
+
+<p>例子：若机器字长n等于8，则</p>
+
+<p>[+1]原=0000 00001           [-1]原=1000 00001  </p>
+
+<p>[+127]原=0111 1111          [-127]原=1111 1111</p>
+
+<p>[+45]原=0010 1101           [-45]原=1010 1101    </p>
+
+<p>可见，原码，在计算数值上出问题了，当然，你也可以实验下，原码在计算正数和正数的时候，它是一点问题都没有的，但是出现负数的时候就出现问题了。所以才会有我下面将的问题：反码</p>
+
+<h3 id="反码概念">反码概念</h3>
+
+<p>数值X的反码记作[x]反，如果机器字长为n，则<font color = "red">最高位是符号位，0表示正号，1表示负号</font>，<font color = "red"><strong>正数的反码与原码相同，负数的反码 则是其绝对值按位求反</strong></font>。</p>
+
+<p>数值0的反码表示有两种形式：[+0]反=0000 0000   ,-[0]反=1111 1111.</p>
+
+<p>例子：若机器字长n等于8，则</p>
+
+<p>[+1]反=0000 00001           [-1]反=1111 1110 </p>
+
+<p>[+127]反=0111 1111          [-127]反=1000 0000</p>
+
+<p>[+45]反=0010 1101           [-45]反=1101 0010  </p>
+
+<p>在看反码计算的问题：</p>
+
+<p>1+（-1）=0   |  （0000 0001）反+（1111 1110）反=（1111 1111）反=（1000 0000）原=【-0】  可以看到，虽然是-0，但是问题还不是很大</p>
+
+<p>1+（-2）=-1  |  （0000 0001）反+（1111 1101）反=（1111 1110）反=（1000 0001）原=【-1】  可以看到，没有问题</p>
+
+<p>-1+（2）=1   |  （1111 1110）反+（0000 0010）反=（0000 0000）反=（0000 0000）原=【0】  可以看到，问题发生了，因为溢出，导致结果变为0了。</p>
+
+<p>所以，看以看到，用反码表示，问题依然没有解决，所以，出现了下面的补码</p>
+
+<h3 id="补码概念">补码概念</h3>
+
+<p>数值X的补码记作[x]补，如果机器字长为n，则<font color = "red">最高位是符号位，0表示正号，1表示负号</font>，<font color = "red"><strong>正数的补码与原码反码都相同，负数的补码则等于其反码的末尾加1</strong></font>。</br>
+数值0的补码表示有唯一的编码：[+0]补=0000 0000   ,-[0]补=0000 0000.</p>
+
+<p>例子：若机器字长n等于8，则</p>
+
+<p>[+1]补=0000 00001           [-1]补=1111 1111  </br>
+[+127]补=0111 1111          [-127]补=1000 0001</br>
+[+45]补=0010 1101           [-45]补=1101 0011  </br></p>
+
+<p>在看补码计算的问题：</p>
+
+<pre><code>1+（-1）=0  |  （0000 0001）补+（1111 1111）补=（0000 0000）补=（0000 0000）原=【0】  可以看到。没有问题
+
+1+（-2）=-1 |  （0000 0001）补+（1111 1110）补=（1111 1111）补=（1000 0001）原=【-1】  可以看到，没有问题
+
+-1+（2）=1  |  （1111 1111）补+（0000 0010）补=（0000 0001）补 =（0000 0001）原=【1】  可以看到，没有问题
+</code></pre>
+
+<p>通过上面的计算，我们发现，用补码的方式，就不存在在原码和反码中存在的计算问题了。其实，这也是<font color = "red">计算机表达带符号整数用补码</font>的原因。如果，你觉得我举得例子太少，缺少代表行，你可以自己试试。不过，放心补码一定是不会存在原码和反码的问题的。</p>
+
+<p>明白了计算机中补数的道理，那么就明白补码的问题了。还是用例子说明：</p>
+
+<p>在计算机中计算十进制 1+（-2）。</p>
+
+<p>1的原码是：0000 0001</p>
+
+<p>-2的原码是：1000 0010</p>
+
+<p>-2的补码是：1111 1110   这个二进制换做无符号的整数大小就是254，而8位二进制数的M=2^8=256。（很多文章中把M写成2^7，这根本就是不对的，根本没有解决符号位的问题）</p>
+
+<p>你发现什么了没，当换成补码后，-2和254就是补数的关系。</p>
+
+<p>也就是1+（-2）  等价于了 1+254了。</p>
+
+<p>这样做，好处在什么地方，你自己都可以看得到：</p>
+
+<ol>
+<li><p>利用补数和溢出的原理，减法变成了加法</p></li>
+
+<li><p>符号位不在是约束计算的问题，不会存在原码中的问题了，因为变成补码后，虽然最高位依然是1，但是这个1就不在是最为符号位了，而是作为一个普通的二进制位，参与运算了。</p></li>
+</ol>
+
+<h4 id="补码计算规则">补码计算规则：</h4>
+
+<p><font color = "red"><strong>正数：原码 = 补码 = 反码</strong></font></p>
+
+<p><font color = "red"><strong>负数：反码 = 符号不变，其它位取反</strong></font></p>
+
+<p><font color = "red"><strong>补码 = 反码 + 1</strong></font></p>
+
+<table>
+<thead>
+<tr>
+<th>十进制数</th>
+<th>原码</th>
+<th>反码</th>
+<th>补码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>85</td>
+<td>0101 0101</td>
+<td>0101 0101</td>
+<td>0101 0101</td>
+</tr>
+
+<tr>
+<td>-85</td>
+<td>1101 0101</td>
+<td>1010 1010</td>
+<td>1010 1011</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>0000 1001</td>
+<td>0000 1001</td>
+<td>0000 1001</td>
+</tr>
+
+<tr>
+<td>-9</td>
+<td>1000 1001</td>
+<td>1111 0110</td>
+<td>1111 0111</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>请计算出 -1 + 1：</strong></br>
+<strong>十进制的 1 原码  :  0000 0000 0000 0001</strong></br>
+<strong>十进制的 -1 原码  : 1000 0000 0000 0001</strong></br>
+<strong>十进制的 -1 反码  :  1111  1111  1111  1110</strong></br>
+<strong>十进制的 -1 补码  :  1111  1111  1111  1111</strong></br></p>
+
+<p><strong>计算-1+1即得 ,即-1补码+1的补码</strong></br>
+<strong>1111 1111 1111 1111 + 0000 0000 0000 0001 = 0000 0000 0000 0000</strong></br>
+<strong>结果即为0</strong></p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019-08-19-MYSQL%e9%85%8d%e7%bd%ae%e8%af%bb%e5%8f%96" data-toggle="tooltip" data-placement="top" title="MYSQL配置读取">&larr;
+                            上一篇</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+<div id="git-comments"></div>
+
+
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+
+<script>
+  var gitment = new Gitment({
+    id: '原码-补码-反码', 
+    title: '原码-补码-反码',
+    owner: 'wangzitao6',
+    repo: 'wangzitao6.github.io',
+    oauth: {
+      client_id: 'a09fff4950f8823cd23b',
+      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+    }
+  })
+  gitment.render('git-comments')
+</script>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
+                            sql注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
+                            基础
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
+                            配置
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的学习笔记 2019
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135479251-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-135479251-2');
+</script>
+
+
+</body>
+</html>
