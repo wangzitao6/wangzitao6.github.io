@@ -6,7 +6,7 @@ date:         2019-08-24T11:13:05+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["java","基础"]
-url:    "/2019-08-24-Int类型强制转换byte类型/"
+url:    "/2019-08-24-int类型强制转换byte类型/"
 categories:  ["java"]
 showtoc: false   # 是否显示目录
 ---

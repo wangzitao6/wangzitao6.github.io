@@ -6,7 +6,7 @@ date:         2019-08-26T10:23:46+08:00  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
 tags:        ["java","基础"]
-url:    "/2019-08-26-Integer的IntegerCache/"
+url:    "/2019-08-26-integer的integerCache/"
 categories:  ["java"]
 showtoc: false   # 是否显示目录
 ---
