@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Java位运算"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="Java位运算 &middot; 王子滔的学习笔记" />
+  	<meta property="og:site_name" content="王子滔的学习笔记" />
+  	<meta property="og:url" content="https://wangzitao6.github.io/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/" />
+
+    
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-08-24T15:09:25&#43;08:00" />
+
+    
+    <meta property="article:tag" content="java" />
+    
+    <meta property="article:tag" content="基础" />
+    
+    
+
+    <title>Java位运算 &middot; 王子滔的学习笔记</title>
+
+    
+    <meta name="description" content="单位换算 bit：位 一个二进制数据0或1，是1bit； byte：字节 1 byte = 8 bit , 存储空间的基本计量单位； 一个英文字符占一个字节 1 字母 = 1 byte = 8" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
+
+    
+
+    
+
+    
+      
+          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="https://wangzitao6.github.io/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": 
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "url": ,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Java位运算,
+    "name": Java位运算,
+    "wordCount": 1826,
+    "timeRequired": "PT4M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": https://wangzitao6.github.io/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/,
+    "datePublished": 2019-08-24T15:09Z,
+    "dateModified": 2019-08-24T15:09Z,
+    
+    "keywords": java, 基础,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://wangzitao6.github.io/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Java位运算</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-08-24T15:09:25&#43;08:00">
+            Aug 24, 2019
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/java/">#java</a></span>
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/">#基础</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="单位换算">单位换算</h2>
+
+<ol>
+<li><p>bit：位
+一个二进制数据0或1，是1bit；</p></li>
+
+<li><p>byte：字节
+1 byte = 8 bit , 存储空间的基本计量单位；</p></li>
+
+<li><p>一个英文字符占一个字节
+1 字母 = 1 byte = 8 bit；</p></li>
+
+<li><p>一个汉字占2个字节
+1 汉字 = 2 byte = 16 bit；</p></li>
+</ol>
+
+<h2 id="支持的数据类型">支持的数据类型</h2>
+
+<p>首先明确一点，Java中的位运算是针对整型的数据类型进行运算的，所以操作数必须是一下五种之一。</p>
+
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>所占位数（bit）</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>byte</td>
+<td>8</td>
+</tr>
+
+<tr>
+<td>short</td>
+<td>16</td>
+</tr>
+
+<tr>
+<td>int</td>
+<td>32</td>
+</tr>
+
+<tr>
+<td>long</td>
+<td>64</td>
+</tr>
+
+<tr>
+<td>char</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="数据存储方式">数据存储方式</h2>
+
+<p>计算机中存储的数据最终是以二进制存储(补码存储)，如int类型的十进制数字10表示为32bit的二进制：</p>
+
+<p>0000 0000 0000 0000 0000 0000 0000 1010</p>
+
+<blockquote>
+<p>注：数据在计算机中都是以反码形式存在。正数的的原码与反码相同。
+    有关原码、反码、补码的知识，请看另一个章节<a href="https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">原码、反码、补码</a></p>
+</blockquote>
+
+<h2 id="位运算符">位运算符</h2>
+
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>按位与(<strong>对应位同为1时，才为1，否则全为0</strong>)</td>
+</tr>
+
+<tr>
+<td>|</td>
+<td>按位或(<strong>对应位只要有1时，即为1，否则全为0</strong>)</td>
+</tr>
+
+<tr>
+<td>~</td>
+<td>按位非(<strong>对每位进行取反</strong>)</td>
+</tr>
+
+<tr>
+<td>^</td>
+<td>按位异或(<strong>只要对应为不同即为1</strong>)</td>
+</tr>
+
+<tr>
+<td>&lt;&lt;</td>
+<td>左移(<strong>左移 左边最高位丢弃，右边补齐0</strong>)</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;</td>
+<td>右移(<strong>最高位是0，左边补齐0；最高为是1，左边补齐1</strong>)</td>
+</tr>
+
+<tr>
+<td>&lt;&lt;&lt;</td>
+<td>无符号右移(<strong>无论操作数是正数还是负数，高位都是补0</strong>)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="按位与">按位与 &amp;</h3>
+
+<p>规则：<strong><font color = "red"> 对应位同为1时，才为1，否则全为0（对应位只要有0，全为0，否则为1） </font></strong></p>
+
+<pre><code class="language-java">int a = 127;
+int b = 128;
+System.out.println(&quot;127 &amp; 128 的结果是：&quot;+(a &amp; b));
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code>127 &amp; 128 的结果是：0
+
+解析: 
+127的二进制(补码)：00000000 00000000 00000000 01111111
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 &amp; 规则结果：  00000000 00000000 00000000 00000000
+所以结果为0
+</code></pre>
+
+<h3 id="按位或">按位或 |</h3>
+
+<p>规则： <strong><font color = "red"> 对应位只要有1时，即为1，否则全为0（对应位只有全是0时，结果才是0，否则为1） </font></strong></p>
+
+<pre><code class="language-java">int a = 127;
+int b = 128;
+System.out.println(&quot;127 | 128 的结果是：&quot;+(a | b));
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code>127 | 128 的结果是：255
+
+解析: 
+127的二进制(补码)：00000000 00000000 00000000 01111111
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 | 规则结果：  00000000 00000000 00000000 11111111
+最高为0，为正数，原码补码一样，所以结果为255
+</code></pre>
+
+<h3 id="按位非">按位非 ~</h3>
+
+<p>规则： <strong><font color = "red">对每位进行取反 </font></strong></p>
+
+<pre><code class="language-java">int a = 128;
+System.out.println(&quot;~128 的结果是：&quot; + ~ a);
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code>~128 的结果是：-129
+
+解析: 
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 ~ 规则结果：  11111111 11111111 11111111 01111111
+最高为1，为负数。
+补码：11111111 11111111 11111111 01111111
+反码：11111111 11111111 11111111 01111110
+原码：10000000 00000000 00000000 10000001
+结果为 -129
+</code></pre>
+
+<h3 id="按位异或">按位异或 ^</h3>
+
+<p>规则： <strong><font color = "red"> 只要对应为不同即为1。 </font></strong></p>
+
+<pre><code class="language-java">int a = 127;
+int b = 128;
+System.out.println(&quot;127 ^ 128 的结果是：&quot; + (a ^  b));
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code>127 ^ 128 的结果是：255
+
+解析: 
+127的二进制(补码)：00000000 00000000 00000000 01111111
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 | 规则结果：  00000000 00000000 00000000 11111111
+最高为0，为正数，原码补码一样，所以结果为255
+</code></pre>
+
+<h3 id="位移动运算符">位移动运算符</h3>
+
+<h4 id="左移">左移 &lt;&lt;</h4>
+
+<p>规则：<strong><font color = "red"> &lt;&lt; :左移 左边最高位丢弃，右边补齐0; </font></strong></p>
+
+<ul>
+<li><strong>左移的规则只记住一点：丢弃最高位，0补最低位</strong></li>
+<li><strong>如果移动的位数超过了该类型的最大位数，那么编译器会对移动的位数取模</strong></li>
+</ul>
+
+<p>通用格式：</p>
+
+<pre><code>value &lt;&lt; num 
+num : 指要移位值   
+value : 指移动的位数。
+意思是value向左位移num位，左移num位，相当于乘以2^num
+</code></pre>
+
+<p>例如：</p>
+
+<pre><code class="language-java">int a = 1;
+System.out.println(&quot;1 &lt;&lt; 2 的结果是：&quot; + (a &lt;&lt; 2));
+</code></pre>
+
+<p>运行结果(图片来自于网络)：
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%B7%A6%E7%A7%BB2.png" alt="左移" /></p>
+
+<pre><code>1 &lt;&lt; 2 的结果是：4
+</code></pre>
+
+<h4 id="右移">右移 &gt;&gt;</h4>
+
+<p>规则：<strong><font color = "red"> &gt;&gt;:右移, 最高位是0(正数时)，左边补齐0；最高为是1(正数时)，左边补齐1，保持为负数；</font></strong></p>
+
+<p>m&gt;&gt;n即相当于m除以2的n次方，得到的为整数时，即为结果。如果结果为小数，此时会出现两种情况：</p>
+
+<p>1 如果m为正数，得到的商会无条件 的舍弃小数位；</p>
+
+<p>2 如果m为负数，舍弃小数部分，然后把整数部分加+1得到位移后的值。</p>
+
+<p>通用格式：</p>
+
+<pre><code>value &gt;&gt; num 
+num : 指要移位值   
+value : 指移动的位数。
+意思是value向左位移num位，左移num位，相当于除以2^num
+</code></pre>
+
+<p>例如：</p>
+
+<pre><code class="language-java">int a = 12;
+System.out.println(&quot;12 &gt;&gt; 2 的结果是：&quot; + (a &gt;&gt; 2));
+</code></pre>
+
+<p>运行结果(图片来自于网络，图中稍有错误，其中10应该为12)：
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%8F%B3%E7%A7%BB.png" alt="右移" /></p>
+
+<pre><code>1 &lt;&lt; 2 的结果是：4
+</code></pre>
+
+<h4 id="无符号右移">无符号右移 &gt;&gt;&gt;</h4>
+
+<p><strong><font color = "red">无符号右移&gt;&gt;&gt; 与 右移&gt;&gt; 的区别就是无论操作数是正数还是负数，高位都是补0</font></strong></p>
+
+<pre><code class="language-java">int a = 12;
+System.out.println(&quot;12 &gt;&gt;&gt; 2 的结果是：&quot; + (a &gt;&gt;&gt; 2));
+
+int b = -12;
+System.out.println(&quot;-12 &gt;&gt;&gt; 2 的结果是：&quot; + (b &gt;&gt;&gt; 2));
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code>12 &gt;&gt;&gt; 2 的结果是：3
+-12 &gt;&gt;&gt; 2 的结果是：1073741821
+
+解析: 
+12 &gt;&gt;&gt; 2 跟 12 &gt;&gt; 2 过程一样，上面有过程，我们说下 -12 &gt;&gt;&gt; 2
+-12的原码：        10000000 00000000 00000000 00001100
+-12的二进制(补码): 11111111 11111111 11111111 11110100
+右移2位：           11111111 11111111 11111111 11110100
+补齐：            0011111111 11111111 11111111 111101
+注意这个补齐因为是无符号的，最高位补0，结果为正数
+最高为0，为正数，原码补码一样，所以结果为的结果是：1073741821
+</code></pre>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Java%e4%bd%8d%e8%bf%90%e7%ae%97&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-24-java%25E4%25BD%258D%25E8%25BF%2590%25E7%25AE%2597%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-08-24-java%25E4%25BD%258D%25E8%25BF%2590%25E7%25AE%2597%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-24-java%25E4%25BD%258D%25E8%25BF%2590%25E7%25AE%2597%2f&amp;description=Java%e4%bd%8d%e8%bf%90%e7%ae%97"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-24-java%25E4%25BD%258D%25E8%25BF%2590%25E7%25AE%2597%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2019-08-26-integer%E7%9A%84integercache/">
+          <section class="post">
+              <h2>Integer的IntegerCache</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/">
+          <section class="post">
+              <h2>Int类型强制转换byte类型</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    
+</body>
+</html>
+

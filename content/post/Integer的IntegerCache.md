@@ -8,7 +8,7 @@ image:   ""
 tags:        ["java","基础"]
 url:    "/2019-08-26-Integer的IntegerCache/"
 categories:  ["java"]
-showtoc: true   # 是否显示目录
+showtoc: false   # 是否显示目录
 ---
 
 首先我们来看这样一个例子:
