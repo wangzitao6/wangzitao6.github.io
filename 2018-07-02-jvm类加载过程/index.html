@@ -18,15 +18,15 @@
     
 
     
-    <meta name="title" content="gitment登录失败" />
-    <meta property="og:title" content="gitment登录失败" />
-    <meta property="twitter:title" content="gitment登录失败" />
+    <meta name="title" content="Jvm类加载过程" />
+    <meta property="og:title" content="Jvm类加载过程" />
+    <meta property="twitter:title" content="Jvm类加载过程" />
     
 
     
-    <meta name="description" content="博客评论插件gitment登录失败修复">
-    <meta property="og:description" content="博客评论插件gitment登录失败修复" />
-    <meta property="twitter:description" content="博客评论插件gitment登录失败修复" />
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>gitment登录失败</title>
+    <title>Jvm类加载过程</title>
 
-    <link rel="canonical" href="/2018-06-12-gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5/">
+    <link rel="canonical" href="/2018-07-02-jvm%e7%b1%bb%e5%8a%a0%e8%bd%bd%e8%bf%87%e7%a8%8b/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -181,26 +181,26 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/blog" title="blog">
-                            blog
+                        <a class="tag" href="/tags/java" title="java">
+                            java
                         </a>
                         
-                        <a class="tag" href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                            其他
+                        <a class="tag" href="/tags/jvm" title="jvm">
+                            jvm
                         </a>
                         
                     </div>
-                    <h1>gitment登录失败</h1>
-                    <h2 class="subheading">gitment登录失败</h2>
+                    <h1>Jvm类加载过程</h1>
+                    <h2 class="subheading">Jvm类加载过程</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Tuesday, June 12, 2018
+			Monday, July 2, 2018
                         
-                            <span id="/2018-06-12-gitment登录失败/" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2018-07-02-jvm类加载过程/" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -362,70 +362,40 @@ $(function() {
 <ul>
 <li>
 <ul>
-<li><a href="#gitment登录失败">gitment登录失败</a></li>
-<li><a href="#解决方法">解决方法</a>
-<ul>
-<li><a href="#1-本地解决">1.本地解决</a></li>
-<li><a href="#2-借用别人的服务">2.借用别人的服务</a></li>
-<li><a href="#3-自己搭建服务">3.自己搭建服务</a></li>
-</ul></li>
+<li><a href="#什么是类加载">什么是类加载</a></li>
+<li><a href="#类加载的时机">类加载的时机</a></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<h2 id="gitment登录失败">gitment登录失败</h2>
+<h2 id="什么是类加载">什么是类加载</h2>
 
-<p>搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名<a href="https://gh-oauth.imsun.net证书过期了">https://gh-oauth.imsun.net证书过期了</a>,
-地址:<code>https://github.com/imsun/gitment/issues/170</code>
-里面有几种解决方法</p>
+<p>虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，这就是虚拟机的类加载机制。</p>
 
-<h2 id="解决方法">解决方法</h2>
+<h2 id="类加载的时机">类加载的时机</h2>
 
-<h3 id="1-本地解决">1.本地解决</h3>
+<p>类从被加载到虚拟内存中开始，到卸载出内存位置，它的生命周期包括：<strong><font color = "red"> 加载
+（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化
+（Initialization）、使用（Using）和卸载（Unloading）</font></strong>7个阶段。其中验证、准备、解析3
+个部分统称为 <strong><font color = "red">连接（Linking）</font></strong>,这7个阶段的发生顺序如下图所示。</p>
 
-<p>由于引入的 gitment.js 中有这样的一段代码：</p>
+<p>载、验证、准备、初始化和卸载这5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。</p>
 
-<pre><code>   _utils.http.post('https://gh-oauth.imsun.net', {
-      code: code,
-      client_id: client_id,
-      client_secret: client_secret
-    }, '').then(function (data) {
-      _this.accessToken = data.access_token;
-      _this.update();
-    }).catch(function (e) {
-      _this.state.user.isLoggingIn = false;
-      alert(e);
-    });
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/1.png" alt="" /></p>
 
-</code></pre>
+<p>什么情况下需要开始类加载过程的第一个阶段：加载？Java虚拟机规范中并没有进行强制约束，这点可以交给虚拟机的具体实现来自由把握。但是对于初始化阶段，虚拟机规范则是严格规定了有且只有5种情况必须立即对类进行“初始化”（而加载、验证、准备自然需要在此之前开始）：</p>
 
-<p>请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
-这里可以直接改为请求 github 认证的接口</p>
+<p>1.遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见的Java代码场景是：使用new关键字实例化对象的时候、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</p>
 
-<pre><code> _utils.http.post('https://github.com/login/oauth/access_token', {...}
-</code></pre>
+<p>2.使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</p>
 
-<p>就可以了,不用经过作者的服务</p>
+<p>3.当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p>
 
-<h3 id="2-借用别人的服务">2.借用别人的服务</h3>
+<p>4.当虚拟机启动时，用户需要指定一个要执行的主类（包含main（）方法的那个类），虚拟机会先初始化这个主类。</p>
 
-<p>由于作者貌似已经弃坑,无法登陆的问题一直没有得到修复,许多大牛已经自己搭建了服务,可以在征得他们同意后,修改配置</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png" alt="" /></p>
-
-<p>把Install那一步换成这两个：</p>
-
-<pre><code>   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://jjeejj.github.io/css/gitment.css&quot;&gt;
-   &lt;script src=&quot;https://www.wenjunjiang.win/js/gitment.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-
-<h3 id="3-自己搭建服务">3.自己搭建服务</h3>
-
-<p>这个我没有试过,有兴趣的朋友可以参考这里:</p>
-
-<p><strong><a href="https://smalbox.club/2018/10/24/an-zhuang-gitment-ji-chang-jian-wen-ti-jie-jue/">参考链接</a></strong></p>
+<p>5.当使用JDK 1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</p>
 
 
                 
@@ -434,13 +404,13 @@ $(function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018-06-05-%e8%99%9a%e6%8b%9f%e6%9c%bahotspot%e9%80%89%e9%a1%b9%e7%ac%94%e8%ae%b0" data-toggle="tooltip" data-placement="top" title="HotSpot选项笔记">&larr;
+                        <a href="/2018-06-12-gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5/" data-toggle="tooltip" data-placement="top" title="gitment登录失败">&larr;
                             上一篇</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018-07-02-jvm%e7%b1%bb%e5%8a%a0%e8%bd%bd%e8%bf%87%e7%a8%8b/" data-toggle="tooltip" data-placement="top" title="Jvm类加载过程">下一篇 &rarr;</a>
+                        <a href="/2018-07-02-java%e4%b8%ad%e9%9d%99%e6%80%81%e4%bb%a3%e7%a0%81%e5%9d%97%e3%80%81%e4%bb%a3%e7%a0%81%e5%9d%97%e3%80%81main%28%29%e6%96%b9%e6%b3%95%e5%92%8c%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%8a%a0%e8%bd%bd%e9%a1%ba%e5%ba%8f/" data-toggle="tooltip" data-placement="top" title="Java中静态代码块、代码块、main()方法和构造函数加载顺序">下一篇 &rarr;</a>
                     </li>
                     
                 </ul>
@@ -456,8 +426,8 @@ $(function() {
 
 <script>
   var gitment = new Gitment({
-    id: 'gitment登录失败', 
-    title: 'gitment登录失败',
+    id: 'jvm类加载过程', 
+    title: 'jvm类加载过程',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
