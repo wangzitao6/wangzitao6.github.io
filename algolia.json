@@ -192,6 +192,26 @@
         ]
     },
     {
+        "title": "Java中静态代码块、代码块、main()方法和构造函数加载顺序",
+        "uri": "post/java中静态代码块、代码块、main()方法和构造函数加载顺序",
+        "content": "staitc   jvm                                                                  main                         java        public ClassLoadDemo    System out println                                                                                                                             java           System out println                                                                                                                                                                                                                                                                        java         public ClassLoadDemo    System out println                                                                                                                                                                           java public class ClassLoadDemo   private static int num   1          static  num   num   6      main   public static void main String   args    System out println  num     num             static  num   num   5            num  2          demo1   java public class ClassA          public ClassA    System out println     ClassA                  static  System out println     ClassA                     System out println     ClassA             main   public static void main String   args                 ClassA        demo2  ClassA          java public class ClassA          public ClassA    System out println     ClassA                  static  System out println     ClassA                     System out println     ClassA             main   public static void main String   args    ClassA   new ClassA                 ClassA         ClassA         ClassA       demo3  ClassA            java public class ClassA          public ClassA    System out println     ClassA                  static  System out println     ClassA                     System out println     ClassA             main   public static void main String   args    ClassA   new ClassA    ClassA b   new ClassA                 ClassA         ClassA         ClassA        ClassA         ClassA                           1           2           3                                                                            demo4            ClassA       java public class ClassA              public static String staticField                    public String field                public ClassA     System out println     ClassA                  static   System out println  staticField    System out println     ClassA                     System out println  field   System out println     ClassA             main   public static void main String   args    ClassA   new ClassA                      ClassA            ClassA         ClassA                           Class                        demo5   java public class ClassA          public ClassA     System out println     ClassA                  static   System out println     ClassA                     System out println     ClassA             public class ClassB extends ClassA         public ClassB    System out println     ClassB                  static  System out println     ClassB                     System out println     ClassB           main   public static void main String   args    ClassB b   new ClassB          ClassB       ClassA         ClassB         ClassA         ClassA        ClassB       ClassB                                                                                                                                                  Java          java public class ClassA              public static String p_StaticField                        public String p_Field             protected int   9  protected int j   0         public ClassA     System out println               System out println   i          j     j    j   20            static   System out println  p_StaticField    System out println                            System out println  p_Field   System out println                    public class ClassB extends ClassA             public static String s_StaticField                        public String s_Field                    public ClassB    System out println               System out println   i         j     j              static  System out println  s_StaticField    System out println                            System out println  s_Field    System out println                  main   public static void main String   args    System out println     main       ClassB b   new ClassB                                                        main                               i 9  j 0                           i 9 j 20                                                                                              ClassB main        static                    ClassB        ClassB class                            extends                                                                         static              static                         static                                         main        new ClassB          ClassB                     super",
+        "objectID": "post/java中静态代码块、代码块、main()方法和构造函数加载顺序",
+        "subtitle": "Java中静态代码块、代码块、main()方法和构造函数加载顺序",
+        "description": "",
+        "date": "2018-07-02T02:38:28.000Z",
+        "author": "WangZiTao",
+        "image": "",
+        "tags": [
+            "java",
+            "jvm"
+        ],
+        "url": "/2018-07-02-java中静态代码块、代码块、main()方法和构造函数加载顺序/",
+        "categories": [
+            "jvm"
+        ],
+        "showtoc": true
+    },
+    {
         "title": "Java位运算",
         "uri": "post/java位运算",
         "content": "bit          0 1  1bit  byte    1 byte   8 bit                            1      1 byte   8 bit       2    1      2 byte   16 bit                 Java                                                 bit                               byte  8  short  16  int  32  long  64  char  16                                  int        10   32bit      0000 0000 0000 0000 0000 0000 0000 1010                                                                                                                  1    1     0                  1    1     0                                     1                  0                0     0     1     1                     0                    1    1     0       0   0    1     java int   127  int b   128  System out println  127   128         a   b              127   128      0     127         00000000 00000000 00000000 01111111 128         00000000 00000000 00000000 10000000            00000000 00000000 00000000 00000000      0                     1    1     0        0      0    1     java int   127  int b   128  System out println  127   128         a   b              127   128      255     127         00000000 00000000 00000000 01111111 128         00000000 00000000 00000000 10000000            00000000 00000000 00000000 11111111    0                 255                      java int   128  System out println   128            a              128       129     128         00000000 00000000 00000000 10000000            11111111 11111111 11111111 01111111    1         11111111 11111111 11111111 01111111    11111111 11111111 11111111 01111110    10000000 00000000 00000000 10000001      129                         1     java int   127  int b   128  System out println  127   128           a   b              127   128      255     127         00000000 00000000 00000000 01111111 128         00000000 00000000 00000000 10000000            00000000 00000000 00000000 11111111    0                 255                                 0                                               value                   0          0     1          1         m  n    m  2 n                                   1   m                     2   m                    1                 value    num num         value              value    num    num       2 num        java int   12  System out println  12    2           a    2                            10   12     1                                           0  java int   12  System out println  12     2           a     2    int b    12  System out println   12     2           b     2              12     2      3  12     2      1073741821     12     2   12    2                  12     2  12     10000000 00000000 00000000 00001100  12          11111111 11111111 11111111 11110100   2   11111111 11111111 11111111 11110100     0011111111 11111111 11111111 111101                   0          0                      1073741821",
@@ -208,6 +228,46 @@
         "url": "/2019-08-24-java位运算/",
         "categories": [
             "java"
+        ],
+        "showtoc": true
+    },
+    {
+        "title": "Java常量池理解与总结",
+        "uri": "post/Java常量池理解与总结",
+        "content": "final                        final                                    JVM                                         class                                 Literal    java              final            Symbolic References                                                                                                                             Class                            Literal        Symbolic References        Java                    final                                                                                             CLass                                                                                               CLass                     Java                            CLass                                                         String  intern                                                                                                                                          equals                                         8              Java     java                        Byte Short Integer Long Character Boolean   java Integer i1   40  Integer i2   40  System out println i1  i2      TRUE    5             128 127                                java   Integer        public static Integer valueOf int i    assert IntegerCache high    127   i    IntegerCache low          new         null                                 java String str1    str   String str2    ing   String str3    str     ing   String str4   str1   str2  System out println str3    str4    false String str5    string   System out println str3    str5    true   java            1  java public static final String    ab        A public static final String B    cd        B public static void main String   args    String s     B               s      String t    abcd    s    t    System out println  s  t               else   System out println  s   t                       s  t            A B             s                           String s A B      String s  ab   cd     2  java public static final String A       A public static final String B       B static      ab   B    cd     public static void main String   args                 s      String s     B  String t    abcd    s    t    System out println  s  t               else   System out println  s   t                      s   t             A B                          s                                A B                   s                        String s1   new String  xyz    String s1   new String  xyz                                            xyz                             xyz                      xyz                                            xyz       String                                     heap     heap           s1            2     java lang String intern            CLass                     Java                            CLass                                                         String  intern      String intern                  equal                                          java public static void main String   args    String s1   new String         String s2   s1 intern    String s3          System out println  s1    s2       s1    s2    System out println  s3    s2       s3    s2           s1    s2  false s3    s2  true                  java public class Test   public static void main String   args    String hello    Hello   lo    lo   System out println  hello     Hello           System out println  Other hello    hello          System out println  other Other hello    hello          System out println  hello      Hel   lo            System out println  hello      Hel  lo           System out println hello      Hel  lo  intern         class   static String hello    Hello     package other  public class   public static String hello    Hello          true true true true false true               String                String                   String        class                          String                               String",
+        "objectID": "post/Java常量池理解与总结",
+        "subtitle": "Java常量池理解与总结",
+        "description": "",
+        "date": "2019-09-02T08:47:28.000Z",
+        "author": "WangZiTao",
+        "image": "",
+        "tags": [
+            "java",
+            "jvm"
+        ],
+        "url": "/2018-07-03-java常量池理解与总结/",
+        "categories": [
+            "jvm"
+        ],
+        "showtoc": true
+    },
+    {
+        "title": "Jvm类加载过程",
+        "uri": "post/jvm类加载过程",
+        "content": "Class                                         java                                                               Loading     Verification     Preparation     Resolution       Initialization     Using     Unloading   7              3           Linking   7                              5                                                                      Java                                                Java                                                              5                                       1   new getstatic putstatic invokestatic 4                                  4        Java        new                           final                                             2   java lang reflect                                        3                                            4                          main                        5    JDK 1 7             java lang invoke MethodHandle         REFgetStatic REFputStatic REF_invokeStatic",
+        "objectID": "post/jvm类加载过程",
+        "subtitle": "Jvm类加载过程",
+        "description": "",
+        "date": "2018-07-02T02:05:16.000Z",
+        "author": "WangZiTao",
+        "image": "",
+        "tags": [
+            "java",
+            "jvm"
+        ],
+        "url": "/2018-07-02-jvm类加载过程/",
+        "categories": [
+            "jvm"
         ],
         "showtoc": true
     },

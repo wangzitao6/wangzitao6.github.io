@@ -18,9 +18,9 @@
     
 
     
-    <meta name="title" content="Java中静态代码块、代码块、main()方法和构造函数加载顺序" />
-    <meta property="og:title" content="Java中静态代码块、代码块、main()方法和构造函数加载顺序" />
-    <meta property="twitter:title" content="Java中静态代码块、代码块、main()方法和构造函数加载顺序" />
+    <meta name="title" content="Java常量池理解与总结" />
+    <meta property="og:title" content="Java常量池理解与总结" />
+    <meta property="twitter:title" content="Java常量池理解与总结" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Java中静态代码块、代码块、main()方法和构造函数加载顺序</title>
+    <title>Java常量池理解与总结</title>
 
-    <link rel="canonical" href="/2018-07-02-java%e4%b8%ad%e9%9d%99%e6%80%81%e4%bb%a3%e7%a0%81%e5%9d%97%e3%80%81%e4%bb%a3%e7%a0%81%e5%9d%97%e3%80%81main%28%29%e6%96%b9%e6%b3%95%e5%92%8c%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%8a%a0%e8%bd%bd%e9%a1%ba%e5%ba%8f/">
+    <link rel="canonical" href="/2018-07-03-java%e5%b8%b8%e9%87%8f%e6%b1%a0%e7%90%86%e8%a7%a3%e4%b8%8e%e6%80%bb%e7%bb%93/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -190,17 +190,17 @@
                         </a>
                         
                     </div>
-                    <h1>Java中静态代码块、代码块、main()方法和构造函数加载顺序</h1>
-                    <h2 class="subheading">Java中静态代码块、代码块、main()方法和构造函数加载顺序</h2>
+                    <h1>Java常量池理解与总结</h1>
+                    <h2 class="subheading">Java常量池理解与总结</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Monday, July 2, 2018
+			Monday, September 2, 2019
                         
-                            <span id="/2018-07-02-java中静态代码块、代码块、main()方法和构造函数加载顺序/" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2018-07-03-java常量池理解与总结/" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -362,370 +362,271 @@ $(function() {
 <ul>
 <li>
 <ul>
-<li><a href="#构造函数">构造函数</a></li>
-<li><a href="#构造代码块">构造代码块</a></li>
-<li><a href="#静态代码块">静态代码块</a></li>
-<li><a href="#类初始化顺序">类初始化顺序</a></li>
-<li><a href="#继承下的类初始化顺序">继承下的类初始化顺序</a></li>
-<li><a href="#分析">分析</a></li>
+<li><a href="#什么是常量">什么是常量</a></li>
+<li><a href="#jvm常量池">JVM常量池</a>
+<ul>
+<li><a href="#静态常量池-class文件中的常量池">静态常量池（Class文件中的常量池）</a></li>
+<li><a href="#常量池的好处">常量池的好处</a></li>
+<li><a href="#java基本类型">Java基本类型</a></li>
+<li><a href="#java浮点类型">Java浮点类型</a></li>
+</ul></li>
+<li><a href="#string类和常量池">String类和常量池</a>
+<ul>
+<li><a href="#string对象创建方式">String对象创建方式</a></li>
+<li><a href="#连接表达式">连接表达式 +</a></li>
+<li><a href="#string-s1-new-string-xyz">String s1 = new String(&ldquo;xyz&rdquo;)</a></li>
+<li><a href="#java-lang-string-intern">java.lang.String.intern()</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<blockquote>
-<p>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。</br>
-构造代码块：类中直接用{}定义，每一次创建对象时执行。</br>
-同一个类中，执行顺序优先级：<strong>静态代码块 &gt; main() &gt; 构造代码块 &gt; 构造函数</strong>。</p>
-</blockquote>
+<h2 id="什么是常量">什么是常量</h2>
 
-<h2 id="构造函数">构造函数</h2>
+<p>用final修饰的成员变量表示常量，值一但确定就无法修改。
+final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类型的常量</p>
 
-<pre><code class="language-java">//构造函数
-public ClassLoadDemo(){
-    System.out.println(&quot;这里是构造函数&quot;);
-}
+<h2 id="jvm常量池">JVM常量池</h2>
+
+<p>常量池大体可以分为两种：<strong>静态常量池</strong>和<strong>运行时常量池</strong>。
+* 静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。
+* 运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。</p>
+
+<h3 id="静态常量池-class文件中的常量池">静态常量池（Class文件中的常量池）</h3>
+
+<p>常量池主要用于存放两大类常量：字面量(Literal)和符号引用量(Symbolic References)，字面量相当于Java语言层面常量的概念，如文本字符串，声明为final的常量值等，符号引用则属于编译原理方面的概念，包括了如下三种类型的常量：</p>
+
+<ul>
+<li>类和接口的全限定名</li>
+<li>字段名称和描述符</li>
+<li>方法名称和描述符</li>
+</ul>
+
+<p>###　方法区中的运行时常量池</p>
+
+<p>运行时常量池是方法区的一部分。
+CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项<strong>信息是常量池，用于存放编译期生成的各种字面量和符号引用</strong>，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+
+<p>运行时常量池相对于CLass文件常量池的另外一个重要特征是<strong>具备动态性</strong>，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。</p>
+
+<h3 id="常量池的好处">常量池的好处</h3>
+
+<p>常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享。
+例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。
+1. 节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。
+2. 节省运行时间：比较字符串时，&rdquo;\==&ldquo;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。</p>
+
+<p>##　8种基本类型的包装类和常量池</p>
+
+<h3 id="java基本类型">Java基本类型</h3>
+
+<p>java中基本类型的包装类的大部分都实现了常量池技术,即Byte,Short,Integer,Long,Character,Boolean；</p>
+
+<pre><code class="language-java">  Integer i1 = 40;
+  Integer i2 = 40;
+  System.out.println(i1==i2);//输出TRUE
 </code></pre>
 
-<p>注意：</br>
-1. 对象一建立，就会调用与之相应的构造函数，也就是说，不建立对象，构造函数时不会运行的。</br>
-2. <strong>构造函数的作用是用于给对象进行初始化</strong>。</br>
-3. 一个对象建立，构造函数只运行一次，而一般方法可以被该对象调用多次。</p>
+<p>这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。</p>
 
-<h2 id="构造代码块">构造代码块</h2>
-
-<pre><code class="language-java">//构造代码块
-{
-    System.out.println(&quot;这里是构造代码块&quot;);
-}
+<pre><code class="language-java">//Integer 缓存代码 ：
+public static Integer valueOf(int i) {
+        assert IntegerCache.high &gt;= 127;
+        if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+            return IntegerCache.cache[i + (-IntegerCache.low)];
+        return new Integer(i);
+    }
+  Integer i1 = 400;
+  Integer i2 = 400;
+  System.out.println(i1==i2);//输出false
 </code></pre>
 
-<p>注意：</br>
-1. <strong>构造代码块的作用是给对象进行初始化</strong>。</br>
-2. <strong>对象一建立就运行构造代码块了，而且优先于构造函数执行</strong>。这里要强调一下，有对象建立，才会运行构造代码块，类不能调用构造代码块的。</br>
-3. 构造代码块与构造函数的区别是：<strong>构造代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化</strong>，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，<strong>构造代码块中定义的是不同对象共性的初始化内容，所以构造代码块优先于构造函数执行</strong>。</p>
+<h3 id="java浮点类型">Java浮点类型</h3>
 
-<h2 id="静态代码块">静态代码块</h2>
+<p>两种浮点数类型的包装类Float,Double并没有实现常量池技术。</p>
 
-<pre><code class="language-java">//静态代码块
-public ClassLoadDemo(){
-    System.out.println(&quot;这里是构造函数&quot;);
-}
+<pre><code class="language-java">   Double i1=1.2;
+   Double i2=1.2;
+   System.out.println(i1==i2);//输出false
 </code></pre>
 
-<p>注意：</br>
-1. 它是随着类的加载而执行，只执行一次，并优先于主函数。具体说，静态代码块是由类调用的。类调用时，先执行静态代码块，然后才执行主函数的。</br>
-2. 静态代码块其实就是给类初始化的，而构造代码块是给对象初始化的。</br>
-3. 静态代码块中的变量是局部变量，与普通函数中的局部变量性质没有区别。</br>
-4. 一个类中可以有多个静态代码块。</br></p>
+<p>应用常量池的场景
+(1)<code>Integer i1=40</code>；Java在编译的时候会直接将代码封装成<code>Integer i1=Integer.valueOf(40)</code>;，从而使用常量池中的对象。
+(2)<code>Integer i1 = new Integer(40)</code>;这种情况下会创建新的对象。</p>
 
-<pre><code class="language-java">public class ClassLoadDemo {
-    private static int num = 1;
-
-    //静态代码块
-    static{
-        num = num + 6;
-    }
-    //main()
-    public static void main(String[] args) {
-        System.out.println(&quot;num: &quot;+ num);
-    }
-    //静态代码块
-    static{
-        num = num - 5;
-    }
-}
-
-输出结果： num: 2
+<pre><code class="language-java">  Integer i1 = 40;
+  Integer i2 = new Integer(40);
+  System.out.println(i1==i2);//输出false
 </code></pre>
 
-<h2 id="类初始化顺序">类初始化顺序</h2>
+<p>Integer比较更丰富的一个例子</p>
 
-<p>demo1:</p>
-
-<pre><code class="language-java">public class ClassA {
-
-    //构造函数
-    public ClassA(){
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        
-    }
-}
-
-运行结果: 这里是ClassA静态代码块
+<pre><code class="language-java">  Integer i1 = 40;
+  Integer i2 = 40;
+  Integer i3 = 0;
+  Integer i4 = new Integer(40);
+  Integer i5 = new Integer(40);
+  Integer i6 = new Integer(0);
+  
+  System.out.println(&quot;i1=i2   &quot; + (i1 == i2));
+  System.out.println(&quot;i1=i2+i3   &quot; + (i1 == i2 + i3));
+  System.out.println(&quot;i1=i4   &quot; + (i1 == i4));
+  System.out.println(&quot;i4=i5   &quot; + (i4 == i5));
+  System.out.println(&quot;i4=i5+i6   &quot; + (i4 == i5 + i6));   
+  System.out.println(&quot;40=i5+i6   &quot; + (40 == i5 + i6));  
 </code></pre>
 
-<p>demo2:对ClassA对象进行初始化。</p>
+<p>结果为：</p>
 
-<pre><code class="language-java">public class ClassA {
-
-    //构造函数
-    public ClassA(){
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        ClassA a = new ClassA();
-    }
-}
-
-
-运行结果: 
-这里是ClassA静态代码块
-这里是ClassA构造代码块
-这里是ClassA构造函数
+<pre><code class="language-java">i1=i2   true
+i1=i2+i3   true
+i1=i4   false
+i4=i5   false
+i4=i5+i6   true
+40=i5+i6   true
 </code></pre>
 
-<p>demo3:对ClassA对象进行初始化两次。</p>
+<p>解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
+Java中的自动装箱与拆箱</p>
 
-<pre><code class="language-java">public class ClassA {
+<h2 id="string类和常量池">String类和常量池</h2>
 
-    //构造函数
-    public ClassA(){
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        ClassA a = new ClassA();
-        ClassA b = new ClassA();
-    }
-}
+<h3 id="string对象创建方式">String对象创建方式</h3>
 
-运行结果：
-这里是ClassA静态代码块
-这里是ClassA构造代码块
-这里是ClassA构造函数
-这里是ClassA构造代码块
-这里是ClassA构造函数
+<pre><code class="language-java">String str1 = &quot;abcd&quot;;
+String str2 = new String(&quot;abcd&quot;);
+System.out.println(str1==str2);//false
 </code></pre>
 
-<blockquote>
-<p>对于一个类而言，按照如下顺序执行：</p>
+<p>这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
+<strong>只要使用new方法，便需要创建新的对象</strong>。</p>
+
+<h3 id="连接表达式">连接表达式 +</h3>
 
 <ol>
-<li>执行静态代码块</li>
-<li>执行构造代码块</li>
-<li>执行构造函数</li>
+<li>只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。</br></li>
+
+<li><p>对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。</p>
+
+<pre><code class="language-java">String str1 = &quot;str&quot;;
+String str2 = &quot;ing&quot;;
+
+String str3 = &quot;str&quot; + &quot;ing&quot;;
+String str4 = str1 + str2;
+System.out.println(str3 == str4);//false
+
+String str5 = &quot;string&quot;;
+System.out.println(str3 == str5);//true
+</code></pre></li>
 </ol>
 
-<p>对于静态变量、静态初始化块、变量、初始化块、构造器，它们的初始化顺序依次是（静态变量、静态初始化块）&gt;（变量、初始化块）&gt;构造器。</p>
-</blockquote>
+<p><a href="https://www.jianshu.com/p/88aa19fc21c6">java基础：字符串的拼接</a></p>
 
-<p>demo4: 加入静态变量、静态对ClassA进行初始化</p>
+<p>特例1</p>
 
-<pre><code class="language-java">public class ClassA {
-    /* 静态变量 */
-    public static String staticField = &quot;静态变量&quot;;
-    /* 变量 */
-    public String field = &quot;变量&quot;;
-
-    //构造函数
-    public ClassA() {
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-
-    //静态代码块
-    static {
-        System.out.println( staticField );
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-
-    //构造代码块
-    {
-        System.out.println( field);
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-
-    //main()
-    public static void main(String[] args) {
-        ClassA a = new ClassA();
-    }
-}
-
-运行结果:
-
-静态变量
-这里是ClassA静态代码块
-变量
-这里是ClassA构造代码块
-这里是ClassA构造函数
+<pre><code class="language-java">public static final String A = &quot;ab&quot;; // 常量A
+public static final String B = &quot;cd&quot;; // 常量B
+public static void main(String[] args) {
+     String s = A + B;  // 将两个常量用+连接对s进行初始化 
+     String t = &quot;abcd&quot;;   
+    if (s == t) {   
+         System.out.println(&quot;s等于t，它们是同一个对象&quot;);   
+     } else {   
+         System.out.println(&quot;s不等于t，它们不是同一个对象&quot;);   
+     }   
+ } 
+结果为:
+s等于t，它们是同一个对象
 </code></pre>
 
-<h2 id="继承下的类初始化顺序">继承下的类初始化顺序</h2>
+<p>A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&ldquo;ab&rdquo;+&ldquo;cd&rdquo;;</p>
 
-<p>上面我们说的是单独Class下的加载顺序，下面我们讨论下继承下的加载顺序。</p>
+<p>特例2</p>
 
-<p>demo5:</p>
-
-<pre><code class="language-java">public class ClassA {
-
-    //构造函数
-    public ClassA() {
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static {
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-}
-
-public class ClassB extends ClassA{
-
-    //构造函数
-    public ClassB(){
-        System.out.println(&quot;这里是ClassB构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassB静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassB代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        ClassB b = new ClassB();
-    }
-}
-
-运行ClassB结果：
-
-这里是ClassA静态代码块
-这里是ClassB静态代码块
-这里是ClassA构造代码块
-这里是ClassA构造函数
-这里是ClassB代码块
-这里是ClassB构造函数
+<pre><code class="language-java">public static final String A; // 常量A
+public static final String B;    // 常量B
+static {   
+     A = &quot;ab&quot;;   
+     B = &quot;cd&quot;;   
+ }   
+ public static void main(String[] args) {   
+    // 将两个常量用+连接对s进行初始化   
+     String s = A + B;   
+     String t = &quot;abcd&quot;;   
+    if (s == t) {   
+         System.out.println(&quot;s等于t，它们是同一个对象&quot;);   
+     } else {   
+         System.out.println(&quot;s不等于t，它们不是同一个对象&quot;);   
+     }   
+ } 
+ 结果：
+ s不等于t，它们不是同一个对象
 </code></pre>
 
-<p>注意：</br>
-当涉及到继承时，按照如下顺序执行：</br>
-1. 执行父类的静态代码块，并初始化父类静态成员变量</br>
-2. 执行子类的静态代码块，并初始化子类静态成员变量</br>
-3. 执行父类的构造代码块，执行父类的构造函数，并初始化父类普通成员变量</br>
-4. 执行子类的构造代码块， 执行子类的构造函数，并初始化子类普通成员变量</p>
+<p>A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。</p>
 
-<p>Java初始化顺序如图：
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/2.png" alt="" /></p>
+<h3 id="string-s1-new-string-xyz">String s1 = new String(&ldquo;xyz&rdquo;)</h3>
 
-<pre><code class="language-java">public class ClassA {
-    /* 静态变量 */
-    public static String p_StaticField = &quot;父类--静态变量&quot;;
-    /* 变量 */
-    public String    p_Field = &quot;父类--变量&quot;;
-    protected int    i    = 9;
-    protected int    j    = 0;
+<p><code>String s1 = new String(&quot;xyz&quot;);</code> <strong>创建了几个对象？</strong>
+考虑类加载阶段和实际执行时。</br>
+1. 类加载对一个类只会进行一次。&rdquo;xyz&rdquo;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&rdquo;xyz&rdquo;字符串被驻留过则不需要重复创建用于驻留的&rdquo;xyz&rdquo;实例）。驻留的字符串是放在全局共享的字符串常量池中的。</br>
+2. 在这段代码后续被运行的时候，&rdquo;xyz&rdquo;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
+这条语句创建了2个对象。</p>
 
-    //构造函数
-    public ClassA() {
-        System.out.println(&quot;这里是父类构造函数&quot;);
-        System.out.println( &quot;i=&quot; + i + &quot;, j=&quot; + j );
-        j = 20;
-    }
-    //静态代码块
-    static {
-        System.out.println( p_StaticField );
-        System.out.println(&quot;这里是父类静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println( p_Field);
-        System.out.println(&quot;这里是父类构造代码块&quot;);
-    }
-}
+<h3 id="java-lang-string-intern">java.lang.String.intern()</h3>
 
-public class ClassB extends ClassA{
-    /* 静态变量 */
-    public static String s_StaticField = &quot;子类--静态变量&quot;;
-    /* 变量 */
-    public String s_Field = &quot;子类--变量&quot;;
+<p>运行时常量池相对于CLass文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。
+String的intern()方法会查找在常量池中是否存在一份equal相等的字符串,如果有则返回该字符串的引用,如果没有则添加自己的字符串进入常量池。</p>
 
-    //构造函数
-    public ClassB(){
-        System.out.println(&quot;这里是子类构造函数&quot;);
-        System.out.println( &quot;i=&quot; + i + &quot;,j=&quot; + j );
-    }
-    //静态代码块
-    static{
-        System.out.println( s_StaticField );
-        System.out.println(&quot;这里是子类静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println( s_Field );
-        System.out.println(&quot;这里是子类代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        System.out.println( &quot;子类main方法&quot; );
-        ClassB b = new ClassB();
-    }
-}
-
-运行结果：
-父类--静态变量
-这里是父类静态代码块
-子类--静态变量
-这里是子类静态代码块
-子类main方法
-父类--变量
-这里是父类构造代码块
-这里是父类构造函数
-i=9, j=0
-子类--变量
-这里是子类代码块
-这里是子类构造函数
-i=9,j=20
+<pre><code class="language-java">public static void main(String[] args) {    
+      String s1 = new String(&quot;计算机&quot;);
+      String s2 = s1.intern();
+      String s3 = &quot;计算机&quot;;
+      System.out.println(&quot;s1 == s2? &quot; + (s1 == s2));
+      System.out.println(&quot;s3 == s2? &quot; + (s3 == s2));
+  }
+结果为：
+s1 == s2? false
+s3 == s2? true
 </code></pre>
 
-<p>子类的静态变量和静态初始化块的初始化是在父类的变量、初始化块和构造器初始化之前就完成了。静态变量、静态初始化块，变量、初始化块初始化了顺序取决于它们在类中出现的先后顺序。</p>
+<p>字符串比较更丰富的一个例子</p>
 
-<h2 id="分析">分析</h2>
+<pre><code class="language-java">
+public class Test {
+ public static void main(String[] args) {   
+      String hello = &quot;Hello&quot;, lo = &quot;lo&quot;;
+      System.out.println((hello == &quot;Hello&quot;) + &quot; &quot;);
+      System.out.println((Other.hello == hello) + &quot; &quot;);
+      System.out.println((other.Other.hello == hello) + &quot; &quot;);
+      System.out.println((hello == (&quot;Hel&quot;+&quot;lo&quot;)) + &quot; &quot;);
+      System.out.println((hello == (&quot;Hel&quot;+lo)) + &quot; &quot;);
+      System.out.println(hello == (&quot;Hel&quot;+lo).intern());
+ }   
+}
 
-<ol>
-<li><p>运行ClassB.main(),(这是一个static方法)，于是装载器就会为你寻找已经编译的ClassB类的代码（也就是ClassB.class文件）。在装载的过程中，装载器注意到它有一个基类（也就是extends所要表示的意思），于是它再装载基类。不管你创不创建基类对象，这个过程总会发生。如果基类还有基类，那么第二个基类也会被装载，依此类推。</p></li>
+class Other { 
+    static String hello = &quot;Hello&quot;; 
+}
 
-<li><p>执行根基类的static初始化，然后是下一个派生类的static初始化，依此类推。这个顺序非常重要，因为派生类的“static初始化”有可能要依赖基类成员的正确初始化。</p></li>
+package other;
+public class Other { 
+    public static String hello = &quot;Hello&quot;; 
+}
+结果为：
 
-<li><p>当所有必要的类都已经装载结束，开始执行main()方法体，并用new ClassB() 创建对象。</p></li>
+true true true true false true
+</code></pre>
 
-<li><p>类ClassB存在父类，则调用父类的构造函数，你可以使用super来指定调用哪个构造函数。基类的构造过程以及构造顺序，同派生类的相同。首先基类中各个变量按照字面顺序进行初始化，然后执行基类的构造函数的其余部分。</p></li>
-
-<li><p>对子类成员数据按照它们声明的顺序初始化，执行子类构造函数的其余部分。</p></li>
-</ol>
+<ul>
+<li>在同包同类下,引用自同一String对象</li>
+<li>在同包不同类下,引用自同一String对象</li>
+<li>在不同包不同类下,依然引用自同一String对象</li>
+<li>在编译成.class时能够识别为同一字符串的,自动优化成常量,引用自同一String对象</li>
+<li>在运行时创建的字符串具有独立的内存地址,所以不引用自同一String对象</li>
+</ul>
 
 
                 
@@ -734,14 +635,10 @@ i=9,j=20
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018-07-02-jvm%e7%b1%bb%e5%8a%a0%e8%bd%bd%e8%bf%87%e7%a8%8b/" data-toggle="tooltip" data-placement="top" title="Jvm类加载过程">&larr;
+                        <a href="/2019-08-26-integer%e7%9a%84integercache/" data-toggle="tooltip" data-placement="top" title="Integer的IntegerCache">&larr;
                             上一篇</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2018-07-25-%e4%ba%86%e8%a7%a3%e4%ba%8b%e5%8a%a1%e4%b8%8e%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab" data-toggle="tooltip" data-placement="top" title="死锁 - 了解事务与隔离级别">下一篇 &rarr;</a>
-                    </li>
                     
                 </ul>
 
@@ -756,8 +653,8 @@ i=9,j=20
 
 <script>
   var gitment = new Gitment({
-    id: 'java中静态代码块、代码块、main()方法和构造函数加载顺序', 
-    title: 'java中静态代码块、代码块、main()方法和构造函数加载顺序',
+    id: 'Java常量池理解与总结', 
+    title: 'Java常量池理解与总结',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
