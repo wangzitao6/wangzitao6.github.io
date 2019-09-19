@@ -18,9 +18,9 @@
     
 
     
-    <meta name="title" content="Mysql内置条件判断函数" />
-    <meta property="og:title" content="Mysql内置条件判断函数" />
-    <meta property="twitter:title" content="Mysql内置条件判断函数" />
+    <meta name="title" content="了解ARP协议" />
+    <meta property="og:title" content="了解ARP协议" />
+    <meta property="twitter:title" content="了解ARP协议" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Mysql内置条件判断函数</title>
+    <title>了解ARP协议</title>
 
-    <link rel="canonical" href="/2018-03-16-mysql%e5%86%85%e7%bd%ae%e6%9d%a1%e4%bb%b6%e5%88%a4%e6%96%ad%e5%87%bd%e6%95%b0">
+    <link rel="canonical" href="/2019-04-19-%e4%ba%86%e8%a7%a3arp%e5%8d%8f%e8%ae%ae/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -181,22 +181,22 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/mysql" title="MySQL">
-                            MySQL
+                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
                         </a>
                         
                     </div>
-                    <h1>Mysql内置条件判断函数</h1>
-                    <h2 class="subheading">Mysql内置条件判断函数</h2>
+                    <h1>了解ARP协议</h1>
+                    <h2 class="subheading">了解ARP协议</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Saturday, March 16, 2019
+			Friday, April 19, 2019
                         
-                            <span id="/2018-03-16-mysql内置条件判断函数" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2019-04-19-了解arp协议/" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -358,192 +358,85 @@ $(function() {
 <ul>
 <li>
 <ul>
-<li><a href="#常见的条件判断函数">常见的条件判断函数</a>
+<li><a href="#mac地址">MAC地址</a></li>
+<li><a href="#arp-地址解析协议">ARP：地址解析协议</a>
 <ul>
-<li><a href="#case">CASE</a></li>
-<li><a href="#if">IF()</a></li>
-<li><a href="#ifnull">IFNULL()</a></li>
-<li><a href="#nullif">NULLIF()</a></li>
+<li><a href="#在同一局域网中">在同一局域网中</a></li>
+<li><a href="#在不同局域网中">在不同局域网中</a></li>
 </ul></li>
-<li><a href="#参考文档">参考文档</a></li>
 </ul></li>
 </ul>
 </nav>
                 
                 
 
-<h2 id="常见的条件判断函数">常见的条件判断函数</h2>
+<h2 id="mac地址">MAC地址</h2>
 
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
+<p>什么是MAC地址？MAC地址与IP有什么区别？
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/6.png" alt="" /></p>
 
-<tbody>
-<tr>
-<td>CASE</td>
-<td>Case operator</td>
-</tr>
+<p>大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？
+知乎回答:<a href="https://www.zhihu.com/question/21546408">https://www.zhihu.com/question/21546408</a></p>
 
-<tr>
-<td>IF()</td>
-<td>If/else construct</td>
-</tr>
+<p>互联网是范围概念；以太网是技术概念。</p>
 
-<tr>
-<td>IFNULL()</td>
-<td>Null if/else construct</td>
-</tr>
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/7.png" alt="" /></p>
 
-<tr>
-<td>NULLIF(expr1,expr2)</td>
-<td>Return NULL if expr1 = expr2</td>
-</tr>
-</tbody>
-</table>
+<p>　Ethernet物理地址长度为48位，通常表示为12个16进制数，每2个16进制数之间用冒号隔开，如：08:00:20:0A:8C:6D就是一个MAC地址，其中前6位16进制数08:00:20代表网络硬件制造商的编号，它由IEEE（电气与电子工程师协会）分配。理论上存在物理地址为2^48个，但是第32位为组播标识位，必须为0，因此允许分配的物理地址为2^47个，即140737488355328个！
+　　所以2^48=281474976710656是错误的！
+　　标准为2^47=140737488355328个。
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/8.png" alt="" /></p>
 
-<h3 id="case">CASE</h3>
+<h2 id="arp-地址解析协议">ARP：地址解析协议</h2>
 
-<p>为了后面容易举例子，我们先创建一张表并插入数据</p>
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/9.png" alt="" /></p>
 
-<pre><code class="language-SQL">CREATE TABLE demo ( 
-id INT,
-NAME VARCHAR ( 20 ),
-age INT
-) ENGINE = INNODB;
+<h3 id="在同一局域网中">在同一局域网中</h3>
 
-insert into demo values (1,&quot;小明&quot;,13), (1,&quot;小红&quot;,28), (1,&quot;老李&quot;,61);
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/10.png" alt="" /></p>
+
+<p>用ping说明ARP工作的原理
+假设我们的计算机IP地址是192.168.1.1，要执行这个命令：ping192.168.1.2。该命令会通过ICMP协议发送ICMP(以太网控制报文协议)数据包
+该过程需要经过下面的步骤：</p>
+
+<pre><code>1&gt; 应用程序构造数据包，该示例是产生ICMP包，被提交给内核（网络驱动程序）； 　　
+2&gt; 内核检查是否能够转化该IP地址为MAC地址，也就是在本地的ARP缓存中查看IP-MAC对应表;
+3&gt; 如果存在该IP-MAC对应关系，那么跳到步骤&lt;7；如果不存在该IP-MAC对应关系，那么接续下面的步骤;
+4&gt; 内核进行ARP广播，目的MAC地址是FF-FF-FF-FF-FF-FF，ARP命令类型为REQUEST（1），其中包含有自己的MAC地址； 　　
+5&gt; 当192.168.1.2主机接收到该ARP请求后，就发送一个ARP的REPLY（2）命令，其中包含自己的MAC地址； 　　
+6&gt; 本地获得192.168.1.2主机的IP-MAC地址对应关系，并保存到ARP缓存中； 　　
+7&gt; 内核将把IP转化为MAC地址，然后封装在以太网头结构中，再把数据发送出去；
 </code></pre>
 
-<p>case 包含两种表达格式：</p>
+<h3 id="在不同局域网中">在不同局域网中</h3>
 
-<p><strong><font color = "red">CASE value WHEN [compare_value] THEN result [WHEN [compare_value] THEN result &hellip;] [ELSE result] END</font></strong></br>
- 规则：当查询的结果当value = compare_value时返回result。</p>
+<p>寻址：从一个LAN路由至另一个LAN</p>
 
-<pre><code class="language-sql"> SELECT 
-	NAME,
-CASE
-	NAME 
-		WHEN '小明' THEN '少年' 
-		WHEN '小红' THEN '中年' 
-		WHEN '老李' THEN '老年' 
-	END 'Type' 
-FROM
-	demo;
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/11.png" alt="" /></p>
+
+<p>step 1:</p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/12.png" alt="" /></p>
+
+<p>step 2:
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/13.png" alt="" /></p>
+
+<p>如果左侧是内网，右侧是互联网的话，可能要更改源IP地址；</br>
+如果左侧是互联网，右侧是内网，可能要更改目的IP地址；</p>
+
+<p>step 3:
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/14.png" alt="" /></p>
+
+<p>如果所要找的目标设备和源主机不在同一个局域网上。</p>
+
+<pre><code>1&gt;此时主机A就无法解析出主机B的硬件地址（实际上主机A也不需要知道远程主机B的硬件地址）;
+2&gt;此时主机A需要的是将路由器R1的IP地址解析出来，然后将该IP数据报发送给路由器R1.
+3&gt;R1从路由表中找出下一跳路由器R2，同时使用ARP解析出R2的硬件地址。于是IP数据报按照路由器R2的硬件地址转发到路由器R2。
+4&gt;路由器R2在转发这个IP数据报时用类似方法解析出目的主机B的硬件地址，使IP数据报最终交付给主机B.
 </code></pre>
 
-<p>结果：</p>
-
-<table>
-<thead>
-<tr>
-<th>NAME</th>
-<th>Type</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>小明</td>
-<td>少年</td>
-</tr>
-
-<tr>
-<td>小红</td>
-<td>中年</td>
-</tr>
-
-<tr>
-<td>老李</td>
-<td>老年</td>
-</tr>
-</tbody>
-</table>
-
-<p><strong><font color = "red">CASE WHEN [condition] THEN result [WHEN [condition] THEN result &hellip;] [ELSE result] END</font></strong></br>
-规则：当condition为TRUE时返回result,当结果不符合时，返回else后结果，当没有else部分时，为NULL。</p>
-
-<pre><code class="language-sql">SELECT 
-	NAME,
-CASE 
-		WHEN age &lt; 18 THEN '少年' 
-		WHEN age &gt;= 25 AND age &lt; 50 THEN '中年' 
-		WHEN age &gt;= 50 THEN '老年' 
-		ELSE '其他'
-	END 'Type' 
-FROM
-	demo;
-</code></pre>
-
-<p>结果：</p>
-
-<table>
-<thead>
-<tr>
-<th>NAME</th>
-<th>Type</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>小明</td>
-<td>少年</td>
-</tr>
-
-<tr>
-<td>小红</td>
-<td>中年</td>
-</tr>
-
-<tr>
-<td>老李</td>
-<td>老年</td>
-</tr>
-</tbody>
-</table>
-
-<h3 id="if">IF()</h3>
-
-<p>IF(expr1,expr2,expr3), 当expr1为TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)时, IF() 返回 expr2. 否则, 结果为 expr3.</p>
-
-<pre><code class="language-sql">mysql&gt; SELECT IF(1&gt;2,2,3);
-        -&gt; 3
-mysql&gt; SELECT IF(1&lt;2,'yes','no');
-        -&gt; 'yes'
-</code></pre>
-
-<h3 id="ifnull">IFNULL()</h3>
-
-<p>IFNULL(expr1,expr2),如果 expr1 L不为空时, IFNULL() 返回 expr1; 否则返回 expr2.</p>
-
-<pre><code class="language-sql">mysql&gt; SELECT IFNULL(1,0);
-        -&gt; 1
-mysql&gt; SELECT IFNULL(NULL,10);
-        -&gt; 10
-mysql&gt; SELECT IFNULL(1/0,10);
-        -&gt; 10
-mysql&gt; SELECT IFNULL(8%5,'yes');
-        -&gt; 3
-</code></pre>
-
-<h3 id="nullif">NULLIF()</h3>
-
-<p>NULLIF(expr1,expr2), 当 expr1 = expr2 时，返回NULL, 否则返回 expr1. 这个语句相当于</br>
-<strong>CASE WHEN expr1 = expr2 THEN NULL ELSE expr1 END</strong>.</p>
-
-<pre><code class="language-sql">mysql&gt; SELECT NULLIF(1,1);
-        -&gt; NULL
-mysql&gt; SELECT NULLIF(1,2);
-        -&gt; 1
-</code></pre>
-
-<h2 id="参考文档">参考文档</h2>
-
-<p><a href="https://dev.mysql.com/doc/refman/5.7/en/control-flow-functions.html#function_if">MySQL官方文档</a></p>
+<p>说明：</br>
+如果你的数据包是发送到不同网段的目的地，那么就一定存在一条网关的IP-MAC地址对应的记录。知道了ARP协议的作用，就能够很清楚地知道，数据包的向外传输很依靠ARP协议，当然，也就是依赖ARP缓存。要知道，ARP协议的所有操作都是内核自动完成的，同其他的应用程序没有任何关系。同时需要注意的是，ARP协议只使用于本网络。</p>
 
 
                 
@@ -552,13 +445,13 @@ mysql&gt; SELECT NULLIF(1,2);
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018-11-12-%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f%e4%b9%8b%e5%8d%95%e4%be%8b%e6%a8%a1%e5%bc%8f" data-toggle="tooltip" data-placement="top" title="设计模式之单例模式">&larr;
+                        <a href="/2019-04-19-tcpip%e5%8d%8f%e8%ae%ae%e4%b8%8esocket%e5%8c%ba%e5%88%ab/" data-toggle="tooltip" data-placement="top" title="tcpip协议与socket区别">&larr;
                             上一篇</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2019-04-19-tcpip%e5%8d%8f%e8%ae%ae%e4%b8%8esocket%e5%8c%ba%e5%88%ab/" data-toggle="tooltip" data-placement="top" title="tcpip协议与socket区别">下一篇 &rarr;</a>
+                        <a href="/2018-08-02-markdown%e8%bf%9b%e9%98%b6%e8%af%ad%e6%b3%95" data-toggle="tooltip" data-placement="top" title="Markdown进阶语法">下一篇 &rarr;</a>
                     </li>
                     
                 </ul>
@@ -574,8 +467,8 @@ mysql&gt; SELECT NULLIF(1,2);
 
 <script>
   var gitment = new Gitment({
-    id: 'mysql内置条件判断函数', 
-    title: 'mysql内置条件判断函数',
+    id: '了解ARP协议', 
+    title: '了解ARP协议',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
