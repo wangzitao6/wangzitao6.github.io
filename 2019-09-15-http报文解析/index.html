@@ -372,7 +372,7 @@ $(function() {
 
 <p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/1.png" alt="" /></p>
 
-<pre><code>Request URL:请求的URL地址
+<pre><code class="language-java">Request URL:请求的URL地址
 Request Method: 请求方法，get/post/put/……
 Status Code：状态码，200 为请求成功
 Remote Address：路由地址
@@ -402,29 +402,29 @@ X-Forwarded-For 是一个扩展头。HTTP/1.1（RFC 2616）协议并没有对它
 
 <p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/2.png" alt="" /></p>
 
-<pre><code>      1）Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。
-      2）Accept-Ranges：WEB服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。
-      3） Cache-Control：服务器应遵循的缓存机制。
-              public(可以用 Cached 内容回应任何用户)
-              private（只能用缓存内容回应先前请求该内容的那个用户）
-              no-cache（可以缓存，但是只有在跟WEB服务器验证了其有效后，才能返回给客户端） 
-              max-age：（本响应包含的对象的过期时间）  
-              ALL:  no-store（不允许缓存）  
-      4） Connection： 是否需要持久连接
-              close（连接已经关闭）。
-              keepalive（连接保持着，在等待本次连接的后续请求）。
-              Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300
-      5）Content-Encoding：WEB服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。 例如：Content-Encoding：gzip 
-      6）Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。
-      7）Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length: 26012
-      8）Content-Range：WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022
-      9）Content-Type：WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml
-     10）Expired：WEB服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟WEB服务器验证了其有效性后，才能用来响应客户请求。
-     11）Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。
-     12）Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部指定的位置去取。
-     13）Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。
-     14）Server: WEB 服务器表明自己是什么软件及版本等信息。
-     15）Refresh：表示浏览器应该在多少时间之后刷新文档，以秒计。
+<pre><code class="language-java">1）Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。
+2）Accept-Ranges：WEB服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。
+3） Cache-Control：服务器应遵循的缓存机制。
+        public(可以用 Cached 内容回应任何用户)
+        private（只能用缓存内容回应先前请求该内容的那个用户）
+        no-cache（可以缓存，但是只有在跟WEB服务器验证了其有效后，才能返回给客户端） 
+        max-age：（本响应包含的对象的过期时间）  
+        ALL:  no-store（不允许缓存）  
+4） Connection： 是否需要持久连接
+        close（连接已经关闭）。
+        keepalive（连接保持着，在等待本次连接的后续请求）。
+        Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300
+5）Content-Encoding：WEB服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。 例如：Content-Encoding：gzip 
+6）Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。
+7）Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length: 26012
+8）Content-Range：WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022
+9）Content-Type：WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml
+10）Expired：WEB服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟WEB服务器验证了其有效性后，才能用来响应客户请求。
+11）Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。
+12）Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部指定的位置去取。
+13）Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。
+14）Server: WEB 服务器表明自己是什么软件及版本等信息。
+15）Refresh：表示浏览器应该在多少时间之后刷新文档，以秒计。
 
 </code></pre>
 
@@ -432,39 +432,39 @@ X-Forwarded-For 是一个扩展头。HTTP/1.1（RFC 2616）协议并没有对它
 
 <p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/3.png" alt="" /></p>
 
-<pre><code>     1）Accept：  告诉WEB服务器自己接受什么介质类型，*/* 表示任何类型，type/* 表示该类型下的所有子类型；
-     2）Accept-Charset：  浏览器申明自己接收的字符集
-     3）Accept-Encoding：浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法  （gzip，deflate）
-     4）Accept-Language：  浏览器申明自己接收的语言。语言跟字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等等。
-     5）Authorization： 包含了客户端提供给服务器，以便对其自身进行认证的数据。
-     6）Connection：表示是否需要持久连接。close（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，断开连接，
-     不要等待本次连接的后续请求了）。keep-alive（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。
-     7）Content-Length：请求的内容长度。
-     8）Connection-Type： 表示具体请求中的媒体类型信息。
-     9）Referer：发送请求页面URL。浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。
-     10）User-Agent: 浏览器表明自己的身份（是哪种浏览器）。
-     11）Host：指定请求的服务器的域名和端口号。
-     12）Origin：存在于请求中，用于指明当前请求来自于哪个站点。
-     13）Cache-Control：浏览器应遵循的缓存机制。
-            no-cache（不要缓存的实体，要求现在从WEB服务器去取）
-            max-age：（只接受 Age 值小于 max-age 值，并且没有过期的对象） 
-            max-stale：（可以接受过去的对象，但是过期时间必须小于 max-stale 值）  
-            min-fresh：（接受其新鲜生命期大于其当前 Age 跟 min-fresh 值之和的缓存对象）
-     14）Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。
-     15）Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。
-     16）Form：一种请求头标，给定控制用户代理的人工用户的电子邮件地址。
-     17）Cookie：这是最重要的请求头信息之一。
-     18）Sec-Fetch-Mode：代表請求的模式。主要有 cors、navigate、nested-navigate、no-cors 等等。
-            來判断这个请求是什么，类似 fetch 当中 mode。
-            像是 Set-Fetch-User 我们也可以知道使用者是否是投过操作（例如点击、键盘等等）來发出請求的
-     19）Sec-Fetch-Site：代表请求的来源是同源还是跨域。
+<pre><code class="language-java">1）Accept：  告诉WEB服务器自己接受什么介质类型，'*/*' 表示任何类型，type '/*' 表示该类型下的所有子类型；
+2）Accept-Charset：  浏览器申明自己接收的字符集
+3）Accept-Encoding：浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法  （gzip，deflate）
+4）Accept-Language：  浏览器申明自己接收的语言。语言跟字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等等。
+5）Authorization： 包含了客户端提供给服务器，以便对其自身进行认证的数据。
+6）Connection：表示是否需要持久连接。close（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，断开连接，
+不要等待本次连接的后续请求了）。keep-alive（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。
+7）Content-Length：请求的内容长度。
+8）Connection-Type： 表示具体请求中的媒体类型信息。
+9）Referer：发送请求页面URL。浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。
+10）User-Agent: 浏览器表明自己的身份（是哪种浏览器）。
+11）Host：指定请求的服务器的域名和端口号。
+12）Origin：存在于请求中，用于指明当前请求来自于哪个站点。
+13）Cache-Control：浏览器应遵循的缓存机制。
+        no-cache（不要缓存的实体，要求现在从WEB服务器去取）
+        max-age：（只接受 Age 值小于 max-age 值，并且没有过期的对象） 
+        max-stale：（可以接受过去的对象，但是过期时间必须小于 max-stale 值）  
+        min-fresh：（接受其新鲜生命期大于其当前 Age 跟 min-fresh 值之和的缓存对象）
+14）Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。
+15）Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。
+16）Form：一种请求头标，给定控制用户代理的人工用户的电子邮件地址。
+17）Cookie：这是最重要的请求头信息之一。
+18）Sec-Fetch-Mode：代表請求的模式。主要有 cors、navigate、nested-navigate、no-cors 等等。
+        來判断这个请求是什么，类似 fetch 当中 mode。
+        像是 Set-Fetch-User 我们也可以知道使用者是否是投过操作（例如点击、键盘等等）來发出請求的
+19）Sec-Fetch-Site：代表请求的来源是同源还是跨域。
 
 </code></pre>
 
 <p><strong>Content-Type</strong>
  常见的媒体格式类型如下：</p>
 
-<pre><code>text/html ： HTML格式
+<pre><code class="language-java">text/html ： HTML格式
 text/plain ：纯文本格式     
 text/xml ：  XML格式
 image/gif ：gif图片格式   
@@ -474,7 +474,7 @@ image/png：png图片格式
 
 <p>以application开头的媒体格式类型：</p>
 
-<pre><code>application/xhtml+xml ：XHTML格式
+<pre><code class="language-java">application/xhtml+xml ：XHTML格式
 application/xml     ： XML数据格式
 application/atom+xml  ：Atom XML聚合格式   
 application/json    ： JSON数据格式
@@ -486,7 +486,7 @@ application/x-www-form-urlencoded ： &lt;form encType=””&gt;中默认的enc
 
 <p>另外一种常见的媒体格式是上传文件之时使用的：</p>
 
-<pre><code>multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
+<pre><code class="language-java">multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
 </code></pre>
 
 <p>以上就是我们在日常的开发中，经常会用到的若干content-type的内容格式。</p>
