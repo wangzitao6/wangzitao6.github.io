@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on 王子滔的学习笔记</title>
+    <link>https://wangzitao6.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on 王子滔的学习笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 12 Nov 2018 15:11:17 +0800</lastBuildDate>
+    
+	<atom:link href="https://wangzitao6.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>设计模式之单例模式</title>
+      <link>https://wangzitao6.github.io/2018-11-12-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 12 Nov 2018 15:11:17 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-11-12-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 首先我们来考虑下，如何设计一个类，在系统中只能生成该类的一个实体? 懒汉，线程不安全 面对这个问题，我们可以想到把构造函数私有化，以禁止</description>
+    </item>
+    
+  </channel>
+</rss>

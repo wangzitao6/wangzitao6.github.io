@@ -6,10 +6,37 @@
     <description>Recent content on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Aug 2019 10:23:46 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Logstash割接mysql数据到es</title>
+      <link>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</link>
+      <pubDate>Wed, 24 Jun 2020 19:56:25 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</guid>
+      <description>ElasticSearch创建索引 创建ES索引 PUT logstash_demo { &amp;quot;mappings&amp;quot; : { &amp;quot;properties&amp;quot; : { &amp;quot;email&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;first_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;last_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;uid&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;long&amp;quot; } } } } 创建好后查询索</description>
+    </item>
+    
+    <item>
+      <title>http报文解析</title>
+      <link>https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 18 Sep 2019 15:06:02 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/</guid>
+      <description>General Request URL:请求的URL地址 Request Method: 请求方法，get/post/put/…… Status Code：状态码，200 为请求成功 Remote Address：路由地址 注： x-forwarded-for</description>
+    </item>
+    
+    <item>
+      <title>Java常量池理解与总结</title>
+      <link>https://wangzitao6.github.io/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 02 Sep 2019 16:47:28 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/</guid>
+      <description>什么是常量 用final修饰的成员变量表示常量，值一但确定就无法修改。 final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类</description>
+    </item>
     
     <item>
       <title>Integer的IntegerCache</title>
@@ -66,6 +93,69 @@
     </item>
     
     <item>
+      <title>了解三次握手与四次挥手</title>
+      <link>https://wangzitao6.github.io/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</link>
+      <pubDate>Sat, 20 Apr 2019 14:38:17 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</guid>
+      <description>三次握手 TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接</description>
+    </item>
+    
+    <item>
+      <title>http协议无状态中的状态到底指的是什么</title>
+      <link>https://wangzitao6.github.io/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/</link>
+      <pubDate>Fri, 19 Apr 2019 17:52:39 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/</guid>
+      <description>转载自：http协议无状态中的【状态】到底指的是什么？！ http协议无状态中的【状态】到底指的是什么？！ 先来看这句话的另外两个概念：（标准的</description>
+    </item>
+    
+    <item>
+      <title>了解ARP协议</title>
+      <link>https://wangzitao6.github.io/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/</link>
+      <pubDate>Fri, 19 Apr 2019 13:50:49 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/</guid>
+      <description>MAC地址 什么是MAC地址？MAC地址与IP有什么区别？ 大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？ 知乎回答:http</description>
+    </item>
+    
+    <item>
+      <title>tcpip协议与socket区别</title>
+      <link>https://wangzitao6.github.io/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Fri, 19 Apr 2019 10:29:22 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</guid>
+      <description>TCP/IP协议的组成 TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。 TCP/IP协议</description>
+    </item>
+    
+    <item>
+      <title>Mysql内置条件判断函数</title>
+      <link>https://wangzitao6.github.io/2018-03-16-mysql%E5%86%85%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Sat, 16 Mar 2019 11:33:44 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-03-16-mysql%E5%86%85%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0/</guid>
+      <description>常见的条件判断函数 Name Description CASE Case operator IF() If/else construct IFNULL() Null if/else construct NULLIF(expr1,expr2) Return NULL if expr1 = expr2 CASE 为了后面容易举例子，我们先创建一张表并插入数据 CREATE TABLE demo ( id INT, NAME VARCHAR ( 20 ), age INT ) ENGINE = INNODB; insert</description>
+    </item>
+    
+    <item>
+      <title>设计模式之单例模式</title>
+      <link>https://wangzitao6.github.io/2018-11-12-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 12 Nov 2018 15:11:17 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-11-12-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式 首先我们来考虑下，如何设计一个类，在系统中只能生成该类的一个实体? 懒汉，线程不安全 面对这个问题，我们可以想到把构造函数私有化，以禁止</description>
+    </item>
+    
+    <item>
+      <title>HashMap实现原理</title>
+      <link>https://wangzitao6.github.io/2019-09-12-hashmap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Wed, 12 Sep 2018 11:49:31 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2019-09-12-hashmap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</guid>
+      <description>什么是哈希表 哈希表（hash table）也叫散列表，是一种非常重要的数据结构，应用场景及其丰富，许多缓存技术（比如memcached）的核心</description>
+    </item>
+    
+    <item>
       <title>了解MySQL中EXPLAIN解释命令</title>
       <link>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Mon, 13 Aug 2018 11:49:13 +0800</pubDate>
@@ -117,6 +207,24 @@
       
       <guid>https://wangzitao6.github.io/2018-07-25-%E4%BA%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</guid>
       <description>这个月线上环境突然经常报警，排查后发现了下面这样的异常，一天出现三四次的样子。看异常信息就知道是发生了数据库死锁，由于这块对业务影响不是很大</description>
+    </item>
+    
+    <item>
+      <title>Java中静态代码块、代码块、main()方法和构造函数加载顺序</title>
+      <link>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%BB%A3%E7%A0%81%E5%9D%97main%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</link>
+      <pubDate>Mon, 02 Jul 2018 10:38:28 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%BB%A3%E7%A0%81%E5%9D%97main%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</guid>
+      <description>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。 构造代码块：类中直接用{}定义，每一次创建对象时执行。 同一个类中，执行顺序优</description>
+    </item>
+    
+    <item>
+      <title>Jvm类加载过程</title>
+      <link>https://wangzitao6.github.io/2018-07-02-jvm%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Mon, 02 Jul 2018 10:05:16 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2018-07-02-jvm%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</guid>
+      <description>什么是类加载 虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，</description>
     </item>
     
     <item>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="http报文解析"/>
+<meta name="twitter:description" content="网络基础知识"/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="http报文解析 &middot; 王子滔的学习笔记" />
+  	<meta property="og:site_name" content="王子滔的学习笔记" />
+  	<meta property="og:url" content="https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/" />
+
+    
+        
+    
+
+    
+    <meta property="og:description" content="网络基础知识" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-09-18T15:06:02&#43;08:00" />
+
+    
+    <meta property="article:tag" content="网络" />
+    
+    
+
+    <title>http报文解析 &middot; 王子滔的学习笔记</title>
+
+    
+    <meta name="description" content="网络基础知识" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
+
+    
+
+    
+
+    
+      
+          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": 
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "url": ,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": http报文解析,
+    "name": http报文解析,
+    "wordCount": 3513,
+    "timeRequired": "PT8M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/,
+    "datePublished": 2019-09-18T15:06Z,
+    "dateModified": 2019-09-18T15:06Z,
+    
+    "keywords": 网络,
+    "description": 网络基础知识,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">http报文解析</h1>
+        <small>网络基础知识</small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-09-18T15:06:02&#43;08:00">
+            Sep 18, 2019
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/">#网络</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="general">General</h2>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/1.png" alt="" /></p>
+
+<pre><code class="language-java">Request URL:请求的URL地址
+Request Method: 请求方法，get/post/put/……
+Status Code：状态码，200 为请求成功
+Remote Address：路由地址
+</code></pre>
+
+<p>注：
+<strong><font color = "red">x-forwarded-for</font></strong></p>
+
+<p>针对这个，去了解了下，总结下其他人的经验：
+当你使用了代理时，web服务器就不知道你的真实IP了，为了避免这个情况，代理服务器通常会增加一个叫做x_forwarded_for的头信息，把连接它的客户端IP（即你的上网机器IP）加到这个头信息里，这样就能保证网站的web服务器能获取到真实IP，
+X-Forwarded-For 是一个扩展头。HTTP/1.1（RFC 2616）协议并没有对它的定义，它最开始是由 Squid 这个缓存代理软件引入，用来表示 HTTP 请求端真实 IP，现在已经成为事实上的标准，被各大 HTTP 代理、负载均衡等转发服务广泛使用，并被写入 RFC 7239 （Forwarded HTTP Extension）标准之中。</p>
+
+<p>X-Forwarded-For 请求头格式非常简单，就这样：<code>X-Forwarded-For: client, proxy1, proxy2</code>
+可以看到，XFF 的内容由「英文逗号 + 空格」隔开的多个部分组成，最开始的是离服务端最远的设备 IP，然后是每一级代理设备的 IP。</p>
+
+<p>如果一个 HTTP 请求到达服务器之前，经过了三个代理 Proxy1、Proxy2、Proxy3，IP 分别为 IP1、IP2、IP3，用户真实 IP 为 IP0，那么按照 XFF 标准，服务端最终会收到以下信息：</p>
+
+<p><code>X-Forwarded-For: IP0, IP1, IP2</code>
+总结是：<strong>在使用nginx等反向代理服务器的时候，是必须使用X-Forward-For来获取用户IP地址的（此时Remote Address是nginx的地址），因为此时X-Forward-For中的地址是由nginx写入的，而nginx是可信任的。不过此时要注意，要禁止web对外提供服务。</strong></p>
+
+<p><strong><font color = "red">Remote Address</font></strong></p>
+
+<p>Remote Address代表的是当前HTTP请求的远程地址，即HTTP请求的源地址。HTTP协议在三次握手时使用的就是这个Remote Address地址，在发送响应报文时也是使用这个Remote Address地址。因此，如果请求者伪造Remote Address地址，他将无法收到HTTP的响应报文，
+此时伪造没有任何意义。这也就使得Remote Address默认具有防篡改的功能。如果Http请求经过代理服务器转发，则这种情况，用户的真实ip会丢失，所以才有了 “X-Forwarded-For”的方式。</p>
+
+<h2 id="response-headers">Response Headers</h2>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/2.png" alt="" /></p>
+
+<pre><code class="language-java">1）Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。
+2）Accept-Ranges：WEB服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。
+3） Cache-Control：服务器应遵循的缓存机制。
+        public(可以用 Cached 内容回应任何用户)
+        private（只能用缓存内容回应先前请求该内容的那个用户）
+        no-cache（可以缓存，但是只有在跟WEB服务器验证了其有效后，才能返回给客户端） 
+        max-age：（本响应包含的对象的过期时间）  
+        ALL:  no-store（不允许缓存）  
+4） Connection： 是否需要持久连接
+        close（连接已经关闭）。
+        keepalive（连接保持着，在等待本次连接的后续请求）。
+        Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300
+5）Content-Encoding：WEB服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。 例如：Content-Encoding：gzip 
+6）Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。
+7）Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length: 26012
+8）Content-Range：WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022
+9）Content-Type：WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml
+10）Expired：WEB服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟WEB服务器验证了其有效性后，才能用来响应客户请求。
+11）Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。
+12）Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部指定的位置去取。
+13）Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。
+14）Server: WEB 服务器表明自己是什么软件及版本等信息。
+15）Refresh：表示浏览器应该在多少时间之后刷新文档，以秒计。
+
+</code></pre>
+
+<h2 id="request-headers">Request Headers</h2>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/3.png" alt="" /></p>
+
+<pre><code class="language-java">1）Accept：  告诉WEB服务器自己接受什么介质类型，'*/*' 表示任何类型，type '/*' 表示该类型下的所有子类型；
+2）Accept-Charset：  浏览器申明自己接收的字符集
+3）Accept-Encoding：浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法  （gzip，deflate）
+4）Accept-Language：  浏览器申明自己接收的语言。语言跟字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等等。
+5）Authorization： 包含了客户端提供给服务器，以便对其自身进行认证的数据。
+6）Connection：表示是否需要持久连接。close（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，断开连接，
+不要等待本次连接的后续请求了）。keep-alive（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。
+7）Content-Length：请求的内容长度。
+8）Connection-Type： 表示具体请求中的媒体类型信息。
+9）Referer：发送请求页面URL。浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。
+10）User-Agent: 浏览器表明自己的身份（是哪种浏览器）。
+11）Host：指定请求的服务器的域名和端口号。
+12）Origin：存在于请求中，用于指明当前请求来自于哪个站点。
+13）Cache-Control：浏览器应遵循的缓存机制。
+        no-cache（不要缓存的实体，要求现在从WEB服务器去取）
+        max-age：（只接受 Age 值小于 max-age 值，并且没有过期的对象） 
+        max-stale：（可以接受过去的对象，但是过期时间必须小于 max-stale 值）  
+        min-fresh：（接受其新鲜生命期大于其当前 Age 跟 min-fresh 值之和的缓存对象）
+14）Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。
+15）Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。
+16）Form：一种请求头标，给定控制用户代理的人工用户的电子邮件地址。
+17）Cookie：这是最重要的请求头信息之一。
+18）Sec-Fetch-Mode：代表請求的模式。主要有 cors、navigate、nested-navigate、no-cors 等等。
+        來判断这个请求是什么，类似 fetch 当中 mode。
+        像是 Set-Fetch-User 我们也可以知道使用者是否是投过操作（例如点击、键盘等等）來发出請求的
+19）Sec-Fetch-Site：代表请求的来源是同源还是跨域。
+
+</code></pre>
+
+<p><strong>Content-Type</strong>
+ 常见的媒体格式类型如下：</p>
+
+<pre><code class="language-java">text/html ： HTML格式
+text/plain ：纯文本格式     
+text/xml ：  XML格式
+image/gif ：gif图片格式   
+image/jpeg ：jpg图片格式
+image/png：png图片格式
+</code></pre>
+
+<p>以application开头的媒体格式类型：</p>
+
+<pre><code class="language-java">application/xhtml+xml ：XHTML格式
+application/xml     ： XML数据格式
+application/atom+xml  ：Atom XML聚合格式   
+application/json    ： JSON数据格式
+application/pdf       ：pdf格式 
+application/msword  ： Word文档格式
+application/octet-stream ： 二进制流数据（如常见的文件下载）
+application/x-www-form-urlencoded ： &lt;form encType=””&gt;中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）
+</code></pre>
+
+<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
+
+<pre><code class="language-java">multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
+</code></pre>
+
+<p>以上就是我们在日常的开发中，经常会用到的若干content-type的内容格式。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://www.jianshu.com/p/eba76cfc0424">HTTP首部Connection实践</a></br>
+<a href="https://www.cnblogs.com/jimcsharp/p/8043410.html">Http请求中Content-Type讲解以及在Spring MVC中的应用</a></br>
+<a href="https://blog.kalan.dev/fetch-metadata-request-headers/">更安全的請求標頭 - Fetch Metadata Request Headers</a></br>
+<a href="https://juejin.im/post/5cd81b59518825686a06fd05">HTTP请求中的referrer和Referrer-Policy</a></br>
+<a href="https://blog.csdn.net/zdavb/article/details/51161130">彻底搞清referrer和origin</a></br>
+<a href="https://blog.csdn.net/phpfenghuo/article/details/50527768">Origin字段</a></br>
+<a href="http://www.ruanyifeng.com/blog/2019/06/http-referer.html">HTTP Referer 教程</a></br></p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=http%e6%8a%a5%e6%96%87%e8%a7%a3%e6%9e%90&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-09-15-http%25E6%258A%25A5%25E6%2596%2587%25E8%25A7%25A3%25E6%259E%2590%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-09-15-http%25E6%258A%25A5%25E6%2596%2587%25E8%25A7%25A3%25E6%259E%2590%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-09-15-http%25E6%258A%25A5%25E6%2596%2587%25E8%25A7%25A3%25E6%259E%2590%2f&amp;description=http%e6%8a%a5%e6%96%87%e8%a7%a3%e6%9e%90"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-09-15-http%25E6%258A%25A5%25E6%2596%2587%25E8%25A7%25A3%25E6%259E%2590%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/">
+          <section class="post">
+              <h2>Logstash割接mysql数据到es</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/">
+          <section class="post">
+              <h2>Java常量池理解与总结</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    
+</body>
+</html>
+

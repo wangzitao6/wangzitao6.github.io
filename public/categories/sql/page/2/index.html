@@ -1,540 +1,225 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
-    <meta name="baidu-site-verification" content="LRrmH41lz7" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     
-    <meta property="og:site_name" content="王子滔的学习笔记">
-    <meta property="og:type" content="article">
-
-    
-    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
-    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    <meta name="twitter:card" content="summary"/>
     
 
+
+
+<meta name="twitter:title" content="sql"/>
+<meta name="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="sql &middot; 王子滔的学习笔记" />
+  	<meta property="og:site_name" content="王子滔的学习笔记" />
+  	<meta property="og:url" content="https://wangzitao6.github.io/categories/sql/" />
+
     
-    <meta name="title" content="" />
-    <meta property="og:title" content="" />
-    <meta property="twitter:title" content="" />
+        
     
 
     
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:type" content="website" />
     <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    <title>sql &middot; 王子滔的学习笔记</title>
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
+
     
 
     
-    <meta property="twitter:card" content="summary" />
-    
-    
-
-    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <title>sql</title>
-
-    <link rel="canonical" href="/categories/sql/">
-
-    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
-	
-    
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
+      
+          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
+      
+      
+        <link href="https://wangzitao6.github.io/categories/sql/index.xml" rel="alternate" type="application/rss+xml" title="sql &middot; 王子滔的学习笔记" />
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="https://wangzitao6.github.io/categories/sql/" />
 
     
-    <link rel="stylesheet" href="/css/syntax.css">
-
+      
     
-    <link rel="stylesheet" href="/css/zanshang.css">
-
-    
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    
-    <script src="/js/jquery.min.js"></script>
-    
-    
-    <script src="/js/bootstrap.min.js"></script>
-    
-    
-    <script src="/js/hux-blog.min.js"></script>
-	
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
-
-
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Person",
+        "name": ,
         
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
-        </div>
-
-        
-        
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/build">build</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/jvm">jvm</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/net">net</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/other">other</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/sql">sql</a>
-                    </li>
-                    
-
-		    
-                        <li><a href="/top/about/">ABOUT</a></li>
-                    
-
-                    
-		    <li>
-                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
-		    </li>
-                    
-                </ul>
-            </div>
-        </div>
-        
-    </div>
-    
-</nav>
-<script>
-    
-    
-    
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        
-            $navbar.className = " ";
+        "url": ,
+        "sameAs": [
             
-            setTimeout(function(){
-                
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "url": https://wangzitao6.github.io,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://wangzitao6.github.io
+    },
+    "description": 王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。
+}
+  </script>
+    
+
+
+    
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
         
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="https://wangzitao6.github.io/categories/sql/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
 
 
 
-<header class="intro-header" style="background-image: url('/images/1.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>王子滔的学习笔记 </h1>
-                    
-		    <span class="subheading">~路漫漫其修远兮~</span>
-                </div>
-            </div>
+
+	<header class="main-header tag-head no-cover">
+
+    <nav class="main-nav overlay clearfix">
+      
+      
+        
+          <a class="menu-button icon-feed" href="https://wangzitao6.github.io/categories/sql/index.xml">&nbsp;&nbsp;Subscribe</a>
+        
+      
+    </nav>
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">sql</h1>
+            <h2 class="page-description">
+                
+            </h2>
         </div>
     </div>
 </header>
 
+<main class="content" role="main">
+    
 
-
-  
-<div class="container">
-    <div class="row">
-        
-        
-   	    <div class="
-            col-lg-8 col-lg-offset-1
-            col-md-8 col-md-offset-1
-            col-sm-12
-            col-xs-12
-            post-container
-        ">
-            
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2018-07-25-%E4%BA%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">
-        <h2 class="post-title">
-            死锁 - 了解事务与隔离级别
-        </h2>
+	<div class="extra-pagination inner">
+    <nav class="pagination" role="navigation">
 	
-        <h3 class="post-subtitle">
-            死锁 - 了解事务与隔离级别
-        </h3>
+	    <a class="newer-posts" href="/categories/sql/">&larr; Newer Posts</a>
 	
-        <div class="post-content-preview">
+	<span class="page-number">Page 2 of 2</span>
 	
-            这个月线上环境突然经常报警，排查后发现了下面这样的异常，一天出现三四次的样子。看异常信息就知道是发生了数据库死锁，由于这块对业务影响不是很大
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Wednesday, July 25, 2018
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5/">
-        <h2 class="post-title">
-            了解SQL注入
-        </h2>
-	
-        <h3 class="post-subtitle">
-            了解SQL注入
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            1.简介 SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。一般来
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Sunday, May 6, 2018
-    </p>
-</div>
-<hr>
-
-
-            
-
-
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/categories/sql/">&larr; Newer Posts</a>
-    </li>
-    
-    
-</ul>
-
-
-       	</div>
-        
-
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-    
-    <section>
-        <hr class="hidden-sm hidden-xs">
-        <h5>FEATURED TAGS</h5>
-        <div class="tags">
-             
-            
-                
-                    <a href="/tags/mysql" title="MySQL">
-                        MySQL
-                    </a>
-                
-            
-                
-                    <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="SQL注入">
-                        SQL注入
-                    </a>
-                
-            
-                
-                    <a href="/tags/blog" title="blog">
-                        blog
-                    </a>
-                
-            
-                
-                    <a href="/tags/git" title="git">
-                        git
-                    </a>
-                
-            
-                
-                    <a href="/tags/jvm" title="jvm">
-                        jvm
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                        其他
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
-                        正则
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
-                        死锁
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
-                        端口转发
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                        网络
-                    </a>
-                
-            
-        </div>
-    </section>
-    
-
-    
-	
-    <section class="visible-md visible-lg">
-	<hr><h5><a href="/top/about">ABOUT ME</a></h5>
-        <div class="short-about">
-            
-            <a href="/top/about">
-               <img src="/images/me.jpg" alt="avatar" style="cursor: pointer" />
-            </a>
-            
-            
-                <p>搬砖工程师</p>
-            
-           
-           <ul class="list-inline"> 
-               
-               
-               
-               
-               
-               
-               <li>
-                   <a target="_blank" href="/images/qrcode.jpg">
-                       <span class="fa-stack fa-lg">
-                           <i class="fa fa-circle fa-stack-2x"></i>
-                           <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               <li>
-                   <a target="_blank" href="https://github.com/wangzitao6">
-                       <span class="fa-stack fa-lg">
-                           <i class="fa fa-circle fa-stack-2x"></i>
-                           <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               
-                </ul>
-            </div>
-    </section>
-	
-    
-    
-    <section>
-        <hr class="hidden-sm hidden-xs">
-        <h5>FRIENDS</h5>
-        <ul class="list-inline">
-            
-            <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
-            
-        </ul>
-    </section>
-    
-
-    
-    
-</div>
+</nav>
 
 	</div>
-</div>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5/">了解SQL注入</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>1.简介 SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。一般来 <a class="read-more" href="/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/sql%E6%B3%A8%E5%85%A5/">#SQL注入</a>,
+            
+                <a href="https://wangzitao6.github.io/tags/mysql/">#MySQL</a>,
+            
+        
+        <time class="post-date" datetime="2018-05-06T10:41:29&#43;08:00">
+            6 May 2018
+        </time>
+    </footer>
+</article>
+
+	
+
+	<nav class="pagination" role="navigation">
+	
+	    <a class="newer-posts" href="/categories/sql/">&larr; Newer Posts</a>
+	
+	<span class="page-number">Page 2 of 2</span>
+	
+</nav>
+
+</main>
 
 
 
-
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                   
-                    
-                    <li>
-                        <a href="mailto:wang_zitao@foxmail.com">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-
-                    
-                    
-                    
-
-                    
-
-		    
-                    
-                    <li>
-                        <a target="_blank" href="/images/qrcode.jpg">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    <li>
-                        <a target="_blank" href="https://github.com/wangzitao6">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    
-                </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
-                    <br>
-                </p>
-            </div>
-        </div>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
     </div>
-</footer>
-
-
-
-
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-
-
-
-
-
-<script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     
-    if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-
-<script>
-    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https'){
-       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-      }
-      else{
-      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-      }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
-
-
-
-
-<script>
-    
-    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
-
-    
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
 </body>
 </html>
