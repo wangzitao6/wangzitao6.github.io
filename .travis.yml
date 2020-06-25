@@ -1,81 +1,27 @@
-language: go
-
-dist: bionic
-
 env:
-  global:
-    - CACHE_NAME=${TRAVIS_ARCH}
-    - GO111MODULE=on
-    - GOPROXY=https://proxy.golang.org
-    - HUGO_BUILD_TAGS=extended
-
-git:
-  depth: false
-go:
-  - "1.13.11"
-  - "1.14.3"
-  - master
-
-arch:
-  - amd64
-  - arm64
-
-os:
-  - linux
-  - osx
-  - windows
-
-jobs:
-  allow_failures:
-    - go: master
-    - arch: arm64
-  fast_finish: true
-  exclude:
-    - os: windows
-      go: master
-    - arch: arm64
-      os: osx
-    - arch: arm64
-      os: windows
-
-cache:
-  directories:
-    - $HOME/gopath/pkg/mod
-    - $HOME/.cache/go-build
-    - $HOME/Library/Caches/go-build
-    - $HOME/AppData/Local/go-build
-
-before_install:
-  - df -h
-    # https://travis-ci.community/t/go-cant-find-gcc-with-go1-11-1-on-windows/293/5
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then
-        choco install mingw -y;
-        export PATH=/c/tools/mingw64/bin:"$PATH";
-    fi
-  - gem install asciidoctor
-  - type asciidoctor
+  - HUGO_VERSION="0.50"
+  - HUGO_VERSION="0.51"
+  - HUGO_VERSION="0.52"
+  - HUGO_VERSION="0.53"
+  - HUGO_VERSION="0.54.0"
+  - HUGO_VERSION="0.55.6"
+  - HUGO_VERSION="0.56.3"
+  - HUGO_VERSION="0.57.2"
+  - HUGO_VERSION="0.58.3"
 
 install:
-  - mkdir -p $HOME/src
-  - mv $TRAVIS_BUILD_DIR $HOME/src
-  - export TRAVIS_BUILD_DIR=$HOME/src/hugo
-  - cd $HOME/src/hugo
-  - go get github.com/magefile/mage
+  - wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz
+  - tar xf hugo_${HUGO_VERSION}_Linux-64bit.tar.gz
+  - mv hugo ~/bin/
+  - hugo version
+  - gem install html-proofer
+  - htmlproofer --version
+  - git clone https://github.com/EmielH/hugo-theme-test.git
 
 script:
-  - go mod download
-  - go mod verify
-  - mage -v test
-  - if [ "$TRAVIS_ARCH" = "amd64" ]; then
-        mage -v check;
-    else
-        HUGO_TIMEOUT=30000 mage -v check;
-    fi
-  - mage -v hugo
-  - ./hugo -s docs/
-  - ./hugo --renderToMemory -s docs/
-  - df -h
-
+  - cd hugo-theme-test
+  - hugo -t tale-hugo --themesDir ../..
+  - htmlproofer public --check-html --disable-external --allow-hash-href --checks-to-ignore LinkCheck
   
 # Specify which branches to build using a safelist
 # 分支白名单限制: 只有hugo分支的提交才会触发构建
