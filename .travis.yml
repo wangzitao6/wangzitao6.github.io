@@ -62,14 +62,6 @@ install:
   - cd $HOME/src/hugo
   - go get github.com/magefile/mage
 
-
-  
-# Specify which branches to build using a safelist
-# 分支白名单限制: 只有hugo分支的提交才会触发构建
-branches:
-  only:
-    - hugo 
-
 script:
   - go mod download
   - go mod verify
@@ -84,6 +76,12 @@ script:
   - ./hugo --renderToMemory -s docs/
   - df -h
 
+  
+# Specify which branches to build using a safelist
+# 分支白名单限制: 只有hugo分支的提交才会触发构建
+branches:
+  only:
+    - hugo 
 
 deploy:
   provider: pages  # 重要，指定这是一份github pages的部署配置
