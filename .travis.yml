@@ -1,18 +1,26 @@
-language: go
-go:
-    - master
+# https://docs.travis-ci.com/user/deployment/pages/
+# https://docs.travis-ci.com/user/reference/xenial/
+# https://docs.travis-ci.com/user/languages/python/
+# https://docs.travis-ci.com/user/customizing-the-build/
 
-# before_install
+dist: xenial
+language: python
+python:
+  - "3.7"
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get -yq install apt-transport-https tor curl
+
 # install - install any dependencies required
 install:
-    - go get github.com/gohugoio/hugo    # consume time 70.85s
-
-# before_install
-# install - install any dependencies required
-install:
-    - go get github.com/gohugoio/hugo    # consume time 70.85s
-
-before_script:
+    # install latest release version
+    # Github may forbid request from travis container, so use tor proxy
+    - sudo systemctl start tor
+    # - curl -fsL --socks5-hostname 127.0.0.1:9050 https://api.github.com/repos/gohugoio/hugo/releases/latest | sed -r -n '/browser_download_url/{/Linux-64bit.deb/{s@[^:]*:[[:space:]]*"([^"]*)".*@\1@g;p;q}}' | xargs wget
+    - download_command='curl -fsSL -x socks5h://127.0.0.1:9050' # --socks5-hostname
+    - $download_command -O $($download_command https://api.github.com/repos/gohugoio/hugo/releases/latest | sed -r -n '/browser_download_url/{/Linux-64bit.deb/{s@[^:]*:[[:space:]]*"([^"]*)".*@\1@g;p;q}}')
+    - sudo dpkg -i hugo*.deb
     - rm -rf public 2> /dev/null
 
 # script - run the build script
@@ -24,7 +32,7 @@ script:
 branches:
   only:
     - hugo
-
+    
 deploy:
   provider: pages  # 重要，指定这是一份github pages的部署配置
   skip-cleanup: true  # 重要，不能省略
