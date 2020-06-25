@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,44 +363,38 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#什么是类加载">什么是类加载</a></li>
-<li><a href="#类加载的时机">类加载的时机</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#什么是类加载">什么是类加载</a></li>
+    <li><a href="#类加载的时机">类加载的时机</a></li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="什么是类加载">什么是类加载</h2>
-
+                <h2 id="什么是类加载">什么是类加载</h2>
 <p>虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，这就是虚拟机的类加载机制。</p>
-
 <h2 id="类加载的时机">类加载的时机</h2>
-
-<p>类从被加载到虚拟内存中开始，到卸载出内存位置，它的生命周期包括：<strong><font color = "red"> 加载
+<p>类从被加载到虚拟内存中开始，到卸载出内存位置，它的生命周期包括：<strong><!-- raw HTML omitted --> 加载
 （Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化
-（Initialization）、使用（Using）和卸载（Unloading）</font></strong>7个阶段。其中验证、准备、解析3
-个部分统称为 <strong><font color = "red">连接（Linking）</font></strong>。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/1.png" alt="" /></p>
-
+（Initialization）、使用（Using）和卸载（Unloading）<!-- raw HTML omitted --></strong>7个阶段。其中验证、准备、解析3
+个部分统称为 <strong><!-- raw HTML omitted -->连接（Linking）<!-- raw HTML omitted --></strong>。</p>
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/1.png" alt=""></p>
 <p><strong>加载</strong>、<strong>验证</strong>、<strong>准备</strong>、<strong>初始化</strong>和<strong>卸载</strong>这5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而<strong>解析阶段</strong>则不一定：它在某些情况下可以在<strong>初始化阶段</strong>之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。</p>
-
 <p>什么情况下需要开始类加载过程的第一个阶段：加载？Java虚拟机规范中并没有进行强制约束，这点可以交给虚拟机的具体实现来自由把握。但是对于初始化阶段，虚拟机规范则是严格规定了有且只有5种情况必须立即对类进行“初始化”（而加载、验证、准备自然需要在此之前开始）：</p>
-
 <ol>
-<li><p>遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见的Java代码场景是：使用new关键字实例化对象的时候、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</p></li>
-
-<li><p>使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</p></li>
-
-<li><p>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p></li>
-
-<li><p>当虚拟机启动时，用户需要指定一个要执行的主类（包含main（）方法的那个类），虚拟机会先初始化这个主类。</p></li>
-
-<li><p>当使用JDK 1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</p></li>
+<li>
+<p>遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见的Java代码场景是：使用new关键字实例化对象的时候、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</p>
+</li>
+<li>
+<p>使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</p>
+</li>
+<li>
+<p>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p>
+</li>
+<li>
+<p>当虚拟机启动时，用户需要指定一个要执行的主类（包含main（）方法的那个类），虚拟机会先初始化这个主类。</p>
+</li>
+<li>
+<p>当使用JDK 1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</p>
+</li>
 </ol>
 
 
@@ -459,6 +457,12 @@ $(function() {
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -612,7 +616,7 @@ $(function() {
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

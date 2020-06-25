@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -355,25 +359,20 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#常见的条件判断函数">常见的条件判断函数</a>
-<ul>
-<li><a href="#case">CASE</a></li>
-<li><a href="#if">IF()</a></li>
-<li><a href="#ifnull">IFNULL()</a></li>
-<li><a href="#nullif">NULLIF()</a></li>
-</ul></li>
-<li><a href="#参考文档">参考文档</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#常见的条件判断函数">常见的条件判断函数</a>
+      <ul>
+        <li><a href="#case">CASE</a></li>
+        <li><a href="#if">IF()</a></li>
+        <li><a href="#ifnull">IFNULL()</a></li>
+        <li><a href="#nullif">NULLIF()</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考文档">参考文档</a></li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="常见的条件判断函数">常见的条件判断函数</h2>
-
+                <h2 id="常见的条件判断函数">常见的条件判断函数</h2>
 <table>
 <thead>
 <tr>
@@ -381,62 +380,48 @@ $(function() {
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>CASE</td>
 <td>Case operator</td>
 </tr>
-
 <tr>
 <td>IF()</td>
 <td>If/else construct</td>
 </tr>
-
 <tr>
 <td>IFNULL()</td>
 <td>Null if/else construct</td>
 </tr>
-
 <tr>
 <td>NULLIF(expr1,expr2)</td>
 <td>Return NULL if expr1 = expr2</td>
 </tr>
 </tbody>
 </table>
-
 <h3 id="case">CASE</h3>
-
 <p>为了后面容易举例子，我们先创建一张表并插入数据</p>
-
-<pre><code class="language-SQL">CREATE TABLE demo ( 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-SQL" data-lang="SQL"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> demo ( 
 id INT,
-NAME VARCHAR ( 20 ),
+NAME VARCHAR ( <span style="color:#ae81ff">20</span> ),
 age INT
-) ENGINE = INNODB;
+) ENGINE <span style="color:#f92672">=</span> INNODB;
 
-insert into demo values (1,&quot;小明&quot;,13), (1,&quot;小红&quot;,28), (1,&quot;老李&quot;,61);
-</code></pre>
-
-<p>case 包含两种表达格式：</p>
-
-<p><strong><font color = "red">CASE value WHEN [compare_value] THEN result [WHEN [compare_value] THEN result &hellip;] [ELSE result] END</font></strong></br>
- 规则：当查询的结果当value = compare_value时返回result。</p>
-
-<pre><code class="language-sql"> SELECT 
-	NAME,
-CASE
-	NAME 
-		WHEN '小明' THEN '少年' 
-		WHEN '小红' THEN '中年' 
-		WHEN '老李' THEN '老年' 
-	END 'Type' 
-FROM
-	demo;
-</code></pre>
-
-<p>结果：</p>
-
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> demo <span style="color:#66d9ef">values</span> (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#34;小明&#34;</span>,<span style="color:#ae81ff">13</span>), (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#34;小红&#34;</span>,<span style="color:#ae81ff">28</span>), (<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#34;老李&#34;</span>,<span style="color:#ae81ff">61</span>);
+</code></pre></div><p>case 包含两种表达格式：</p>
+<p><strong><!-- raw HTML omitted -->CASE value WHEN [compare_value] THEN result [WHEN [compare_value] THEN result &hellip;] [ELSE result] END<!-- raw HTML omitted --></strong><!-- raw HTML omitted -->
+规则：当查询的结果当value = compare_value时返回result。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> 
+   NAME,
+<span style="color:#66d9ef">CASE</span>
+   NAME 
+       <span style="color:#66d9ef">WHEN</span> <span style="color:#e6db74">&#39;小明&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;少年&#39;</span> 
+       <span style="color:#66d9ef">WHEN</span> <span style="color:#e6db74">&#39;小红&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;中年&#39;</span> 
+       <span style="color:#66d9ef">WHEN</span> <span style="color:#e6db74">&#39;老李&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;老年&#39;</span> 
+   <span style="color:#66d9ef">END</span> <span style="color:#e6db74">&#39;Type&#39;</span> 
+<span style="color:#66d9ef">FROM</span>
+   demo;
+</code></pre></div><p>结果：</p>
 <table>
 <thead>
 <tr>
@@ -444,42 +429,34 @@ FROM
 <th>Type</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>小明</td>
 <td>少年</td>
 </tr>
-
 <tr>
 <td>小红</td>
 <td>中年</td>
 </tr>
-
 <tr>
 <td>老李</td>
 <td>老年</td>
 </tr>
 </tbody>
 </table>
-
-<p><strong><font color = "red">CASE WHEN [condition] THEN result [WHEN [condition] THEN result &hellip;] [ELSE result] END</font></strong></br>
+<p><strong><!-- raw HTML omitted -->CASE WHEN [condition] THEN result [WHEN [condition] THEN result &hellip;] [ELSE result] END<!-- raw HTML omitted --></strong><!-- raw HTML omitted -->
 规则：当condition为TRUE时返回result,当结果不符合时，返回else后结果，当没有else部分时，为NULL。</p>
-
-<pre><code class="language-sql">SELECT 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> 
 	NAME,
-CASE 
-		WHEN age &lt; 18 THEN '少年' 
-		WHEN age &gt;= 25 AND age &lt; 50 THEN '中年' 
-		WHEN age &gt;= 50 THEN '老年' 
-		ELSE '其他'
-	END 'Type' 
-FROM
+<span style="color:#66d9ef">CASE</span> 
+		<span style="color:#66d9ef">WHEN</span> age <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;少年&#39;</span> 
+		<span style="color:#66d9ef">WHEN</span> age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">25</span> <span style="color:#66d9ef">AND</span> age <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">50</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;中年&#39;</span> 
+		<span style="color:#66d9ef">WHEN</span> age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">50</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;老年&#39;</span> 
+		<span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;其他&#39;</span>
+	<span style="color:#66d9ef">END</span> <span style="color:#e6db74">&#39;Type&#39;</span> 
+<span style="color:#66d9ef">FROM</span>
 	demo;
-</code></pre>
-
-<p>结果：</p>
-
+</code></pre></div><p>结果：</p>
 <table>
 <thead>
 <tr>
@@ -487,62 +464,45 @@ FROM
 <th>Type</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>小明</td>
 <td>少年</td>
 </tr>
-
 <tr>
 <td>小红</td>
 <td>中年</td>
 </tr>
-
 <tr>
 <td>老李</td>
 <td>老年</td>
 </tr>
 </tbody>
 </table>
-
 <h3 id="if">IF()</h3>
-
 <p>IF(expr1,expr2,expr3), 当expr1为TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)时, IF() 返回 expr2. 否则, 结果为 expr3.</p>
-
-<pre><code class="language-sql">mysql&gt; SELECT IF(1&gt;2,2,3);
-        -&gt; 3
-mysql&gt; SELECT IF(1&lt;2,'yes','no');
-        -&gt; 'yes'
-</code></pre>
-
-<h3 id="ifnull">IFNULL()</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">IF</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span><span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">3</span>
+mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">IF</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span>,<span style="color:#e6db74">&#39;yes&#39;</span>,<span style="color:#e6db74">&#39;no&#39;</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#39;yes&#39;</span>
+</code></pre></div><h3 id="ifnull">IFNULL()</h3>
 <p>IFNULL(expr1,expr2),如果 expr1 L不为空时, IFNULL() 返回 expr1; 否则返回 expr2.</p>
-
-<pre><code class="language-sql">mysql&gt; SELECT IFNULL(1,0);
-        -&gt; 1
-mysql&gt; SELECT IFNULL(NULL,10);
-        -&gt; 10
-mysql&gt; SELECT IFNULL(1/0,10);
-        -&gt; 10
-mysql&gt; SELECT IFNULL(8%5,'yes');
-        -&gt; 3
-</code></pre>
-
-<h3 id="nullif">NULLIF()</h3>
-
-<p>NULLIF(expr1,expr2), 当 expr1 = expr2 时，返回NULL, 否则返回 expr1. 这个语句相当于</br>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> IFNULL(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1</span>
+mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> IFNULL(<span style="color:#66d9ef">NULL</span>,<span style="color:#ae81ff">10</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">10</span>
+mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> IFNULL(<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">10</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">10</span>
+mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> IFNULL(<span style="color:#ae81ff">8</span><span style="color:#f92672">%</span><span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;yes&#39;</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">3</span>
+</code></pre></div><h3 id="nullif">NULLIF()</h3>
+<p>NULLIF(expr1,expr2), 当 expr1 = expr2 时，返回NULL, 否则返回 expr1. 这个语句相当于<!-- raw HTML omitted -->
 <strong>CASE WHEN expr1 = expr2 THEN NULL ELSE expr1 END</strong>.</p>
-
-<pre><code class="language-sql">mysql&gt; SELECT NULLIF(1,1);
-        -&gt; NULL
-mysql&gt; SELECT NULLIF(1,2);
-        -&gt; 1
-</code></pre>
-
-<h2 id="参考文档">参考文档</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">NULLIF</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">NULL</span>
+mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">NULLIF</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>);
+        <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><h2 id="参考文档">参考文档</h2>
 <p><a href="https://dev.mysql.com/doc/refman/5.7/en/control-flow-functions.html#function_if">MySQL官方文档</a></p>
 
 
@@ -605,6 +565,12 @@ mysql&gt; SELECT NULLIF(1,2);
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -758,7 +724,7 @@ mysql&gt; SELECT NULLIF(1,2);
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

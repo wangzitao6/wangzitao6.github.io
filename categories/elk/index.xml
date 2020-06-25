@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>elk on 王子滔的学习笔记</title>
+    <link>https://wangzitao6.github.io/categories/elk/</link>
+    <description>Recent content in elk on 王子滔的学习笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate>
+    
+	<atom:link href="https://wangzitao6.github.io/categories/elk/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Logstash割接mysql数据到es</title>
+      <link>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</link>
+      <pubDate>Wed, 24 Jun 2020 19:56:25 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</guid>
+      <description>ElasticSearch创建索引 创建ES索引 PUT logstash_demo { &amp;quot;mappings&amp;quot; : { &amp;quot;properties&amp;quot; : { &amp;quot;email&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;first_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;last_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;uid&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;long&amp;quot; } } } } 创建好后查询索</description>
+    </item>
+    
+  </channel>
+</rss>

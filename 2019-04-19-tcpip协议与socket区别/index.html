@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -355,125 +359,74 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#tcp-ip协议的组成">TCP/IP协议的组成</a></li>
-<li><a href="#通信过程及相关协议">通信过程及相关协议</a>
-<ul>
-<li><a href="#链路层">链路层</a></li>
-<li><a href="#网络层">网络层</a>
-<ul>
-<li><a href="#ip协议">IP协议</a></li>
-<li><a href="#arp协议">ARP协议</a></li>
-<li><a href="#路由协议">路由协议</a></li>
-</ul></li>
-<li><a href="#传输层">传输层</a>
-<ul>
-<li><a href="#udp协议">UDP协议</a></li>
-<li><a href="#tcp协议">TCP协议</a></li>
-</ul></li>
-<li><a href="#应用层">应用层</a></li>
-</ul></li>
-<li><a href="#socket">socket</a>
-<ul>
-<li><a href="#socket通信流程">socket通信流程</a></li>
-<li><a href="#服务器创建socket">服务器创建socket</a></li>
-<li><a href="#客户端创建socket">客户端创建socket</a></li>
-<li><a href="#socket编程api">socket编程API</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#tcpip协议的组成">TCP/IP协议的组成</a></li>
+    <li><a href="#通信过程及相关协议">通信过程及相关协议</a>
+      <ul>
+        <li><a href="#链路层">链路层</a></li>
+        <li><a href="#网络层">网络层</a></li>
+        <li><a href="#传输层">传输层</a></li>
+        <li><a href="#应用层">应用层</a></li>
+      </ul>
+    </li>
+    <li><a href="#socket">socket</a>
+      <ul>
+        <li><a href="#socket通信流程">socket通信流程</a></li>
+        <li><a href="#服务器创建socket">服务器创建socket</a></li>
+        <li><a href="#客户端创建socket">客户端创建socket</a></li>
+        <li><a href="#socket编程api">socket编程API</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="tcp-ip协议的组成">TCP/IP协议的组成</h2>
-
+                <h2 id="tcpip协议的组成">TCP/IP协议的组成</h2>
 <p>TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。</p>
-
 <p>TCP/IP协议在一定程度上参考了OSI的体系结构。OSI模型共有七层，从下到上分别是物理层、数据链路层、网络层、运输层、会话层、表示层和应用层。但是这显然是有些复杂的，所以在TCP/IP协议中，它们被简化为了四个层次</p>
-
 <pre><code>应用层：TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet 等等
 传输层：TCP，UDP
 网络层：IP，ICMP，OSPF，EIGRP，IGMP
 数据链路层：SLIP，CSLIP，PPP，MTU
 </code></pre>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/1.png" alt="" /></p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/1.png" alt=""></p>
 <p>ISO模型的七个分层与四个抽象层关系如下图:</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/2.png" alt="" /></p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/2.png" alt=""></p>
 <h2 id="通信过程及相关协议">通信过程及相关协议</h2>
-
-<p>在网络通信的过程中，将发出数据的主机称为<strong>源主机</strong>，接收数据的主机称为<strong>目的主机</strong>。当<strong>源主机</strong>发出数据时，数据在源主机中从上层向下层传送。<font color = "red">源主机中的应用进程先将数据交给<strong>应用层</strong>，<strong>应用层</strong>加上必要的控制信息就成了报文流，向下传给<strong>传输层</strong>。<strong>传输层</strong>将收到的数据单元加上本层的控制信息，形成报文段、数据报，再交给<strong>网络层</strong>。<strong>网络层</strong>加上本层的控制信息，形成IP数据报，传给<strong>网络接口层</strong>。网络接口层将网际层交下来的IP数据报组装成帧，并以比特流的形式传给网络硬件（即物理层），数据就离开源主机。</font></p>
-
+<p>在网络通信的过程中，将发出数据的主机称为<strong>源主机</strong>，接收数据的主机称为<strong>目的主机</strong>。当<strong>源主机</strong>发出数据时，数据在源主机中从上层向下层传送。<!-- raw HTML omitted -->源主机中的应用进程先将数据交给<strong>应用层</strong>，<strong>应用层</strong>加上必要的控制信息就成了报文流，向下传给<strong>传输层</strong>。<strong>传输层</strong>将收到的数据单元加上本层的控制信息，形成报文段、数据报，再交给<strong>网络层</strong>。<strong>网络层</strong>加上本层的控制信息，形成IP数据报，传给<strong>网络接口层</strong>。网络接口层将网际层交下来的IP数据报组装成帧，并以比特流的形式传给网络硬件（即物理层），数据就离开源主机。<!-- raw HTML omitted --></p>
 <h3 id="链路层">链路层</h3>
-
-<p>以太网协议规定，接入网络的设备都必须安装网络适配器，即网卡，数据包必须从一块网卡送到另一块网卡。而网卡地址就是数据包的发送地址和接收地址，有了MAC地址以后，以太网才用广播形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包以后，都会读取首部里的目标MAC地址，然后和自己的MAC地址进行对比，如果相同就做下一步处理，如果不同，就丢弃这个包。</br>
+<p>以太网协议规定，接入网络的设备都必须安装网络适配器，即网卡，数据包必须从一块网卡送到另一块网卡。而网卡地址就是数据包的发送地址和接收地址，有了MAC地址以后，以太网才用广播形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包以后，都会读取首部里的目标MAC地址，然后和自己的MAC地址进行对比，如果相同就做下一步处理，如果不同，就丢弃这个包。<!-- raw HTML omitted -->
 所以链路层的主要工作就是对电信号进行分组并形成具有特定意义的数据帧，然后以广播的形式通过物理介质发送给接收方。</p>
-
 <h3 id="网络层">网络层</h3>
-
 <h4 id="ip协议">IP协议</h4>
-
 <p>网络层引入<strong>IP</strong>协议，制定了一套新地址，使得我们能够区分两台主机是否同属一个网络，这套地址就是网络地址，也就是所谓的<strong>IP</strong>地址，<strong>IP</strong>协议将这32位的地址分为两部分，前面部分代表网络地址，后面部分表示该主机在局域网中的地址。如果两个<strong>IP</strong>在同一个子网内，则网络地址一定相同。为了判断<strong>IP</strong>地址中的网络地址，<strong>IP</strong>协议还引入了子网掩码，<strong>IP</strong>地址和子网掩码通过按位与运算后就可以得到网络地址。</p>
-
 <h4 id="arp协议">ARP协议</h4>
-
 <p><strong>ARP</strong>协议即地址解析协议，是根据<strong>IP</strong>地址获取<strong>MAC</strong>地址的一个网络层协议。其工作原理如下：<strong>ARP</strong>首先会发起一个请求数据包，数据包的首部包含了目标主机的<strong>IP</strong>地址，然后这个数据包会在链路层进行再次包装，生成以太网数据包，最终由以太网广播给子网内的所有主机，每一台主机都会接收到这个数据包，并取出标头里的<strong>IP</strong>地址，然后和自己的IP地址进行比较，如果相同就返回自己的<strong>MAC</strong>地址，如果不同就丢弃该数据包。<strong>ARP</strong>接收返回消息，以此确定目标机的MAC地址；与此同时，<strong>ARP</strong>还会将返回的<strong>MAC</strong>地址与对应的<strong>IP</strong>地址存入本机<strong>ARP</strong>缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。</p>
-
 <h4 id="路由协议">路由协议</h4>
-
 <p>首先通过<strong>IP</strong>协议来判断两台主机是否在同一个子网中，如果在同一个子网，就通过<strong>ARP</strong>协议查询对应的<strong>MAC</strong>地址，然后以广播的形式向该子网内的主机发送数据包；如果不在同一个子网，以太网会将该数据包转发给本子网的网关进行路由。网关是互联网上子网与子网之间的桥梁，所以网关会进行多次转发，最终将该数据包转发到目标<strong>IP</strong>所在的子网中，然后再通过ARP获取目标机<strong>MAC</strong>，最终也是通过广播形式将数据包发送给接收方。而完成这个路由协议的物理设备就是路由器，路由器扮演着交通枢纽的角色，它会根据信道情况，选择并设定路由，以最佳路径来转发数据包。</p>
-
 <p>所以，网络层的主要工作是定义网络地址、区分网段、子网内<strong>MAC</strong>寻址、对于不同子网的数据包进行路由。</p>
-
 <h3 id="传输层">传输层</h3>
-
 <p>链路层定义了主机的身份，即<strong>MAC</strong>地址，而网络层定义了<strong>IP</strong>地址，明确了主机所在的网段，有了这两个地址，数据包就从可以从一个主机发送到另一台主机。但实际上数据包是从一个主机的某个应用程序发出，然后由对方主机的应用程序接收。而每台电脑都有可能同时运行着很多个应用程序，所以当数据包被发送到主机上以后，是无法确定哪个应用程序要接收这个包。因此传输层引入了<strong>UDP</strong>协议来解决这个问题，为了给每个应用程序标识身份。</p>
-
 <h4 id="udp协议">UDP协议</h4>
-
 <p><strong>UDP</strong>协议定义了端口，同一个主机上的每个应用程序都需要指定唯一的端口号，并且规定网络中传输的数据包必须加上端口信息，当数据包到达主机以后，就可以根据端口号找到对应的应用程序了。<strong>UDP</strong>协议比较简单，实现容易，但它没有确认机制，数据包一旦发出，无法知道对方是否收到，因此可靠性较差，为了解决这个问题，提高网络可靠性，<strong>TCP</strong>协议就诞生了。</p>
-
 <h4 id="tcp协议">TCP协议</h4>
-
-<p><strong>TCP</strong>即传输控制协议，是一种面向连接的、可靠的、基于字节流的通信协议。简单来说<strong>TCP</strong>就是有确认机制的<strong>UDP</strong>协议，每发出一个数据包都要求确认，如果有一个数据包丢失，就收不到确认，发送方就必须重发这个数据包。为了保证传输的可靠性，<strong>TCP</strong>协议在<strong>UDP</strong>基础之上建立了三次对话的确认机制，即在正式收发数据前，必须和对方建立可靠的连接。<strong>TCP</strong>数据包和<strong>UDP</strong>一样，都是由首部和数据两部分组成，唯一不同的是，<strong>TCP</strong>数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常<strong>TCP</strong>数据包的长度不会超过<strong>IP</strong>数据包的长度，以确保单个<strong>TCP</strong>数据包不必再分割。</br>
+<p><strong>TCP</strong>即传输控制协议，是一种面向连接的、可靠的、基于字节流的通信协议。简单来说<strong>TCP</strong>就是有确认机制的<strong>UDP</strong>协议，每发出一个数据包都要求确认，如果有一个数据包丢失，就收不到确认，发送方就必须重发这个数据包。为了保证传输的可靠性，<strong>TCP</strong>协议在<strong>UDP</strong>基础之上建立了三次对话的确认机制，即在正式收发数据前，必须和对方建立可靠的连接。<strong>TCP</strong>数据包和<strong>UDP</strong>一样，都是由首部和数据两部分组成，唯一不同的是，<strong>TCP</strong>数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常<strong>TCP</strong>数据包的长度不会超过<strong>IP</strong>数据包的长度，以确保单个<strong>TCP</strong>数据包不必再分割。<!-- raw HTML omitted -->
 传输层的主要工作是定义端口，标识应用程序身份，实现端口到端口的通信，<strong>TCP</strong>协议可以保证数据传输的可靠性。</p>
-
 <h3 id="应用层">应用层</h3>
-
 <p>理论上讲，有了以上三层协议的支持，数据已经可以从一个主机上的应用程序传输到另一台主机的应用程序了，但此时传过来的数据是字节流，不能很好的被程序识别，操作性差，因此，应用层定义了各种各样的协议来规范数据格式，常见的有<strong>http</strong>,<strong>ftp</strong>,<strong>smtp</strong>等，在请求<strong>Header</strong>中，分别定义了请求数据格式<strong>Accept</strong>和响应数据格式<strong>Content-Type</strong>，有了这个规范以后，当对方接收到请求以后就知道该用什么格式来解析，然后对请求进行处理，最后按照请求方要求的格式将数据返回，请求端接收到响应后，就按照规定的格式进行解读。</p>
-
 <p>所以应用层的主要工作就是定义数据格式并按照对应的格式解读数据。</p>
-
 <h2 id="socket">socket</h2>
-
 <p>我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用<strong>PID</strong>来唯一标示一个进程，但<strong>PID</strong>只在本地唯一，网络中的两个进程<strong>PID</strong>冲突几率很大，这时候我们需要另辟它径了，我们知道<strong>IP</strong>层的ip地址可以唯一标示主机，而<strong>TCP</strong>层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用ip地址＋协议＋端口号唯一标示网络中的一个进程。</p>
-
 <p>能够唯一标示网络中的进程后，它们就可以利用socket进行通信了，什么是socket呢？我们经常把socket翻译为套接字，socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信.</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/3.png" alt="" /></p>
-
-<p>socket是一种&rdquo;打开—读/写—关闭&rdquo;模式的实现，服务器和客户端各自维护一个&rdquo;文件&rdquo;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/3.png" alt=""></p>
+<p>socket是一种&quot;打开—读/写—关闭&quot;模式的实现，服务器和客户端各自维护一个&quot;文件&rdquo;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
 <h3 id="socket通信流程">socket通信流程</h3>
-
-<p>socket是&rdquo;打开—读/写—关闭&rdquo;模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/4.png" alt="" /></p>
-
+<p>socket是&quot;打开—读/写—关闭&quot;模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的</p>
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/4.png" alt=""></p>
 <h3 id="服务器创建socket">服务器创建socket</h3>
-
 <p>服务器根据地址类型（ipv4,ipv6）、socket类型、协议创建socket
 服务器为socket绑定ip地址和端口号
 服务器socket监听端口号请求，随时准备接收客户端发来的连接，这时候服务器的socket并没有被打开</p>
-
 <h3 id="客户端创建socket">客户端创建socket</h3>
-
 <p>客户端打开socket
 根据服务器ip地址和端口号试图连接服务器socket
 服务器socket接收到客户端socket请求，被动打开，开始接收客户端请求，直到客户端返回连接信息。这时候socket进入阻塞状态，所谓阻塞即accept()方法一直到客户端返回连接信息后才返回，开始接收下一个客户端谅解请求
@@ -483,57 +436,46 @@ $(function() {
 服务器读取信息
 客户端关闭
 服务器端关闭</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/5.png" alt="" /></p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/5.png" alt=""></p>
 <h3 id="socket编程api">socket编程API</h3>
-
-<p>前面提到socket是&rdquo;打开—读/写—关闭&rdquo;模式的实现，简单了解一下socket提供了哪些API供应用程序使用，还是以TCP协议为例，看看Unix下的socket API，其它语言都很类似（PHP甚至名字都几乎一样），这里我就简单解释一下方法作用和参数，具体使用有兴趣同学可以看看博客参考中的链接或者上网搜索</p>
-
-<p><code>int socket(int domain, int type, int protocol);</code></br>
-根据指定的地址族、数据类型和协议来分配一个socket的描述字及其所用的资源。</br>
-domain:协议族，常用的有AF_INET、AF_INET6、AF_LOCAL、AF_ROUTE其中AF_INET代表使用ipv4地址</br>
-type:socket类型，常用的socket类型有，SOCK_STREAM、SOCK_DGRAM、SOCK_RAW、SOCK_PACKET、SOCK_SEQPACKET等</br>
+<p>前面提到socket是&quot;打开—读/写—关闭&quot;模式的实现，简单了解一下socket提供了哪些API供应用程序使用，还是以TCP协议为例，看看Unix下的socket API，其它语言都很类似（PHP甚至名字都几乎一样），这里我就简单解释一下方法作用和参数，具体使用有兴趣同学可以看看博客参考中的链接或者上网搜索</p>
+<p><code>int socket(int domain, int type, int protocol);</code><!-- raw HTML omitted -->
+根据指定的地址族、数据类型和协议来分配一个socket的描述字及其所用的资源。<!-- raw HTML omitted -->
+domain:协议族，常用的有AF_INET、AF_INET6、AF_LOCAL、AF_ROUTE其中AF_INET代表使用ipv4地址<!-- raw HTML omitted -->
+type:socket类型，常用的socket类型有，SOCK_STREAM、SOCK_DGRAM、SOCK_RAW、SOCK_PACKET、SOCK_SEQPACKET等<!-- raw HTML omitted -->
 protocol:协议。常用的协议有，IPPROTO_TCP、IPPTOTO_UDP、IPPROTO_SCTP、IPPROTO_TIPC等</p>
-
-<p><code>int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></br>
-把一个地址族中的特定地址赋给socket</br>
-sockfd:socket描述字，也就是socket引用</br>
-addr:要绑定给sockfd的协议地址</br>
-addrlen:地址的长度</br>
+<p><code>int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code><!-- raw HTML omitted -->
+把一个地址族中的特定地址赋给socket<!-- raw HTML omitted -->
+sockfd:socket描述字，也就是socket引用<!-- raw HTML omitted -->
+addr:要绑定给sockfd的协议地址<!-- raw HTML omitted -->
+addrlen:地址的长度<!-- raw HTML omitted -->
 通常服务器在启动的时候都会绑定一个众所周知的地址（如ip地址+端口号），用于提供服务，客户就可以通过它来接连服务器；而客户端就不用指定，有系统自动分配一个端口号和自身的ip地址组合。这就是为什么通常服务器端在listen之前会调用bind()，而客户端就不会调用，而是在connect()时由系统随机生成一个。</p>
-
-<p><code>int listen(int sockfd, int backlog);</code></br>
-监听socket</br>
-sockfd:要监听的socket描述字</br>
-backlog:相应socket可以排队的最大连接个数 </br></p>
-
-<p><code>int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></br>
-连接某个socket</br>
-sockfd:客户端的socket描述字</br>
-addr:服务器的socket地址</br>
-addrlen:socket地址的长度</br></p>
-
-<p><code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code></br>
-TCP服务器监听到客户端请求之后，调用accept()函数取接收请求</br>
-sockfd:服务器的socket描述字</br>
-addr:客户端的socket地址</br>
-addrlen:socket地址的长度</br></p>
-
-<p><code>ssize_t read(int fd, void *buf, size_t count);</code></br>
-读取socket内容</br>
-fd:socket描述字</br>
-buf：缓冲区</br>
-count：缓冲区长度</br></p>
-
-<p><code>ssize_t write(int fd, const void *buf, size_t count);</code></br>
-向socket写入内容，其实就是发送内容</br>
-fd:socket描述字</br>
-buf：缓冲区</br>
-count：缓冲区长度</br></p>
-
-<p><code>int close(int fd);</code></br>
-socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引用计数为0的时候，触发TCP客户端向服务器发送终止连接请求。</br></p>
+<p><code>int listen(int sockfd, int backlog);</code><!-- raw HTML omitted -->
+监听socket<!-- raw HTML omitted -->
+sockfd:要监听的socket描述字<!-- raw HTML omitted -->
+backlog:相应socket可以排队的最大连接个数 <!-- raw HTML omitted --></p>
+<p><code>int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code><!-- raw HTML omitted -->
+连接某个socket<!-- raw HTML omitted -->
+sockfd:客户端的socket描述字<!-- raw HTML omitted -->
+addr:服务器的socket地址<!-- raw HTML omitted -->
+addrlen:socket地址的长度<!-- raw HTML omitted --></p>
+<p><code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code><!-- raw HTML omitted -->
+TCP服务器监听到客户端请求之后，调用accept()函数取接收请求<!-- raw HTML omitted -->
+sockfd:服务器的socket描述字<!-- raw HTML omitted -->
+addr:客户端的socket地址<!-- raw HTML omitted -->
+addrlen:socket地址的长度<!-- raw HTML omitted --></p>
+<p><code>ssize_t read(int fd, void *buf, size_t count);</code><!-- raw HTML omitted -->
+读取socket内容<!-- raw HTML omitted -->
+fd:socket描述字<!-- raw HTML omitted -->
+buf：缓冲区<!-- raw HTML omitted -->
+count：缓冲区长度<!-- raw HTML omitted --></p>
+<p><code>ssize_t write(int fd, const void *buf, size_t count);</code><!-- raw HTML omitted -->
+向socket写入内容，其实就是发送内容<!-- raw HTML omitted -->
+fd:socket描述字<!-- raw HTML omitted -->
+buf：缓冲区<!-- raw HTML omitted -->
+count：缓冲区长度<!-- raw HTML omitted --></p>
+<p><code>int close(int fd);</code><!-- raw HTML omitted -->
+socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引用计数为0的时候，触发TCP客户端向服务器发送终止连接请求。<!-- raw HTML omitted --></p>
 
 
                 
@@ -595,6 +537,12 @@ socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引�
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -748,7 +696,7 @@ socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引�
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

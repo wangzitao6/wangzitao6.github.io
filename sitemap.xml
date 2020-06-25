@@ -1,10 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>https://wangzitao6.github.io/categories/</loc>
-    <lastmod>2019-09-18T15:06:02+08:00</lastmod>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/tags/elk/</loc>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/categories/elk/</loc>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</loc>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/post/</loc>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/tags/</loc>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wangzitao6.github.io/</loc>
+    <lastmod>2020-06-24T19:56:25+08:00</lastmod>
   </url>
   
   <url>
@@ -14,21 +44,6 @@
   
   <url>
     <loc>https://wangzitao6.github.io/categories/net/</loc>
-    <lastmod>2019-09-18T15:06:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wangzitao6.github.io/post/</loc>
-    <lastmod>2019-09-18T15:06:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wangzitao6.github.io/tags/</loc>
-    <lastmod>2019-09-18T15:06:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wangzitao6.github.io/</loc>
     <lastmod>2019-09-18T15:06:02+08:00</lastmod>
   </url>
   
@@ -48,12 +63,12 @@
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/categories/jvm/</loc>
+    <loc>https://wangzitao6.github.io/tags/jvm/</loc>
     <lastmod>2019-09-02T16:47:28+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://wangzitao6.github.io/tags/jvm/</loc>
+    <loc>https://wangzitao6.github.io/categories/jvm/</loc>
     <lastmod>2019-09-02T16:47:28+08:00</lastmod>
   </url>
   
@@ -309,22 +324,18 @@
   
   <url>
     <loc>https://wangzitao6.github.io/bak/readme/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wangzitao6.github.io/search/placeholder/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wangzitao6.github.io/top/about/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://wangzitao6.github.io/top/books/</loc>
-    <priority>0</priority>
   </url>
   
   <url>

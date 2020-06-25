@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
+    <meta name="baidu-site-verification" content="LRrmH41lz7" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的学习笔记">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="Logstash割接mysql数据到es" />
+    <meta property="og:title" content="Logstash割接mysql数据到es" />
+    <meta property="twitter:title" content="Logstash割接mysql数据到es" />
+    
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Logstash割接mysql数据到es</title>
+
+    <link rel="canonical" href="/2020-06-24-logstash%e5%89%b2%e6%8e%a5mysql%e6%95%b0%e6%8d%ae%e5%88%b0es/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+	
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/build">build</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/java">java</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/jvm">jvm</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/net">net</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/other">other</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/categories/sql">sql</a>
+                    </li>
+                    
+
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/elk" title="elk">
+                            elk
+                        </a>
+                        
+                    </div>
+                    <h1>Logstash割接mysql数据到es</h1>
+                    <h2 class="subheading">Logstash割接mysql数据到es</h2>
+                    <span class="meta">
+			Posted by
+			
+			    WangZiTao
+			
+			on
+			Wednesday, June 24, 2020
+                        
+                            <span id="/2020-06-24-logstash割接mysql数据到es/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>目录</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#elasticsearch创建索引">ElasticSearch创建索引</a></li>
+    <li><a href="#mysql创建表">MySql创建表</a></li>
+    <li><a href="#准备logstash">准备LogStash</a>
+      <ul>
+        <li><a href="#安装logstash">安装LogStash</a></li>
+        <li><a href="#安装jdbc插件">安装jdbc插件</a></li>
+        <li><a href="#编写logstash脚本">编写LogStash脚本</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+                
+                <h2 id="elasticsearch创建索引">ElasticSearch创建索引</h2>
+<p>创建ES索引</p>
+<pre><code>PUT logstash_demo
+{
+    &quot;mappings&quot; : {
+      &quot;properties&quot; : {
+        &quot;email&quot; : {
+          &quot;type&quot; : &quot;text&quot;
+        },
+        &quot;first_name&quot; : {
+          &quot;type&quot; : &quot;text&quot;
+        },
+        &quot;last_name&quot; : {
+          &quot;type&quot; : &quot;text&quot;
+        },
+        &quot;uid&quot; : {
+          &quot;type&quot; : &quot;long&quot;
+        }
+      }
+    }
+  }
+</code></pre><p>创建好后查询索引数据</p>
+<pre><code>GET logstash_demo/_search
+{
+  &quot;query&quot;: {
+    &quot;match_all&quot;: {}
+  }
+}
+</code></pre><p>这时查询熟的数据为空。</p>
+<h2 id="mysql创建表">MySql创建表</h2>
+<p>创建表并插入数据</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> contacts (
+  uid serial,
+  email VARCHAR(<span style="color:#ae81ff">80</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+  first_name VARCHAR(<span style="color:#ae81ff">80</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+  last_name VARCHAR(<span style="color:#ae81ff">80</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+);
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> contacts(email, first_name, last_name) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;jim@example.com&#39;</span>, <span style="color:#e6db74">&#39;Jim&#39;</span>, <span style="color:#e6db74">&#39;Smith&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> contacts(email, first_name, last_name) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;john@example.com&#39;</span>, <span style="color:#e6db74">&#39;John&#39;</span>, <span style="color:#e6db74">&#39;Smith&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> contacts(email, first_name, last_name) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;carol@example.com&#39;</span>, <span style="color:#e6db74">&#39;Carol&#39;</span>, <span style="color:#e6db74">&#39;Smith&#39;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> contacts(email, first_name, last_name) <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#39;sam@example.com&#39;</span>, <span style="color:#e6db74">&#39;Sam&#39;</span>, Smith);
+</code></pre></div><h2 id="准备logstash">准备LogStash</h2>
+<h3 id="安装logstash">安装LogStash</h3>
+<p><a href="https://www.elastic.co/cn/downloads/logstash">去官网</a>下载LogStash安装包，并解压。</p>
+<h3 id="安装jdbc插件">安装jdbc插件</h3>
+<p>解压后进入logstash解压包的bin目录，执行命令</p>
+<pre><code>./logstash-plugin install logstash-input-jdbc
+</code></pre><p>如何是在win上，则执行</p>
+<pre><code>./logstash-plugin.bat install logstash-input-jdbc
+</code></pre><p>如果这个命令安装不了，可以去<a href="https://mvnrepository.com/artifact/mysql/mysql-connector-java">这里</a>下载 mysql-connector-java  jar包，我这里下载的是mysql-connector-java-8.0.18.jar。</p>
+<p>然后把jar包放在LogStash文件夹下的vendor下，创建/jar/jdbc ，放入jar。</p>
+<h3 id="编写logstash脚本">编写LogStash脚本</h3>
+<h4 id="demo1">demo1</h4>
+<p>简单的脚本，把数据库中数据打印出来</p>
+<pre><code class="language-conf" data-lang="conf">input {
+    jdbc {
+        # Postgres jdbc connection string to our database, mydb
+        jdbc_connection_string =&gt; &quot;jdbc:mysql://127.0.0.1:3306/demo&quot;
+        # 用户名密码
+	    jdbc_user =&gt; &quot;root&quot;
+	    jdbc_password =&gt; &quot;123456&quot;
+	    # jar包的位置
+	    jdbc_driver_library =&gt; &quot;../vendor/jar/jdbc/mysql-connector-java-8.0.18.jar&quot;
+	    # mysql的Driver
+	    jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;
+        # our query
+        statement =&gt; &quot;SELECT * FROM contacts&quot;
+    }
+}
+output {
+    stdout { codec =&gt; json_lines }
+}
+
+</code></pre><h4 id="demo2">demo2</h4>
+<p>把MySql中数据割进ElasticSearch中</p>
+<pre><code class="language-conf" data-lang="conf">input {
+    jdbc {
+        # Postgres jdbc connection string to our database, mydb
+        jdbc_connection_string =&gt; &quot;jdbc:mysql://127.0.0.1:3306/demo&quot;
+        # 用户名密码
+	    jdbc_user =&gt; &quot;root&quot;
+	    jdbc_password =&gt; &quot;123456&quot;
+	    # jar包的位置
+	    jdbc_driver_library =&gt; &quot;../vendor/jar/jdbc/mysql-connector-java-8.0.18.jar&quot;
+	    # mysql的Driver
+	    jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;
+        # our query
+        statement =&gt; &quot;SELECT * FROM contacts&quot;
+    }
+}
+
+filter {
+    json {
+        source =&gt; &quot;message&quot;
+        remove_field =&gt; [&quot;message&quot;]
+    }
+
+    mutate {
+        remove_field =&gt; &quot;@version&quot;
+        remove_field =&gt; &quot;@timestamp&quot;
+    }
+}
+
+output {
+    elasticsearch {
+        index =&gt; &quot;contact1&quot;
+		action =&gt; &quot;create&quot;
+        document_type =&gt; &quot;_doc&quot;
+        document_id =&gt; &quot;%{uid}&quot;
+        hosts =&gt; &quot;127.0.0.1:9200&quot;
+       }
+} 
+
+</code></pre><h2 id="参考">参考</h2>
+<p><a href="https://www.elastic.co/cn/blog/logstash-jdbc-input-plugin">www.elastic.co</a></p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019-09-15-http%e6%8a%a5%e6%96%87%e8%a7%a3%e6%9e%90/" data-toggle="tooltip" data-placement="top" title="http报文解析">&larr;
+                            上一篇</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+<div id="git-comments"></div>
+
+
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+
+
+<script>
+  var gitment = new Gitment({
+    id: 'logstash割接mysql数据到es', 
+    title: 'logstash割接mysql数据到es',
+    owner: 'wangzitao6',
+    repo: 'wangzitao6.github.io',
+    oauth: {
+      client_id: 'a09fff4950f8823cd23b',
+      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
+    }
+  })
+  gitment.render('git-comments')
+</script>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
+                            sql注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
+                            基础
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
+                            设计模式
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
+                            配置
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的学习笔记 2020
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135479251-2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-135479251-2');
+</script>
+
+
+</body>
+</html>

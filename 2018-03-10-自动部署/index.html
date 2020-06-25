@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,119 +363,98 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-简介">1.简介</a></li>
-<li><a href="#2-travis-ci是什么">2.Travis CI是什么</a></li>
-<li><a href="#3-配置travis-ci">3.配置Travis CI</a>
-<ul>
-<li><a href="#3-1-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</a></li>
-<li><a href="#3-2-配置travis-ci构建选项">3.2 配置Travis CI构建选项</a></li>
-<li><a href="#3-3-添加配置文件">3.3 添加配置文件</a></li>
-</ul></li>
-<li><a href="#4-自动部署">4.自动部署</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1简介">1.简介</a></li>
+    <li><a href="#2travis-ci是什么">2.Travis CI是什么</a></li>
+    <li><a href="#3配置travis-ci">3.配置Travis CI</a>
+      <ul>
+        <li><a href="#31-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</a></li>
+        <li><a href="#32-配置travis-ci构建选项">3.2 配置Travis CI构建选项</a></li>
+        <li><a href="#33-添加配置文件">3.3 添加配置文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#4自动部署">4.自动部署</a></li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="1-简介">1.简介</h2>
-
+                <h2 id="1简介">1.简介</h2>
 <p>Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个人博客的绝佳选择。但是用hugo一段时间后,发现新增博客时部署比较麻烦,经过几天的折腾后发现了Travis CI。</p>
-
-<h2 id="2-travis-ci是什么">2.Travis CI是什么</h2>
-
+<h2 id="2travis-ci是什么">2.Travis CI是什么</h2>
 <p>一个持续化集成平台，类似Jenkins。功能强大，和GitHub的集成尤其好，我们用它部署个人博客算大材小用。它有两个版本:</p>
-
 <ul>
-<li><p><a href="https://travis-ci.org/">https://travis-ci.org/</a> 免费版本，可以集成GitHub的public项目</p></li>
-
-<li><p><a href="https://travis-ci.com/">https://travis-ci.com/</a> 商业版本，可以集成GitHub的private项目</p></li>
+<li>
+<p><a href="https://travis-ci.org/">https://travis-ci.org/</a> 免费版本，可以集成GitHub的public项目</p>
+</li>
+<li>
+<p><a href="https://travis-ci.com/">https://travis-ci.com/</a> 商业版本，可以集成GitHub的private项目</p>
+</li>
 </ul>
-
 <p>我们使用第一个，免费版本。</p>
-
-<h2 id="3-配置travis-ci">3.配置Travis CI</h2>
-
-<h3 id="3-1-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</h3>
-
+<h2 id="3配置travis-ci">3.配置Travis CI</h2>
+<h3 id="31-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</h3>
 <p>打开GitHub。路径: “Settings”-&gt;“Developer settings”-&gt;“Personal access tokens”-&gt;“Generate new token”。<a href="https://github.com/settings/tokens/new">直达车</a></p>
-
 <p>因为是public项目，而且Travis CI是用来push代码，所以只需勾选 public_repo, repo:status, repo_deployment 三项。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png" alt="" /></p>
-
-<p></br>
-然后点击Generate Token 生成token.</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png" alt="" /></p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png" alt=""></p>
+<!-- raw HTML omitted -->
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png" alt=""></p>
 <p>Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。</p>
-
-<h3 id="3-2-配置travis-ci构建选项">3.2 配置Travis CI构建选项</h3>
-
+<h3 id="32-配置travis-ci构建选项">3.2 配置Travis CI构建选项</h3>
 <blockquote>
 <p>1.用GitHub方式登录<a href="https://travis-ci.org/">Travis CI</a></p>
-
+</blockquote>
+<blockquote>
 <p>2.“Settings”-“General” 勾选<code>Build pushed branches</code>和<code>Build pushed pull requests</code>两项。</p>
-
+</blockquote>
+<blockquote>
 <p>3.“Settings”-“Environment Variables” 添加<code>GITHUB_API_KEY</code>，值是上一步得到的Token</p>
 </blockquote>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png" alt="" /></p>
-
-<h3 id="3-3-添加配置文件">3.3 添加配置文件</h3>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png" alt=""></p>
+<h3 id="33-添加配置文件">3.3 添加配置文件</h3>
 <p><strong>在git根目录下添加 .travis.yml 文件</strong></p>
-
 <blockquote>
 <p>注意我的项目背景,项目有两个git分支</p>
-
+</blockquote>
+<blockquote>
 <ul>
-<li><p>hugo: 存放博客源码</p></li>
-
-<li><p>master: 存放Hugo生成的静态站点文件</p></li>
+<li>hugo: 存放博客源码</li>
 </ul>
 </blockquote>
-
-<pre><code class="language-yml">  language: go
-  # Specify which branches to build using a safelist
-  # 分支白名单限制: 只有hugo分支的提交才会触发构建
-  branches:
-    only:
-      - hugo
-  git:
-    depth: 1
-  install:
-  # 安装最新的hugo
-    - go get github.com/spf13/hugo
-  script:
-    # 运行hugo命令
+<blockquote>
+<ul>
+<li>master: 存放Hugo生成的静态站点文件</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">language</span>: go
+<span style="color:#75715e"># Specify which branches to build using a safelist</span>
+<span style="color:#75715e"># 分支白名单限制: 只有hugo分支的提交才会触发构建</span>
+<span style="color:#66d9ef">branches</span>:
+  <span style="color:#66d9ef">only</span>:
     - hugo
-  deploy:
-    provider: pages  # 重要，指定这是一份github pages的部署配置
-    skip-cleanup: true  # 重要，不能省略
-    # token is set in travis-ci.org dashboard
-    github_token: $GITHUB_API_KEY  # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
+<span style="color:#66d9ef">git</span>:
+  <span style="color:#66d9ef">depth</span>: <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">install</span>:
+<span style="color:#75715e"># 安装最新的hugo</span>
+  - go get github.com/spf13/hugo
+<span style="color:#66d9ef">script</span>:
+  <span style="color:#75715e"># 运行hugo命令</span>
+  - hugo
+<span style="color:#66d9ef">deploy</span>:
+  <span style="color:#66d9ef">provider</span>: pages  <span style="color:#75715e"># 重要，指定这是一份github pages的部署配置</span>
+  <span style="color:#66d9ef">skip-cleanup</span>: <span style="color:#66d9ef">true</span>  <span style="color:#75715e"># 重要，不能省略</span>
+  <span style="color:#75715e"># token is set in travis-ci.org dashboard</span>
+  <span style="color:#66d9ef">github_token</span>: $GITHUB_API_KEY  <span style="color:#75715e"># 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis</span>
 
-    local-dir: public # 静态站点文件所在目录
-    repo: wangzitao6/wangzitao6.github.io # github用户名/博客仓库名称
-    target_branch: master # 要将静态站点文件发布到哪个分支
-    keep-history: true # 是否保持target-branch分支的提交记录
-    on:
-      branch: hugo # 博客源码的分支
+  <span style="color:#66d9ef">local-dir</span>: public <span style="color:#75715e"># 静态站点文件所在目录</span>
+  <span style="color:#66d9ef">repo</span>: wangzitao6/wangzitao6.github.io <span style="color:#75715e"># github用户名/博客仓库名称</span>
+  <span style="color:#66d9ef">target_branch</span>: master <span style="color:#75715e"># 要将静态站点文件发布到哪个分支</span>
+  <span style="color:#66d9ef">keep-history</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># 是否保持target-branch分支的提交记录</span>
+  <span style="color:#66d9ef">on</span>:
+    <span style="color:#66d9ef">branch</span>: hugo <span style="color:#75715e"># 博客源码的分支</span>
 
-</code></pre>
-
-<p>把 .travis.yml 放到hugo分支，push到GitHub。</p>
-
-<h2 id="4-自动部署">4.自动部署</h2>
-
+</code></pre></div><p>把 .travis.yml 放到hugo分支，push到GitHub。</p>
+<h2 id="4自动部署">4.自动部署</h2>
 <p>上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署,可以在Travis CI中看到构建日志。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png" alt="" /></p>
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png" alt=""></p>
 
 
                 
@@ -533,6 +516,12 @@ $(function() {
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -686,7 +675,7 @@ $(function() {
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

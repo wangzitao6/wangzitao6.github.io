@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,268 +363,209 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#什么是常量">什么是常量</a></li>
-<li><a href="#jvm常量池">JVM常量池</a>
-<ul>
-<li><a href="#静态常量池-class文件中的常量池">静态常量池（Class文件中的常量池）</a></li>
-<li><a href="#常量池的好处">常量池的好处</a></li>
-<li><a href="#java基本类型">Java基本类型</a></li>
-<li><a href="#java浮点类型">Java浮点类型</a></li>
-</ul></li>
-<li><a href="#string类和常量池">String类和常量池</a>
-<ul>
-<li><a href="#string对象创建方式">String对象创建方式</a></li>
-<li><a href="#连接表达式">连接表达式 +</a></li>
-<li><a href="#string-s1-new-string-xyz">String s1 = new String(&ldquo;xyz&rdquo;)</a></li>
-<li><a href="#java-lang-string-intern">java.lang.String.intern()</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#什么是常量">什么是常量</a></li>
+    <li><a href="#jvm常量池">JVM常量池</a>
+      <ul>
+        <li><a href="#静态常量池class文件中的常量池">静态常量池（Class文件中的常量池）</a></li>
+        <li><a href="#常量池的好处">常量池的好处</a></li>
+        <li><a href="#java基本类型">Java基本类型</a></li>
+        <li><a href="#java浮点类型">Java浮点类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#string类和常量池">String类和常量池</a>
+      <ul>
+        <li><a href="#string对象创建方式">String对象创建方式</a></li>
+        <li><a href="#连接表达式-">连接表达式 +</a></li>
+        <li><a href="#string-s1--new-stringxyz">String s1 = new String(&ldquo;xyz&rdquo;)</a></li>
+        <li><a href="#javalangstringintern">java.lang.String.intern()</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="什么是常量">什么是常量</h2>
-
+                <h2 id="什么是常量">什么是常量</h2>
 <p>用final修饰的成员变量表示常量，值一但确定就无法修改。
 final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类型的常量</p>
-
 <h2 id="jvm常量池">JVM常量池</h2>
-
-<p>常量池大体可以分为两种：<strong>静态常量池</strong>和<strong>运行时常量池</strong>。
-* 静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。
-* 运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。</p>
-
-<h3 id="静态常量池-class文件中的常量池">静态常量池（Class文件中的常量池）</h3>
-
+<p>常量池大体可以分为两种：<strong>静态常量池</strong>和<strong>运行时常量池</strong>。</p>
+<ul>
+<li>静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。</li>
+<li>运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。</li>
+</ul>
+<h3 id="静态常量池class文件中的常量池">静态常量池（Class文件中的常量池）</h3>
 <p>常量池主要用于存放两大类常量：字面量(Literal)和符号引用量(Symbolic References)，字面量相当于Java语言层面常量的概念，如文本字符串，声明为final的常量值等，符号引用则属于编译原理方面的概念，包括了如下三种类型的常量：</p>
-
 <ul>
 <li>类和接口的全限定名</li>
 <li>字段名称和描述符</li>
 <li>方法名称和描述符</li>
 </ul>
-
 <p>###　方法区中的运行时常量池</p>
-
 <p>运行时常量池是方法区的一部分。
 CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项<strong>信息是常量池，用于存放编译期生成的各种字面量和符号引用</strong>，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-
 <p>运行时常量池相对于CLass文件常量池的另外一个重要特征是<strong>具备动态性</strong>，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。</p>
-
 <h3 id="常量池的好处">常量池的好处</h3>
-
 <p>常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享。
-例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。
-1. 节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。
-2. 节省运行时间：比较字符串时，&rdquo;\==&ldquo;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。</p>
-
+例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。</p>
+<ol>
+<li>节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。</li>
+<li>节省运行时间：比较字符串时，&quot;==&quot;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。</li>
+</ol>
 <p>##　8种基本类型的包装类和常量池</p>
-
 <h3 id="java基本类型">Java基本类型</h3>
-
 <p>java中基本类型的包装类的大部分都实现了常量池技术,即Byte,Short,Integer,Long,Character,Boolean；</p>
-
-<pre><code class="language-java">  Integer i1 = 40;
-  Integer i2 = 40;
-  System.out.println(i1==i2);//输出TRUE
-</code></pre>
-
-<p>这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。</p>
-
-<pre><code class="language-java">//Integer 缓存代码 ：
-public static Integer valueOf(int i) {
-        assert IntegerCache.high &gt;= 127;
-        if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
-            return IntegerCache.cache[i + (-IntegerCache.low)];
-        return new Integer(i);
-    }
-  Integer i1 = 400;
-  Integer i2 = 400;
-  System.out.println(i1==i2);//输出false
-</code></pre>
-
-<h3 id="java浮点类型">Java浮点类型</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  Integer i1 <span style="color:#f92672">=</span> 40<span style="color:#f92672">;</span>
+  Integer i2 <span style="color:#f92672">=</span> 40<span style="color:#f92672">;</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出TRUE
+</span></code></pre></div><p>这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//Integer 缓存代码 ：
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Integer <span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">assert</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">high</span> <span style="color:#f92672">&gt;=</span> 127<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&gt;=</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">low</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;=</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">high</span><span style="color:#f92672">)</span>
+            <span style="color:#66d9ef">return</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">cache</span><span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> <span style="color:#f92672">(-</span>IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">low</span><span style="color:#f92672">)];</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+  Integer i1 <span style="color:#f92672">=</span> 400<span style="color:#f92672">;</span>
+  Integer i2 <span style="color:#f92672">=</span> 400<span style="color:#f92672">;</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出false
+</span></code></pre></div><h3 id="java浮点类型">Java浮点类型</h3>
 <p>两种浮点数类型的包装类Float,Double并没有实现常量池技术。</p>
-
-<pre><code class="language-java">   Double i1=1.2;
-   Double i2=1.2;
-   System.out.println(i1==i2);//输出false
-</code></pre>
-
-<p>应用常量池的场景
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   Double i1<span style="color:#f92672">=</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">2</span><span style="color:#f92672">;</span>
+   Double i2<span style="color:#f92672">=</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">2</span><span style="color:#f92672">;</span>
+   System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出false
+</span></code></pre></div><p>应用常量池的场景
 (1)<code>Integer i1=40</code>；Java在编译的时候会直接将代码封装成<code>Integer i1=Integer.valueOf(40)</code>;，从而使用常量池中的对象。
 (2)<code>Integer i1 = new Integer(40)</code>;这种情况下会创建新的对象。</p>
-
-<pre><code class="language-java">  Integer i1 = 40;
-  Integer i2 = new Integer(40);
-  System.out.println(i1==i2);//输出false
-</code></pre>
-
-<p>Integer比较更丰富的一个例子</p>
-
-<pre><code class="language-java">  Integer i1 = 40;
-  Integer i2 = 40;
-  Integer i3 = 0;
-  Integer i4 = new Integer(40);
-  Integer i5 = new Integer(40);
-  Integer i6 = new Integer(0);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  Integer i1 <span style="color:#f92672">=</span> 40<span style="color:#f92672">;</span>
+  Integer i2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>40<span style="color:#f92672">);</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出false
+</span></code></pre></div><p>Integer比较更丰富的一个例子</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  Integer i1 <span style="color:#f92672">=</span> 40<span style="color:#f92672">;</span>
+  Integer i2 <span style="color:#f92672">=</span> 40<span style="color:#f92672">;</span>
+  Integer i3 <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+  Integer i4 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>40<span style="color:#f92672">);</span>
+  Integer i5 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>40<span style="color:#f92672">);</span>
+  Integer i6 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>0<span style="color:#f92672">);</span>
   
-  System.out.println(&quot;i1=i2   &quot; + (i1 == i2));
-  System.out.println(&quot;i1=i2+i3   &quot; + (i1 == i2 + i3));
-  System.out.println(&quot;i1=i4   &quot; + (i1 == i4));
-  System.out.println(&quot;i4=i5   &quot; + (i4 == i5));
-  System.out.println(&quot;i4=i5+i6   &quot; + (i4 == i5 + i6));   
-  System.out.println(&quot;40=i5+i6   &quot; + (40 == i5 + i6));  
-</code></pre>
-
-<p>结果为：</p>
-
-<pre><code class="language-java">i1=i2   true
-i1=i2+i3   true
-i1=i4   false
-i4=i5   false
-i4=i5+i6   true
-40=i5+i6   true
-</code></pre>
-
-<p>解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i1=i2   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i1 <span style="color:#f92672">==</span> i2<span style="color:#f92672">));</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i1=i2+i3   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i1 <span style="color:#f92672">==</span> i2 <span style="color:#f92672">+</span> i3<span style="color:#f92672">));</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i1=i4   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i1 <span style="color:#f92672">==</span> i4<span style="color:#f92672">));</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i4=i5   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i4 <span style="color:#f92672">==</span> i5<span style="color:#f92672">));</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i4=i5+i6   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i4 <span style="color:#f92672">==</span> i5 <span style="color:#f92672">+</span> i6<span style="color:#f92672">));</span>   
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;40=i5+i6   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>40 <span style="color:#f92672">==</span> i5 <span style="color:#f92672">+</span> i6<span style="color:#f92672">));</span>  
+</code></pre></div><p>结果为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">i1<span style="color:#f92672">=</span>i2   <span style="color:#66d9ef">true</span>
+i1<span style="color:#f92672">=</span>i2<span style="color:#f92672">+</span>i3   <span style="color:#66d9ef">true</span>
+i1<span style="color:#f92672">=</span>i4   <span style="color:#66d9ef">false</span>
+i4<span style="color:#f92672">=</span>i5   <span style="color:#66d9ef">false</span>
+i4<span style="color:#f92672">=</span>i5<span style="color:#f92672">+</span>i6   <span style="color:#66d9ef">true</span>
+40<span style="color:#f92672">=</span>i5<span style="color:#f92672">+</span>i6   <span style="color:#66d9ef">true</span>
+</code></pre></div><p>解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
 Java中的自动装箱与拆箱</p>
-
 <h2 id="string类和常量池">String类和常量池</h2>
-
 <h3 id="string对象创建方式">String对象创建方式</h3>
-
-<pre><code class="language-java">String str1 = &quot;abcd&quot;;
-String str2 = new String(&quot;abcd&quot;);
-System.out.println(str1==str2);//false
-</code></pre>
-
-<p>这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String str1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">;</span>
+String str2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">);</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str1<span style="color:#f92672">==</span>str2<span style="color:#f92672">);</span><span style="color:#75715e">//false
+</span></code></pre></div><p>这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
 <strong>只要使用new方法，便需要创建新的对象</strong>。</p>
-
-<h3 id="连接表达式">连接表达式 +</h3>
-
+<h3 id="连接表达式-">连接表达式 +</h3>
 <ol>
-<li>只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。</br></li>
-
-<li><p>对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。</p>
-
-<pre><code class="language-java">String str1 = &quot;str&quot;;
-String str2 = &quot;ing&quot;;
-
-String str3 = &quot;str&quot; + &quot;ing&quot;;
-String str4 = str1 + str2;
-System.out.println(str3 == str4);//false
-
-String str5 = &quot;string&quot;;
-System.out.println(str3 == str5);//true
-</code></pre></li>
+<li>只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。<!-- raw HTML omitted --></li>
+<li>对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。</li>
 </ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String str1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;str&#34;</span><span style="color:#f92672">;</span>
+String str2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ing&#34;</span><span style="color:#f92672">;</span>
 
-<p><a href="https://www.jianshu.com/p/88aa19fc21c6">java基础：字符串的拼接</a></p>
-
+String str3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;str&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;ing&#34;</span><span style="color:#f92672">;</span>
+String str4 <span style="color:#f92672">=</span> str1 <span style="color:#f92672">+</span> str2<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str3 <span style="color:#f92672">==</span> str4<span style="color:#f92672">);</span><span style="color:#75715e">//false
+</span><span style="color:#75715e"></span>
+String str5 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;string&#34;</span><span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str3 <span style="color:#f92672">==</span> str5<span style="color:#f92672">);</span><span style="color:#75715e">//true
+</span></code></pre></div><p><a href="https://www.jianshu.com/p/88aa19fc21c6">java基础：字符串的拼接</a></p>
 <p>特例1</p>
-
-<pre><code class="language-java">public static final String A = &quot;ab&quot;; // 常量A
-public static final String B = &quot;cd&quot;; // 常量B
-public static void main(String[] args) {
-     String s = A + B;  // 将两个常量用+连接对s进行初始化 
-     String t = &quot;abcd&quot;;   
-    if (s == t) {   
-         System.out.println(&quot;s等于t，它们是同一个对象&quot;);   
-     } else {   
-         System.out.println(&quot;s不等于t，它们不是同一个对象&quot;);   
-     }   
- } 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String A <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 常量A
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String B <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cd&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 常量B
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+     String s <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B<span style="color:#f92672">;</span>  <span style="color:#75715e">// 将两个常量用+连接对s进行初始化 
+</span><span style="color:#75715e"></span>     String t <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">;</span>   
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">==</span> t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s等于t，它们是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+     <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>   
+         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s不等于t，它们不是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+     <span style="color:#f92672">}</span>   
+ <span style="color:#f92672">}</span> 
 结果为:
-s等于t，它们是同一个对象
-</code></pre>
-
-<p>A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&ldquo;ab&rdquo;+&ldquo;cd&rdquo;;</p>
-
+s等于t<span style="color:#960050;background-color:#1e0010">，</span>它们是同一个对象
+</code></pre></div><p>A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&quot;ab&quot;+&quot;cd&rdquo;;</p>
 <p>特例2</p>
-
-<pre><code class="language-java">public static final String A; // 常量A
-public static final String B;    // 常量B
-static {   
-     A = &quot;ab&quot;;   
-     B = &quot;cd&quot;;   
- }   
- public static void main(String[] args) {   
-    // 将两个常量用+连接对s进行初始化   
-     String s = A + B;   
-     String t = &quot;abcd&quot;;   
-    if (s == t) {   
-         System.out.println(&quot;s等于t，它们是同一个对象&quot;);   
-     } else {   
-         System.out.println(&quot;s不等于t，它们不是同一个对象&quot;);   
-     }   
- } 
- 结果：
- s不等于t，它们不是同一个对象
-</code></pre>
-
-<p>A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。</p>
-
-<h3 id="string-s1-new-string-xyz">String s1 = new String(&ldquo;xyz&rdquo;)</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String A<span style="color:#f92672">;</span> <span style="color:#75715e">// 常量A
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String B<span style="color:#f92672">;</span>    <span style="color:#75715e">// 常量B
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>   
+     A <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">;</span>   
+     B <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cd&#34;</span><span style="color:#f92672">;</span>   
+ <span style="color:#f92672">}</span>   
+ <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+    <span style="color:#75715e">// 将两个常量用+连接对s进行初始化   
+</span><span style="color:#75715e"></span>     String s <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B<span style="color:#f92672">;</span>   
+     String t <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">;</span>   
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">==</span> t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s等于t，它们是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+     <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>   
+         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s不等于t，它们不是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+     <span style="color:#f92672">}</span>   
+ <span style="color:#f92672">}</span> 
+ 结果<span style="color:#960050;background-color:#1e0010">：</span>
+ s不等于t<span style="color:#960050;background-color:#1e0010">，</span>它们不是同一个对象
+</code></pre></div><p>A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。</p>
+<h3 id="string-s1--new-stringxyz">String s1 = new String(&ldquo;xyz&rdquo;)</h3>
 <p><code>String s1 = new String(&quot;xyz&quot;);</code> <strong>创建了几个对象？</strong>
-考虑类加载阶段和实际执行时。</br>
-1. 类加载对一个类只会进行一次。&rdquo;xyz&rdquo;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&rdquo;xyz&rdquo;字符串被驻留过则不需要重复创建用于驻留的&rdquo;xyz&rdquo;实例）。驻留的字符串是放在全局共享的字符串常量池中的。</br>
-2. 在这段代码后续被运行的时候，&rdquo;xyz&rdquo;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
-这条语句创建了2个对象。</p>
-
-<h3 id="java-lang-string-intern">java.lang.String.intern()</h3>
-
+考虑类加载阶段和实际执行时。<!-- raw HTML omitted --></p>
+<ol>
+<li>类加载对一个类只会进行一次。&ldquo;xyz&quot;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&quot;xyz&quot;字符串被驻留过则不需要重复创建用于驻留的&quot;xyz&quot;实例）。驻留的字符串是放在全局共享的字符串常量池中的。<!-- raw HTML omitted --></li>
+<li>在这段代码后续被运行的时候，&ldquo;xyz&quot;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
+这条语句创建了2个对象。</li>
+</ol>
+<h3 id="javalangstringintern">java.lang.String.intern()</h3>
 <p>运行时常量池相对于CLass文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。
 String的intern()方法会查找在常量池中是否存在一份equal相等的字符串,如果有则返回该字符串的引用,如果没有则添加自己的字符串进入常量池。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
+      String s1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;计算机&#34;</span><span style="color:#f92672">);</span>
+      String s2 <span style="color:#f92672">=</span> s1<span style="color:#f92672">.</span><span style="color:#a6e22e">intern</span><span style="color:#f92672">();</span>
+      String s3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;计算机&#34;</span><span style="color:#f92672">;</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s1 == s2? &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>s1 <span style="color:#f92672">==</span> s2<span style="color:#f92672">));</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s3 == s2? &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>s3 <span style="color:#f92672">==</span> s2<span style="color:#f92672">));</span>
+  <span style="color:#f92672">}</span>
+结果为<span style="color:#960050;background-color:#1e0010">：</span>
+s1 <span style="color:#f92672">==</span> s2<span style="color:#f92672">?</span> <span style="color:#66d9ef">false</span>
+s3 <span style="color:#f92672">==</span> s2<span style="color:#f92672">?</span> <span style="color:#66d9ef">true</span>
+</code></pre></div><p>字符串比较更丰富的一个例子</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+ <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+      String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">,</span> lo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lo&#34;</span><span style="color:#f92672">;</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>hello <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>Other<span style="color:#f92672">.</span><span style="color:#a6e22e">hello</span> <span style="color:#f92672">==</span> hello<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>other<span style="color:#f92672">.</span><span style="color:#a6e22e">Other</span><span style="color:#f92672">.</span><span style="color:#a6e22e">hello</span> <span style="color:#f92672">==</span> hello<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>hello <span style="color:#f92672">==</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hel&#34;</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;lo&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>hello <span style="color:#f92672">==</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hel&#34;</span><span style="color:#f92672">+</span>lo<span style="color:#f92672">))</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>hello <span style="color:#f92672">==</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hel&#34;</span><span style="color:#f92672">+</span>lo<span style="color:#f92672">).</span><span style="color:#a6e22e">intern</span><span style="color:#f92672">());</span>
+ <span style="color:#f92672">}</span>   
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-java">public static void main(String[] args) {    
-      String s1 = new String(&quot;计算机&quot;);
-      String s2 = s1.intern();
-      String s3 = &quot;计算机&quot;;
-      System.out.println(&quot;s1 == s2? &quot; + (s1 == s2));
-      System.out.println(&quot;s3 == s2? &quot; + (s3 == s2));
-  }
-结果为：
-s1 == s2? false
-s3 == s2? true
-</code></pre>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Other</span> <span style="color:#f92672">{</span> 
+    <span style="color:#66d9ef">static</span> String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">;</span> 
+<span style="color:#f92672">}</span>
 
-<p>字符串比较更丰富的一个例子</p>
+<span style="color:#f92672">package</span> other<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Other</span> <span style="color:#f92672">{</span> 
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">;</span> 
+<span style="color:#f92672">}</span>
+结果为<span style="color:#960050;background-color:#1e0010">：</span>
 
-<pre><code class="language-java">
-public class Test {
- public static void main(String[] args) {   
-      String hello = &quot;Hello&quot;, lo = &quot;lo&quot;;
-      System.out.println((hello == &quot;Hello&quot;) + &quot; &quot;);
-      System.out.println((Other.hello == hello) + &quot; &quot;);
-      System.out.println((other.Other.hello == hello) + &quot; &quot;);
-      System.out.println((hello == (&quot;Hel&quot;+&quot;lo&quot;)) + &quot; &quot;);
-      System.out.println((hello == (&quot;Hel&quot;+lo)) + &quot; &quot;);
-      System.out.println(hello == (&quot;Hel&quot;+lo).intern());
- }   
-}
-
-class Other { 
-    static String hello = &quot;Hello&quot;; 
-}
-
-package other;
-public class Other { 
-    public static String hello = &quot;Hello&quot;; 
-}
-结果为：
-
-true true true true false true
-</code></pre>
-
-<ul>
+<span style="color:#66d9ef">true</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">false</span> <span style="color:#66d9ef">true</span>
+</code></pre></div><ul>
 <li>在同包同类下,引用自同一String对象</li>
 <li>在同包不同类下,引用自同一String对象</li>
 <li>在不同包不同类下,依然引用自同一String对象</li>
@@ -688,6 +633,12 @@ true true true true false true
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -841,7 +792,7 @@ true true true true false true
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

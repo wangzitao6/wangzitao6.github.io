@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,51 +363,43 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#单位换算">单位换算</a></li>
-<li><a href="#支持的数据类型">支持的数据类型</a></li>
-<li><a href="#数据存储方式">数据存储方式</a></li>
-<li><a href="#位运算符">位运算符</a>
-<ul>
-<li><a href="#按位与">按位与 &amp;</a></li>
-<li><a href="#按位或">按位或 |</a></li>
-<li><a href="#按位非">按位非 ~</a></li>
-<li><a href="#按位异或">按位异或 ^</a></li>
-<li><a href="#位移动运算符">位移动运算符</a>
-<ul>
-<li><a href="#左移">左移 &lt;&lt;</a></li>
-<li><a href="#右移">右移 &gt;&gt;</a></li>
-<li><a href="#无符号右移">无符号右移 &gt;&gt;&gt;</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#单位换算">单位换算</a></li>
+    <li><a href="#支持的数据类型">支持的数据类型</a></li>
+    <li><a href="#数据存储方式">数据存储方式</a></li>
+    <li><a href="#位运算符">位运算符</a>
+      <ul>
+        <li><a href="#按位与-">按位与 &amp;</a></li>
+        <li><a href="#按位或-">按位或 |</a></li>
+        <li><a href="#按位非-">按位非 ~</a></li>
+        <li><a href="#按位异或-">按位异或 ^</a></li>
+        <li><a href="#位移动运算符">位移动运算符</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="单位换算">单位换算</h2>
-
+                <h2 id="单位换算">单位换算</h2>
 <ol>
-<li><p>bit：位
-一个二进制数据0或1，是1bit；</p></li>
-
-<li><p>byte：字节
-1 byte = 8 bit , 存储空间的基本计量单位；</p></li>
-
-<li><p>一个英文字符占一个字节
-1 字母 = 1 byte = 8 bit；</p></li>
-
-<li><p>一个汉字占2个字节
-1 汉字 = 2 byte = 16 bit；</p></li>
+<li>
+<p>bit：位
+一个二进制数据0或1，是1bit；</p>
+</li>
+<li>
+<p>byte：字节
+1 byte = 8 bit , 存储空间的基本计量单位；</p>
+</li>
+<li>
+<p>一个英文字符占一个字节
+1 字母 = 1 byte = 8 bit；</p>
+</li>
+<li>
+<p>一个汉字占2个字节
+1 汉字 = 2 byte = 16 bit；</p>
+</li>
 </ol>
-
 <h2 id="支持的数据类型">支持的数据类型</h2>
-
 <p>首先明确一点，Java中的位运算是针对整型的数据类型进行运算的，所以操作数必须是一下五种之一。</p>
-
 <table>
 <thead>
 <tr>
@@ -411,48 +407,37 @@ $(function() {
 <th>所占位数（bit）</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>byte</td>
 <td>8</td>
 </tr>
-
 <tr>
 <td>short</td>
 <td>16</td>
 </tr>
-
 <tr>
 <td>int</td>
 <td>32</td>
 </tr>
-
 <tr>
 <td>long</td>
 <td>64</td>
 </tr>
-
 <tr>
 <td>char</td>
 <td>16</td>
 </tr>
 </tbody>
 </table>
-
 <h2 id="数据存储方式">数据存储方式</h2>
-
 <p>计算机中存储的数据最终是以二进制存储(补码存储)，如int类型的十进制数字10表示为32bit的二进制：</p>
-
 <p>0000 0000 0000 0000 0000 0000 0000 1010</p>
-
 <blockquote>
 <p>注：数据在计算机中都是以反码形式存在。正数的的原码与反码相同。
-    有关原码、反码、补码的知识，请看另一个章节<a href="https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">原码、反码、补码</a></p>
+有关原码、反码、补码的知识，请看另一个章节<a href="https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">原码、反码、补码</a></p>
 </blockquote>
-
 <h2 id="位运算符">位运算符</h2>
-
 <table>
 <thead>
 <tr>
@@ -460,56 +445,43 @@ $(function() {
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>&amp;</td>
-<td>按位与(<strong><font color = "red">对应位同为1时，才为1，否则全为0</font></strong>)</td>
+<td>按位与(<strong><!-- raw HTML omitted -->对应位同为1时，才为1，否则全为0<!-- raw HTML omitted --></strong>)</td>
 </tr>
-
 <tr>
 <td>|</td>
-<td>按位或(<strong><font color = "red">对应位只要有1时，即为1，否则全为0</font></strong>)</td>
+<td>按位或(<strong><!-- raw HTML omitted -->对应位只要有1时，即为1，否则全为0<!-- raw HTML omitted --></strong>)</td>
 </tr>
-
 <tr>
 <td>~</td>
-<td>按位非(<strong><font color = "red">对每位进行取反</font></strong>)</td>
+<td>按位非(<strong><!-- raw HTML omitted -->对每位进行取反<!-- raw HTML omitted --></strong>)</td>
 </tr>
-
 <tr>
 <td>^</td>
-<td>按位异或(<strong><font color = "red">只要对应为不同即为1</font></strong>)</td>
+<td>按位异或(<strong><!-- raw HTML omitted -->只要对应为不同即为1<!-- raw HTML omitted --></strong>)</td>
 </tr>
-
 <tr>
-<td>&lt;&lt;</td>
-<td>左移(<strong><font color = "red">左移 左边最高位丢弃，右边补齐0</font></strong>)</td>
+<td>&laquo;</td>
+<td>左移(<strong><!-- raw HTML omitted -->左移 左边最高位丢弃，右边补齐0<!-- raw HTML omitted --></strong>)</td>
 </tr>
-
 <tr>
-<td>&gt;&gt;</td>
-<td>右移(<strong><font color = "red">最高位是0，左边补齐0；最高为是1，左边补齐1</font></strong>)</td>
+<td>&raquo;</td>
+<td>右移(<strong><!-- raw HTML omitted -->最高位是0，左边补齐0；最高为是1，左边补齐1<!-- raw HTML omitted --></strong>)</td>
 </tr>
-
 <tr>
-<td>&lt;&lt;&lt;</td>
-<td>无符号右移(<strong><font color = "red">无论操作数是正数还是负数，高位都是补0</font></strong>)</td>
+<td>&laquo;&lt;</td>
+<td>无符号右移(<strong><!-- raw HTML omitted -->无论操作数是正数还是负数，高位都是补0<!-- raw HTML omitted --></strong>)</td>
 </tr>
 </tbody>
 </table>
-
-<h3 id="按位与">按位与 &amp;</h3>
-
-<p>规则：<strong><font color = "red"> 对应位同为1时，才为1，否则全为0（对应位只要有0，全为0，否则为1） </font></strong></p>
-
-<pre><code class="language-java">int a = 127;
-int b = 128;
-System.out.println(&quot;127 &amp; 128 的结果是：&quot;+(a &amp; b));
-</code></pre>
-
-<p>运行结果：</p>
-
+<h3 id="按位与-">按位与 &amp;</h3>
+<p>规则：<strong><!-- raw HTML omitted --> 对应位同为1时，才为1，否则全为0（对应位只要有0，全为0，否则为1） <!-- raw HTML omitted --></strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 127<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127 &amp; 128 的结果是：&#34;</span><span style="color:#f92672">+(</span>a <span style="color:#f92672">&amp;</span> b<span style="color:#f92672">));</span>
+</code></pre></div><p>运行结果：</p>
 <pre><code>127 &amp; 128 的结果是：0
 
 解析: 
@@ -517,19 +489,12 @@ System.out.println(&quot;127 &amp; 128 的结果是：&quot;+(a &amp; b));
 128的二进制(补码)：00000000 00000000 00000000 10000000
 根据 &amp; 规则结果：  00000000 00000000 00000000 00000000
 所以结果为0
-</code></pre>
-
-<h3 id="按位或">按位或 |</h3>
-
-<p>规则： <strong><font color = "red"> 对应位只要有1时，即为1，否则全为0（对应位只有全是0时，结果才是0，否则为1） </font></strong></p>
-
-<pre><code class="language-java">int a = 127;
-int b = 128;
-System.out.println(&quot;127 | 128 的结果是：&quot;+(a | b));
-</code></pre>
-
-<p>运行结果：</p>
-
+</code></pre><h3 id="按位或-">按位或 |</h3>
+<p>规则： <strong><!-- raw HTML omitted --> 对应位只要有1时，即为1，否则全为0（对应位只有全是0时，结果才是0，否则为1） <!-- raw HTML omitted --></strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 127<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127 | 128 的结果是：&#34;</span><span style="color:#f92672">+(</span>a <span style="color:#f92672">|</span> b<span style="color:#f92672">));</span>
+</code></pre></div><p>运行结果：</p>
 <pre><code>127 | 128 的结果是：255
 
 解析: 
@@ -537,18 +502,11 @@ System.out.println(&quot;127 | 128 的结果是：&quot;+(a | b));
 128的二进制(补码)：00000000 00000000 00000000 10000000
 根据 | 规则结果：  00000000 00000000 00000000 11111111
 最高为0，为正数，原码补码一样，所以结果为255
-</code></pre>
-
-<h3 id="按位非">按位非 ~</h3>
-
-<p>规则： <strong><font color = "red">对每位进行取反 </font></strong></p>
-
-<pre><code class="language-java">int a = 128;
-System.out.println(&quot;~128 的结果是：&quot; + ~ a);
-</code></pre>
-
-<p>运行结果：</p>
-
+</code></pre><h3 id="按位非-">按位非 ~</h3>
+<p>规则： <strong><!-- raw HTML omitted -->对每位进行取反 <!-- raw HTML omitted --></strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;~128 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">~</span> a<span style="color:#f92672">);</span>
+</code></pre></div><p>运行结果：</p>
 <pre><code>~128 的结果是：-129
 
 解析: 
@@ -559,19 +517,12 @@ System.out.println(&quot;~128 的结果是：&quot; + ~ a);
 反码：11111111 11111111 11111111 01111110
 原码：10000000 00000000 00000000 10000001
 结果为 -129
-</code></pre>
-
-<h3 id="按位异或">按位异或 ^</h3>
-
-<p>规则： <strong><font color = "red"> 只要对应为不同即为1。 </font></strong></p>
-
-<pre><code class="language-java">int a = 127;
-int b = 128;
-System.out.println(&quot;127 ^ 128 的结果是：&quot; + (a ^  b));
-</code></pre>
-
-<p>运行结果：</p>
-
+</code></pre><h3 id="按位异或-">按位异或 ^</h3>
+<p>规则： <strong><!-- raw HTML omitted --> 只要对应为不同即为1。 <!-- raw HTML omitted --></strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 127<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127 ^ 128 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">^</span>  b<span style="color:#f92672">));</span>
+</code></pre></div><p>运行结果：</p>
 <pre><code>127 ^ 128 的结果是：255
 
 解析: 
@@ -579,82 +530,48 @@ System.out.println(&quot;127 ^ 128 的结果是：&quot; + (a ^  b));
 128的二进制(补码)：00000000 00000000 00000000 10000000
 根据 | 规则结果：  00000000 00000000 00000000 11111111
 最高为0，为正数，原码补码一样，所以结果为255
-</code></pre>
-
-<h3 id="位移动运算符">位移动运算符</h3>
-
-<h4 id="左移">左移 &lt;&lt;</h4>
-
-<p>规则：<strong><font color = "red"> &lt;&lt; :左移 左边最高位丢弃，右边补齐0; </font></strong></p>
-
+</code></pre><h3 id="位移动运算符">位移动运算符</h3>
+<h4 id="左移-">左移 &laquo;</h4>
+<p>规则：<strong><!-- raw HTML omitted --> &laquo; :左移 左边最高位丢弃，右边补齐0; <!-- raw HTML omitted --></strong></p>
 <ul>
 <li><strong>左移的规则只记住一点：丢弃最高位，0补最低位</strong></li>
 <li><strong>如果移动的位数超过了该类型的最大位数，那么编译器会对移动的位数取模</strong></li>
 </ul>
-
 <p>通用格式：</p>
-
 <pre><code>value &lt;&lt; num 
 num : 指要移位值   
 value : 指移动的位数。
 意思是value向左位移num位，左移num位，相当于乘以2^num
-</code></pre>
-
-<p>例如：</p>
-
-<pre><code class="language-java">int a = 1;
-System.out.println(&quot;1 &lt;&lt; 2 的结果是：&quot; + (a &lt;&lt; 2));
-</code></pre>
-
-<p>运行结果(图片来自于网络)：
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%B7%A6%E7%A7%BB2.png" alt="左移" /></p>
-
+</code></pre><p>例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1 &lt;&lt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">&lt;&lt;</span> 2<span style="color:#f92672">));</span>
+</code></pre></div><p>运行结果(图片来自于网络)：
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%B7%A6%E7%A7%BB2.png" alt="左移"></p>
 <pre><code>1 &lt;&lt; 2 的结果是：4
-</code></pre>
-
-<h4 id="右移">右移 &gt;&gt;</h4>
-
-<p>规则：<strong><font color = "red"> &gt;&gt;:右移, 最高位是0(正数时)，左边补齐0；最高为是1(正数时)，左边补齐1，保持为负数；</font></strong></p>
-
-<p>m&gt;&gt;n即相当于m除以2的n次方，得到的为整数时，即为结果。如果结果为小数，此时会出现两种情况：</p>
-
+</code></pre><h4 id="右移-">右移 &raquo;</h4>
+<p>规则：<strong><!-- raw HTML omitted --> &raquo;:右移, 最高位是0(正数时)，左边补齐0；最高为是1(正数时)，左边补齐1，保持为负数；<!-- raw HTML omitted --></strong></p>
+<p>m&raquo;n即相当于m除以2的n次方，得到的为整数时，即为结果。如果结果为小数，此时会出现两种情况：</p>
 <p>1 如果m为正数，得到的商会无条件 的舍弃小数位；</p>
-
 <p>2 如果m为负数，舍弃小数部分，然后把整数部分加+1得到位移后的值。</p>
-
 <p>通用格式：</p>
-
 <pre><code>value &gt;&gt; num 
 num : 指要移位值   
 value : 指移动的位数。
 意思是value向左位移num位，左移num位，相当于除以2^num
-</code></pre>
-
-<p>例如：</p>
-
-<pre><code class="language-java">int a = 12;
-System.out.println(&quot;12 &gt;&gt; 2 的结果是：&quot; + (a &gt;&gt; 2));
-</code></pre>
-
-<p>运行结果(图片来自于网络，图中稍有错误，其中10应该为12)：
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%8F%B3%E7%A7%BB.png" alt="右移" /></p>
-
+</code></pre><p>例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 12<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;12 &gt;&gt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">&gt;&gt;</span> 2<span style="color:#f92672">));</span>
+</code></pre></div><p>运行结果(图片来自于网络，图中稍有错误，其中10应该为12)：
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%8F%B3%E7%A7%BB.png" alt="右移"></p>
 <pre><code>1 &lt;&lt; 2 的结果是：4
-</code></pre>
+</code></pre><h4 id="无符号右移-">无符号右移 &raquo;&gt;</h4>
+<p><strong><!-- raw HTML omitted -->无符号右移&raquo;&gt; 与 右移&raquo; 的区别就是无论操作数是正数还是负数，高位都是补0<!-- raw HTML omitted --></strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> 12<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;12 &gt;&gt;&gt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">&gt;&gt;&gt;</span> 2<span style="color:#f92672">));</span>
 
-<h4 id="无符号右移">无符号右移 &gt;&gt;&gt;</h4>
-
-<p><strong><font color = "red">无符号右移&gt;&gt;&gt; 与 右移&gt;&gt; 的区别就是无论操作数是正数还是负数，高位都是补0</font></strong></p>
-
-<pre><code class="language-java">int a = 12;
-System.out.println(&quot;12 &gt;&gt;&gt; 2 的结果是：&quot; + (a &gt;&gt;&gt; 2));
-
-int b = -12;
-System.out.println(&quot;-12 &gt;&gt;&gt; 2 的结果是：&quot; + (b &gt;&gt;&gt; 2));
-</code></pre>
-
-<p>运行结果：</p>
-
+<span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>12<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-12 &gt;&gt;&gt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>b <span style="color:#f92672">&gt;&gt;&gt;</span> 2<span style="color:#f92672">));</span>
+</code></pre></div><p>运行结果：</p>
 <pre><code>12 &gt;&gt;&gt; 2 的结果是：3
 -12 &gt;&gt;&gt; 2 的结果是：1073741821
 
@@ -667,7 +584,6 @@ System.out.println(&quot;-12 &gt;&gt;&gt; 2 的结果是：&quot; + (b &gt;&gt;&
 注意这个补齐因为是无符号的，最高位补0，结果为正数
 最高为0，为正数，原码补码一样，所以结果为的结果是：1073741821
 </code></pre>
-
 
                 
 
@@ -728,6 +644,12 @@ System.out.println(&quot;-12 &gt;&gt;&gt; 2 的结果是：&quot; + (b &gt;&gt;&
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -881,7 +803,7 @@ System.out.println(&quot;-12 &gt;&gt;&gt; 2 的结果是：&quot; + (b &gt;&gt;&
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

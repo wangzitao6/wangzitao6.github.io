@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -355,20 +359,14 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#字体-大小-颜色">字体、大小、颜色</a></li>
-<li><a href="#空格">空格</a></li>
-<li><a href="#文字背景">文字背景</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#字体大小颜色">字体、大小、颜色</a></li>
+    <li><a href="#空格">空格</a></li>
+    <li><a href="#文字背景">文字背景</a></li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="字体-大小-颜色">字体、大小、颜色</h2>
-
+                <h2 id="字体大小颜色">字体、大小、颜色</h2>
 <pre><code>&lt;font face=&quot;黑体&quot;&gt;我是黑体字&lt;/font&gt;
 &lt;font face=&quot;微软雅黑&quot;&gt;我是微软雅黑&lt;/font&gt;
 &lt;font face=&quot;STCAIYUN&quot;&gt;我是华文彩云&lt;/font&gt;
@@ -378,40 +376,33 @@ $(function() {
 &lt;font color=Blue&gt;我是蓝色&lt;/font&gt;
 &lt;font size=8&gt;我是尺寸&lt;/font&gt;
 &lt;font face=&quot;黑体&quot; color=red size=8&gt;我是黑体，红色，尺寸为8&lt;/font&gt;
-</code></pre>
-
-<p>效果：</p>
-
-<p><font face="黑体">我是黑体字</font>
-<font face="微软雅黑">我是微软雅黑</font>
-<font face="STCAIYUN">我是华文彩云</font>
-<font color=red>我是红色</font>
-<font color=#008000>我是绿色</font>
-<font color="#00dd00">我是浅绿色</font><br />
-<font color=Blue>我是蓝色</font>
-<font size=8>我是尺寸</font>
-<font face="黑体" color=red size=8>我是黑体，红色，尺寸为8</font></p>
-
+</code></pre><p>效果：</p>
+<p><!-- raw HTML omitted -->我是黑体字<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是微软雅黑<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是华文彩云<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是红色<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是绿色<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是浅绿色<!-- raw HTML omitted --><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是蓝色<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是尺寸<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->我是黑体，红色，尺寸为8<!-- raw HTML omitted --></p>
 <h2 id="空格">空格</h2>
-
 <p>一个汉字占两个空格大小，所以使用四个空格就可以达到首行缩进两个汉字的效果。有如下几种方法：</p>
-
 <ul>
-<li><p>一个空格大小的表示：<strong>&amp;ensp</strong>;或 <strong>&amp;#8194</strong>;，此时只要在相应需要缩进的段落前加上 4个 如上的标记即可，<strong>注意要带上分号</strong>。</p></li>
-
-<li><p>两个空格的大小表示：<strong>&amp;emsp</strong>;或 <strong>&amp;#8195</strong>;，同理，使用2个即可缩进2个汉字，<strong>推荐使用该方式</strong>。</p></li>
-
-<li><p>不换行空格：<strong>&amp;nbsp</strong>;或 <strong>&amp;#160</strong>;，使用4个 <strong>&amp;#160</strong>;即可。</p></li>
+<li>
+<p>一个空格大小的表示：<strong>&amp;ensp</strong>;或 <strong>&amp;#8194</strong>;，此时只要在相应需要缩进的段落前加上 4个 如上的标记即可，<strong>注意要带上分号</strong>。</p>
+</li>
+<li>
+<p>两个空格的大小表示：<strong>&amp;emsp</strong>;或 <strong>&amp;#8195</strong>;，同理，使用2个即可缩进2个汉字，<strong>推荐使用该方式</strong>。</p>
+</li>
+<li>
+<p>不换行空格：<strong>&amp;nbsp</strong>;或 <strong>&amp;#160</strong>;，使用4个 <strong>&amp;#160</strong>;即可。</p>
+</li>
 </ul>
-
 <h2 id="文字背景">文字背景</h2>
-
 <pre><code>&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=red&gt;红色背景&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-</code></pre>
-
-<p>效果：
-<table><tr><td bgcolor=red>红色背景</td></tr></table></p>
-
+</code></pre><p>效果：</p>
+<!-- raw HTML omitted -->
 <p>参考：<a href="https://www.appinn.com/markdown/basic.html">Markdown: Basics （快速入门）</a></p>
 
 
@@ -474,6 +465,12 @@ $(function() {
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -627,7 +624,7 @@ $(function() {
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

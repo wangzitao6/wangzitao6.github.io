@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>基础 on 王子滔的学习笔记</title>
@@ -35,7 +35,7 @@
       <pubDate>Sat, 24 Aug 2019 11:13:05 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/</guid>
-      <description>java中为什么int类型的-129转换成byte类型的会变成127 int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完整形</description>
+      <description>java中为什么int类型的-129转换成byte类型的会变成127 **int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完</description>
     </item>
     
     <item>

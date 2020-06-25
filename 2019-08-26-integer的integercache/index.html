@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -356,117 +360,89 @@ $(function() {
 
                 
                 <p>首先我们来看这样一个例子:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>m <span style="color:#f92672">==</span> n<span style="color:#f92672">);</span>
 
-<pre><code class="language-java">int m = 10;
-int n = 10;
-System.out.println(m == n);
+<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>j <span style="color:#f92672">==</span> k<span style="color:#f92672">);</span>
 
-int j = 128;
-int k = 128;
-System.out.println(j == k);
-
-</code></pre>
-
-<p>输出结果：</p>
-
-<pre><code class="language-java">true
-true
-</code></pre>
-
-<p>出现这样的一个结果大家都意外。</p>
-
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">true</span>
+</code></pre></div><p>出现这样的一个结果大家都意外。</p>
 <p>下面我们再看一个例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Integer a <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
+Integer b <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>a <span style="color:#f92672">==</span> b<span style="color:#f92672">);</span>
 
-<pre><code class="language-java">Integer a = 10;
-Integer b = 10;
-System.out.println(a == b);
+Integer c <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+Integer d <span style="color:#f92672">=</span> 128<span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c <span style="color:#f92672">==</span> d<span style="color:#f92672">);</span>
 
-Integer c = 128;
-Integer d = 128;
-System.out.println(c == d);
-
-</code></pre>
-
-<p>输出结果：</p>
-
-<pre><code class="language-java">true
-false
-</code></pre>
-
-<p>这是因为，Integer是包装类型，是Object对象，因此==比较的是Integer指向的内存地址。然而-128~127直接的Integer数据直接缓存进入常量池（IntegerCache），所以这个区间的比较返回true，其他区间返回false。当然，new的Integer对象不适用。</p>
-
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">false</span>
+</code></pre></div><p>这是因为，Integer是包装类型，是Object对象，因此==比较的是Integer指向的内存地址。然而-128~127直接的Integer数据直接缓存进入常量池（IntegerCache），所以这个区间的比较返回true，其他区间返回false。当然，new的Integer对象不适用。</p>
 <p>看下Integer源码：</p>
-
-<pre><code class="language-java">public static Integer valueOf(String s) throws NumberFormatException {
-    return Integer.valueOf(parseInt(s, 10));
-}
-</code></pre>
-
-<p>Java 编译器把原始类型自动转换为封装类的过程称为自动装箱（autoboxing），这相当于调用 valueOf 方法。</br>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Integer <span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> NumberFormatException <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>parseInt<span style="color:#f92672">(</span>s<span style="color:#f92672">,</span> 10<span style="color:#f92672">));</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Java 编译器把原始类型自动转换为封装类的过程称为自动装箱（autoboxing），这相当于调用 valueOf 方法。<!-- raw HTML omitted -->
 我们
 Integer a = 10 或者 Integer c = 200 都进行了一次自动装箱。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Integer a <span style="color:#f92672">=</span> 10<span style="color:#f92672">;</span>
+<span style="color:#75715e">//等价于：
+</span><span style="color:#75715e"></span>Integer a <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>10<span style="color:#f92672">);</span>
 
-<pre><code class="language-java">Integer a = 10;
-//等价于：
-Integer a = Integer.valueOf(10);
+Integer c <span style="color:#f92672">=</span> 128
+<span style="color:#75715e">//等价于：
+</span><span style="color:#75715e"></span>Integer a <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>128<span style="color:#f92672">);</span>
 
-Integer c = 128
-//等价于：
-Integer a = Integer.valueOf(128);
+</code></pre></div><p>Integer在赋值时自动装箱，调用valueOf(),其中valueOf源码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Integer <span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&gt;=</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">low</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;=</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">high</span><span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">return</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">cache</span><span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> <span style="color:#f92672">(-</span>IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">low</span><span style="color:#f92672">)];</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>可以看到如果这个数值在cache数组的范围内（low和high之间），就返回cache缓存数组的中的数据，否则产生一个新的Integer值。其IntegerCache源码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IntegerCache</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> low <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>128<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> high<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Integer cache<span style="color:#f92672">[];</span>
 
-</code></pre>
+    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// high value may be configured by property
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> 127<span style="color:#f92672">;</span>
+        String integerCacheHighPropValue <span style="color:#f92672">=</span>
+            sun<span style="color:#f92672">.</span><span style="color:#a6e22e">misc</span><span style="color:#f92672">.</span><span style="color:#a6e22e">VM</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getSavedProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.lang.Integer.IntegerCache.high&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>integerCacheHighPropValue <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> parseInt<span style="color:#f92672">(</span>integerCacheHighPropValue<span style="color:#f92672">);</span>
+                i <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> 127<span style="color:#f92672">);</span>
+                <span style="color:#75715e">// Maximum array size is Integer.MAX_VALUE
+</span><span style="color:#75715e"></span>                h <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">MAX_VALUE</span> <span style="color:#f92672">-</span> <span style="color:#f92672">(-</span>low<span style="color:#f92672">)</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span> NumberFormatException nfe<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// If the property cannot be parsed into an int, ignore it.
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        high <span style="color:#f92672">=</span> h<span style="color:#f92672">;</span>
 
-<p>Integer在赋值时自动装箱，调用valueOf(),其中valueOf源码如下：</p>
+        cache <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">[(</span>high <span style="color:#f92672">-</span> low<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> low<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> k <span style="color:#f92672">&lt;</span> cache<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> k<span style="color:#f92672">++)</span>
+            cache<span style="color:#f92672">[</span>k<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>j<span style="color:#f92672">++);</span>
 
-<pre><code class="language-java">public static Integer valueOf(int i) {
-    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
-        return IntegerCache.cache[i + (-IntegerCache.low)];
-    return new Integer(i);
-}
-</code></pre>
+        <span style="color:#75715e">// range [-128, 127] must be interned (JLS7 5.1.7)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">assert</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">high</span> <span style="color:#f92672">&gt;=</span> 127<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-<p>可以看到如果这个数值在cache数组的范围内（low和high之间），就返回cache缓存数组的中的数据，否则产生一个新的Integer值。其IntegerCache源码如下：</p>
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">IntegerCache</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-java">private static class IntegerCache {
-    static final int low = -128;
-    static final int high;
-    static final Integer cache[];
-
-    static {
-        // high value may be configured by property
-        int h = 127;
-        String integerCacheHighPropValue =
-            sun.misc.VM.getSavedProperty(&quot;java.lang.Integer.IntegerCache.high&quot;);
-        if (integerCacheHighPropValue != null) {
-            try {
-                int i = parseInt(integerCacheHighPropValue);
-                i = Math.max(i, 127);
-                // Maximum array size is Integer.MAX_VALUE
-                h = Math.min(i, Integer.MAX_VALUE - (-low) -1);
-            } catch( NumberFormatException nfe) {
-                // If the property cannot be parsed into an int, ignore it.
-            }
-        }
-        high = h;
-
-        cache = new Integer[(high - low) + 1];
-        int j = low;
-        for(int k = 0; k &lt; cache.length; k++)
-            cache[k] = new Integer(j++);
-
-        // range [-128, 127] must be interned (JLS7 5.1.7)
-        assert IntegerCache.high &gt;= 127;
-    }
-
-    private IntegerCache() {}
-}
-
-</code></pre>
-
-<p>通常这个范围是-128-127，然而这个范围的最大值是可变的，可以通过-XX:AutoBoxCacheMax=<size>参数去修改这个值，在JVM初始化的时候，这个值被写入sun.misc.VM class系统私有配置文件中，并加载。</p>
-
+</code></pre></div><p>通常这个范围是-128-127，然而这个范围的最大值是可变的，可以通过-XX:AutoBoxCacheMax=<!-- raw HTML omitted -->参数去修改这个值，在JVM初始化的时候，这个值被写入sun.misc.VM class系统私有配置文件中，并加载。</p>
 <p>所以这就是为什么在阿里巴巴Java开发手册的OOP规约中强制使用equals比较两个Integer的值</p>
-
 <blockquote>
 <p>4.7【强制】所有的相同类型的包装类对象之间值的比较，全部使用 equals 方法比较。
 说明： 对于 Integer var=?在-128 至 127 之间的赋值， Integer 对象是在
@@ -475,7 +451,6 @@ IntegerCache.cache 产生，会复用已有对象，这个区间内的 Integer �
 但是这个区间之外的所有数据，都会在堆上产生，并不会复用已有对象，这是一个大坑，
 推荐使用 equals 方法进行判断</p>
 </blockquote>
-
 <p>这种缓存行为不仅适用于Integer对象。我们针对所有整数类型的类都有类似的缓存机制。
 有 ByteCache 用于缓存 Byte 对象
 有 ShortCache 用于缓存 Short 对象
@@ -543,6 +518,12 @@ Byte，Short，Long 有固定范围: -128 到 127。对于 Character, 范围是 
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -696,7 +677,7 @@ Byte，Short，Long 有固定范围: -128 到 127。对于 Character, 范围是 
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 王子滔的学习笔记</title>
@@ -6,10 +6,19 @@
     <description>Recent content in Tags on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Sep 2019 15:06:02 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>elk</title>
+      <link>https://wangzitao6.github.io/tags/elk/</link>
+      <pubDate>Wed, 24 Jun 2020 19:56:25 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/tags/elk/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>网络</title>

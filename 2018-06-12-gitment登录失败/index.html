@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,72 +363,49 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#gitment登录失败">gitment登录失败</a></li>
-<li><a href="#解决方法">解决方法</a>
-<ul>
-<li><a href="#1-本地解决">1.本地解决</a></li>
-<li><a href="#2-借用别人的服务">2.借用别人的服务</a></li>
-<li><a href="#3-自己搭建服务">3.自己搭建服务</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#gitment登录失败">gitment登录失败</a></li>
+    <li><a href="#解决方法">解决方法</a>
+      <ul>
+        <li><a href="#1本地解决">1.本地解决</a></li>
+        <li><a href="#2借用别人的服务">2.借用别人的服务</a></li>
+        <li><a href="#3自己搭建服务">3.自己搭建服务</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="gitment登录失败">gitment登录失败</h2>
-
-<p>搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名<a href="https://gh-oauth.imsun.net证书过期了">https://gh-oauth.imsun.net证书过期了</a>,
+                <h2 id="gitment登录失败">gitment登录失败</h2>
+<p>搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名https://gh-oauth.imsun.net证书过期了,
 地址:<code>https://github.com/imsun/gitment/issues/170</code>
 里面有几种解决方法</p>
-
 <h2 id="解决方法">解决方法</h2>
-
-<h3 id="1-本地解决">1.本地解决</h3>
-
+<h3 id="1本地解决">1.本地解决</h3>
 <p>由于引入的 gitment.js 中有这样的一段代码：</p>
+<pre><code> _utils.http.post('https://gh-oauth.imsun.net', {
+    code: code,
+    client_id: client_id,
+    client_secret: client_secret
+  }, '').then(function (data) {
+    _this.accessToken = data.access_token;
+    _this.update();
+  }).catch(function (e) {
+    _this.state.user.isLoggingIn = false;
+    alert(e);
+  });
 
-<pre><code>   _utils.http.post('https://gh-oauth.imsun.net', {
-      code: code,
-      client_id: client_id,
-      client_secret: client_secret
-    }, '').then(function (data) {
-      _this.accessToken = data.access_token;
-      _this.update();
-    }).catch(function (e) {
-      _this.state.user.isLoggingIn = false;
-      alert(e);
-    });
-
-</code></pre>
-
-<p>请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
+</code></pre><p>请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
 这里可以直接改为请求 github 认证的接口</p>
-
-<pre><code> _utils.http.post('https://github.com/login/oauth/access_token', {...}
-</code></pre>
-
-<p>就可以了,不用经过作者的服务</p>
-
-<h3 id="2-借用别人的服务">2.借用别人的服务</h3>
-
+<pre><code>_utils.http.post('https://github.com/login/oauth/access_token', {...}
+</code></pre><p>就可以了,不用经过作者的服务</p>
+<h3 id="2借用别人的服务">2.借用别人的服务</h3>
 <p>由于作者貌似已经弃坑,无法登陆的问题一直没有得到修复,许多大牛已经自己搭建了服务,可以在征得他们同意后,修改配置</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png" alt="" /></p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png" alt=""></p>
 <p>把Install那一步换成这两个：</p>
-
-<pre><code>   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://jjeejj.github.io/css/gitment.css&quot;&gt;
-   &lt;script src=&quot;https://www.wenjunjiang.win/js/gitment.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-
-<h3 id="3-自己搭建服务">3.自己搭建服务</h3>
-
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://jjeejj.github.io/css/gitment.css&quot;&gt;
+&lt;script src=&quot;https://www.wenjunjiang.win/js/gitment.js&quot;&gt;&lt;/script&gt;
+</code></pre><h3 id="3自己搭建服务">3.自己搭建服务</h3>
 <p>这个我没有试过,有兴趣的朋友可以参考这里:</p>
-
 <p><strong><a href="https://smalbox.club/2018/10/24/an-zhuang-gitment-ji-chang-jian-wen-ti-jie-jue/">参考链接</a></strong></p>
 
 
@@ -487,6 +468,12 @@ $(function() {
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -640,7 +627,7 @@ $(function() {
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

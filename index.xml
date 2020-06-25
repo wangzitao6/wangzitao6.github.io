@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>王子滔的学习笔记</title>
@@ -6,10 +6,19 @@
     <description>Recent content on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Sep 2019 15:06:02 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Logstash割接mysql数据到es</title>
+      <link>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</link>
+      <pubDate>Wed, 24 Jun 2020 19:56:25 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</guid>
+      <description>ElasticSearch创建索引 创建ES索引 PUT logstash_demo { &amp;quot;mappings&amp;quot; : { &amp;quot;properties&amp;quot; : { &amp;quot;email&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;first_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;last_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;uid&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;long&amp;quot; } } } } 创建好后查询索</description>
+    </item>
     
     <item>
       <title>http报文解析</title>
@@ -53,7 +62,7 @@
       <pubDate>Sat, 24 Aug 2019 11:13:05 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/</guid>
-      <description>java中为什么int类型的-129转换成byte类型的会变成127 int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完整形</description>
+      <description>java中为什么int类型的-129转换成byte类型的会变成127 **int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完</description>
     </item>
     
     <item>
@@ -89,7 +98,7 @@
       <pubDate>Sat, 20 Apr 2019 14:38:17 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</guid>
-      <description>三次握手 TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接</description>
+      <description>三次握手 **TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送</description>
     </item>
     
     <item>
@@ -206,7 +215,7 @@
       <pubDate>Mon, 02 Jul 2018 10:38:28 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%BB%A3%E7%A0%81%E5%9D%97main%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</guid>
-      <description>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。 构造代码块：类中直接用{}定义，每一次创建对象时执行。 同一个类中，执行顺序优</description>
+      <description>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。构造代码块：类中直接用{}定义，每一次创建对象时执行。同一个类中，执行顺序优</description>
     </item>
     
     <item>
@@ -233,7 +242,7 @@
       <pubDate>Tue, 05 Jun 2018 11:05:33 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0/</guid>
-      <description>语法 java [ options ] class [ argument &amp;hellip; ] java [ options ] -jar file.jar [ argument &amp;hellip; ] 标准选项 -d32|-d64 -client|-server 以客户端模式还是服务器模式执行虚拟机。 服务器模式的特点是启动速度比较慢，但运行时性能和</description>
+      <description>语法 java [ options ] class [ argument &amp;hellip; ] java [ options ] -jar file.jar [ argument &amp;hellip; ] 标准选项 -d32|-d64 -client|-server 以客户端模式还是服务器模式执行虚拟机。服务器模式的特点是启动速度比较慢，但运行时性能和</description>
     </item>
     
     <item>
@@ -341,16 +350,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://wangzitao6.github.io/bak/readme/</guid>
-      <description> 23.1 Customizing the Banner 启动时打印的banner可以通过向类路径中添加banner.txt文件或通过将banner.location设置为这样一个文件的位置来更改。 如果文件有不寻常的编码，你可以设置banner.charset。字符集(默认为UTF-8 )。
- ${application.version}：MANIFEST.MF文件中的版本号,例如 Implementation-Version: 1.0 打印为 1.0.
- ${application.formatted-version}：格式化后的MANIFEST.MF文件中的版本号,(用括号括起来，前缀为v). 例如 (v1.0).
- ${spring-boot.version}：正在使用的SpringBoot版本. 例如 1.3.7.RELEASE.
- ${spring-boot.formatted-version}：格式化后的正在使用的SpringBoot版本.,(用括号括起来，前缀为v). 例如 (v1.3.7.RELEASE).
- ${Ansi.NAME} (or ${AnsiColor.NAME}, ${AnsiBackground.NAME}, ${AnsiStyle.NAME})： NAME是一个ANSI 码. 详情看 AnsiPropertySource.
- ${application.title}：：MANIFEST.MF文件中的标题. 例如 Implementation-Title: MyApp 展示为 MyApp.
-  您还可以使用spring.main.banner模式属性来确定是否必须使用配置的日志记录器(log)在System.out (console)上打印横幅，或者根本不打印横幅(off)。
- 如果你想关闭banner,同样可以在YAML配置off或者false来关闭。
- spring: main: banner-mode: &amp;quot;off&amp;quot;  </description>
+      <description>23.1 Customizing the Banner 启动时打印的banner可以通过向类路径中添加banner.txt文件或通过将banner.location设置为这样一个文件的位置</description>
     </item>
     
     <item>
@@ -377,7 +377,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://wangzitao6.github.io/top/books/</guid>
-      <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记 讲师: 吴恩达(Andrew Ng)  课程地址：https://www.coursera.org/learn/machine-learning</description>
+      <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.coursera.org/lear</description>
     </item>
     
   </channel>

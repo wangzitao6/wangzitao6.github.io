@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,213 +363,178 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-简介">1.简介</a></li>
-<li><a href="#2-注册">2.注册</a></li>
-<li><a href="#3-插件">3.插件</a></li>
-<li><a href="#4-前端">4.前端</a></li>
-<li><a href="#5-搜索">5.搜索</a></li>
-<li><a href="#6-参考资料">6.参考资料</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1简介">1.简介</a></li>
+    <li><a href="#2注册">2.注册</a></li>
+    <li><a href="#3插件">3.插件</a></li>
+    <li><a href="#4前端">4.前端</a></li>
+    <li><a href="#5搜索">5.搜索</a></li>
+    <li><a href="#6参考资料">6.参考资料</a></li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="1-简介">1.简介</h2>
-
+                <h2 id="1简介">1.简介</h2>
 <p><a href="https://www.algolia.com/">Algolia</a>是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化率等等。可以使用 InstantSearch 等前端框架进行自定义搜索，为用户创造最佳的搜索体验。</p>
-
-<h2 id="2-注册">2.注册</h2>
-
+<h2 id="2注册">2.注册</h2>
 <p>前往官方网站<a href="https://www.algolia.com/">https://www.algolia.com/</a> 使用 GitHub 或 Google 帐号登录。登录完成后根据提示信息填写一些基本的信息即可，注册完成后前往 <a href="https://www.algolia.com/dashboard">Dashboard</a>，我们可以发现 Algolia 会默认给我们生成一个 app。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/005.png" alt="dashboard index" /></p>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/005.png" alt="dashboard index"></p>
 <p>选择 Indices，添加一个新的索引，我们这里命名为<code>hugo</code>，创建成功后，我们可以看到提示中还没有任何记录。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/004.png" alt="indices" />
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/004.png" alt="indices">
 Algolia 为我们提供了三种方式来增加记录：手动添加、上传 json 文件、API。我们这里使用第三种方式来进行数据的添加。</p>
-
-<h2 id="3-插件">3.插件</h2>
-
+<h2 id="3插件">3.插件</h2>
 <p>要使用 API 的方式来添加搜索的数据，我们可以自己根据 Algolia 提供的 <a href="https://www.algolia.com/doc/api-reference/">API 文档</a>进行开发，这也是很容易的，为简单起见，我们这里使用一个<code>hugo-algolia</code>的插件来完成我们的数据同步工作。</p>
-
 <blockquote>
 <p>要安装<code>hugo-aligolia</code>我们需要先确保我们已经安装了 npm 或者 yarn 包管理工具。</p>
 </blockquote>
-
 <p>使用下面的命令安装即可：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ npm install hugo-algolia -g
+</code></pre></div><p>安装完成后，在我们 hugo 生产的静态页面的根目录下面新建一个<code>config.yaml</code>的文件(和<code>config.toml</code>同级)，然后在<code>config.yaml</code>文件中指定 <code>Algolia</code>相关的 API 数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">baseurl</span>: <span style="color:#e6db74">&#34;/&#34;</span>
+<span style="color:#66d9ef">DefaultContentLanguage</span>: <span style="color:#e6db74">&#34;zh-cn&#34;</span>
+<span style="color:#66d9ef">hasCJKLanguage</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">languageCode</span>: <span style="color:#e6db74">&#34;zh-cn&#34;</span>
+<span style="color:#66d9ef">title</span>: <span style="color:#e6db74">&#34;River&#39;s Site&#34;</span>
+<span style="color:#66d9ef">theme</span>: <span style="color:#e6db74">&#34;beautifulhugo&#34;</span>
+<span style="color:#66d9ef">metaDataFormat</span>: <span style="color:#e6db74">&#34;yaml&#34;</span>
 
-<pre><code class="language-shell">$ npm install hugo-algolia -g
-</code></pre>
+algolia_search = <span style="color:#66d9ef">true</span>
+algolia_appId = <span style="color:#e6db74">&#34;3DH4V2B4JK&#34;</span>
+algolia_indexName = <span style="color:#e6db74">&#34;hugo&#34;</span>
+algolia_apiKey = <span style="color:#e6db74">&#34;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>
 
-<p>安装完成后，在我们 hugo 生产的静态页面的根目录下面新建一个<code>config.yaml</code>的文件(和<code>config.toml</code>同级)，然后在<code>config.yaml</code>文件中指定 <code>Algolia</code>相关的 API 数据。</p>
-
-<pre><code class="language-yaml">baseurl: &quot;/&quot;
-DefaultContentLanguage: &quot;zh-cn&quot;
-hasCJKLanguage: true
-languageCode: &quot;zh-cn&quot;
-title: &quot;River's Site&quot;
-theme: &quot;beautifulhugo&quot;
-metaDataFormat: &quot;yaml&quot;
-
-algolia_search = true
-algolia_appId = &quot;3DH4V2B4JK&quot;
-algolia_indexName = &quot;hugo&quot;
-algolia_apiKey = &quot;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&quot;
-
-</code></pre>
-
-<blockquote>
+</code></pre></div><blockquote>
 <p>API 相关数据可以前往 dashboard 的 <code>API Keys</code>查看，注意上面的<code>key</code>是<strong>Admin API Key</strong>。</p>
 </blockquote>
-
 <p>配置完成以后，在根目录下面执行下面的命令：</p>
-
-<pre><code class="language-shell">$ hugo-algolia -s
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ hugo-algolia -s
 JSON index file was created in public/algolia.json
-{ updatedAt: '2019-03-20T10:29:03.861Z', taskID: 4896848941 }
-</code></pre>
-
-<p>然后我们可以看到，上面命令执行完成后会在<code>public</code>目录下面生成一个<code>algolia.json</code>的文件。这个时候我们在 dashboard 中打开 Indices，可以看到已经有几十条数据了。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/003.png" alt="Indices" /></p>
-
+<span style="color:#f92672">{</span> updatedAt: <span style="color:#e6db74">&#39;2019-03-20T10:29:03.861Z&#39;</span>, taskID: <span style="color:#ae81ff">4896848941</span> <span style="color:#f92672">}</span>
+</code></pre></div><p>然后我们可以看到，上面命令执行完成后会在<code>public</code>目录下面生成一个<code>algolia.json</code>的文件。这个时候我们在 dashboard 中打开 Indices，可以看到已经有几十条数据了。</p>
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/003.png" alt="Indices"></p>
 <blockquote>
 <p>如果某篇文章不想被索引的话，我们只需要在文件的最前面设置 index 参数为 false 即可，<code>hugo-algolia</code>插件在索引的过程中会自动跳过它。</p>
 </blockquote>
-
-<h2 id="4-前端">4.前端</h2>
-
+<h2 id="4前端">4.前端</h2>
 <p>现在我们将需要被搜索的文章数据已经成功提交到<code>Algolia</code>，接下来的事情就是前端页面的展示了。下面的操作对于不同的主题或许有不同的地方，请根据自己的实际情况进行相应的修改。我这里使用的是<code>white</code>主题，在<code>themes/white/layouts/partials</code>目录下面新增文件：（<strong>search.html</strong>）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- Including InstantSearch.js library and styling --&gt;</span>
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&#34;</span>&gt;
+&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&#34;</span>&gt;
 
-<pre><code class="language-html">  &lt;!-- Including InstantSearch.js library and styling --&gt;
-  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js&quot;&gt;&lt;/script&gt;
-  &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&quot;&gt;&lt;/script&gt;
-  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&quot;&gt;
-  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&quot;&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;search-searchbar&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+ &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post-list&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;search-hits&#34;</span>&gt;
+ &lt;/<span style="color:#f92672">div</span>&gt;
 
-  &lt;div id=&quot;search-searchbar&quot;&gt;&lt;/div&gt;
-   &lt;div class=&quot;post-list&quot; id=&quot;search-hits&quot;&gt;
-   &lt;/div&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">search</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">instantsearch</span>({
+  <span style="color:#a6e22e">appId</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.algolia_appId }}&#39;</span>,
+  <span style="color:#a6e22e">indexName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.algolia_indexName }}&#39;</span>,
+  <span style="color:#a6e22e">apiKey</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.algolia_apiKey }}&#39;</span>
+});
 
-  &lt;script&gt;
-  const search = instantsearch({
-    appId: '{{ .Site.Params.algolia_appId }}',
-    indexName: '{{ .Site.Params.algolia_indexName }}',
-    apiKey: '{{ .Site.Params.algolia_apiKey }}'
-  });
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hitTemplate</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">hit</span>) {
+<span style="color:#75715e">/*  if (hit === null){
+</span><span style="color:#75715e">      return;
+</span><span style="color:#75715e">  }*/</span>
+  <span style="color:#75715e">// debugger;
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">date</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">date</span>) {
+    <span style="color:#a6e22e">date</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">moment</span>(<span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">date</span>).<span style="color:#a6e22e">format</span>(<span style="color:#e6db74">&#39;MMM D, YYYY&#39;</span>);
+  }
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">#</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">author</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">title</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">_highlightResult</span>.<span style="color:#a6e22e">title</span>.<span style="color:#a6e22e">value</span>;
 
-  const hitTemplate = function(hit) {
-  /*  if (hit === null){
-        return;
-    }*/
-    // debugger;
-    let date = '';
-    if (hit.date) {
-      date = moment(hit.date).format('MMM D, YYYY');
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">breadcrumbs</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">_highlightResult</span>.<span style="color:#a6e22e">headings</span>) {
+    <span style="color:#a6e22e">breadcrumbs</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">_highlightResult</span>.<span style="color:#a6e22e">headings</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">match</span> =&gt; {
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">`&lt;span class=&#34;post-breadcrumb&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">match</span>.<span style="color:#a6e22e">value</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/span&gt;`</span>
+    }).<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39; &gt; &#39;</span>)
+  }
+
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">description</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> ;
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">_highlightResult</span>.<span style="color:#a6e22e">description</span>){
+      <span style="color:#a6e22e">description</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">_highlightResult</span>.<span style="color:#a6e22e">description</span>.<span style="color:#a6e22e">value</span>;
+  }
+  <span style="color:#66d9ef">else</span>{
+      <span style="color:#a6e22e">description</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hit</span>.<span style="color:#a6e22e">summary</span>;
+  }
+
+
+  <span style="color:#66d9ef">return</span> <span style="color:#e6db74">`
+</span><span style="color:#e6db74">    &lt;div class=&#34;post-item&#34;&gt;
+</span><span style="color:#e6db74">      &lt;h3&gt;&lt;a class=&#34;post-link&#34; href=&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">title</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/a&gt;&lt;/h3&gt;
+</span><span style="color:#e6db74">      &lt;a href=&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34; class=&#34;post-breadcrumbs&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">breadcrumbs</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/a&gt;
+</span><span style="color:#e6db74">      &lt;div class=&#34;post-snippet&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">description</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;
+</span><span style="color:#e6db74">      &lt;span class=&#34;post-meta&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">date</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/span&gt;
+</span><span style="color:#e6db74">    &lt;/div&gt;
+</span><span style="color:#e6db74">  `</span>;
+}
+
+
+<span style="color:#a6e22e">search</span>.<span style="color:#a6e22e">addWidget</span>(
+  <span style="color:#a6e22e">instantsearch</span>.<span style="color:#a6e22e">widgets</span>.<span style="color:#a6e22e">searchBox</span>({
+    <span style="color:#a6e22e">container</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#search-searchbar&#39;</span>,
+    <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Search into posts...&#39;</span>,
+    <span style="color:#a6e22e">poweredBy</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> <span style="color:#75715e">// This is required if you&#39;re on the free Community plan
+</span><span style="color:#75715e"></span>  })
+);
+
+<span style="color:#a6e22e">search</span>.<span style="color:#a6e22e">addWidget</span>(
+  <span style="color:#a6e22e">instantsearch</span>.<span style="color:#a6e22e">widgets</span>.<span style="color:#a6e22e">hits</span>({
+    <span style="color:#a6e22e">container</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#search-hits&#39;</span>,
+    <span style="color:#a6e22e">templates</span><span style="color:#f92672">:</span> {
+      <span style="color:#a6e22e">item</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">hitTemplate</span>
     }
-    let url = `${hit.url}#${hit.author}`;
-    const title = hit._highlightResult.title.value;
+  })
+);
 
-    let breadcrumbs = '';
-    if (hit._highlightResult.headings) {
-      breadcrumbs = hit._highlightResult.headings.map(match =&gt; {
-        return `&lt;span class=&quot;post-breadcrumb&quot;&gt;${match.value}&lt;/span&gt;`
-      }).join(' &gt; ')
-    }
+<span style="color:#a6e22e">search</span>.<span style="color:#a6e22e">start</span>();
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-    let description = &quot;&quot; ;
-    if (hit._highlightResult.description){
-        description = hit._highlightResult.description.value;
-    }
-    else{
-        description = hit.summary;
-    }
+&lt;<span style="color:#f92672">style</span>&gt;
+.<span style="color:#a6e22e">ais-search-box</span> {
+  <span style="color:#66d9ef">max-width</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
+  <span style="color:#66d9ef">margin-bottom</span>: <span style="color:#ae81ff">15</span><span style="color:#66d9ef">px</span>;
+}
+.<span style="color:#a6e22e">post-item</span> {
+  <span style="color:#66d9ef">margin-bottom</span>: <span style="color:#ae81ff">30</span><span style="color:#66d9ef">px</span>;
+}
+.<span style="color:#a6e22e">post-link</span> .<span style="color:#a6e22e">ais-Highlight</span> {
+  <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#111</span>;
+  <span style="color:#66d9ef">font-style</span>: <span style="color:#66d9ef">normal</span>;
+  <span style="color:#66d9ef">text-decoration</span>: <span style="color:#66d9ef">underline</span>;
+}
+.<span style="color:#a6e22e">post-breadcrumbs</span> {
+  <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#424242</span>;
+  <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">block</span>;
+}
+.<span style="color:#a6e22e">post-breadcrumb</span> {
+  <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">18</span><span style="color:#66d9ef">px</span>;
+  <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#424242</span>;
+}
+.<span style="color:#a6e22e">post-breadcrumb</span> .<span style="color:#a6e22e">ais-Highlight</span> {
+  <span style="color:#66d9ef">font-weight</span>: <span style="color:#66d9ef">bold</span>;
+  <span style="color:#66d9ef">font-style</span>: <span style="color:#66d9ef">normal</span>;
+}
+.<span style="color:#a6e22e">post-snippet</span> .<span style="color:#a6e22e">ais-Highlight</span> {
+  <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#2a7ae2</span>;
+  <span style="color:#66d9ef">font-style</span>: <span style="color:#66d9ef">normal</span>;
+  <span style="color:#66d9ef">font-weight</span>: <span style="color:#66d9ef">bold</span>;
+}
+.<span style="color:#a6e22e">post-snippet</span> <span style="color:#f92672">img</span> {
+  <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">none</span>;
+}
+&lt;/<span style="color:#f92672">style</span>&gt;
 
-
-    return `
-      &lt;div class=&quot;post-item&quot;&gt;
-        &lt;h3&gt;&lt;a class=&quot;post-link&quot; href=&quot;${url}&quot;&gt;${title}&lt;/a&gt;&lt;/h3&gt;
-        &lt;a href=&quot;${url}&quot; class=&quot;post-breadcrumbs&quot;&gt;${breadcrumbs}&lt;/a&gt;
-        &lt;div class=&quot;post-snippet&quot;&gt;${description}&lt;/div&gt;
-        &lt;span class=&quot;post-meta&quot;&gt;${date}&lt;/span&gt;
-      &lt;/div&gt;
-    `;
-  }
-
-
-  search.addWidget(
-    instantsearch.widgets.searchBox({
-      container: '#search-searchbar',
-      placeholder: 'Search into posts...',
-      poweredBy: true // This is required if you're on the free Community plan
-    })
-  );
-
-  search.addWidget(
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: hitTemplate
-      }
-    })
-  );
-
-  search.start();
-  &lt;/script&gt;
-
-  &lt;style&gt;
-  .ais-search-box {
-    max-width: 100%;
-    margin-bottom: 15px;
-  }
-  .post-item {
-    margin-bottom: 30px;
-  }
-  .post-link .ais-Highlight {
-    color: #111;
-    font-style: normal;
-    text-decoration: underline;
-  }
-  .post-breadcrumbs {
-    color: #424242;
-    display: block;
-  }
-  .post-breadcrumb {
-    font-size: 18px;
-    color: #424242;
-  }
-  .post-breadcrumb .ais-Highlight {
-    font-weight: bold;
-    font-style: normal;
-  }
-  .post-snippet .ais-Highlight {
-    color: #2a7ae2;
-    font-style: normal;
-    font-weight: bold;
-  }
-  .post-snippet img {
-    display: none;
-  }
-  &lt;/style&gt;
-
-</code></pre>
-
-<p>注意上面 JS 代码：</p>
-
-<pre><code class="language-javascript">  &lt;script&gt;
-  const search = instantsearch({
-    appId: '{{ .Site.Params.algolia_appId }}',
-    indexName: '{{ .Site.Params.algolia_indexName }}',
-    apiKey: '{{ .Site.Params.algolia_apiKey }}'
-  });
-</code></pre>
-
-<blockquote>
+</code></pre></div><p>注意上面 JS 代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span>
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">search</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">instantsearch</span>({
+  <span style="color:#a6e22e">appId</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.algolia_appId }}&#39;</span>,
+  <span style="color:#a6e22e">indexName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.algolia_indexName }}&#39;</span>,
+  <span style="color:#a6e22e">apiKey</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;{{ .Site.Params.algolia_apiKey }}&#39;</span>
+});
+</code></pre></div><blockquote>
 <ul>
 <li><code>algolia_search</code>的第一个参数为是否开启索引</li>
 <li><code>algolia_appId</code>的第二个参数为Application ID <code>3DH4V2B4JK</code></li>
@@ -573,103 +542,92 @@ JSON index file was created in public/algolia.json
 <li><code>algolia_apiKey</code>为我们的Admin API Key<code>31c446dxxxxxxxxxxxxxxxxxxxxxxxx</code>。</li>
 </ul>
 </blockquote>
-
 <p>然后我们只需要添加一个搜索入口即可，在<code>themes/white/layouts/partials/nav.html</code>文件最下面添加如下代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- Navigation --&gt;</span>
+&lt;<span style="color:#f92672">nav</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar navbar-default navbar-custom navbar-fixed-top&#34;</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid&#34;</span>&gt;
+        <span style="color:#75715e">&lt;!-- Brand and toggle get grouped for better mobile display --&gt;</span>
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-header page-scroll&#34;</span>&gt;
+            &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;button&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-toggle&#34;</span>&gt;
+                &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sr-only&#34;</span>&gt;Toggle navigation&lt;/<span style="color:#f92672">span</span>&gt;
+                &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon-bar&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+                &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon-bar&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+                &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon-bar&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+            &lt;/<span style="color:#f92672">button</span>&gt;
+            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-brand&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ &#34;</span><span style="color:#960050;background-color:#1e0010">/&#34;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">relLangURL</span> <span style="color:#960050;background-color:#1e0010">}}&#34;</span>&gt;{{ .Site.Title }}&lt;/<span style="color:#f92672">a</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
 
-<pre><code class="language-html">  &lt;!-- Navigation --&gt;
-  &lt;nav class=&quot;navbar navbar-default navbar-custom navbar-fixed-top&quot;&gt;
-      &lt;div class=&quot;container-fluid&quot;&gt;
-          &lt;!-- Brand and toggle get grouped for better mobile display --&gt;
-          &lt;div class=&quot;navbar-header page-scroll&quot;&gt;
-              &lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot;&gt;
-                  &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;
-                  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
-                  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
-                  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
-              &lt;/button&gt;
-              &lt;a class=&quot;navbar-brand&quot; href=&quot;{{ &quot;/&quot; | relLangURL }}&quot;&gt;{{ .Site.Title }}&lt;/a&gt;
-          &lt;/div&gt;
+        <span style="color:#75715e">&lt;!-- Collect the nav links, forms, and other content for toggling --&gt;</span>
+        <span style="color:#75715e">&lt;!-- Known Issue, found by Hux:
+</span><span style="color:#75715e">            &lt;nav&gt;&#39;s height woule be hold on by its content.
+</span><span style="color:#75715e">            so, when navbar scale out, the &lt;nav&gt; will cover tags.
+</span><span style="color:#75715e">            also mask any touch event of tags, unfortunately.
+</span><span style="color:#75715e">        --&gt;</span>
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;huxblog_navbar&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-collapse&#34;</span>&gt;
+                &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav navbar-nav navbar-right&#34;</span>&gt;
+                    &lt;<span style="color:#f92672">li</span>&gt;
+                        &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ &#34;</span><span style="color:#960050;background-color:#1e0010">/&#34;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">relLangURL</span> <span style="color:#960050;background-color:#1e0010">}}&#34;</span>&gt;Home&lt;/<span style="color:#f92672">a</span>&gt;
+                    &lt;/<span style="color:#f92672">li</span>&gt;
+                    {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                    &lt;<span style="color:#f92672">li</span>&gt;
+                        &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ &#34;</span><span style="color:#a6e22e">categories</span><span style="color:#960050;background-color:#1e0010">/&#34;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">relLangURL</span> <span style="color:#960050;background-color:#1e0010">}}{{</span> <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#a6e22e">name</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">urlize</span> <span style="color:#960050;background-color:#1e0010">}}&#34;</span>&gt;{{ $name }}&lt;/<span style="color:#f92672">a</span>&gt;
+                    &lt;/<span style="color:#f92672">li</span>&gt;
+                    {{ end }}
 
-          &lt;!-- Collect the nav links, forms, and other content for toggling --&gt;
-          &lt;!-- Known Issue, found by Hux:
-              &lt;nav&gt;'s height woule be hold on by its content.
-              so, when navbar scale out, the &lt;nav&gt; will cover tags.
-              also mask any touch event of tags, unfortunately.
-          --&gt;
-          &lt;div id=&quot;huxblog_navbar&quot;&gt;
-              &lt;div class=&quot;navbar-collapse&quot;&gt;
-                  &lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;
-                      &lt;li&gt;
-                          &lt;a href=&quot;{{ &quot;/&quot; | relLangURL }}&quot;&gt;Home&lt;/a&gt;
-                      &lt;/li&gt;
-                      {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-                      &lt;li&gt;
-                          &lt;a href=&quot;{{ &quot;categories/&quot; | relLangURL }}{{ $name | urlize }}&quot;&gt;{{ $name }}&lt;/a&gt;
-                      &lt;/li&gt;
-                      {{ end }}
+          {{ range .Site.Params.addtional_menus }}
+                        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{.href | relLangURL}}&#34;</span>&gt;{{.title}}&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+                    {{ end }}
 
-  		    {{ range .Site.Params.addtional_menus }}
-                          &lt;li&gt;&lt;a href=&quot;{{.href | relLangURL}}&quot;&gt;{{.title}}&lt;/a&gt;&lt;/li&gt;
-                      {{ end }}
+                    {{ if .Site.Params.algolia_search }}
+          &lt;<span style="color:#f92672">li</span>&gt;
+                        &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ &#34;</span><span style="color:#a6e22e">search</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">relURL</span> <span style="color:#960050;background-color:#1e0010">}}&#34;</span>&gt;SEARCH &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ &#34;</span><span style="color:#a6e22e">img</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">search</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#a6e22e">png</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">relURL</span> <span style="color:#960050;background-color:#1e0010">}}&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;15&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cursor: pointer;&#34;</span> <span style="color:#a6e22e">alt</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Search&#34;</span>&gt;&lt;/<span style="color:#f92672">a</span>&gt;
+          &lt;/<span style="color:#f92672">li</span>&gt;
+                    {{ end }}
+                &lt;/<span style="color:#f92672">ul</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+        <span style="color:#75715e">&lt;!-- /.navbar-collapse --&gt;</span>
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    <span style="color:#75715e">&lt;!-- /.container --&gt;</span>
+&lt;/<span style="color:#f92672">nav</span>&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+    <span style="color:#75715e">// Drop Bootstarp low-performance Navbar
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Use customize navbar with high-quality material design animation
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// in high-perf jank-free CSS3 implementation
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">$body</span>   <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">body</span>;
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">$toggle</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;.navbar-toggle&#39;</span>);
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">$navbar</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#huxblog_navbar&#39;</span>);
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">$collapse</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;.navbar-collapse&#39;</span>);
 
-                      {{ if .Site.Params.algolia_search }}
-  		    &lt;li&gt;
-                          &lt;a href=&quot;{{ &quot;search&quot; | relURL }}&quot;&gt;SEARCH &lt;img src=&quot;{{ &quot;img/search.png&quot; | relURL }}&quot; height=&quot;15&quot; style=&quot;cursor: pointer;&quot; alt=&quot;Search&quot;&gt;&lt;/a&gt;
-  		    &lt;/li&gt;
-                      {{ end }}
-                  &lt;/ul&gt;
-              &lt;/div&gt;
-          &lt;/div&gt;
-          &lt;!-- /.navbar-collapse --&gt;
-      &lt;/div&gt;
-      &lt;!-- /.container --&gt;
-  &lt;/nav&gt;
-  &lt;script&gt;
-      // Drop Bootstarp low-performance Navbar
-      // Use customize navbar with high-quality material design animation
-      // in high-perf jank-free CSS3 implementation
-      var $body   = document.body;
-      var $toggle = document.querySelector('.navbar-toggle');
-      var $navbar = document.querySelector('#huxblog_navbar');
-      var $collapse = document.querySelector('.navbar-collapse');
+    <span style="color:#a6e22e">$toggle</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, <span style="color:#a6e22e">handleMagic</span>)
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">handleMagic</span>(<span style="color:#a6e22e">e</span>){
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">$navbar</span>.<span style="color:#a6e22e">className</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;in&#39;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#75715e">// CLOSE
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">$navbar</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span>;
+            <span style="color:#75715e">// wait until animation end.
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span>(){
+                <span style="color:#75715e">// prevent frequently toggle
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">$navbar</span>.<span style="color:#a6e22e">className</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;in&#39;</span>) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+                    <span style="color:#a6e22e">$collapse</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0px&#34;</span>
+                }
+            },<span style="color:#ae81ff">400</span>)
+        }<span style="color:#66d9ef">else</span>{
+        <span style="color:#75715e">// OPEN
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">$collapse</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;auto&#34;</span>
+            <span style="color:#a6e22e">$navbar</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34; in&#34;</span>;
+        }
+    }
+&lt;/<span style="color:#f92672">script</span>&gt;
 
-      $toggle.addEventListener('click', handleMagic)
-      function handleMagic(e){
-          if ($navbar.className.indexOf('in') &gt; 0) {
-          // CLOSE
-              $navbar.className = &quot; &quot;;
-              // wait until animation end.
-              setTimeout(function(){
-                  // prevent frequently toggle
-                  if($navbar.className.indexOf('in') &lt; 0) {
-                      $collapse.style.height = &quot;0px&quot;
-                  }
-              },400)
-          }else{
-          // OPEN
-              $collapse.style.height = &quot;auto&quot;
-              $navbar.className += &quot; in&quot;;
-          }
-      }
-  &lt;/script&gt;
+</code></pre></div><p>其中最重要的代码是引入上面我们新建的<code>search.html</code>文件。css引用的别人的文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&#34;</span>&gt;
+&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&#34;</span>&gt;
 
-</code></pre>
-
-<p>其中最重要的代码是引入上面我们新建的<code>search.html</code>文件。css引用的别人的文件</p>
-
-<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&quot;&gt;
-&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&quot;&gt;
-
-</code></pre>
-
-<h2 id="5-搜索">5.搜索</h2>
-
+</code></pre></div><h2 id="5搜索">5.搜索</h2>
 <p>上面的所有工作完成后，我们重新生成静态页面，更新网站数据。我们可以看到导航栏最右边已经有了一个搜索按钮了。</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/006.png" alt="search demo" /></p>
-
-<h2 id="6-参考资料">6.参考资料</h2>
-
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/006.png" alt="search demo"></p>
+<h2 id="6参考资料">6.参考资料</h2>
 <ul>
 <li><a href="https://github.com/zhaohuabing/hugo-theme-cleanwhite/">https://github.com/zhaohuabing/hugo-theme-cleanwhite/</a></li>
 <li><a href="https://gohugo.io/tools/search/">https://gohugo.io/tools/search/</a></li>
@@ -736,6 +694,12 @@ JSON index file was created in public/algolia.json
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -889,7 +853,7 @@ JSON index file was created in public/algolia.json
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

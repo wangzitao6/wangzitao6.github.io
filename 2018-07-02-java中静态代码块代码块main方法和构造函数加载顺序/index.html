@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,216 +363,192 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#构造函数">构造函数</a></li>
-<li><a href="#构造代码块">构造代码块</a></li>
-<li><a href="#静态代码块">静态代码块</a></li>
-<li><a href="#类初始化顺序">类初始化顺序</a></li>
-<li><a href="#继承下的类初始化顺序">继承下的类初始化顺序</a></li>
-<li><a href="#分析">分析</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#构造函数">构造函数</a></li>
+    <li><a href="#构造代码块">构造代码块</a></li>
+    <li><a href="#静态代码块">静态代码块</a></li>
+    <li><a href="#类初始化顺序">类初始化顺序</a></li>
+    <li><a href="#继承下的类初始化顺序">继承下的类初始化顺序</a></li>
+    <li><a href="#分析">分析</a></li>
+  </ul>
 </nav>
                 
-                
-
-<blockquote>
-<p>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。</br>
-构造代码块：类中直接用{}定义，每一次创建对象时执行。</br>
+                <blockquote>
+<p>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。<!-- raw HTML omitted -->
+构造代码块：类中直接用{}定义，每一次创建对象时执行。<!-- raw HTML omitted -->
 同一个类中，执行顺序优先级：<strong>静态代码块 &gt; main() &gt; 构造代码块 &gt; 构造函数</strong>。</p>
 </blockquote>
-
 <h2 id="构造函数">构造函数</h2>
-
-<pre><code class="language-java">//构造函数
-public ClassLoadDemo(){
-    System.out.println(&quot;这里是构造函数&quot;);
-}
-</code></pre>
-
-<p>注意：</br>
-1. 对象一建立，就会调用与之相应的构造函数，也就是说，不建立对象，构造函数时不会运行的。</br>
-2. <strong>构造函数的作用是用于给对象进行初始化</strong>。</br>
-3. 一个对象建立，构造函数只运行一次，而一般方法可以被该对象调用多次。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassLoadDemo</span><span style="color:#f92672">(){</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是构造函数&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注意：<!-- raw HTML omitted --></p>
+<ol>
+<li>对象一建立，就会调用与之相应的构造函数，也就是说，不建立对象，构造函数时不会运行的。<!-- raw HTML omitted --></li>
+<li><strong>构造函数的作用是用于给对象进行初始化</strong>。<!-- raw HTML omitted --></li>
+<li>一个对象建立，构造函数只运行一次，而一般方法可以被该对象调用多次。</li>
+</ol>
 <h2 id="构造代码块">构造代码块</h2>
-
-<pre><code class="language-java">//构造代码块
-{
-    System.out.println(&quot;这里是构造代码块&quot;);
-}
-</code></pre>
-
-<p>注意：</br>
-1. <strong>构造代码块的作用是给对象进行初始化</strong>。</br>
-2. <strong>对象一建立就运行构造代码块了，而且优先于构造函数执行</strong>。这里要强调一下，有对象建立，才会运行构造代码块，类不能调用构造代码块的。</br>
-3. 构造代码块与构造函数的区别是：<strong>构造代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化</strong>，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，<strong>构造代码块中定义的是不同对象共性的初始化内容，所以构造代码块优先于构造函数执行</strong>。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span><span style="color:#f92672">{</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是构造代码块&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注意：<!-- raw HTML omitted --></p>
+<ol>
+<li><strong>构造代码块的作用是给对象进行初始化</strong>。<!-- raw HTML omitted --></li>
+<li><strong>对象一建立就运行构造代码块了，而且优先于构造函数执行</strong>。这里要强调一下，有对象建立，才会运行构造代码块，类不能调用构造代码块的。<!-- raw HTML omitted --></li>
+<li>构造代码块与构造函数的区别是：<strong>构造代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化</strong>，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，<strong>构造代码块中定义的是不同对象共性的初始化内容，所以构造代码块优先于构造函数执行</strong>。</li>
+</ol>
 <h2 id="静态代码块">静态代码块</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassLoadDemo</span><span style="color:#f92672">(){</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是构造函数&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>注意：<!-- raw HTML omitted --></p>
+<ol>
+<li>它是随着类的加载而执行，只执行一次，并优先于主函数。具体说，静态代码块是由类调用的。类调用时，先执行静态代码块，然后才执行主函数的。<!-- raw HTML omitted --></li>
+<li>静态代码块其实就是给类初始化的，而构造代码块是给对象初始化的。<!-- raw HTML omitted --></li>
+<li>静态代码块中的变量是局部变量，与普通函数中的局部变量性质没有区别。<!-- raw HTML omitted --></li>
+<li>一个类中可以有多个静态代码块。<!-- raw HTML omitted --></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassLoadDemo</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">//静态代码块
-public ClassLoadDemo(){
-    System.out.println(&quot;这里是构造函数&quot;);
-}
-</code></pre>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        num <span style="color:#f92672">=</span> num <span style="color:#f92672">+</span> 6<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;num: &#34;</span><span style="color:#f92672">+</span> num<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        num <span style="color:#f92672">=</span> num <span style="color:#f92672">-</span> 5<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-<p>注意：</br>
-1. 它是随着类的加载而执行，只执行一次，并优先于主函数。具体说，静态代码块是由类调用的。类调用时，先执行静态代码块，然后才执行主函数的。</br>
-2. 静态代码块其实就是给类初始化的，而构造代码块是给对象初始化的。</br>
-3. 静态代码块中的变量是局部变量，与普通函数中的局部变量性质没有区别。</br>
-4. 一个类中可以有多个静态代码块。</br></p>
-
-<pre><code class="language-java">public class ClassLoadDemo {
-    private static int num = 1;
-
-    //静态代码块
-    static{
-        num = num + 6;
-    }
-    //main()
-    public static void main(String[] args) {
-        System.out.println(&quot;num: &quot;+ num);
-    }
-    //静态代码块
-    static{
-        num = num - 5;
-    }
-}
-
-输出结果： num: 2
-</code></pre>
-
-<h2 id="类初始化顺序">类初始化顺序</h2>
-
+输出结果<span style="color:#960050;background-color:#1e0010">：</span> num<span style="color:#f92672">:</span> 2
+</code></pre></div><h2 id="类初始化顺序">类初始化顺序</h2>
 <p>demo1:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassA</span> <span style="color:#f92672">{</span>
 
-<pre><code class="language-java">public class ClassA {
-
-    //构造函数
-    public ClassA(){
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassA</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造函数&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
         
-    }
-}
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 运行结果: 这里是ClassA静态代码块
-</code></pre>
+</code></pre></div><p>demo2:对ClassA对象进行初始化。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassA</span> <span style="color:#f92672">{</span>
 
-<p>demo2:对ClassA对象进行初始化。</p>
-
-<pre><code class="language-java">public class ClassA {
-
-    //构造函数
-    public ClassA(){
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        ClassA a = new ClassA();
-    }
-}
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassA</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造函数&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ClassA a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassA<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 
 运行结果: 
 这里是ClassA静态代码块
 这里是ClassA构造代码块
 这里是ClassA构造函数
-</code></pre>
+</code></pre></div><p>demo3:对ClassA对象进行初始化两次。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassA</span> <span style="color:#f92672">{</span>
 
-<p>demo3:对ClassA对象进行初始化两次。</p>
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassA</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造函数&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ClassA a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassA<span style="color:#f92672">();</span>
+        ClassA b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassA<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-java">public class ClassA {
-
-    //构造函数
-    public ClassA(){
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        ClassA a = new ClassA();
-        ClassA b = new ClassA();
-    }
-}
-
-运行结果：
+运行结果<span style="color:#960050;background-color:#1e0010">：</span>
 这里是ClassA静态代码块
 这里是ClassA构造代码块
 这里是ClassA构造函数
 这里是ClassA构造代码块
 这里是ClassA构造函数
-</code></pre>
-
-<blockquote>
+</code></pre></div><blockquote>
 <p>对于一个类而言，按照如下顺序执行：</p>
-
+</blockquote>
+<blockquote>
 <ol>
 <li>执行静态代码块</li>
 <li>执行构造代码块</li>
 <li>执行构造函数</li>
 </ol>
-
+</blockquote>
+<blockquote>
 <p>对于静态变量、静态初始化块、变量、初始化块、构造器，它们的初始化顺序依次是（静态变量、静态初始化块）&gt;（变量、初始化块）&gt;构造器。</p>
 </blockquote>
-
 <p>demo4: 加入静态变量、静态对ClassA进行初始化</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassA</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/* 静态变量 */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String staticField <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;静态变量&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#75715e">/* 变量 */</span>
+    <span style="color:#66d9ef">public</span> String field <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;变量&#34;</span><span style="color:#f92672">;</span>
 
-<pre><code class="language-java">public class ClassA {
-    /* 静态变量 */
-    public static String staticField = &quot;静态变量&quot;;
-    /* 变量 */
-    public String field = &quot;变量&quot;;
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassA</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造函数&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    //构造函数
-    public ClassA() {
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> staticField <span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    //静态代码块
-    static {
-        System.out.println( staticField );
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> field<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    //构造代码块
-    {
-        System.out.println( field);
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-
-    //main()
-    public static void main(String[] args) {
-        ClassA a = new ClassA();
-    }
-}
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ClassA a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassA<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
 运行结果:
 
@@ -577,51 +557,46 @@ public ClassLoadDemo(){
 变量
 这里是ClassA构造代码块
 这里是ClassA构造函数
-</code></pre>
-
-<h2 id="继承下的类初始化顺序">继承下的类初始化顺序</h2>
-
+</code></pre></div><h2 id="继承下的类初始化顺序">继承下的类初始化顺序</h2>
 <p>上面我们说的是单独Class下的加载顺序，下面我们讨论下继承下的加载顺序。</p>
-
 <p>demo5:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassA</span> <span style="color:#f92672">{</span>
 
-<pre><code class="language-java">public class ClassA {
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassA</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造函数&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassA构造代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-    //构造函数
-    public ClassA() {
-        System.out.println(&quot;这里是ClassA构造函数&quot;);
-    }
-    //静态代码块
-    static {
-        System.out.println(&quot;这里是ClassA静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassA构造代码块&quot;);
-    }
-}
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassB</span> <span style="color:#66d9ef">extends</span> ClassA<span style="color:#f92672">{</span>
 
-public class ClassB extends ClassA{
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassB</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassB构造函数&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassB静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是ClassB代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ClassB b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassB<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-    //构造函数
-    public ClassB(){
-        System.out.println(&quot;这里是ClassB构造函数&quot;);
-    }
-    //静态代码块
-    static{
-        System.out.println(&quot;这里是ClassB静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println(&quot;这里是ClassB代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        ClassB b = new ClassB();
-    }
-}
-
-运行ClassB结果：
+运行ClassB结果<span style="color:#960050;background-color:#1e0010">：</span>
 
 这里是ClassA静态代码块
 这里是ClassB静态代码块
@@ -629,102 +604,102 @@ public class ClassB extends ClassA{
 这里是ClassA构造函数
 这里是ClassB代码块
 这里是ClassB构造函数
-</code></pre>
-
-<p>注意：</br>
-当涉及到继承时，按照如下顺序执行：</br>
-1. 执行父类的静态代码块，并初始化父类静态成员变量</br>
-2. 执行子类的静态代码块，并初始化子类静态成员变量</br>
-3. 执行父类的构造代码块，执行父类的构造函数，并初始化父类普通成员变量</br>
-4. 执行子类的构造代码块， 执行子类的构造函数，并初始化子类普通成员变量</p>
-
+</code></pre></div><p>注意：<!-- raw HTML omitted -->
+当涉及到继承时，按照如下顺序执行：<!-- raw HTML omitted --></p>
+<ol>
+<li>执行父类的静态代码块，并初始化父类静态成员变量<!-- raw HTML omitted --></li>
+<li>执行子类的静态代码块，并初始化子类静态成员变量<!-- raw HTML omitted --></li>
+<li>执行父类的构造代码块，执行父类的构造函数，并初始化父类普通成员变量<!-- raw HTML omitted --></li>
+<li>执行子类的构造代码块， 执行子类的构造函数，并初始化子类普通成员变量</li>
+</ol>
 <p>Java初始化顺序如图：
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/2.png" alt="" /></p>
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/2.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassA</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/* 静态变量 */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String p_StaticField <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;父类--静态变量&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#75715e">/* 变量 */</span>
+    <span style="color:#66d9ef">public</span> String    p_Field <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;父类--变量&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">int</span>    i    <span style="color:#f92672">=</span> 9<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">int</span>    j    <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">public class ClassA {
-    /* 静态变量 */
-    public static String p_StaticField = &quot;父类--静态变量&quot;;
-    /* 变量 */
-    public String    p_Field = &quot;父类--变量&quot;;
-    protected int    i    = 9;
-    protected int    j    = 0;
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassA</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是父类构造函数&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> <span style="color:#e6db74">&#34;i=&#34;</span> <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, j=&#34;</span> <span style="color:#f92672">+</span> j <span style="color:#f92672">);</span>
+        j <span style="color:#f92672">=</span> 20<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> p_StaticField <span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是父类静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> p_Field<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是父类构造代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-    //构造函数
-    public ClassA() {
-        System.out.println(&quot;这里是父类构造函数&quot;);
-        System.out.println( &quot;i=&quot; + i + &quot;, j=&quot; + j );
-        j = 20;
-    }
-    //静态代码块
-    static {
-        System.out.println( p_StaticField );
-        System.out.println(&quot;这里是父类静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println( p_Field);
-        System.out.println(&quot;这里是父类构造代码块&quot;);
-    }
-}
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ClassB</span> <span style="color:#66d9ef">extends</span> ClassA<span style="color:#f92672">{</span>
+    <span style="color:#75715e">/* 静态变量 */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String s_StaticField <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;子类--静态变量&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#75715e">/* 变量 */</span>
+    <span style="color:#66d9ef">public</span> String s_Field <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;子类--变量&#34;</span><span style="color:#f92672">;</span>
 
-public class ClassB extends ClassA{
-    /* 静态变量 */
-    public static String s_StaticField = &quot;子类--静态变量&quot;;
-    /* 变量 */
-    public String s_Field = &quot;子类--变量&quot;;
+    <span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ClassB</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是子类构造函数&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> <span style="color:#e6db74">&#34;i=&#34;</span> <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,j=&#34;</span> <span style="color:#f92672">+</span> j <span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//静态代码块
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span><span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> s_StaticField <span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是子类静态代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//构造代码块
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> s_Field <span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;这里是子类代码块&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">//main()
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span> <span style="color:#e6db74">&#34;子类main方法&#34;</span> <span style="color:#f92672">);</span>
+        ClassB b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassB<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-    //构造函数
-    public ClassB(){
-        System.out.println(&quot;这里是子类构造函数&quot;);
-        System.out.println( &quot;i=&quot; + i + &quot;,j=&quot; + j );
-    }
-    //静态代码块
-    static{
-        System.out.println( s_StaticField );
-        System.out.println(&quot;这里是子类静态代码块&quot;);
-    }
-    //构造代码块
-    {
-        System.out.println( s_Field );
-        System.out.println(&quot;这里是子类代码块&quot;);
-    }
-    //main()
-    public static void main(String[] args) {
-        System.out.println( &quot;子类main方法&quot; );
-        ClassB b = new ClassB();
-    }
-}
-
-运行结果：
-父类--静态变量
+运行结果<span style="color:#960050;background-color:#1e0010">：</span>
+父类<span style="color:#f92672">--</span>静态变量
 这里是父类静态代码块
-子类--静态变量
+子类<span style="color:#f92672">--</span>静态变量
 这里是子类静态代码块
 子类main方法
-父类--变量
+父类<span style="color:#f92672">--</span>变量
 这里是父类构造代码块
 这里是父类构造函数
-i=9, j=0
-子类--变量
+i<span style="color:#f92672">=</span>9<span style="color:#f92672">,</span> j<span style="color:#f92672">=</span>0
+子类<span style="color:#f92672">--</span>变量
 这里是子类代码块
 这里是子类构造函数
-i=9,j=20
-</code></pre>
-
-<p>子类的静态变量和静态初始化块的初始化是在父类的变量、初始化块和构造器初始化之前就完成了。静态变量、静态初始化块，变量、初始化块初始化了顺序取决于它们在类中出现的先后顺序。</p>
-
+i<span style="color:#f92672">=</span>9<span style="color:#f92672">,</span>j<span style="color:#f92672">=</span>20
+</code></pre></div><p>子类的静态变量和静态初始化块的初始化是在父类的变量、初始化块和构造器初始化之前就完成了。静态变量、静态初始化块，变量、初始化块初始化了顺序取决于它们在类中出现的先后顺序。</p>
 <h2 id="分析">分析</h2>
-
 <ol>
-<li><p>运行ClassB.main(),(这是一个static方法)，于是装载器就会为你寻找已经编译的ClassB类的代码（也就是ClassB.class文件）。在装载的过程中，装载器注意到它有一个基类（也就是extends所要表示的意思），于是它再装载基类。不管你创不创建基类对象，这个过程总会发生。如果基类还有基类，那么第二个基类也会被装载，依此类推。</p></li>
-
-<li><p>执行根基类的static初始化，然后是下一个派生类的static初始化，依此类推。这个顺序非常重要，因为派生类的“static初始化”有可能要依赖基类成员的正确初始化。</p></li>
-
-<li><p>当所有必要的类都已经装载结束，开始执行main()方法体，并用new ClassB() 创建对象。</p></li>
-
-<li><p>类ClassB存在父类，则调用父类的构造函数，你可以使用super来指定调用哪个构造函数。基类的构造过程以及构造顺序，同派生类的相同。首先基类中各个变量按照字面顺序进行初始化，然后执行基类的构造函数的其余部分。</p></li>
-
-<li><p>对子类成员数据按照它们声明的顺序初始化，执行子类构造函数的其余部分。</p></li>
+<li>
+<p>运行ClassB.main(),(这是一个static方法)，于是装载器就会为你寻找已经编译的ClassB类的代码（也就是ClassB.class文件）。在装载的过程中，装载器注意到它有一个基类（也就是extends所要表示的意思），于是它再装载基类。不管你创不创建基类对象，这个过程总会发生。如果基类还有基类，那么第二个基类也会被装载，依此类推。</p>
+</li>
+<li>
+<p>执行根基类的static初始化，然后是下一个派生类的static初始化，依此类推。这个顺序非常重要，因为派生类的“static初始化”有可能要依赖基类成员的正确初始化。</p>
+</li>
+<li>
+<p>当所有必要的类都已经装载结束，开始执行main()方法体，并用new ClassB() 创建对象。</p>
+</li>
+<li>
+<p>类ClassB存在父类，则调用父类的构造函数，你可以使用super来指定调用哪个构造函数。基类的构造过程以及构造顺序，同派生类的相同。首先基类中各个变量按照字面顺序进行初始化，然后执行基类的构造函数的其余部分。</p>
+</li>
+<li>
+<p>对子类成员数据按照它们声明的顺序初始化，执行子类构造函数的其余部分。</p>
+</li>
 </ol>
 
 
@@ -787,6 +762,12 @@ i=9,j=20
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -940,7 +921,7 @@ i=9,j=20
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>

@@ -101,6 +101,10 @@
                     </li>
                     
                     <li>
+                        <a href="/categories/elk">elk</a>
+                    </li>
+                    
+                    <li>
                         <a href="/categories/java">java</a>
                     </li>
                     
@@ -359,96 +363,68 @@ $(function() {
                     <h2>目录</h2>
                 </header>
                 <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#引言">引言</a></li>
-<li><a href="#1-注册-oauth-application">1. 注册 OAuth Application</a></li>
-<li><a href="#2-引入-gitment">2. 引入 Gitment</a></li>
-<li><a href="#3-初始化评论">3. 初始化评论</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#引言">引言</a></li>
+    <li><a href="#1-注册-oauth-application">1. 注册 OAuth Application</a></li>
+    <li><a href="#2-引入-gitment">2. 引入 Gitment</a></li>
+    <li><a href="#3-初始化评论">3. 初始化评论</a></li>
+  </ul>
 </nav>
                 
-                
-
-<h2 id="引言">引言</h2>
-
+                <h2 id="引言">引言</h2>
 <p>Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown / GFM 和代码高亮支持。尤为适合各种基于 GitHub Pages 的静态博客或项目页面。</p>
-
 <p>本博客评论系统已迁移至 Gitment。虽然 Gitment 只能使用 GitHub 账号进行评论，但考虑到博客受众，这是可以接受的。</p>
-
 <p><a href="https://github.com/imsun/gitment">项目地址</a></p>
-
 <p><a href="https://imsun.github.io/gitment/">示例页面</a></p>
-
 <h2 id="1-注册-oauth-application">1. 注册 OAuth Application</h2>
-
 <p>点击此处 来注册一个新的 OAuth Application,<a href="https://github.com/settings/developers">申请地址</a></p>
-
 <p>其他内容可以随意填写，但要确保填入正确的Authorization callback URL（一般是评论页面对应的域名，
 如 <code>https://wangzitao6.github.io</code>）注意域名后不要带斜杠</p>
-
 <p>Homepage URL也可以填写域名<code>https://wangzitao6.github.io</code>。</p>
-
 <p>你会得到一个 client ID 和一个 client secret，这个将被用于之后的用户登录。</p>
-
 <h2 id="2-引入-gitment">2. 引入 Gitment</h2>
-
 <p>将下面的代码添加到你的页面：</p>
-
-<pre><code>  &lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://imsun.github.io/gitment/style/default.css&quot;&gt;
-  &lt;script src=&quot;https://imsun.github.io/gitment/dist/gitment.browser.js&quot;&gt;&lt;/script&gt;
-  &lt;script&gt;
-  var gitment = new Gitment({
-    id: '页面 ID', // 可选。默认为 location.href
-    owner: '你的 GitHub ID',
-    repo: '存储评论的 repo',
-    oauth: {
-      client_id: '你的 client ID',
-      client_secret: '你的 client secret',
-    },
-  })
-  gitment.render('container')
-  &lt;/script&gt;
-</code></pre>
-
-<p>注意，上述代码引用的 Gitment 将会随着开发变动。如果你希望始终使用最新的界面与特性即可引入上述代码。</p>
-
+<pre><code>&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://imsun.github.io/gitment/style/default.css&quot;&gt;
+&lt;script src=&quot;https://imsun.github.io/gitment/dist/gitment.browser.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: '你的 GitHub ID',
+  repo: '存储评论的 repo',
+  oauth: {
+    client_id: '你的 client ID',
+    client_secret: '你的 client secret',
+  },
+})
+gitment.render('container')
+&lt;/script&gt;
+</code></pre><p>注意，上述代码引用的 Gitment 将会随着开发变动。如果你希望始终使用最新的界面与特性即可引入上述代码。</p>
 <p>如果你希望引用确定版本的 Gitment，则应该使用 npm 进行安装。</p>
-
 <p><code>$ npm install --save gitment</code>
 关于构造函数中的更多可用参数</p>
-
 <ul>
 <li>owner:是你的github登录名,</li>
 <li>repo:是你的github里面的项目名,初始化的评论会放在项目的issues中</li>
 <li>id:页面评论在issues的唯一标示,不宜过长,否则会报错</li>
 </ul>
-
 <p>我的示例:</p>
+<pre><code>&lt;script&gt;
+  var gitment = new Gitment({
+    id: '{{ .File.BaseFileName }}',
+    owner: 'wangzitao6',
+    repo: 'wangzitao6.github.io',
+    oauth: {
+      client_id: 'a09xxxxxxxxxxxxxxx',
+      client_secret: 'ec6b34b6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    }
+  })
+  gitment.render('git-comments')
+&lt;/script&gt;
 
-<pre><code>  &lt;script&gt;
-    var gitment = new Gitment({
-      id: '{{ .File.BaseFileName }}',
-      owner: 'wangzitao6',
-      repo: 'wangzitao6.github.io',
-      oauth: {
-        client_id: 'a09xxxxxxxxxxxxxxx',
-        client_secret: 'ec6b34b6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      }
-    })
-    gitment.render('git-comments')
-  &lt;/script&gt;
-
-</code></pre>
-
-<h2 id="3-初始化评论">3. 初始化评论</h2>
-
+</code></pre><h2 id="3-初始化评论">3. 初始化评论</h2>
 <p>页面发布后，你需要访问页面并使用你的 GitHub 账号登录（请确保你的账号是第二步所填 repo 的 owner），点击初始化按钮。
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/03/002.png" alt="" /></p>
-
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/03/002.png" alt=""></p>
 <p>之后其他用户即可在该页面发表评论。</p>
 
 
@@ -511,6 +487,12 @@ $(function() {
                         
                         <a href="/tags/blog" title="blog">
                             blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
                         </a>
                         
                         
@@ -664,7 +646,7 @@ $(function() {
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2019
+                    Copyright &copy; 王子滔的学习笔记 2020
                     <br>
                 </p>
             </div>
