@@ -6,10 +6,19 @@
     <description>Recent content in MySQL on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Aug 2019 15:06:29 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2020 09:23:19 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mysql自定义变量和结束分隔符</title>
+      <link>https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/</link>
+      <pubDate>Tue, 07 Jul 2020 09:23:19 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/</guid>
+      <description>1. 自定义变量 1-1. SET方式赋值 自定义变量前边必须加一个 @符号，环境变量赋值用SET,查询变量时用SELECT,不过仍然需要在变量名称前加一个@</description>
+    </item>
     
     <item>
       <title>MYSQL配置读取</title>
