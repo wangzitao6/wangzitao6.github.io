@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Mysql自定义变量和结束分隔符"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="Mysql自定义变量和结束分隔符 &middot; 王子滔的学习笔记" />
+  	<meta property="og:site_name" content="王子滔的学习笔记" />
+  	<meta property="og:url" content="https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/" />
+
+    
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2020-07-07T09:23:19&#43;08:00" />
+
+    
+    <meta property="article:tag" content="MySQL" />
+    
+    
+
+    <title>Mysql自定义变量和结束分隔符 &middot; 王子滔的学习笔记</title>
+
+    
+    <meta name="description" content="1. 自定义变量 1-1. SET方式赋值 自定义变量前边必须加一个 @ 符号，环境变量赋值用SET,查询变量时用SELECT,不过仍然需要在变量名称前加一个@" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
+
+    
+
+    
+
+    
+      
+          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.54.0" />
+
+    <link rel="canonical" href="https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": 
+    },
+    "author": {
+        "@type": "Person",
+        "name": ,
+        
+        "url": ,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": Mysql自定义变量和结束分隔符,
+    "name": Mysql自定义变量和结束分隔符,
+    "wordCount": 957,
+    "timeRequired": "PT2M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": en
+    },
+    "url": https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/,
+    "datePublished": 2020-07-07T09:23Z,
+    "dateModified": 2020-07-07T09:23Z,
+    
+    "keywords": MySQL,
+    "description": ,
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Mysql自定义变量和结束分隔符</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2020-07-07T09:23:19&#43;08:00">
+            Jul 7, 2020
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/mysql/">#MySQL</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h1 id="1-自定义变量">1. 自定义变量</h1>
+
+<h2 id="1-1-set方式赋值">1-1. SET方式赋值</h2>
+
+<p>自定义变量前边必须加一个 <font color = "red">@</font> 符号，环境变量赋值用<font color = "red">SET</font>,查询变量时用<font color = "red"> SELECT,不过仍然需要在变量名称前加一个@符号</font>。</p>
+
+<pre><code class="language-sql">mysql&gt; set @a = '1';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; select @a;
++------+
+| @a   |
++------+
+| 1    |
++------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h2 id="1-2-环境变量之间相互赋值">1-2. 环境变量之间相互赋值</h2>
+
+<p>环境变量也可以相互之间赋值,比如把a的值赋值给b。</p>
+
+<pre><code class="language-sql">mysql&gt; set @b = @a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; select @b;
++------+
+| @b   |
++------+
+| 1    |
++------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h2 id="1-3-根据查询结果赋值">1-3. 根据查询结果赋值</h2>
+
+<p>我们还可以将某个查询的结果赋值给一个变量，<font color = "red">前提是这个查询的结果只有一个值：</font></p>
+
+<pre><code class="language-sql">mysql&gt; set @a =(select age from a where id =1);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; select @a;
++------+
+| @a   |
++------+
+|   11 |
++------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<p>否则会报错：</p>
+
+<pre><code class="language-sql">mysql&gt; set @a =(select age from a where age ='11');
+ERROR 1242 (21000):
+</code></pre>
+
+<h2 id="1-4-使用into赋值">1-4. 使用INTO赋值</h2>
+
+<p>还可以用另一种形式的语句来将查询的结果赋值给一个变量,为查询语句加上<font color = "red">limit</font> 可以确保只有一个返回结果。</p>
+
+<pre><code class="language-sql">mysql&gt; select age from a where age = '11' limit 1 into @b;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; select @b;
++------+
+| @b   |
++------+
+|   11 |
++------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<h1 id="2-语句结束分隔符">2. 语句结束分隔符</h1>
+
+<p>在MySQL客户端的交互界面处，当我们完成键盘输入并按下回车键时，MySQL客户端会检测我们输入的内容中是否包含 <font color = "red"> <strong>;</strong></font> 、<font color = "red"> <strong>\g</strong> </font>或者<font color = "red"> <strong>\G</strong></font>这三个符号之一，如果有的话，会把我们输入的内容发送到服务器。这样一来，如果我们想一次性给服务器发送多条的话，就需要把这些语句写到一行中，比如这样：</p>
+
+<pre><code class="language-sql">mysql&gt; select age from a; select id from a;
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+
+
+--------------------------------------
+mysql&gt;  select age from a\g select id from a \g
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+</code></pre>
+
+<p><font color = "red">delimiter $ </font>命令意味着修改语句结束分隔符为<font color = "red"> $</font>，也就是说之后MySQL客户端检测用户语句输入结束的符号为<font color = "red"> $ </font>。上边例子中我们虽然连续输入了3个以分号;结尾的查询语句并且按了回车键，但是输入的内容并没有被提交，直到敲下<font color = "red"> $ </font>符号并回车，MySQL客户端才会将我们输入的内容提交到服务器，此时我们输入的内容里已经包含了2个独立的查询语句了，所以返回了2个结果集。</p>
+
+<pre><code class="language-sql">mysql&gt; delimiter $
+mysql&gt; select age from a ;
+    -&gt; select id from a ;
+    -&gt; $
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+</code></pre>
+
+<p>我们也可以将语句结束分隔符重新 <font color = "red">  <strong>定义为$以外的其他包含单个或多个字符的字符串</strong></font>，比方说这样 把<font color = "red"> $ </font>改为<font color = "red"> end</font> ：</p>
+
+<pre><code class="language-sql">mysql&gt; delimiter end
+mysql&gt; select id from a ;
+    -&gt; select age from a ;
+    -&gt; end
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+</code></pre>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Mysql%e8%87%aa%e5%ae%9a%e4%b9%89%e5%8f%98%e9%87%8f%e5%92%8c%e7%bb%93%e6%9d%9f%e5%88%86%e9%9a%94%e7%ac%a6&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2020-07-06-mysql%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589%25E5%258F%2598%25E9%2587%258F%25E5%2592%258C%25E7%25BB%2593%25E6%259D%259F%25E5%2588%2586%25E9%259A%2594%25E7%25AC%25A6%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2020-07-06-mysql%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589%25E5%258F%2598%25E9%2587%258F%25E5%2592%258C%25E7%25BB%2593%25E6%259D%259F%25E5%2588%2586%25E9%259A%2594%25E7%25AC%25A6%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2020-07-06-mysql%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589%25E5%258F%2598%25E9%2587%258F%25E5%2592%258C%25E7%25BB%2593%25E6%259D%259F%25E5%2588%2586%25E9%259A%2594%25E7%25AC%25A6%2f&amp;description=Mysql%e8%87%aa%e5%ae%9a%e4%b9%89%e5%8f%98%e9%87%8f%e5%92%8c%e7%bb%93%e6%9d%9f%e5%88%86%e9%9a%94%e7%ac%a6"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2020-07-06-mysql%25E8%2587%25AA%25E5%25AE%259A%25E4%25B9%2589%25E5%258F%2598%25E9%2587%258F%25E5%2592%258C%25E7%25BB%2593%25E6%259D%259F%25E5%2588%2586%25E9%259A%2594%25E7%25AC%25A6%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/">
+          <section class="post">
+              <h2>Logstash割接mysql数据到es</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    
+</body>
+</html>
+
