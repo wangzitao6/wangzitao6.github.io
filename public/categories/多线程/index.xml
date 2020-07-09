@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多线程 on 王子滔的学习笔记</title>
+    <link>https://wangzitao6.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+    <description>Recent content in 多线程 on 王子滔的学习笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Jul 2020 16:40:03 +0800</lastBuildDate>
+    
+	<atom:link href="https://wangzitao6.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AbstractQueuedSynchronizer超详细原理解析</title>
+      <link>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Thu, 09 Jul 2020 16:40:03 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/</guid>
+      <description>今天我们来研究学习一下AbstractQueuedSynchronizer类的相关原理，java.util.concurrent包中很多类都</description>
+    </item>
+    
+  </channel>
+</rss>
