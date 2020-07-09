@@ -9,4 +9,7 @@ tags:        ["JUC"]
 url:    "/2020-07-"
 categories:  ["多线程"]
 showtoc: true   # 是否显示目录
+#hugo server -t white
+# hugo -t casper
+# hugo-algolia -s
 ---
