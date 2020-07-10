@@ -534,7 +534,7 @@ lock<span style="color:#f92672">.</span><span style="color:#a6e22e">unlock</span
 <p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B2.webp" alt=""></p>
 <p>ReentrantLock未获得阻塞,加入队列</p>
 <h1 id="70--unlock操作">7.0  unlock操作</h1>
-<p>与<!-- raw HTML omitted --> <strong>lock</strong><!-- raw HTML omitted -->操作类似，<!-- raw HTML omitted --> <strong>unlock</strong><!-- raw HTML omitted -->操作调用了<!-- raw HTML omitted --> <strong>AQS</strong><!-- raw HTML omitted -->的relase方法，参数和调用<!-- raw HTML omitted --> <strong>acquire</strong><!-- raw HTML omitted -->时一样，都是1。</p>
+<p>与<!-- raw HTML omitted --><strong>lock</strong><!-- raw HTML omitted -->操作类似，<!-- raw HTML omitted --> <strong>unlock</strong><!-- raw HTML omitted -->操作调用了<!-- raw HTML omitted --> <strong>AQS</strong><!-- raw HTML omitted -->的relase方法，参数和调用<!-- raw HTML omitted --> <strong>acquire</strong><!-- raw HTML omitted -->时一样，都是1。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">release</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> arg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
     <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>tryRelease<span style="color:#f92672">(</span>arg<span style="color:#f92672">))</span> <span style="color:#f92672">{</span> 
     <span style="color:#75715e">//释放独占性变量,起始就是将status的值减1,因为acquire时是加1
