@@ -220,7 +220,7 @@ ReentrantLock未获得阻塞,加入队列
 
 # 7.0  unlock操作
 
-与<font color ='red'> **lock**</font>操作类似，<font color ='red'> **unlock**</font>操作调用了<font color ='red'> **AQS**</font>的relase方法，参数和调用<font color ='red'> **acquire**</font>时一样，都是1。
+与<font color ='red'>**lock**</font>操作类似，<font color ='red'> **unlock**</font>操作调用了<font color ='red'> **AQS**</font>的relase方法，参数和调用<font color ='red'> **acquire**</font>时一样，都是1。
 ```java
 public final boolean release(int arg) {
     if (tryRelease(arg)) { 

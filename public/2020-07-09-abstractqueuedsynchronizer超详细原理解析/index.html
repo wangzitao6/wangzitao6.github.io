@@ -397,7 +397,7 @@ private final boolean parkAndCheckInterrupt() {
 
 <h1 id="7-0-unlock操作">7.0  unlock操作</h1>
 
-<p>与<font color ='red'> <strong>lock</strong></font>操作类似，<font color ='red'> <strong>unlock</strong></font>操作调用了<font color ='red'> <strong>AQS</strong></font>的relase方法，参数和调用<font color ='red'> <strong>acquire</strong></font>时一样，都是1。</p>
+<p>与<font color ='red'><strong>lock</strong></font>操作类似，<font color ='red'> <strong>unlock</strong></font>操作调用了<font color ='red'> <strong>AQS</strong></font>的relase方法，参数和调用<font color ='red'> <strong>acquire</strong></font>时一样，都是1。</p>
 
 <pre><code class="language-java">public final boolean release(int arg) {
     if (tryRelease(arg)) { 
