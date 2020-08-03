@@ -194,7 +194,7 @@
 
 <p>我们都知道<font color ='red'> <strong>ReentranLock</strong></font>的加锁行为和<font color ='red'> <strong>Synchronized</strong></font>类似，都是可重入的锁，但是二者的实现方式确实完全不同的，我们之后也会讲解<font color ='red'> <strong>Synchronized</strong></font>的原理。**除此之外，Synchronized的阻塞无法被中断，而<font color ='red'> <strong>ReentrantLock</strong></font>则提供了可中断的阻塞**。下面的代码是<font color ='red'> <strong>ReentranLock</strong></font>的函数，我们就以此为顺序，依次讲解这些函数背后的实现原理。</p>
 
-<pre><code class="language-java">ReentrantLock lock = new ReentrantLock();
+<pre><code>ReentrantLock lock = new ReentrantLock();
 lock.lock();
 lock.unlock();
 </code></pre>
@@ -203,7 +203,7 @@ lock.unlock();
 
 <p><font color ='red'> <strong>ReentranLock</strong></font>分为公平锁和非公平锁，二者的区别就在获取锁机会是否和排队顺序相关。我们都知道，如果锁被另一个线程持有，那么申请锁的其他线程会被挂起等待，加入等待队列。理论上，先调用<font color ='red'> <strong>lock</strong></font>函数被挂起等待的线程应该排在等待队列的前端，后调用的就排在后边。如果此时，锁被释放，需要通知等待线程再次尝试获取锁，公平锁会让最先进入队列的线程获得锁。而非公平锁则会唤醒所有线程，让它们再次尝试获取锁，所以可能会导致后来的线程先获得了锁，则就是非公平。</p>
 
-<pre><code class="language-java">public ReentrantLock(boolean fair) {
+<pre><code>public ReentrantLock(boolean fair) {
     sync = fair ? new FairSync() : new NonfairSync();
 }
 </code></pre>
@@ -215,20 +215,20 @@ lock.unlock();
 
 <p><font color ='red'> <strong>ReentranLock的lock</strong></font>函数如下所示，直接调用了<font color ='red'> <strong>sync</strong></font> 的 <font color ='red'> <strong>lock</strong></font>函数。也就是调用了<font color ='red'> <strong>FairSync的lock</strong></font>函数。</p>
 
-<pre><code class="language-java">    //ReentranLock
-    public void lock() {
-        sync.lock();
-    }
-    //FairSync
-    final void lock() {
-        //调用了AQS的acquire函数,这是关键函数之一
-        acquire(1);
-    }
+<pre><code>//ReentranLock
+public void lock() {
+    sync.lock();
+}
+//FairSync
+final void lock() {
+    //调用了AQS的acquire函数,这是关键函数之一
+    acquire(1);
+}
 </code></pre>
 
 <p>我们接下来就正式开始 <font color ='red'> <strong>AQS</strong></font>相关的源码分析了， <font color ='red'> <strong>acquire</strong></font>函数的作用是获取同一时间段内只能被一个线程获取的量，这个量就是抽象化的锁概念。我们先分析代码，你慢慢就会明白其中的含义。</p>
 
-<pre><code class="language-java">public final void acquire(int arg) {
+<pre><code>public final void acquire(int arg) {
     // tryAcquire先尝试获取&quot;锁&quot;,获取了就不进入后续流程
     if (!tryAcquire(arg) &amp;&amp;
         acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
@@ -240,7 +240,7 @@ lock.unlock();
 
 <p><font color ='red'> <strong>tryAcquire</strong></font>， <font color ='red'> <strong>addWaiter</strong></font>和 <font color ='red'> <strong>acquireQueued</strong></font>都是十分重要的函数，我们接下来依次学习一下这些函数，理解它们的作用。</p>
 
-<pre><code class="language-java">//AQS类中的变量.
+<pre><code>//AQS类中的变量.
 private volatile int state;
 //这是FairSync的实现,AQS中未实现,子类按照自己的需要实现该函数
 protected final boolean tryAcquire(int acquires) {
@@ -287,7 +287,7 @@ protected final boolean tryAcquire(int acquires) {
 
 <p>将保存当前线程信息的节点加入到等待队列的相关函数中涉及到了无锁队列的相关算法，由于在<font color ='red'> <strong>AQS</strong></font>中只是将节点添加到队尾，使用到的无锁算法也相对简单。真正的无锁队列的算法我们等到分析<font color ='red'> <strong>ConcurrentSkippedListMap</strong></font>时在进行讲解。</p>
 
-<pre><code class="language-java">private Node addWaiter(Node mode) {
+<pre><code>private Node addWaiter(Node mode) {
     Node node = new Node(Thread.currentThread(), mode);
     //先使用快速入列法来尝试一下,如果失败,则进行更加完备的入列算法.
     //只有在必要的情况下才会使用更加复杂耗时的算法，也就是乐观的态度
@@ -308,7 +308,7 @@ private Node enq(final Node node) {
         Node t = tail;
         if (t == null) { //初始化
             if (compareAndSetHead(new Node())) 
-              //需要注意的是head是一个哨兵的作用,并不代表某个要获取锁的线程节点
+            //需要注意的是head是一个哨兵的作用,并不代表某个要获取锁的线程节点
                 tail = head;
         } else {
             //和addWaiter中一致,不过有了外侧的无限循环,不停的尝试,自旋锁
@@ -328,7 +328,7 @@ private Node enq(final Node node) {
 
 <p>由于进入阻塞状态的操作会降低执行效率，所以，<font color ='red'> <strong>AQS</strong></font>会尽力避免试图获取独占性变量的线程进入阻塞状态。所以，当线程加入等待队列之后，<font color ='red'> <strong>acquireQueued</strong></font>会执行一个for循环，每次都判断当前节点是否应该获得这个变量(在队首了)。如果不应该获取或在再次尝试获取失败，那么就调用<font color ='red'> <strong>shouldParkAfterFailedAcquire</strong></font>判断是否应该进入阻塞状态。如果当前节点之前的节点已经进入阻塞状态了，那么就可以判定当前节点不可能获取到锁，为了防止CPU不停的执行for循环，消耗CPU资源，调用<font color ='red'> <strong>parkAndCheckInterrupt</strong></font>函数来进入阻塞状态。</p>
 
-<pre><code class="language-java">final boolean acquireQueued(final Node node, int arg) {
+<pre><code>final boolean acquireQueued(final Node node, int arg) {
     boolean failed = true;
     try {
         boolean interrupted = false;
@@ -355,6 +355,7 @@ private Node enq(final Node node) {
             cancelAcquire(node);
     }
 }
+
 private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
     int ws = pred.waitStatus;
     if (ws == Node.SIGNAL) //前一个节点在等待独占性变量释放的通知,所以,当前节点可以阻塞
@@ -381,7 +382,7 @@ private final boolean parkAndCheckInterrupt() {
 
 <p>由上述分析，我们知道了<font color ='red'> <strong>AQS</strong></font>通过调用<font color ='red'> <strong>LockSupport</strong></font>的<font color ='red'> <strong>park</strong></font>方法来执行阻塞当前进程的操作。其实，这里的阻塞就是线程不再执行的含义，通过调用这个函数，线程进入阻塞状态，上述的<font color ='red'> <strong>lock</strong></font>操作也就阻塞了，等待中断或在独占性变量被释放。</p>
 
-<pre><code class="language-java">public static void park(Object blocker) {
+<pre><code>public static void park(Object blocker) {
     Thread t = Thread.currentThread();
     setBlocker(t, blocker);//设置阻塞对象,用来记录线程被谁阻塞的,用于线程监控和分析工具来定位
     UNSAFE.park(false, 0L);//让当前线程不再被线程调度,就是当前线程不再执行.
@@ -399,7 +400,7 @@ private final boolean parkAndCheckInterrupt() {
 
 <p>与<font color ='red'><strong>lock</strong></font>操作类似，<font color ='red'> <strong>unlock</strong></font>操作调用了<font color ='red'> <strong>AQS</strong></font>的relase方法，参数和调用<font color ='red'> <strong>acquire</strong></font>时一样，都是1。</p>
 
-<pre><code class="language-java">public final boolean release(int arg) {
+<pre><code>public final boolean release(int arg) {
     if (tryRelease(arg)) { 
     //释放独占性变量,起始就是将status的值减1,因为acquire时是加1
         Node h = head;
@@ -413,7 +414,7 @@ private final boolean parkAndCheckInterrupt() {
 
 <p>由上述代码可知，release就是先调用<font color ='red'> <strong>tryRelease</strong></font>来释放独占性变量。如果成功，那么就看一下是否有等待锁的阻塞线程，如果有，就调用<font color ='red'> <strong>unparkSuccessor</strong></font>来唤醒他们。</p>
 
-<pre><code class="language-java">protected final boolean tryRelease(int releases) {
+<pre><code>protected final boolean tryRelease(int releases) {
     //由于只有一个线程可以获得独占先变量,所以,所有操作不需要考虑多线程
     int c = getState() - releases; 
     if (Thread.currentThread() != getExclusiveOwnerThread())
@@ -430,10 +431,10 @@ private final boolean parkAndCheckInterrupt() {
 
 <p>我们可以看到<font color ='red'> <strong>tryRelease</strong></font>中的逻辑也体现了可重入锁的概念，只有等到<font color ='red'> <strong>state</strong></font>的值为0时，才代表锁真正被释放了。所以独占性变量<font color ='red'> <strong>state</strong></font>的值就代表锁的有无。当<font color ='red'> <strong>state</strong></font>=0时，表示锁未被占有，否在表示当前锁已经被占有。</p>
 
-<pre><code class="language-java">private void unparkSuccessor(Node node) {
+<pre><code>private void unparkSuccessor(Node node) {
     .....
-     //一般来说,需要唤醒的线程就是head的下一个节点,但是如果它获取锁的操作被取消,或在节点为null时
-     //就直接继续往后遍历,找到第一个未取消的后继节点.
+    //一般来说,需要唤醒的线程就是head的下一个节点,但是如果它获取锁的操作被取消,或在节点为null时
+    //就直接继续往后遍历,找到第一个未取消的后继节点.
     Node s = node.next;
     if (s == null || s.waitStatus &gt; 0) {
         s = null;
@@ -547,6 +548,13 @@ s.setAttribute('data-timestamp', +new Date());
 
 
   <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2020-08-03-tps%E4%B8%8Eqps/">
+          <section class="post">
+              <h2>tps与qps</h2>
+              
+          </section>
+      </a>
   
   
       <a class="read-next-story prev" style="no-cover" href="/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/">

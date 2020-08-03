@@ -5,9 +5,9 @@ description: ""
 date:         {{ .Date }}  # 自动添加日期信息
 author:   "WangZiTao"
 image:   ""
-tags:        ["JUC"]
-url:    "/2020-07-"
-categories:  ["多线程"]
+tags:        [""]
+url:    "/2020-08-/"
+categories:  [""]
 showtoc: true   # 是否显示目录
 # hugo server -t white
 # hugo -t casper

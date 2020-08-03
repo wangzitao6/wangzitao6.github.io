@@ -6,10 +6,19 @@
     <description>Recent content in other on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 02 Aug 2019 13:59:37 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2020 14:30:21 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/categories/other/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>tps与qps</title>
+      <link>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</link>
+      <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</guid>
+      <description>TPS TPS：是TransactionsPerSecond的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发</description>
+    </item>
     
     <item>
       <title>Markdown进阶语法</title>
