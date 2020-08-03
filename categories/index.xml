@@ -6,10 +6,19 @@
     <description>Recent content in Categories on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jul 2020 16:40:03 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2020 14:30:21 +0800</lastBuildDate>
     
 	<atom:link href="https://wangzitao6.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>other</title>
+      <link>https://wangzitao6.github.io/categories/other/</link>
+      <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/other/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>多线程</title>
@@ -62,15 +71,6 @@
       <pubDate>Mon, 26 Aug 2019 10:23:46 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/categories/java/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>other</title>
-      <link>https://wangzitao6.github.io/categories/other/</link>
-      <pubDate>Fri, 02 Aug 2019 13:59:37 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/categories/other/</guid>
       <description></description>
     </item>
     

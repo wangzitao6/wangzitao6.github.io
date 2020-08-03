@@ -18,9 +18,9 @@
     
 
     
-    <meta name="title" content="" />
-    <meta property="og:title" content="" />
-    <meta property="twitter:title" content="" />
+    <meta name="title" content="tps与qps" />
+    <meta property="og:title" content="tps与qps" />
+    <meta property="twitter:title" content="tps与qps" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title></title>
+    <title>tps与qps</title>
 
-    <link rel="canonical" href="/top/about/">
+    <link rel="canonical" href="/2020-08-03-tps%e4%b8%8eqps/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -176,14 +176,169 @@
 
 
 
-<header class="intro-header" style="background-image: url('/images/1.jpg')">
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+<header class="intro-header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>王子滔的学习笔记 </h1>
-                    
-		    <span class="subheading">~路漫漫其修远兮~</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E6%80%A7%E8%83%BD" title="性能">
+                            性能
+                        </a>
+                        
+                    </div>
+                    <h1>tps与qps</h1>
+                    <h2 class="subheading">tps与qps</h2>
+                    <span class="meta">
+			Posted by
+			
+			    WangZiTao
+			
+			on
+			Monday, August 3, 2020
+                        
+                            <span id="/2020-08-03-tps与qps/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                    </span>
                 </div>
             </div>
         </div>
@@ -203,7 +358,43 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-         	<p>美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。</p>
+                
+                <header>
+                    <h2>目录</h2>
+                </header>
+                <nav id="TableOfContents"></nav>
+                
+                <h1 id="tps">TPS</h1>
+<p>TPS：是<!-- raw HTML omitted --> <strong>TransactionsPerSecond</strong><!-- raw HTML omitted -->的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</p>
+<p>TPS处理流程：
+Tps即每秒处理事务数，包括了</p>
+<p>1、用户请求服务器</p>
+<p>2、服务器自己的内部查询等处理</p>
+<p>3、服务器返回给用户</p>
+<p>这三个过程，每秒能够完成N个这三个过程，Tps也就是N；</p>
+<h1 id="qps">QPS</h1>
+<p>QPS：<!-- raw HTML omitted --> <strong>Queries Per Second</strong> <!-- raw HTML omitted -->，顾名思义：“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。</p>
+<h1 id="tps与qps">TPS与QPS</h1>
+<ul>
+<li>QPS基本类似于TPS，但是不同的是，对于一个页面的一次访问，形成一个TPS；</li>
+<li>但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计入QPS之中,形成多个QPS。</li>
+</ul>
+<p>每秒查询率QPS是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准.</p>
+<p>如果是对一个接口（单场景）压测，且这个接口内部不会再去请求其它接口，那么TPS等于QPS，否则，TPS不等于QPS</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020-07-09-abstractqueuedsynchronizer%e8%b6%85%e8%af%a6%e7%bb%86%e5%8e%9f%e7%90%86%e8%a7%a3%e6%9e%90" data-toggle="tooltip" data-placement="top" title="AbstractQueuedSynchronizer超详细原理解析">&larr;
+                            上一篇</a>
+                    </li>
+                    
+                    
+                </ul>
 
                 
 
@@ -216,8 +407,8 @@
 
 <script>
   var gitment = new Gitment({
-    id: 'about', 
-    title: 'about',
+    id: 'tps与qps', 
+    title: 'tps与qps',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {
@@ -240,110 +431,109 @@
                 
                 
                 <section>
-                    <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                         
                         
                         
                         <a href="/tags/blog" title="blog">
-                        blog
+                            blog
                         </a>
                         
                         
                         
                         <a href="/tags/elk" title="elk">
-                        elk
+                            elk
                         </a>
                         
                         
                         
                         <a href="/tags/git" title="git">
-                        git
+                            git
                         </a>
                         
                         
                         
                         <a href="/tags/java" title="java">
-                        java
+                            java
                         </a>
                         
                         
                         
                         <a href="/tags/juc" title="juc">
-                        juc
+                            juc
                         </a>
                         
                         
                         
                         <a href="/tags/jvm" title="jvm">
-                        jvm
+                            jvm
                         </a>
                         
                         
                         
                         <a href="/tags/mysql" title="mysql">
-                        mysql
+                            mysql
                         </a>
                         
                         
                         
                         <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
-                        sql注入
+                            sql注入
                         </a>
                         
                         
                         
                         <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                        其他
+                            其他
                         </a>
                         
                         
                         
                         <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
-                        基础
+                            基础
                         </a>
                         
                         
                         
                         <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
-                        性能
+                            性能
                         </a>
                         
                         
                         
                         <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
-                        正则
+                            正则
                         </a>
                         
                         
                         
                         <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
-                        死锁
+                            死锁
                         </a>
                         
                         
                         
                         <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
-                        端口转发
+                            端口转发
                         </a>
                         
                         
                         
                         <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                        网络
+                            网络
                         </a>
                         
                         
                         
                         <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
-                        设计模式
+                            设计模式
                         </a>
                         
                         
                         
                         <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
-                        配置
+                            配置
                         </a>
                         
                         
