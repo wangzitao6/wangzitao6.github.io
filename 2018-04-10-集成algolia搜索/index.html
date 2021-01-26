@@ -393,18 +393,18 @@ Algolia 为我们提供了三种方式来增加记录：手动添加、上传 js
 <p>使用下面的命令安装即可：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ npm install hugo-algolia -g
 </code></pre></div><p>安装完成后，在我们 hugo 生产的静态页面的根目录下面新建一个<code>config.yaml</code>的文件(和<code>config.toml</code>同级)，然后在<code>config.yaml</code>文件中指定 <code>Algolia</code>相关的 API 数据。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">baseurl</span>: <span style="color:#e6db74">&#34;/&#34;</span>
-<span style="color:#66d9ef">DefaultContentLanguage</span>: <span style="color:#e6db74">&#34;zh-cn&#34;</span>
-<span style="color:#66d9ef">hasCJKLanguage</span>: <span style="color:#66d9ef">true</span>
-<span style="color:#66d9ef">languageCode</span>: <span style="color:#e6db74">&#34;zh-cn&#34;</span>
-<span style="color:#66d9ef">title</span>: <span style="color:#e6db74">&#34;River&#39;s Site&#34;</span>
-<span style="color:#66d9ef">theme</span>: <span style="color:#e6db74">&#34;beautifulhugo&#34;</span>
-<span style="color:#66d9ef">metaDataFormat</span>: <span style="color:#e6db74">&#34;yaml&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">baseurl</span>: <span style="color:#e6db74">&#34;/&#34;</span>
+<span style="color:#f92672">DefaultContentLanguage</span>: <span style="color:#e6db74">&#34;zh-cn&#34;</span>
+<span style="color:#f92672">hasCJKLanguage</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#f92672">languageCode</span>: <span style="color:#e6db74">&#34;zh-cn&#34;</span>
+<span style="color:#f92672">title</span>: <span style="color:#e6db74">&#34;River&#39;s Site&#34;</span>
+<span style="color:#f92672">theme</span>: <span style="color:#e6db74">&#34;beautifulhugo&#34;</span>
+<span style="color:#f92672">metaDataFormat</span>: <span style="color:#e6db74">&#34;yaml&#34;</span>
 
-algolia_search = <span style="color:#66d9ef">true</span>
-algolia_appId = <span style="color:#e6db74">&#34;3DH4V2B4JK&#34;</span>
-algolia_indexName = <span style="color:#e6db74">&#34;hugo&#34;</span>
-algolia_apiKey = <span style="color:#e6db74">&#34;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>
+<span style="color:#ae81ff">algolia_search = true</span>
+<span style="color:#ae81ff">algolia_appId = &#34;3DH4V2B4JK&#34;</span>
+<span style="color:#ae81ff">algolia_indexName = &#34;hugo&#34;</span>
+<span style="color:#ae81ff">algolia_apiKey = &#34;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>
 
 </code></pre></div><blockquote>
 <p>API 相关数据可以前往 dashboard 的 <code>API Keys</code>查看，注意上面的<code>key</code>是<strong>Admin API Key</strong>。</p>
@@ -869,7 +869,7 @@ JSON index file was created in public/algolia.json
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2020
+                    Copyright &copy; 王子滔的学习笔记 2021
                     <br>
                 </p>
             </div>

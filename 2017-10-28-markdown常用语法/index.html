@@ -733,11 +733,28 @@ Mike |  32
 | aaaa | bbbbbb | ccccc |
 | a    | b      | c     |
 
-</code></pre><p>效果:
-| left | center | right |
-| :&mdash; | :&mdash;-: | &mdash;-: |
-| aaaa | bbbbbb | ccccc |
-| a    | b      | c     |</p>
+</code></pre><p>效果:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">left</th>
+<th style="text-align:center">center</th>
+<th style="text-align:right">right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">aaaa</td>
+<td style="text-align:center">bbbbbb</td>
+<td style="text-align:right">ccccc</td>
+</tr>
+<tr>
+<td style="text-align:left">a</td>
+<td style="text-align:center">b</td>
+<td style="text-align:right">c</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>如果不使用对齐标记，单元格中的内容默认左对齐；表头单元格中的内容会一直居中对齐（不同的实现可能会有不同表现）。</p>
 </blockquote>
@@ -750,11 +767,28 @@ Mike |  32
 | _LearnShare_ |  12 | [LearnShare](http://xianbai.me) |
 | __Mike__     |  32 | [Mike](http://mike.me)          |
 
-</code></pre><p>效果:
-|     name     | age |             blog                |
-| &mdash;&mdash;&mdash;&mdash; | &mdash; | &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- |
-| <em>LearnShare</em> |  12 | <a href="http://xianbai.me">LearnShare</a> |
-| <strong>Mike</strong>     |  32 | <a href="http://mike.me">Mike</a>          |</p>
+</code></pre><p>效果:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+<th>blog</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>LearnShare</em></td>
+<td>12</td>
+<td><a href="http://xianbai.me">LearnShare</a></td>
+</tr>
+<tr>
+<td><strong>Mike</strong></td>
+<td>32</td>
+<td><a href="http://mike.me">Mike</a></td>
+</tr>
+</tbody>
+</table>
 <hr>
 <!-- raw HTML omitted -->
 <h2 id="13流程图">13.流程图</h2>
@@ -1082,7 +1116,7 @@ cond(no)-&gt;sub-&gt;io
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2020
+                    Copyright &copy; 王子滔的学习笔记 2021
                     <br>
                 </p>
             </div>

@@ -408,11 +408,11 @@ $(function() {
 如果既没有指定 -classpath 也没有设置CLASSPATH环境变量，那么其默认值将是用户的当前目录(.) <!-- raw HTML omitted -->
 可以用星号(*)作为通配符，表示目录下的所有.jar文件。单独一个星号表示用户的当前目录下的所有.jar文件。<!-- raw HTML omitted --></p>
 <p><strong>-D属性=值</strong> <!-- raw HTML omitted -->
-将系统&quot;属性&quot;设为&quot;值&rdquo;。如果&quot;值&quot;是一个包含空格的字符串，那么必须用双引号进行界定。</p>
-<p><strong>-enableassertions[:包名&rdquo;&hellip;&rdquo; | :类名 ]</strong> <!-- raw HTML omitted -->
-<strong>-ea[:包名&rdquo;&hellip;&rdquo; | :类名 ]</strong> <!-- raw HTML omitted -->
-<strong>-disableassertions[:包名&rdquo;&hellip;&rdquo; | :类名 ]</strong> <!-- raw HTML omitted -->
-<strong>-da[:包名&rdquo;&hellip;&rdquo; | :类名 ]</strong> <!-- raw HTML omitted -->
+将系统&quot;属性&quot;设为&quot;值&quot;。如果&quot;值&quot;是一个包含空格的字符串，那么必须用双引号进行界定。</p>
+<p><strong>-enableassertions[:包名&quot;&hellip;&quot; | :类名 ]</strong> <!-- raw HTML omitted -->
+<strong>-ea[:包名&quot;&hellip;&quot; | :类名 ]</strong> <!-- raw HTML omitted -->
+<strong>-disableassertions[:包名&quot;&hellip;&quot; | :类名 ]</strong> <!-- raw HTML omitted -->
+<strong>-da[:包名&quot;&hellip;&quot; | :类名 ]</strong> <!-- raw HTML omitted -->
 为指定的包或者类启用/禁止断言，默认值为禁止。</p>
 <p><strong>-enablesystemassertions</strong><!-- raw HTML omitted -->
 <strong>-esa</strong><!-- raw HTML omitted -->
@@ -422,7 +422,7 @@ $(function() {
 <p><strong>-jar file.jar</strong><!-- raw HTML omitted -->
 执行封装在file.jar文件内的程序。<!-- raw HTML omitted -->
 使用此选项后，file.jar文件内必须包含所有的用户class，并且所有-classpath选项都将被忽略。<!-- raw HTML omitted --></p>
-<p>**-javaagent:jar文件[=选项]**<!-- raw HTML omitted -->
+<p><strong>-javaagent:jar文件[=选项]</strong><!-- raw HTML omitted -->
 指定jvm启动时装入java语言代理。参见：<code>java.lang.instrument</code><!-- raw HTML omitted --></p>
 <p><strong>-jre-restrict-search</strong><!-- raw HTML omitted -->
 <strong>-no-jre-restrict-search</strong><!-- raw HTML omitted -->
@@ -442,7 +442,7 @@ $(function() {
 &ldquo;版本信息&quot;中可以指定单个版本，也可以指定一个列表，中间用空格隔开，且支持复杂组合，例如：-version:&ldquo;1.6.0_13 1.6* &amp; 1.6.0_10+&quot;<!-- raw HTML omitted --></p>
 <p><strong>-showversion</strong><!-- raw HTML omitted -->
 输出java版本信息(与-version相同)之后，继续输出java的标准参数列表及其描述。</p>
-<p>**-?**<!-- raw HTML omitted -->
+<p><strong>-?</strong><!-- raw HTML omitted -->
 <strong>-help</strong><!-- raw HTML omitted -->
 输出java标准参数列表及其描述。</p>
 <p><strong>-X</strong><!-- raw HTML omitted -->
@@ -509,22 +509,22 @@ JVM会注册一个控制台控制句柄(console control handler)，用于捕获�
 -XX:-OPT    关闭OPT选项 <!-- raw HTML omitted -->
 -XX:OPT=VAL 将OPT选项的值设为VAL <!-- raw HTML omitted --></p>
 </blockquote>
-<p>说明：&ldquo;=&quot;后面的内容表示的是此选项的默认值。</p>
+<p>说明：&quot;=&ldquo;后面的内容表示的是此选项的默认值。</p>
 <h3 id="内存管理参数">内存管理参数</h3>
 <p>JVM最大总内存 = 线程数*(-Xss) + (-Xmx) + MaxPermSize + MaxDirectMemorySize + ReservedCodeCacheSize　<!-- raw HTML omitted --></p>
 <p><strong>DisableExplicitGC = false</strong><!-- raw HTML omitted -->
 忽略程序中System.gc()方法触发的垃圾收集动作</p>
 <p><strong>MaxDirectMemorySize = -1</strong><!-- raw HTML omitted -->
 最大直接内存大小，可以使用K或M或G后缀。默认值&rdquo;-1&quot;表示使用-Xmx的值。</p>
-<p>**PermSize = [依赖于物理内存大小]**<!-- raw HTML omitted -->
+<p><strong>PermSize = [依赖于物理内存大小]</strong><!-- raw HTML omitted -->
 永久代区域的初始值，可以使用K或M或G后缀。</p>
-<p>**MaxPermSize = [依赖于物理内存大小]**<!-- raw HTML omitted -->
+<p><strong>MaxPermSize = [依赖于物理内存大小]</strong><!-- raw HTML omitted -->
 永久代区域的最大值，可以使用K或M或G后缀。<!-- raw HTML omitted -->
 一些JSP页面可能需要很大的永久代去存放动态生成与加载的类。</p>
 <p><strong>NewRatio = 2</strong><!-- raw HTML omitted -->
 老年代对新生代的比例。默认值2表示老年代是新生代大小的2倍。<!-- raw HTML omitted -->
 如果想要更精细的调整新生代的大小，应该使用下面两个参数：
-**NewSize = [依赖于-Xms,-Xmx的设置]**<!-- raw HTML omitted -->
+<strong>NewSize = [依赖于-Xms,-Xmx的设置]</strong><!-- raw HTML omitted -->
 新生代大小的初始值(最小值)，可以把这个参数设成与MaxNewSize相同来固定新生代的大小</p>
 <p><strong>MaxNewSize = 无穷大</strong><!-- raw HTML omitted -->
 新生代大小的最大值(上限)，可以把这个参数设成与NewSize相同来固定新生代的大小</p>
@@ -842,7 +842,7 @@ JVM会注册一个控制台控制句柄(console control handler)，用于捕获�
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2020
+                    Copyright &copy; 王子滔的学习笔记 2021
                     <br>
                 </p>
             </div>

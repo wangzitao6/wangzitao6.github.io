@@ -6,11 +6,7 @@
     <description>Recent content in elk on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate>
-    
-	<atom:link href="https://wangzitao6.github.io/tags/elk/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/elk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Logstash割接mysql数据到es</title>
       <link>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</link>

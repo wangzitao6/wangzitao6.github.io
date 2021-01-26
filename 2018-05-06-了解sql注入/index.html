@@ -398,7 +398,7 @@ $(function() {
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table</span> <span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">IN</span> (XXX)
 <span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">table</span> <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;%XXX%&#39;</span>
 </code></pre></div><h2 id="3sql注入方法">3.SQL注入方法</h2>
-<p>从上面列出的SQL语句可以看出，常见的查询参数有可能是数字类型，也可能是字符串类型。两种类型的参数有不同的注入检测方法，字符串类型的参数可以使用 ' '&rsquo; &quot; &quot;&rdquo; \ \\ 进行试探，而数字类型时可以用AND 1、AND 0、AND true、AND false、1-false、1-true、2-1、1*100等方法进行试探。下面举例说明： 一般情况下，如果程序对用户输入的参数做了正确的处理，那么输入任何参数页面都不会报错。如下面两句SQL：</p>
+<p>从上面列出的SQL语句可以看出，常见的查询参数有可能是数字类型，也可能是字符串类型。两种类型的参数有不同的注入检测方法，字符串类型的参数可以使用 ' '' &quot; &quot;&quot; \ \\ 进行试探，而数字类型时可以用AND 1、AND 0、AND true、AND false、1-false、1-true、2-1、1*100等方法进行试探。下面举例说明： 一般情况下，如果程序对用户输入的参数做了正确的处理，那么输入任何参数页面都不会报错。如下面两句SQL：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Zhangsan&#39;&#39;
 </span><span style="color:#e6db74">SELECT * FROM User WHERE name = &#39;</span>Zhangsan<span style="color:#e6db74">&#39;&#39;&#39;
 </span></code></pre></div><p>这两个SQL第二个是合法的，只要引号成对出现都没问题。如果用户分别输入Zhangsan&rsquo;和Zhangsan'&lsquo;页面都能正常返回，则表明不存在注入问题，如果第一个输入页面异常，而第二个输入正常则表明该参数很可能是一个可以利用的注入点。 数字类型的参数看下面这个例子，如果用户输入123 AND 1和123 AND 0页面返回正常，并且结果一样，则说明程序对参数作了处理，而如果输入123 AND 1返回正常，输入123 AND 0返回空页面，则说明存在注入的可能。</p>
@@ -409,9 +409,9 @@ $(function() {
 <h3 id="41-绕开验证">4.1 绕开验证</h3>
 <p>在用户登陆时，往往要根据用户输入的用户名和密码到数据库中进行查询比较，如果用户名和密码匹配则认为登陆成功。相应的SQL语句如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Customer <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;XX&#39;</span> <span style="color:#66d9ef">AND</span> pass <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;YY&#39;</span>
-</code></pre></div><p>如果没有对用户输入的参数进行检查，则当输入用户名为admin，密码为&rsquo; OR '&rsquo; = ' 时，执行下面的SQL语句：</p>
+</code></pre></div><p>如果没有对用户输入的参数进行检查，则当输入用户名为admin，密码为&rsquo; OR '' = ' 时，执行下面的SQL语句：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> Customer <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;admin&#39;</span> <span style="color:#66d9ef">AND</span> pass <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#66d9ef">OR</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
-</code></pre></div><p>这个SQL语句中的&rsquo;&rsquo; = &lsquo;&lsquo;将这个WHERE条件变成了恒等于TRUE，所以会返回所有记录。如果程序通过判断返回的记录数是否大于0来判断验证是否通过的话，这样我们就绕过了程序的验证。</p>
+</code></pre></div><p>这个SQL语句中的'' = &lsquo;&lsquo;将这个WHERE条件变成了恒等于TRUE，所以会返回所有记录。如果程序通过判断返回的记录数是否大于0来判断验证是否通过的话，这样我们就绕过了程序的验证。</p>
 <h3 id="42-暴库">4.2 暴库</h3>
 <p>根据上面的例子可以看到原本是想查询用户名为admin的用户记录，SQL注入后返回的却是数据库中的所有记录。通过这种方式连接其他的表，利用一点点的手段，就几乎可以获取所有数据库、所有表、所有字段的信息，并可以根据这些信息进一步查询数据库中的任意数据。这就是所谓的暴库。譬如还是上面的SQL例子，通过下面的SQL可以获取MySQL版本：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">User</span> <span style="color:#66d9ef">WHERE</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Zhangsan&#39;</span> <span style="color:#66d9ef">AND</span> MID(<span style="color:#66d9ef">VERSION</span>(),<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>) <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;5&#39;</span>
@@ -695,7 +695,7 @@ $result = $stmt-&gt;execute();
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2020
+                    Copyright &copy; 王子滔的学习笔记 2021
                     <br>
                 </p>
             </div>

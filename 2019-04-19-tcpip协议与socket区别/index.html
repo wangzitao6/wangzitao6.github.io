@@ -422,7 +422,7 @@ $(function() {
 <p>我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用<strong>PID</strong>来唯一标示一个进程，但<strong>PID</strong>只在本地唯一，网络中的两个进程<strong>PID</strong>冲突几率很大，这时候我们需要另辟它径了，我们知道<strong>IP</strong>层的ip地址可以唯一标示主机，而<strong>TCP</strong>层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用ip地址＋协议＋端口号唯一标示网络中的一个进程。</p>
 <p>能够唯一标示网络中的进程后，它们就可以利用socket进行通信了，什么是socket呢？我们经常把socket翻译为套接字，socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信.</p>
 <p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/3.png" alt=""></p>
-<p>socket是一种&quot;打开—读/写—关闭&quot;模式的实现，服务器和客户端各自维护一个&quot;文件&rdquo;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
+<p>socket是一种&quot;打开—读/写—关闭&quot;模式的实现，服务器和客户端各自维护一个&quot;文件&quot;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
 <h3 id="socket通信流程">socket通信流程</h3>
 <p>socket是&quot;打开—读/写—关闭&quot;模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的</p>
 <p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/4.png" alt=""></p>
@@ -712,7 +712,7 @@ socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引�
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2020
+                    Copyright &copy; 王子滔的学习笔记 2021
                     <br>
                 </p>
             </div>

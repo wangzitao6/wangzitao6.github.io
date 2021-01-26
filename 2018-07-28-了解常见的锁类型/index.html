@@ -558,7 +558,7 @@ Query OK, <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">rows<
 <p>innodb_autoinc_lock_mode = 1 （consecutive lock mode）</p>
 <ul>
 <li>MySQL 默认采用这种方式，是一种比较折中的方法。</li>
-<li>MySQL 将插入语句分成三类：Simple inserts、Bulk inserts、Mixed-mode inserts。通过分析 INSERT 语句可以明确知道插入数量的叫做 Simple inserts，譬如最经常使用的 INSERT INTO table VALUE(1,2) 或 INSERT INTO table VALUES(1,2), (3,4)；通过分析 INSERT 语句无法确定插入数量的叫做 Bulk inserts，譬如 INSERT INTO table SELECT 或 LOAD DATA 等；还有一种是不确定是否需要分配自增值的，譬如 INSERT INTO table VALUES(1,&lsquo;a&rsquo;), (NULL,&lsquo;b&rsquo;), (5, &lsquo;C&rsquo;), (NULL, &rsquo;d&rsquo;) 或 INSERT &hellip; ON DUPLICATE KEY UPDATE，这种叫做 Mixed-mode inserts。</li>
+<li>MySQL 将插入语句分成三类：Simple inserts、Bulk inserts、Mixed-mode inserts。通过分析 INSERT 语句可以明确知道插入数量的叫做 Simple inserts，譬如最经常使用的 INSERT INTO table VALUE(1,2) 或 INSERT INTO table VALUES(1,2), (3,4)；通过分析 INSERT 语句无法确定插入数量的叫做 Bulk inserts，譬如 INSERT INTO table SELECT 或 LOAD DATA 等；还有一种是不确定是否需要分配自增值的，譬如 INSERT INTO table VALUES(1,&lsquo;a&rsquo;), (NULL,&lsquo;b&rsquo;), (5, &lsquo;C&rsquo;), (NULL, &rsquo;d') 或 INSERT &hellip; ON DUPLICATE KEY UPDATE，这种叫做 Mixed-mode inserts。</li>
 <li>Bulk inserts 不能确定插入数使用表锁；Simple inserts 和 Mixed-mode inserts 使用轻量级锁 mutex，只锁住预分配自增值的过程，不锁整张表。Mixed-mode inserts 会直接分析语句，获得最坏情况下需要插入的数量，一次性分配足够的自增值，缺点是会分配过多，导致浪费和空洞。</li>
 <li>这种模式的好处是既平衡了并发性，又能保证同一条 INSERT 语句分配的自增值是连续的。</li>
 </ul>
@@ -1014,7 +1014,7 @@ mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">insert<
                     
                 </ul>
 		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2020
+                    Copyright &copy; 王子滔的学习笔记 2021
                     <br>
                 </p>
             </div>

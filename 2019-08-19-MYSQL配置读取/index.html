@@ -18,15 +18,15 @@
     
 
     
-    <meta name="title" content="Jvm类加载过程" />
-    <meta property="og:title" content="Jvm类加载过程" />
-    <meta property="twitter:title" content="Jvm类加载过程" />
+    <meta name="title" content="MYSQL配置读取" />
+    <meta property="og:title" content="MYSQL配置读取" />
+    <meta property="twitter:title" content="MYSQL配置读取" />
     
 
     
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
-    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta name="description" content="讲解mysql配置文件读取顺序,文件中配置读取顺序">
+    <meta property="og:description" content="讲解mysql配置文件读取顺序,文件中配置读取顺序" />
+    <meta property="twitter:description" content="讲解mysql配置文件读取顺序,文件中配置读取顺序" />
     
 
     
@@ -37,9 +37,9 @@
     <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Jvm类加载过程</title>
+    <title>MYSQL配置读取</title>
 
-    <link rel="canonical" href="/2018-07-02-jvm%e7%b1%bb%e5%8a%a0%e8%bd%bd%e8%bf%87%e7%a8%8b/">
+    <link rel="canonical" href="/2019-08-19-MYSQL%e9%85%8d%e7%bd%ae%e8%af%bb%e5%8f%96">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 	
@@ -189,26 +189,26 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/java" title="java">
-                            java
+                        <a class="tag" href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
+                            配置
                         </a>
                         
-                        <a class="tag" href="/tags/jvm" title="jvm">
-                            jvm
+                        <a class="tag" href="/tags/mysql" title="MySQL">
+                            MySQL
                         </a>
                         
                     </div>
-                    <h1>Jvm类加载过程</h1>
-                    <h2 class="subheading">Jvm类加载过程</h2>
+                    <h1>MYSQL配置读取</h1>
+                    <h2 class="subheading">MYSQL配置读取</h2>
                     <span class="meta">
 			Posted by
 			
 			    WangZiTao
 			
 			on
-			Monday, July 2, 2018
+			Monday, August 19, 2019
                         
-                            <span id="/2018-07-02-jvm类加载过程/" class="leancloud_visitors meta_data_item" data-flag-title="">
+                            <span id="/2019-08-19-MYSQL配置读取" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -368,38 +368,166 @@ $(function() {
                 </header>
                 <nav id="TableOfContents">
   <ul>
-    <li><a href="#什么是类加载">什么是类加载</a></li>
-    <li><a href="#类加载的时机">类加载的时机</a></li>
+    <li><a href="#配置文件读取">配置文件读取</a></li>
+    <li><a href="#文件中配置读取">文件中配置读取</a></li>
   </ul>
 </nav>
                 
-                <h2 id="什么是类加载">什么是类加载</h2>
-<p>虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，这就是虚拟机的类加载机制。</p>
-<h2 id="类加载的时机">类加载的时机</h2>
-<p>类从被加载到虚拟内存中开始，到卸载出内存位置，它的生命周期包括：**<!-- raw HTML omitted --> 加载
-（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化
-（Initialization）、使用（Using）和卸载（Unloading）<!-- raw HTML omitted -->**7个阶段。其中验证、准备、解析3
-个部分统称为 <strong><!-- raw HTML omitted -->连接（Linking）<!-- raw HTML omitted --></strong>。</p>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/1.png" alt=""></p>
-<p><strong>加载</strong>、<strong>验证</strong>、<strong>准备</strong>、<strong>初始化</strong>和<strong>卸载</strong>这5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而<strong>解析阶段</strong>则不一定：它在某些情况下可以在<strong>初始化阶段</strong>之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。</p>
-<p>什么情况下需要开始类加载过程的第一个阶段：加载？Java虚拟机规范中并没有进行强制约束，这点可以交给虚拟机的具体实现来自由把握。但是对于初始化阶段，虚拟机规范则是严格规定了有且只有5种情况必须立即对类进行“初始化”（而加载、验证、准备自然需要在此之前开始）：</p>
-<ol>
+                <h2 id="配置文件读取">配置文件读取</h2>
+<p>在Unix, Linux 或者 Mac OS X 系统中, MYSQL 从以下配置文件中读取启动配置, 读取顺序由上到下:</p>
+<table>
+<thead>
+<tr>
+<th>File Name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><!-- raw HTML omitted --> /etc/my.cnf <!-- raw HTML omitted --></td>
+<td>全局配置选项</td>
+</tr>
+<tr>
+<td><!-- raw HTML omitted --> /etc/mysql/my.cnf <!-- raw HTML omitted --></td>
+<td>全局配置选项</td>
+</tr>
+<tr>
+<td><!-- raw HTML omitted --> SYSCONFDIR/my.cnf <!-- raw HTML omitted --></td>
+<td>全局配置选项</td>
+</tr>
+<tr>
+<td><!-- raw HTML omitted --> $MYSQL_HOME/my.cnf <!-- raw HTML omitted --></td>
+<td>特定于服务器的选项（仅限服务器）</td>
+</tr>
+<tr>
+<td><!-- raw HTML omitted --> defaults-extra-file <!-- raw HTML omitted --></td>
+<td>命令行指定的额外配置文件路径</td>
+</tr>
+<tr>
+<td><!-- raw HTML omitted --> ~/.my.cnf <!-- raw HTML omitted --></td>
+<td>用户特定选项</td>
+</tr>
+<tr>
+<td><!-- raw HTML omitted --> ~/.mylogin.cnf <!-- raw HTML omitted --></td>
+<td>用户特定的登录路径选项（仅限客户端）</td>
+</tr>
+</tbody>
+</table>
+<p>&ndash;defaults-extra-file
+在读取全局配置文件之后，读取用户配置文件(~/.my.cnf)之前，读取extra指定的参数文件</p>
+<p>~/.my.cnf<br>
+home目录下面的隐藏文件，my.cnf前面的点，说明my.cnf是隐藏文件</p>
+<p>~/.mylogin.cnf<br>
+配置文件有点儿特殊，它不是一个纯文本文件（其他的配置文件都是纯文本文件），而是使用mysql_config_editor实用程序创建的加密文件。文件中只能包含一些用于启动客户端软件时连接服务器的一些选项，包括 host、user、password、port和 socket。而且它只能被客户端程序所使用。</p>
+<p><strong><!-- raw HTML omitted -->读取顺序:<!-- raw HTML omitted --></strong></p>
+<ul>
+<li>/etc/my.cnf</li>
+<li>basedir/my.cnf</li>
+<li>datadir/my.cnf</li>
+<li>&ndash;defaults-extra-file</li>
+<li>~/.my.cnf</li>
+<li>~/.mylogin.cnf</li>
+</ul>
+<p>最后两个以~开头的路径是用户相关的，<strong><!-- raw HTML omitted -->~<!-- raw HTML omitted --></strong> 就代表这个用户目录. 用户可以在自己的用户目录下创建<!-- raw HTML omitted -->.my.cnf<!-- raw HTML omitted -->或者<!-- raw HTML omitted -->.mylogin.cnf<!-- raw HTML omitted -->，换句话说，不同登录用户使用的 <!-- raw HTML omitted -->.my.cnf<!-- raw HTML omitted -->或者 <!-- raw HTML omitted -->.mylogin.cnf<!-- raw HTML omitted --> 配置文件是不同的。</p>
+<p><strong>当多个文件中出现同一个配置时,以最后读取的配置为准</strong></p>
+<p>比方说<!-- raw HTML omitted -->/etc/my.cnf<!-- raw HTML omitted -->文件的内容是这样的：</p>
+<pre><code>[server]
+default-storage-engine=InnoDB
+</code></pre><p>而~/.my.cnf文件中的内容是这样的：</p>
+<pre><code>[server]
+default-storage-engine=MyISAM
+</code></pre><p>又因为<!-- raw HTML omitted -->~/.my.cnf<!-- raw HTML omitted -->比<!-- raw HTML omitted -->/etc/my.cnf<!-- raw HTML omitted -->顺序靠后，所以如果两个配置文件中出现相同的启动选项，以<!-- raw HTML omitted -->~/.my.cnf<!-- raw HTML omitted -->中的为准，所以MySQL服务器程序启动之后，<!-- raw HTML omitted -->default-storage-engine<!-- raw HTML omitted -->的值就是<!-- raw HTML omitted -->MyISAM<!-- raw HTML omitted -->。</p>
+<h2 id="文件中配置读取">文件中配置读取</h2>
+<p>与在命令行中指定启动选项不同的是，配置文件中的启动选项被划分为若干个组，每个组有一个组名，用中括号[]扩起来，像这样：</p>
+<pre><code>[server]
+(具体的启动选项...)
+
+[mysqld]
+(具体的启动选项...)
+
+[mysqld_safe]
+(具体的启动选项...)
+
+[client]
+(具体的启动选项...)
+
+[mysql]
+(具体的启动选项...)
+
+[mysqladmin]
+(具体的启动选项...)
+</code></pre><p>配置文件中不同的选项组是给不同的启动命令使用的，<!-- raw HTML omitted -->[mysqld]<!-- raw HTML omitted -->和<!-- raw HTML omitted -->[mysql]<!-- raw HTML omitted -->组分别应用于<!-- raw HTML omitted -->mysqld<!-- raw HTML omitted -->服务器程序和<!-- raw HTML omitted -->mysql<!-- raw HTML omitted -->客户端程序。不过有两个选项组比较特别：</p>
+<ul>
 <li>
-<p>遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见的Java代码场景是：使用new关键字实例化对象的时候、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。</p>
+<p>[server]组下边的启动选项将作用于所有的服务器程序。</p>
 </li>
 <li>
-<p>使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</p>
+<p>[client]组下边的启动选项将作用于所有的客户端程序。</p>
 </li>
-<li>
-<p>当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p>
-</li>
-<li>
-<p>当虚拟机启动时，用户需要指定一个要执行的主类（包含main（）方法的那个类），虚拟机会先初始化这个主类。</p>
-</li>
-<li>
-<p>当使用JDK 1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</p>
-</li>
-</ol>
+</ul>
+<table>
+<thead>
+<tr>
+<th>启动命令</th>
+<th>类别</th>
+<th>能读取的组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mysqld</td>
+<td>启动服务器</td>
+<td>[mysqld]、[server]</td>
+</tr>
+<tr>
+<td>mysqld_safe</td>
+<td>启动服务器</td>
+<td>[mysqld]、[server]、[mysqld_safe]</td>
+</tr>
+<tr>
+<td>mysql.server</td>
+<td>启动服务器</td>
+<td>[mysqld]、[server]、[mysql.server]</td>
+</tr>
+<tr>
+<td>mysql</td>
+<td>启动客户端</td>
+<td>[mysql]、[client]</td>
+</tr>
+<tr>
+<td>mysqladmin</td>
+<td>启动客户端</td>
+<td>[mysqladmin]、[client]</td>
+</tr>
+<tr>
+<td>mysqldump</td>
+<td>启动客户端</td>
+<td>[mysqldump]、[client]</td>
+</tr>
+</tbody>
+</table>
+<p>假如我们在<!-- raw HTML omitted -->/etc/mysql/my.cnf<!-- raw HTML omitted --> 中添加配置</p>
+<pre><code>[server]
+skip-networking
+default-storage-engine=MyISAM
+</code></pre><p>然后直接用mysqld启动服务器程序：</p>
+<pre><code>mysqld
+</code></pre><p>虽然在命令行没有添加启动选项，但是在程序启动的时候，就会默认的到我们上边提到的配置文件路径下查找配置文件，其中就包括<!-- raw HTML omitted -->/etc/mysql/my.cnf<!-- raw HTML omitted -->。又由于<!-- raw HTML omitted -->mysqld<!-- raw HTML omitted -->命令可以读取<!-- raw HTML omitted -->[server]<!-- raw HTML omitted -->选项组的内容，所以<!-- raw HTML omitted -->skip-networking<!-- raw HTML omitted -->和<!-- raw HTML omitted -->default-storage-engine=MyISAM<!-- raw HTML omitted -->这两个选项是生效的。你可以把这些启动选项放在<!-- raw HTML omitted -->[client]<!-- raw HTML omitted -->组里再试试用<!-- raw HTML omitted -->mysqld<!-- raw HTML omitted -->启动服务器程序，结果是<strong>不生效</strong>。</p>
+<p><strong>同一个配置文件中多个组的优先级</strong></p>
+<p>我们说同一个命令可以访问配置文件中的多个组，比如<!-- raw HTML omitted -->mysqld<!-- raw HTML omitted -->可以访问<!-- raw HTML omitted -->[mysqld]<!-- raw HTML omitted -->、<!-- raw HTML omitted -->[server]<!-- raw HTML omitted -->组，如果在同一个配置文件中，比如<!-- raw HTML omitted -->~/.my.cnf<!-- raw HTML omitted -->，在这些组里出现了同样的配置项，比如这样：</p>
+<pre><code>[server]
+default-storage-engine=InnoDB
+
+[mysqld]
+default-storage-engine=MyISAM
+</code></pre><p>那么，将以最后一个出现的组中的启动选项为准，比方说例子中<!-- raw HTML omitted -->default-storage-engine<!-- raw HTML omitted -->既出现在<!-- raw HTML omitted -->[mysqld]<!-- raw HTML omitted -->组也出现在<!-- raw HTML omitted -->[server]<!-- raw HTML omitted -->组，因为<!-- raw HTML omitted -->[mysqld]<!-- raw HTML omitted -->组在<!-- raw HTML omitted -->[server]<!-- raw HTML omitted -->组后边，就以<!-- raw HTML omitted -->[mysqld]<!-- raw HTML omitted -->组中的配置项为准。</p>
+<p><strong><!-- raw HTML omitted -->如果同一个启动选项既出现在命令行中，又出现在配置文件中，那么以命令行中的启动选项为准。<!-- raw HTML omitted --></strong></p>
+<p>例如我们在配置文件中写了：</p>
+<pre><code>[server]
+default-storage-engine=InnoDB
+</code></pre><p>而我们的启动命令是：</p>
+<pre><code>mysql.server start --default-storage-engine=MyISAM
+</code></pre><p>那最后<!-- raw HTML omitted -->default-storage-engine<!-- raw HTML omitted -->的值就是<!-- raw HTML omitted -->MyISAM<!-- raw HTML omitted -->！</p>
 
 
                 
@@ -408,13 +536,13 @@ $(function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018-06-12-gitment%e7%99%bb%e5%bd%95%e5%a4%b1%e8%b4%a5/" data-toggle="tooltip" data-placement="top" title="gitment登录失败">&larr;
+                        <a href="/2018-08-02-markdown%e8%bf%9b%e9%98%b6%e8%af%ad%e6%b3%95" data-toggle="tooltip" data-placement="top" title="Markdown进阶语法">&larr;
                             上一篇</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018-07-02-java%e4%b8%ad%e9%9d%99%e6%80%81%e4%bb%a3%e7%a0%81%e5%9d%97%e3%80%81%e4%bb%a3%e7%a0%81%e5%9d%97%e3%80%81main%28%29%e6%96%b9%e6%b3%95%e5%92%8c%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%8a%a0%e8%bd%bd%e9%a1%ba%e5%ba%8f/" data-toggle="tooltip" data-placement="top" title="Java中静态代码块、代码块、main()方法和构造函数加载顺序">下一篇 &rarr;</a>
+                        <a href="/2019-08-23-%e5%8e%9f%e7%a0%81-%e8%a1%a5%e7%a0%81-%e5%8f%8d%e7%a0%81/" data-toggle="tooltip" data-placement="top" title="原码 补码 反码">下一篇 &rarr;</a>
                     </li>
                     
                 </ul>
@@ -430,8 +558,8 @@ $(function() {
 
 <script>
   var gitment = new Gitment({
-    id: 'jvm类加载过程', 
-    title: 'jvm类加载过程',
+    id: 'MYSQL配置读取', 
+    title: 'MYSQL配置读取',
     owner: 'wangzitao6',
     repo: 'wangzitao6.github.io',
     oauth: {

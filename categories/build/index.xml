@@ -6,11 +6,7 @@
     <description>Recent content in build on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Nov 2016 23:10:30 +0800</lastBuildDate>
-    
-	<atom:link href="https://wangzitao6.github.io/categories/build/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 03 Nov 2016 23:10:30 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/categories/build/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>git常用命令</title>
       <link>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>

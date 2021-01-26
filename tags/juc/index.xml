@@ -6,11 +6,7 @@
     <description>Recent content in JUC on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jul 2020 16:40:03 +0800</lastBuildDate>
-    
-	<atom:link href="https://wangzitao6.github.io/tags/juc/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 09 Jul 2020 16:40:03 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/juc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AbstractQueuedSynchronizer超详细原理解析</title>
       <link>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/</link>
