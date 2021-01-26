@@ -259,3 +259,6 @@ Record lock, heap no 3 PHYSICAL RECORD: n_fields 2; compact format; info bits 32
 * 事务二执行`insert into t_bitfly values(5,5)`时，持有next-key锁，插入意向锁加锁时被事务1的next-key阻止，等待事务二的next-key锁解锁；
 
 产生死锁。
+
+解决方案：
+`delete from t_bitfly  where num = 5` 语句改成 `delete from t_bitfly  where id = 3`,由主键删除加 + Repeatable Read,持有记录锁，插入意向锁与记录锁不冲突，可以插入。
