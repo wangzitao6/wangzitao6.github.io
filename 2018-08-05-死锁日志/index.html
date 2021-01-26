@@ -605,6 +605,8 @@ Record lock, heap no 3 PHYSICAL RECORD: n_fields 2; compact format; info bits 32
 </li>
 </ul>
 <p>产生死锁。</p>
+<p>解决方案：
+<code>delete from t_bitfly  where num = 5</code> 语句改成 <code>delete from t_bitfly  where id = 3</code>,由主键删除加 + Repeatable Read,持有记录锁，插入意向锁与记录锁不冲突，可以插入。</p>
 
 
                 
