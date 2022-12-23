@@ -1,172 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>elk on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/categories/elk/index.xml</link>
+    <link>https://wangzitao6.github.io/categories/elk/</link>
     <description>Recent content in elk on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="https://wangzitao6.github.io/categories/elk/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 24 Jun 2020 19:56:25 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/categories/elk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Logstash割接mysql数据到es</title>
       <link>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</link>
       <pubDate>Wed, 24 Jun 2020 19:56:25 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</guid>
-      <description>
-
-&lt;h2 id=&#34;elasticsearch创建索引&#34;&gt;ElasticSearch创建索引&lt;/h2&gt;
-
-&lt;p&gt;创建ES索引&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;PUT logstash_demo
-{
-    &amp;quot;mappings&amp;quot; : {
-      &amp;quot;properties&amp;quot; : {
-        &amp;quot;email&amp;quot; : {
-          &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;
-        },
-        &amp;quot;first_name&amp;quot; : {
-          &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;
-        },
-        &amp;quot;last_name&amp;quot; : {
-          &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;
-        },
-        &amp;quot;uid&amp;quot; : {
-          &amp;quot;type&amp;quot; : &amp;quot;long&amp;quot;
-        }
-      }
-    }
-  }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;创建好后查询索引数据&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;GET logstash_demo/_search
-{
-  &amp;quot;query&amp;quot;: {
-    &amp;quot;match_all&amp;quot;: {}
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;这时查询熟的数据为空。&lt;/p&gt;
-
-&lt;h2 id=&#34;mysql创建表&#34;&gt;MySql创建表&lt;/h2&gt;
-
-&lt;p&gt;创建表并插入数据&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;create table contacts (
-    uid serial,
-    email VARCHAR(80) not null,
-    first_name VARCHAR(80) NOT NULL,
-    last_name VARCHAR(80) NOT NULL
-);
-
-INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;jim@example.com&#39;, &#39;Jim&#39;, &#39;Smith&#39;);
-INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;john@example.com&#39;, &#39;John&#39;, &#39;Smith&#39;);
-INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;carol@example.com&#39;, &#39;Carol&#39;, &#39;Smith&#39;);
-INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;sam@example.com&#39;, &#39;Sam&#39;, Smith);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;准备logstash&#34;&gt;准备LogStash&lt;/h2&gt;
-
-&lt;h3 id=&#34;安装logstash&#34;&gt;安装LogStash&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://www.elastic.co/cn/downloads/logstash&#34;&gt;去官网&lt;/a&gt;下载LogStash安装包，并解压。&lt;/p&gt;
-
-&lt;h3 id=&#34;安装jdbc插件&#34;&gt;安装jdbc插件&lt;/h3&gt;
-
-&lt;p&gt;解压后进入logstash解压包的bin目录，执行命令&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;./logstash-plugin install logstash-input-jdbc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如何是在win上，则执行&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;./logstash-plugin.bat install logstash-input-jdbc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果这个命令安装不了，可以去&lt;a href=&#34;https://mvnrepository.com/artifact/mysql/mysql-connector-java&#34;&gt;这里&lt;/a&gt;下载 mysql-connector-java  jar包，我这里下载的是mysql-connector-java-8.0.18.jar。&lt;/p&gt;
-
-&lt;p&gt;然后把jar包放在LogStash文件夹下的vendor下，创建/jar/jdbc ，放入jar。&lt;/p&gt;
-
-&lt;h3 id=&#34;编写logstash脚本&#34;&gt;编写LogStash脚本&lt;/h3&gt;
-
-&lt;h4 id=&#34;demo1&#34;&gt;demo1&lt;/h4&gt;
-
-&lt;p&gt;简单的脚本，把数据库中数据打印出来&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;input {
-    jdbc {
-        # Postgres jdbc connection string to our database, mydb
-        jdbc_connection_string =&amp;gt; &amp;quot;jdbc:mysql://127.0.0.1:3306/demo&amp;quot;
-        # 用户名密码
-        jdbc_user =&amp;gt; &amp;quot;root&amp;quot;
-        jdbc_password =&amp;gt; &amp;quot;123456&amp;quot;
-        # jar包的位置
-        jdbc_driver_library =&amp;gt; &amp;quot;../vendor/jar/jdbc/mysql-connector-java-8.0.18.jar&amp;quot;
-        # mysql的Driver
-        jdbc_driver_class =&amp;gt; &amp;quot;com.mysql.jdbc.Driver&amp;quot;
-        # our query
-        statement =&amp;gt; &amp;quot;SELECT * FROM contacts&amp;quot;
-    }
-}
-output {
-    stdout { codec =&amp;gt; json_lines }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;demo2&#34;&gt;demo2&lt;/h4&gt;
-
-&lt;p&gt;把MySql中数据割进ElasticSearch中&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;input {
-    jdbc {
-        # Postgres jdbc connection string to our database, mydb
-        jdbc_connection_string =&amp;gt; &amp;quot;jdbc:mysql://127.0.0.1:3306/demo&amp;quot;
-        # 用户名密码
-        jdbc_user =&amp;gt; &amp;quot;root&amp;quot;
-        jdbc_password =&amp;gt; &amp;quot;123456&amp;quot;
-        # jar包的位置
-        jdbc_driver_library =&amp;gt; &amp;quot;../vendor/jar/jdbc/mysql-connector-java-8.0.18.jar&amp;quot;
-        # mysql的Driver
-        jdbc_driver_class =&amp;gt; &amp;quot;com.mysql.jdbc.Driver&amp;quot;
-        # our query
-        statement =&amp;gt; &amp;quot;SELECT * FROM contacts&amp;quot;
-    }
-}
-
-filter {
-    json {
-        source =&amp;gt; &amp;quot;message&amp;quot;
-        remove_field =&amp;gt; [&amp;quot;message&amp;quot;]
-    }
-
-    mutate {
-        remove_field =&amp;gt; &amp;quot;@version&amp;quot;
-        remove_field =&amp;gt; &amp;quot;@timestamp&amp;quot;
-    }
-}
-
-output {
-    elasticsearch {
-        index =&amp;gt; &amp;quot;contact1&amp;quot;
-        action =&amp;gt; &amp;quot;create&amp;quot;
-        document_type =&amp;gt; &amp;quot;_doc&amp;quot;
-        document_id =&amp;gt; &amp;quot;%{uid}&amp;quot;
-        hosts =&amp;gt; &amp;quot;127.0.0.1:9200&amp;quot;
-       }
-} 
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://www.elastic.co/cn/blog/logstash-jdbc-input-plugin&#34;&gt;www.elastic.co&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>ElasticSearch创建索引 创建ES索引 PUT logstash_demo { &amp;#34;mappings&amp;#34; : { &amp;#34;properties&amp;#34; : { &amp;#34;email&amp;#34; : { &amp;#34;type&amp;#34; : &amp;#34;text&amp;#34; }, &amp;#34;first_name&amp;#34; : { &amp;#34;type&amp;#34; : &amp;#34;text&amp;#34; }, &amp;#34;last_name&amp;#34; : { &amp;#34;type&amp;#34; : &amp;#34;text&amp;#34; }, &amp;#34;uid&amp;#34; : { &amp;#34;type&amp;#34; : &amp;#34;long&amp;#34; } } } } 创建好后查询索</description>
     </item>
     
   </channel>

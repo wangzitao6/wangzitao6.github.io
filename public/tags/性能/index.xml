@@ -1,50 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>性能 on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/tags/%E6%80%A7%E8%83%BD/index.xml</link>
+    <link>https://wangzitao6.github.io/tags/%E6%80%A7%E8%83%BD/</link>
     <description>Recent content in 性能 on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="https://wangzitao6.github.io/tags/%E6%80%A7%E8%83%BD/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 03 Aug 2020 14:30:21 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/%E6%80%A7%E8%83%BD/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>tps与qps</title>
       <link>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</link>
       <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</guid>
-      <description>
-
-&lt;h1 id=&#34;tps&#34;&gt;TPS&lt;/h1&gt;
-
-&lt;p&gt;TPS：是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;TransactionsPerSecond&lt;/strong&gt;&lt;/font&gt;的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。&lt;/p&gt;
-
-&lt;p&gt;TPS处理流程：
-Tps即每秒处理事务数，包括了&lt;/p&gt;
-
-&lt;p&gt;1、用户请求服务器&lt;/p&gt;
-
-&lt;p&gt;2、服务器自己的内部查询等处理&lt;/p&gt;
-
-&lt;p&gt;3、服务器返回给用户&lt;/p&gt;
-
-&lt;p&gt;这三个过程，每秒能够完成N个这三个过程，Tps也就是N；&lt;/p&gt;
-
-&lt;p&gt;# QPS
-QPS：&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Queries Per Second&lt;/strong&gt; &lt;/font&gt;，顾名思义：“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。&lt;/p&gt;
-
-&lt;h1 id=&#34;tps与qps&#34;&gt;TPS与QPS&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;QPS基本类似于TPS，但是不同的是，对于一个页面的一次访问，形成一个TPS；&lt;/li&gt;
-&lt;li&gt;但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计入QPS之中,形成多个QPS。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;每秒查询率QPS是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准.&lt;/p&gt;
-
-&lt;p&gt;如果是对一个接口（单场景）压测，且这个接口内部不会再去请求其它接口，那么TPS等于QPS，否则，TPS不等于QPS&lt;/p&gt;
-</description>
+      <description>TPS TPS：是 TransactionsPerSecond的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发</description>
     </item>
     
   </channel>

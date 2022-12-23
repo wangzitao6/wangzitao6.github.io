@@ -1,308 +1,915 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的学习笔记">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="了解三次握手与四次挥手" />
+    <meta property="og:title" content="了解三次握手与四次挥手" />
+    <meta property="twitter:title" content="了解三次握手与四次挥手" />
+    
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>了解三次握手与四次挥手 | </title>
+
+    <link rel="canonical" href="/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
 
 
 
-<header class="main-header post-head no-cover">
-  <nav class="main-nav clearfix">
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-135479251-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
 
 
-  
-  
-      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
-  
-  </nav>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/build">build</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/elk">elk</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/jvm">jvm</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/net">net</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/other">other</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/sql">sql</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                    </div>
+                    <h1>了解三次握手与四次挥手</h1>
+                    <h2 class="subheading">了解三次握手与四次挥手</h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                WangZiTao
+                             
+                            on 
+                            Saturday, April 20, 2019
+                            
+                                <span id="/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
 
 
 
-<main class="content" role="main">
 
+<article>
+    <div class="container">
+        <div class="row">
 
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-
-  <article class="post post">
-
-    <header class="post-header">
-        <h1 class="post-title">了解三次握手与四次挥手</h1>
-        <small></small>
-
-        <section class="post-meta">
-        
-          <time class="post-date" datetime="2019-04-20T14:38:17&#43;08:00">
-            Apr 20, 2019
-          </time>
-        
-         
-          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/">#网络</a></span>
-         
-        </section>
-    </header>
-
-    <section class="post-content">
-      
-
-<h2 id="三次握手">三次握手</h2>
-
-<p><strong>TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接收数据。</strong></br></p>
-
-<p>起初服务器和客户端都为<strong>CLOSED</strong>状态。在通信开始前双方都得创建各自的传输控制块（TCB）。</br>
-服务器创建完TCB后遍进入<strong>LISTEN</strong>状态，<strong>此时准备接收客户端发来的连接请求。</strong></br></p>
-
-<pre><code class="language-java">SYN 是发起一个连接
-ACK 是回复
-RST 是重新连接
-FIN 是结束连接等
-
-ACK=1: 除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答。
-</code></pre>
-
-<h3 id="第一次握手">第一次握手</h3>
-
+                
+                <h2 id="三次握手">三次握手</h2>
+<p><strong>TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接收数据。</strong><!-- raw HTML omitted --></p>
+<p>起初服务器和客户端都为<strong>CLOSED</strong>状态。在通信开始前双方都得创建各自的传输控制块（TCB）。<!-- raw HTML omitted -->
+服务器创建完TCB后遍进入<strong>LISTEN</strong>状态，<strong>此时准备接收客户端发来的连接请求。</strong><!-- raw HTML omitted --></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>SYN <span style="color:#960050;background-color:#1e0010">是发起一个连接</span>
+</span></span><span style="display:flex;"><span>ACK <span style="color:#960050;background-color:#1e0010">是回复</span>
+</span></span><span style="display:flex;"><span>RST <span style="color:#960050;background-color:#1e0010">是重新连接</span>
+</span></span><span style="display:flex;"><span>FIN <span style="color:#960050;background-color:#1e0010">是结束连接等</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ACK<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">除</span>TCP<span style="color:#960050;background-color:#1e0010">连接请求报文段以外，</span>TCP<span style="color:#960050;background-color:#1e0010">通信过程中所有数据报的</span>ACK<span style="color:#960050;background-color:#1e0010">都为</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">，表示应答。</span>
+</span></span></code></pre></div><h3 id="第一次握手">第一次握手</h3>
 <p>客户端向服务端发送连接请求报文段。该报文段的头部中<strong>SYN=1，ACK=0，seq=x</strong>。请求发送后，客户端便进入<strong>SYN-SENT</strong>状态。</p>
-
-<pre><code class="language-java">PS1：SYN=1，ACK=0表示该报文段为连接请求报文。
-PS2：x为本次TCP通信的字节流的初始序号。
-TCP规定：SYN=1的报文段不能有数据部分，但要消耗掉一个序号。
-</code></pre>
-
-<h3 id="第二次握手">第二次握手</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>PS1<span style="color:#960050;background-color:#1e0010">：</span>SYN<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">，</span>ACK<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">表示该报文段为连接请求报文。</span>
+</span></span><span style="display:flex;"><span>PS2<span style="color:#960050;background-color:#1e0010">：</span>x<span style="color:#960050;background-color:#1e0010">为本次</span>TCP<span style="color:#960050;background-color:#1e0010">通信的字节流的初始序号。</span>
+</span></span><span style="display:flex;"><span>TCP<span style="color:#960050;background-color:#1e0010">规定：</span>SYN<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">的报文段不能有数据部分，但要消耗掉一个序号。</span>
+</span></span></code></pre></div><h3 id="第二次握手">第二次握手</h3>
 <p>服务端收到连接请求报文段后，如果同意连接，则会发送一个应答：<strong>SYN=1，ACK=1，seq=y，ack=x+1</strong>。
 该应答发送完成后便进入<strong>SYN-RCVD</strong>状态。</p>
-
-<pre><code class="language-java">PS1：SYN=1，ACK=1表示该报文段为连接同意的应答报文。
-PS2：seq=y表示服务端作为发送者时，发送字节流的初始序号。
-PS3：ack=x+1表示服务端希望下一个数据报发送序号从x+1开始的字节。
-</code></pre>
-
-<h3 id="第三次握手">第三次握手</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>PS1<span style="color:#960050;background-color:#1e0010">：</span>SYN<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">，</span>ACK<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">表示该报文段为连接同意的应答报文。</span>
+</span></span><span style="display:flex;"><span>PS2<span style="color:#960050;background-color:#1e0010">：</span>seq<span style="color:#f92672">=</span>y<span style="color:#960050;background-color:#1e0010">表示服务端作为发送者时，发送字节流的初始序号。</span>
+</span></span><span style="display:flex;"><span>PS3<span style="color:#960050;background-color:#1e0010">：</span>ack<span style="color:#f92672">=</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">表示服务端希望下一个数据报发送序号从</span>x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">开始的字节。</span>
+</span></span></code></pre></div><h3 id="第三次握手">第三次握手</h3>
 <p>当客户端收到连接同意的应答后，还要向服务端发送一个确认报文段，表示：服务端发来的连接同意应答已经成功收到。
 该报文段的头部为：<strong>ACK=1，seq=x+1，ack=y+1</strong>。
 客户端发完这个报文段后便进入<strong>ESTABLISHED</strong>状态，服务端收到这个应答后也进入<strong>ESTABLISHED</strong>状态，此时连接的建立完成！</p>
-
 <h3 id="各个状态名称与含义">各个状态名称与含义</h3>
-
-<p><strong>CLOSED</strong>: 这个没什么好说的了，表示初始状态。</br>
-<strong>LISTEN</strong>: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。</br>
-<strong>SYN_RECV</strong>: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用  netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态 时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。</br>
-<strong>SYN_SENT</strong>: 这个状态与SYN_RECV遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状 态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。</br>
+<p><strong>CLOSED</strong>: 这个没什么好说的了，表示初始状态。<!-- raw HTML omitted -->
+<strong>LISTEN</strong>: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。<!-- raw HTML omitted -->
+<strong>SYN_RECV</strong>: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用  netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态 时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。<!-- raw HTML omitted -->
+<strong>SYN_SENT</strong>: 这个状态与SYN_RECV遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状 态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。<!-- raw HTML omitted -->
 <strong>ESTABLISHED</strong>：这个容易理解了，表示连接已经建立了。</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/15.png" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/15.png" alt="" /></p>
-
-<h3 id="为什么连接建立需要三次握手-而不是两次握手">为什么连接建立需要三次握手，而不是两次握手</h3>
-
+</p>
+<h3 id="为什么连接建立需要三次握手而不是两次握手">为什么连接建立需要三次握手，而不是两次握手</h3>
 <p>防止失效的连接请求报文段被服务端接收，从而产生错误。</p>
-
 <p>PS：失效的连接请求：若客户端向服务端发送的连接请求丢失，客户端等待应答超时后就会再次发送连接请求，此时，上一个连接请求就是『失效的』。</p>
-
 <p>若建立连接只需两次握手，客户端并没有太大的变化，仍然需要获得服务端的应答后才进入ESTABLISHED状态，而服务端在收到连接请求后就进入ESTABLISHED状态。此时如果网络拥塞，客户端发送的连接请求迟迟到不了服务端，客户端便超时重发请求，如果服务端正确接收并确认应答，双方便开始通信，通信结束后释放连接。此时，如果那个失效的连接请求抵达了服务端，由于只有两次握手，服务端收到请求就会进入ESTABLISHED状态，等待发送数据或主动发送数据。但此时的客户端早已进入CLOSED状态，服务端将会一直等待下去，这样浪费服务端连接资源。
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/16.png" alt="" />
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/18.png" alt="" /></p>
 
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/16.png" alt="">
+
+
+
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/18.png" alt="">
+
+</p>
 <h2 id="四次挥手">四次挥手</h2>
-
 <p>TCP连接的释放一共需要四步，因此称为『四次挥手』。
 我们知道，TCP连接是双向的，因此在四次挥手中，前两次挥手用于断开一个方向的连接，后两次挥手用于断开另一方向的连接。</p>
-
 <h3 id="第一次挥手">第一次挥手</h3>
-
 <p>若A认为数据发送完成，则它需要向B发送连接释放请求。该请求只有报文头，头中携带的主要参数为：</p>
-
-<pre><code class="language-java">FIN=1，seq=u。
-
-此时，A将进入FIN-WAIT-1状态。
-PS1：FIN=1表示该报文段是一个连接释放请求。
-PS2：seq=u，u-1是A向B发送的最后一个字节的序号。
-</code></pre>
-
-<h3 id="第二次挥手">第二次挥手</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>FIN<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">，</span>seq<span style="color:#f92672">=</span>u<span style="color:#960050;background-color:#1e0010">。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">此时，</span>A<span style="color:#960050;background-color:#1e0010">将进入</span>FIN<span style="color:#f92672">-</span>WAIT<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">状态。</span>
+</span></span><span style="display:flex;"><span>PS1<span style="color:#960050;background-color:#1e0010">：</span>FIN<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">表示该报文段是一个连接释放请求。</span>
+</span></span><span style="display:flex;"><span>PS2<span style="color:#960050;background-color:#1e0010">：</span>seq<span style="color:#f92672">=</span>u<span style="color:#960050;background-color:#1e0010">，</span>u<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">是</span>A<span style="color:#960050;background-color:#1e0010">向</span>B<span style="color:#960050;background-color:#1e0010">发送的最后一个字节的序号。</span>
+</span></span></code></pre></div><h3 id="第二次挥手">第二次挥手</h3>
 <p>B收到连接释放请求后，会通知相应的应用程序，告诉它A向B这个方向的连接已经释放。此时B进入<strong>CLOSE-WAIT</strong>状态，并向A发送连接释放的应答，其报文头包含：</p>
-
-<pre><code class="language-java">ACK=1，seq=v，ack=u+1。
-
-PS1：ACK=1：除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答。
-PS2：seq=v，v-1是B向A发送的最后一个字节的序号。
-PS3：ack=u+1表示希望收到从第u+1个字节开始的报文段，并且已经成功接收了前u个字节。
-</code></pre>
-
-<p>A收到该应答，进入<strong>FIN-WAIT-2</strong>状态，等待B发送连接释放请求。</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ACK<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">，</span>seq<span style="color:#f92672">=</span>v<span style="color:#960050;background-color:#1e0010">，</span>ack<span style="color:#f92672">=</span>u<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PS1<span style="color:#960050;background-color:#1e0010">：</span>ACK<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">：除</span>TCP<span style="color:#960050;background-color:#1e0010">连接请求报文段以外，</span>TCP<span style="color:#960050;background-color:#1e0010">通信过程中所有数据报的</span>ACK<span style="color:#960050;background-color:#1e0010">都为</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">，表示应答。</span>
+</span></span><span style="display:flex;"><span>PS2<span style="color:#960050;background-color:#1e0010">：</span>seq<span style="color:#f92672">=</span>v<span style="color:#960050;background-color:#1e0010">，</span>v<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">是</span>B<span style="color:#960050;background-color:#1e0010">向</span>A<span style="color:#960050;background-color:#1e0010">发送的最后一个字节的序号。</span>
+</span></span><span style="display:flex;"><span>PS3<span style="color:#960050;background-color:#1e0010">：</span>ack<span style="color:#f92672">=</span>u<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">表示希望收到从第</span>u<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">个字节开始的报文段，并且已经成功接收了前</span>u<span style="color:#960050;background-color:#1e0010">个字节。</span>
+</span></span></code></pre></div><p>A收到该应答，进入<strong>FIN-WAIT-2</strong>状态，等待B发送连接释放请求。</p>
 <p><strong>第二次挥手完成后，A到B方向的连接已经释放，B不会再接收数据，A也不会再向B发送数据报文(第四次应答是确认报文(ACK=1)，无数据)</strong>。但<strong>B到A方向的连接仍然存在，B可以继续向A发送数据报文</strong>。</p>
-
 <h3 id="第三次挥手">第三次挥手</h3>
-
 <p>当B向A发完所有数据后，向A发送连接释放请求，请求头：<code>FIN=1，ACK=1，seq=w，ack=u+1</code>。B便进入<strong>LAST-ACK</strong>状态。</p>
-
 <h3 id="第四次挥手">第四次挥手</h3>
-
 <p>A收到释放请求后，向B发送确认应答，此时A进入<strong>TIME-WAIT</strong>状态。
 该状态会持续2MSL时间，若该时间段内没有B的重发请求的话，就进入<strong>CLOSED</strong>状态，撤销TCB。当B收到确认应答后，也便进入<strong>CLOSED</strong>状态，撤销TCB。</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/17.png" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/17.png" alt="" /></p>
-
+</p>
 <p><strong>为什么A要先进入TIME-WAIT状态，等待2MSL时间后才进入CLOSED状态？</strong></p>
-
 <p>为了保证B能收到A的确认应答。
 若A发完确认应答后直接进入CLOSED状态，那么如果该应答丢失，B等待超时后就会重新发送连接释放请求，但此时A已经关闭了，不会作出任何响应，因此B永远无法正常关闭。</p>
-
 <p>下面附加一个知乎上答案的问答</p>
-
 <p><strong>问</strong>：问一下如果第四次挥手没有成功&hellip;&hellip;.
 主动方已经关闭了通道，但是因为被动方没有成功收到连接中断的确认，会一直在那边等？</p>
-
 <p><strong>答</strong>：第四次挥手主动方会等待2MSL 如果第四次挥手没成功 那么被动方会重发FIN=1的请求</p>
-
 <p><strong>追问</strong>：那么被动方是怎么知道第四次挥手有没有成功的？
 如果第四次挥手失败，对于被动方来说它只是一直没有等到主动方的ACK消息&hellip;.
 有可能被动方一直在那边等，然后等了2MSL以后还是没有收到主动方的ACK，
 然后其实这个时候主动方已经关闭了，但是被动方还开着？</p>
-
 <p><strong>追答</strong>：最后一次挥手，主动方向被动方发送确认报文(ACK=1) ，若挥手失败，确认报文则未发送到被动方 。
 超时后被动方则会重传FIN=1的报文给主动方，重新进行第四次挥手 。
 而主动方所需要等待的时间<strong>两个</strong>最大报文生存时间，
 恰恰是为了被动方重发FIN=1的消息时主动方有充足的时间可以收到。
 所以就可以避免了仅有一方关闭的情况发生。</p>
-
 <p><strong>追问</strong>：超时后被动方则会重传FIN=1的报文给主动方
 这个超时是指多久呢？</p>
-
 <p><strong>追答</strong>：一个最大报文生存周期。</p>
-
 <p><strong>追答</strong>：最大报文生存周期MSL(Maximum Segment Lifetime)，被动方等待MSL，主动方等待2MSL。</p>
-
 <h2 id="参考图">参考图</h2>
-
 <p>放两张参考文章的图：</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/19.jpg" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/19.jpg" alt="" />
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/20.jpg" alt="" /></p>
 
+
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/20.jpg" alt="">
+
+</p>
 <h2 id="参考文章">参考文章</h2>
-
-<p><a href="https://www.zhoulujun.cn/html/theory/network/2015_0708_65.html">再深谈TCP/IP三步握手&amp;四步挥手原理及衍生问题—长文解剖IP</a></br>
+<p><a href="https://www.zhoulujun.cn/html/theory/network/2015_0708_65.html">再深谈TCP/IP三步握手&amp;四步挥手原理及衍生问题—长文解剖IP</a><!-- raw HTML omitted -->
 <a href="https://www.zhihu.com/question/63264012">TCP为什么是四次挥手，而不是三次？</a></p>
 
-    </section>
+
+                
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/" data-toggle="tooltip" data-placement="top" title="http协议无状态中的状态到底指的是什么">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/" data-toggle="tooltip" data-placement="top" title="Markdown进阶语法">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
 
 
-  <footer class="post-footer">
-
-
-    
-
-
-
-
-
-
-
-
-
-<section class="author">
-  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
-  
-  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
-  
-  <div class="author-meta">
-    
-    
-  </div>
-</section>
-
-
-
-
-    
-<section class="share">
-  <h4>Share this post</h4>
-  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=%e4%ba%86%e8%a7%a3%e4%b8%89%e6%ac%a1%e6%8f%a1%e6%89%8b%e4%b8%8e%e5%9b%9b%e6%ac%a1%e6%8c%a5%e6%89%8b&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-20-%25E4%25BA%2586%25E8%25A7%25A3%25E4%25B8%2589%25E6%25AC%25A1%25E6%258F%25A1%25E6%2589%258B%25E4%25B8%258E%25E5%259B%259B%25E6%25AC%25A1%25E6%258C%25A5%25E6%2589%258B%2f"
-      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-      <span class="hidden">Twitter</span>
-  </a>
-  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-04-20-%25E4%25BA%2586%25E8%25A7%25A3%25E4%25B8%2589%25E6%25AC%25A1%25E6%258F%25A1%25E6%2589%258B%25E4%25B8%258E%25E5%259B%259B%25E6%25AC%25A1%25E6%258C%25A5%25E6%2589%258B%2f"
-      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-      <span class="hidden">Facebook</span>
-  </a>
-  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-20-%25E4%25BA%2586%25E8%25A7%25A3%25E4%25B8%2589%25E6%25AC%25A1%25E6%258F%25A1%25E6%2589%258B%25E4%25B8%258E%25E5%259B%259B%25E6%25AC%25A1%25E6%258C%25A5%25E6%2589%258B%2f&amp;description=%e4%ba%86%e8%a7%a3%e4%b8%89%e6%ac%a1%e6%8f%a1%e6%89%8b%e4%b8%8e%e5%9b%9b%e6%ac%a1%e6%8c%a5%e6%89%8b"
-      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
-      <span class="hidden">Pinterest</span>
-  </a>
-  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-20-%25E4%25BA%2586%25E8%25A7%25A3%25E4%25B8%2589%25E6%25AC%25A1%25E6%258F%25A1%25E6%2589%258B%25E4%25B8%258E%25E5%259B%259B%25E6%25AC%25A1%25E6%258C%25A5%25E6%2589%258B%2f"
-     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-      <span class="hidden">Google+</span>
-  </a>
-</section>
-
-
-
-    
-
+<div id="disqus-comment"></div>
 <div id="disqus_thread"></div>
-<script>
-
-
-
-
-var disqus_config = function () {
-this.page.url = "https:\/\/wangzitao6.github.io\/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B\/";  
-this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B\/"; 
-};
-
-(function() { 
-var d = document, s = d.createElement('script');
-s.src = 'https://WangZiTao.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "WangZiTao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 
+            </div>
 
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
 
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/io" title="io">
+                            io
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/juc" title="juc">
+                            juc
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
+                            sql注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
+                            基础
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
+                            性能
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
+                            设计模式
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
+                            配置
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
 
-
-  </footer>
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
 </article>
 
-</main>
-
-
-  <aside class="read-next">
-  
-      <a class="read-next-story" style="background-image: url(https://img.zhaohuabing.com/post-bg-2015.jpg)" href="/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95">
-          <section class="post">
-              <h2>Markdown进阶语法</h2>
-              
-          </section>
-      </a>
-  
-  
-      <a class="read-next-story prev" style="no-cover" href="/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/">
-          <section class="post">
-              <h2>http协议无状态中的状态到底指的是什么</h2>
-          </section>
-      </a>
-  
-</aside>
 
 
 
-    <footer class="site-footer clearfix">
-        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
-        
-        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
-        
-    </footer>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+           
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的学习笔记 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
     </div>
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-    <script type="text/javascript" src="/js/index.js"></script>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
     
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+
 </body>
 </html>
-

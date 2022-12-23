@@ -1,285 +1,573 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的学习笔记">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="Java常量池理解与总结" />
+    <meta property="og:title" content="Java常量池理解与总结" />
+    <meta property="twitter:title" content="Java常量池理解与总结" />
+    
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Java常量池理解与总结 | </title>
+
+    <link rel="canonical" href="/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
 
 
 
-<header class="main-header post-head no-cover">
-  <nav class="main-nav clearfix">
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-135479251-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
 
 
-  
-  
-      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
-  
-  </nav>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/build">build</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/elk">elk</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/jvm">jvm</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/net">net</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/other">other</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/sql">sql</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        <a class="tag" href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                    </div>
+                    <h1>Java常量池理解与总结</h1>
+                    <h2 class="subheading">Java常量池理解与总结</h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                WangZiTao
+                             
+                            on 
+                            Monday, September 2, 2019
+                            
+                                <span id="/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
 
 
 
-<main class="content" role="main">
 
+<article>
+    <div class="container">
+        <div class="row">
 
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-
-  <article class="post post">
-
-    <header class="post-header">
-        <h1 class="post-title">Java常量池理解与总结</h1>
-        <small></small>
-
-        <section class="post-meta">
-        
-          <time class="post-date" datetime="2019-09-02T16:47:28&#43;08:00">
-            Sep 2, 2019
-          </time>
-        
-         
-          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/java/">#java</a></span>
-         
-          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/jvm/">#jvm</a></span>
-         
-        </section>
-    </header>
-
-    <section class="post-content">
-      
-
-<h2 id="什么是常量">什么是常量</h2>
-
+                
+                <h2 id="什么是常量">什么是常量</h2>
 <p>用final修饰的成员变量表示常量，值一但确定就无法修改。
 final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类型的常量</p>
-
 <h2 id="jvm常量池">JVM常量池</h2>
-
-<p>常量池大体可以分为两种：<strong>静态常量池</strong>和<strong>运行时常量池</strong>。
-* 静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。
-* 运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。</p>
-
-<h3 id="静态常量池-class文件中的常量池">静态常量池（Class文件中的常量池）</h3>
-
+<p>常量池大体可以分为两种：<strong>静态常量池</strong>和<strong>运行时常量池</strong>。</p>
+<ul>
+<li>静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。</li>
+<li>运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。</li>
+</ul>
+<h3 id="静态常量池class文件中的常量池">静态常量池（Class文件中的常量池）</h3>
 <p>常量池主要用于存放两大类常量：字面量(Literal)和符号引用量(Symbolic References)，字面量相当于Java语言层面常量的概念，如文本字符串，声明为final的常量值等，符号引用则属于编译原理方面的概念，包括了如下三种类型的常量：</p>
-
 <ul>
 <li>类和接口的全限定名</li>
 <li>字段名称和描述符</li>
 <li>方法名称和描述符</li>
 </ul>
-
 <p>###　方法区中的运行时常量池</p>
-
 <p>运行时常量池是方法区的一部分。
 CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项<strong>信息是常量池，用于存放编译期生成的各种字面量和符号引用</strong>，这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
-
 <p>运行时常量池相对于CLass文件常量池的另外一个重要特征是<strong>具备动态性</strong>，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。</p>
-
 <h3 id="常量池的好处">常量池的好处</h3>
-
 <p>常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享。
-例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。
-1. 节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。
-2. 节省运行时间：比较字符串时，&rdquo;\==&ldquo;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。</p>
-
+例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。</p>
+<ol>
+<li>节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。</li>
+<li>节省运行时间：比较字符串时，&quot;==&ldquo;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。</li>
+</ol>
 <p>##　8种基本类型的包装类和常量池</p>
-
 <h3 id="java基本类型">Java基本类型</h3>
-
 <p>java中基本类型的包装类的大部分都实现了常量池技术,即Byte,Short,Integer,Long,Character,Boolean；</p>
-
-<pre><code class="language-java">  Integer i1 = 40;
-  Integer i2 = 40;
-  System.out.println(i1==i2);//输出TRUE
-</code></pre>
-
-<p>这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。</p>
-
-<pre><code class="language-java">//Integer 缓存代码 ：
-public static Integer valueOf(int i) {
-        assert IntegerCache.high &gt;= 127;
-        if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
-            return IntegerCache.cache[i + (-IntegerCache.low)];
-        return new Integer(i);
-    }
-  Integer i1 = 400;
-  Integer i2 = 400;
-  System.out.println(i1==i2);//输出false
-</code></pre>
-
-<h3 id="java浮点类型">Java浮点类型</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  Integer i1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  Integer i2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出TRUE
+</span></span></span></code></pre></div><p>这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//Integer 缓存代码 ：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Integer <span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">high</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">127</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&gt;=</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">low</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;=</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">high</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">cache</span><span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> <span style="color:#f92672">(-</span>IntegerCache<span style="color:#f92672">.</span><span style="color:#a6e22e">low</span><span style="color:#f92672">)];</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  Integer i1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">400</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  Integer i2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">400</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出false
+</span></span></span></code></pre></div><h3 id="java浮点类型">Java浮点类型</h3>
 <p>两种浮点数类型的包装类Float,Double并没有实现常量池技术。</p>
-
-<pre><code class="language-java">   Double i1=1.2;
-   Double i2=1.2;
-   System.out.println(i1==i2);//输出false
-</code></pre>
-
-<p>应用常量池的场景
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>   Double i1<span style="color:#f92672">=</span><span style="color:#ae81ff">1.2</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>   Double i2<span style="color:#f92672">=</span><span style="color:#ae81ff">1.2</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>   System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出false
+</span></span></span></code></pre></div><p>应用常量池的场景
 (1)<code>Integer i1=40</code>；Java在编译的时候会直接将代码封装成<code>Integer i1=Integer.valueOf(40)</code>;，从而使用常量池中的对象。
 (2)<code>Integer i1 = new Integer(40)</code>;这种情况下会创建新的对象。</p>
-
-<pre><code class="language-java">  Integer i1 = 40;
-  Integer i2 = new Integer(40);
-  System.out.println(i1==i2);//输出false
-</code></pre>
-
-<p>Integer比较更丰富的一个例子</p>
-
-<pre><code class="language-java">  Integer i1 = 40;
-  Integer i2 = 40;
-  Integer i3 = 0;
-  Integer i4 = new Integer(40);
-  Integer i5 = new Integer(40);
-  Integer i6 = new Integer(0);
-  
-  System.out.println(&quot;i1=i2   &quot; + (i1 == i2));
-  System.out.println(&quot;i1=i2+i3   &quot; + (i1 == i2 + i3));
-  System.out.println(&quot;i1=i4   &quot; + (i1 == i4));
-  System.out.println(&quot;i4=i5   &quot; + (i4 == i5));
-  System.out.println(&quot;i4=i5+i6   &quot; + (i4 == i5 + i6));   
-  System.out.println(&quot;40=i5+i6   &quot; + (40 == i5 + i6));  
-</code></pre>
-
-<p>结果为：</p>
-
-<pre><code class="language-java">i1=i2   true
-i1=i2+i3   true
-i1=i4   false
-i4=i5   false
-i4=i5+i6   true
-40=i5+i6   true
-</code></pre>
-
-<p>解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  Integer i1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  Integer i2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span><span style="color:#ae81ff">40</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>i1<span style="color:#f92672">==</span>i2<span style="color:#f92672">);</span><span style="color:#75715e">//输出false
+</span></span></span></code></pre></div><p>Integer比较更丰富的一个例子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  Integer i1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  Integer i2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  Integer i3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  Integer i4 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span><span style="color:#ae81ff">40</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  Integer i5 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span><span style="color:#ae81ff">40</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  Integer i6 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Integer<span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i1=i2   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i1 <span style="color:#f92672">==</span> i2<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i1=i2+i3   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i1 <span style="color:#f92672">==</span> i2 <span style="color:#f92672">+</span> i3<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i1=i4   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i1 <span style="color:#f92672">==</span> i4<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i4=i5   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i4 <span style="color:#f92672">==</span> i5<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;i4=i5+i6   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>i4 <span style="color:#f92672">==</span> i5 <span style="color:#f92672">+</span> i6<span style="color:#f92672">));</span>   
+</span></span><span style="display:flex;"><span>  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;40=i5+i6   &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">40</span> <span style="color:#f92672">==</span> i5 <span style="color:#f92672">+</span> i6<span style="color:#f92672">));</span>  
+</span></span></code></pre></div><p>结果为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>i1<span style="color:#f92672">=</span>i2   <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>i1<span style="color:#f92672">=</span>i2<span style="color:#f92672">+</span>i3   <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>i1<span style="color:#f92672">=</span>i4   <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>i4<span style="color:#f92672">=</span>i5   <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>i4<span style="color:#f92672">=</span>i5<span style="color:#f92672">+</span>i6   <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">40</span><span style="color:#f92672">=</span>i5<span style="color:#f92672">+</span>i6   <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><p>解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
 Java中的自动装箱与拆箱</p>
-
 <h2 id="string类和常量池">String类和常量池</h2>
-
 <h3 id="string对象创建方式">String对象创建方式</h3>
-
-<pre><code class="language-java">String str1 = &quot;abcd&quot;;
-String str2 = new String(&quot;abcd&quot;);
-System.out.println(str1==str2);//false
-</code></pre>
-
-<p>这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String str1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>String str2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str1<span style="color:#f92672">==</span>str2<span style="color:#f92672">);</span><span style="color:#75715e">//false
+</span></span></span></code></pre></div><p>这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
 <strong>只要使用new方法，便需要创建新的对象</strong>。</p>
-
-<h3 id="连接表达式">连接表达式 +</h3>
-
+<h3 id="连接表达式-">连接表达式 +</h3>
 <ol>
-<li>只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。</br></li>
-<li>对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。
-<br /></li>
+<li>只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。<!-- raw HTML omitted --></li>
+<li>对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。</li>
 </ol>
-
-<pre><code class="language-java">String str1 = &quot;str&quot;;
-String str2 = &quot;ing&quot;;
-
-String str3 = &quot;str&quot; + &quot;ing&quot;;
-String str4 = str1 + str2;
-System.out.println(str3 == str4);//false
-
-String str5 = &quot;string&quot;;
-System.out.println(str3 == str5);//true
-</code></pre>
-
-<p><a href="https://www.jianshu.com/p/88aa19fc21c6">java基础：字符串的拼接</a></p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String str1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;str&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>String str2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ing&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>String str3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;str&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;ing&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>String str4 <span style="color:#f92672">=</span> str1 <span style="color:#f92672">+</span> str2<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str3 <span style="color:#f92672">==</span> str4<span style="color:#f92672">);</span><span style="color:#75715e">//false
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>String str5 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;string&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str3 <span style="color:#f92672">==</span> str5<span style="color:#f92672">);</span><span style="color:#75715e">//true
+</span></span></span></code></pre></div><p><a href="https://www.jianshu.com/p/88aa19fc21c6">java基础：字符串的拼接</a></p>
 <p>特例1</p>
-
-<pre><code class="language-java">public static final String A = &quot;ab&quot;; // 常量A
-public static final String B = &quot;cd&quot;; // 常量B
-public static void main(String[] args) {
-     String s = A + B;  // 将两个常量用+连接对s进行初始化 
-     String t = &quot;abcd&quot;;   
-    if (s == t) {   
-         System.out.println(&quot;s等于t，它们是同一个对象&quot;);   
-     } else {   
-         System.out.println(&quot;s不等于t，它们不是同一个对象&quot;);   
-     }   
- } 
-结果为:
-s等于t，它们是同一个对象
-</code></pre>
-
-<p>A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&ldquo;ab&rdquo;+&ldquo;cd&rdquo;;</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String A <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 常量A
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String B <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cd&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 常量B
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>     String s <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B<span style="color:#f92672">;</span>  <span style="color:#75715e">// 将两个常量用+连接对s进行初始化 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     String t <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">;</span>   
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">==</span> t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s等于t，它们是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s不等于t，它们不是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">}</span>   
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span> 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">结果为</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>s<span style="color:#960050;background-color:#1e0010">等于</span>t<span style="color:#960050;background-color:#1e0010">，它们是同一个对象</span>
+</span></span></code></pre></div><p>A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&ldquo;ab&rdquo;+&ldquo;cd&rdquo;;</p>
 <p>特例2</p>
-
-<pre><code class="language-java">public static final String A; // 常量A
-public static final String B;    // 常量B
-static {   
-     A = &quot;ab&quot;;   
-     B = &quot;cd&quot;;   
- }   
- public static void main(String[] args) {   
-    // 将两个常量用+连接对s进行初始化   
-     String s = A + B;   
-     String t = &quot;abcd&quot;;   
-    if (s == t) {   
-         System.out.println(&quot;s等于t，它们是同一个对象&quot;);   
-     } else {   
-         System.out.println(&quot;s不等于t，它们不是同一个对象&quot;);   
-     }   
- } 
- 结果：
- s不等于t，它们不是同一个对象
-</code></pre>
-
-<p>A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。</p>
-
-<h3 id="string-s1-new-string-xyz">String s1 = new String(&ldquo;xyz&rdquo;)</h3>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String A<span style="color:#f92672">;</span> <span style="color:#75715e">// 常量A
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String B<span style="color:#f92672">;</span>    <span style="color:#75715e">// 常量B
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>     A <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ab&#34;</span><span style="color:#f92672">;</span>   
+</span></span><span style="display:flex;"><span>     B <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cd&#34;</span><span style="color:#f92672">;</span>   
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>   
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 将两个常量用+连接对s进行初始化   
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     String s <span style="color:#f92672">=</span> A <span style="color:#f92672">+</span> B<span style="color:#f92672">;</span>   
+</span></span><span style="display:flex;"><span>     String t <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcd&#34;</span><span style="color:#f92672">;</span>   
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>s <span style="color:#f92672">==</span> t<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s等于t，它们是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>         System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s不等于t，它们不是同一个对象&#34;</span><span style="color:#f92672">);</span>   
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">}</span>   
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span> 
+</span></span><span style="display:flex;"><span> <span style="color:#960050;background-color:#1e0010">结果：</span>
+</span></span><span style="display:flex;"><span> s<span style="color:#960050;background-color:#1e0010">不等于</span>t<span style="color:#960050;background-color:#1e0010">，它们不是同一个对象</span>
+</span></span></code></pre></div><p>A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。</p>
+<h3 id="string-s1--new-stringxyz">String s1 = new String(&ldquo;xyz&rdquo;)</h3>
 <p><code>String s1 = new String(&quot;xyz&quot;);</code> <strong>创建了几个对象？</strong>
-考虑类加载阶段和实际执行时。</br>
-1. 类加载对一个类只会进行一次。&rdquo;xyz&rdquo;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&rdquo;xyz&rdquo;字符串被驻留过则不需要重复创建用于驻留的&rdquo;xyz&rdquo;实例）。驻留的字符串是放在全局共享的字符串常量池中的。</br>
-2. 在这段代码后续被运行的时候，&rdquo;xyz&rdquo;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
-这条语句创建了2个对象。</p>
-
-<h3 id="java-lang-string-intern">java.lang.String.intern()</h3>
-
+考虑类加载阶段和实际执行时。<!-- raw HTML omitted --></p>
+<ol>
+<li>类加载对一个类只会进行一次。&ldquo;xyz&quot;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&quot;xyz&quot;字符串被驻留过则不需要重复创建用于驻留的&quot;xyz&quot;实例）。驻留的字符串是放在全局共享的字符串常量池中的。<!-- raw HTML omitted --></li>
+<li>在这段代码后续被运行的时候，&ldquo;xyz&quot;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
+这条语句创建了2个对象。</li>
+</ol>
+<h3 id="javalangstringintern">java.lang.String.intern()</h3>
 <p>运行时常量池相对于CLass文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。
 String的intern()方法会查找在常量池中是否存在一份equal相等的字符串,如果有则返回该字符串的引用,如果没有则添加自己的字符串进入常量池。</p>
-
-<pre><code class="language-java">public static void main(String[] args) {    
-      String s1 = new String(&quot;计算机&quot;);
-      String s2 = s1.intern();
-      String s3 = &quot;计算机&quot;;
-      System.out.println(&quot;s1 == s2? &quot; + (s1 == s2));
-      System.out.println(&quot;s3 == s2? &quot; + (s3 == s2));
-  }
-结果为：
-s1 == s2? false
-s3 == s2? true
-</code></pre>
-
-<p>字符串比较更丰富的一个例子</p>
-
-<pre><code class="language-java">
-public class Test {
- public static void main(String[] args) {   
-      String hello = &quot;Hello&quot;, lo = &quot;lo&quot;;
-      System.out.println((hello == &quot;Hello&quot;) + &quot; &quot;);
-      System.out.println((Other.hello == hello) + &quot; &quot;);
-      System.out.println((other.Other.hello == hello) + &quot; &quot;);
-      System.out.println((hello == (&quot;Hel&quot;+&quot;lo&quot;)) + &quot; &quot;);
-      System.out.println((hello == (&quot;Hel&quot;+lo)) + &quot; &quot;);
-      System.out.println(hello == (&quot;Hel&quot;+lo).intern());
- }   
-}
-
-class Other { 
-    static String hello = &quot;Hello&quot;; 
-}
-
-package other;
-public class Other { 
-    public static String hello = &quot;Hello&quot;; 
-}
-结果为：
-
-true true true true false true
-</code></pre>
-
-<ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>    
+</span></span><span style="display:flex;"><span>      String s1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;计算机&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      String s2 <span style="color:#f92672">=</span> s1<span style="color:#f92672">.</span><span style="color:#a6e22e">intern</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      String s3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;计算机&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s1 == s2? &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>s1 <span style="color:#f92672">==</span> s2<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;s3 == s2? &#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>s3 <span style="color:#f92672">==</span> s2<span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">结果为：</span>
+</span></span><span style="display:flex;"><span>s1 <span style="color:#f92672">==</span> s2<span style="color:#f92672">?</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>s3 <span style="color:#f92672">==</span> s2<span style="color:#f92672">?</span> <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><p>字符串比较更丰富的一个例子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>   
+</span></span><span style="display:flex;"><span>      String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">,</span> lo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lo&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>hello <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>Other<span style="color:#f92672">.</span><span style="color:#a6e22e">hello</span> <span style="color:#f92672">==</span> hello<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>other<span style="color:#f92672">.</span><span style="color:#a6e22e">Other</span><span style="color:#f92672">.</span><span style="color:#a6e22e">hello</span> <span style="color:#f92672">==</span> hello<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>hello <span style="color:#f92672">==</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hel&#34;</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;lo&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">((</span>hello <span style="color:#f92672">==</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hel&#34;</span><span style="color:#f92672">+</span>lo<span style="color:#f92672">))</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>hello <span style="color:#f92672">==</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hel&#34;</span><span style="color:#f92672">+</span>lo<span style="color:#f92672">).</span><span style="color:#a6e22e">intern</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>   
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Other</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> other<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Other</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String hello <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">结果为：</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">true</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">false</span> <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><ul>
 <li>在同包同类下,引用自同一String对象</li>
 <li>在同包不同类下,引用自同一String对象</li>
 <li>在不同包不同类下,依然引用自同一String对象</li>
@@ -287,125 +575,425 @@ true true true true false true
 <li>在运行时创建的字符串具有独立的内存地址,所以不引用自同一String对象</li>
 </ul>
 
-    </section>
+
+                
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019-08-26-integer%E7%9A%84integercache/" data-toggle="tooltip" data-placement="top" title="Integer的IntegerCache">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/" data-toggle="tooltip" data-placement="top" title="http报文解析">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
 
 
-  <footer class="post-footer">
-
-
-    
-
-
-
-
-
-
-
-
-
-<section class="author">
-  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
-  
-  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
-  
-  <div class="author-meta">
-    
-    
-  </div>
-</section>
-
-
-
-
-    
-<section class="share">
-  <h4>Share this post</h4>
-  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Java%e5%b8%b8%e9%87%8f%e6%b1%a0%e7%90%86%e8%a7%a3%e4%b8%8e%e6%80%bb%e7%bb%93&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2018-07-03-java%25E5%25B8%25B8%25E9%2587%258F%25E6%25B1%25A0%25E7%2590%2586%25E8%25A7%25A3%25E4%25B8%258E%25E6%2580%25BB%25E7%25BB%2593%2f"
-      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-      <span class="hidden">Twitter</span>
-  </a>
-  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2018-07-03-java%25E5%25B8%25B8%25E9%2587%258F%25E6%25B1%25A0%25E7%2590%2586%25E8%25A7%25A3%25E4%25B8%258E%25E6%2580%25BB%25E7%25BB%2593%2f"
-      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-      <span class="hidden">Facebook</span>
-  </a>
-  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2018-07-03-java%25E5%25B8%25B8%25E9%2587%258F%25E6%25B1%25A0%25E7%2590%2586%25E8%25A7%25A3%25E4%25B8%258E%25E6%2580%25BB%25E7%25BB%2593%2f&amp;description=Java%e5%b8%b8%e9%87%8f%e6%b1%a0%e7%90%86%e8%a7%a3%e4%b8%8e%e6%80%bb%e7%bb%93"
-      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
-      <span class="hidden">Pinterest</span>
-  </a>
-  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2018-07-03-java%25E5%25B8%25B8%25E9%2587%258F%25E6%25B1%25A0%25E7%2590%2586%25E8%25A7%25A3%25E4%25B8%258E%25E6%2580%25BB%25E7%25BB%2593%2f"
-     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-      <span class="hidden">Google+</span>
-  </a>
-</section>
-
-
-
-    
-
+<div id="disqus-comment"></div>
 <div id="disqus_thread"></div>
-<script>
-
-
-
-
-var disqus_config = function () {
-this.page.url = "https:\/\/wangzitao6.github.io\/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93\/";  
-this.page.identifier = "https:\/\/wangzitao6.github.io\/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93\/"; 
-};
-
-(function() { 
-var d = document, s = d.createElement('script');
-s.src = 'https://WangZiTao.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "WangZiTao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 
+            </div>
 
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
 
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/io" title="io">
+                            io
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/juc" title="juc">
+                            juc
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
+                            sql注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
+                            基础
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
+                            性能
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
+                            设计模式
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
+                            配置
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
 
-
-  </footer>
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
 </article>
 
-</main>
-
-
-  <aside class="read-next">
-  
-      <a class="read-next-story" style="no-cover" href="/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/">
-          <section class="post">
-              <h2>http报文解析</h2>
-              
-          </section>
-      </a>
-  
-  
-      <a class="read-next-story prev" style="no-cover" href="/2019-08-26-integer%E7%9A%84integercache/">
-          <section class="post">
-              <h2>Integer的IntegerCache</h2>
-          </section>
-      </a>
-  
-</aside>
 
 
 
-    <footer class="site-footer clearfix">
-        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
-        
-        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
-        
-    </footer>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+           
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的学习笔记 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
     </div>
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-    <script type="text/javascript" src="/js/index.js"></script>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
     
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+
 </body>
 </html>
-
