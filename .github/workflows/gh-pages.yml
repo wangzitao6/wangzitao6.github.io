@@ -30,6 +30,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }} # 另外还支持 deploy_token 和 github_token
-          #repository-name: wangzitao6/wangzitao6.github.io # 修改为你的 GitHub Pages 仓库
+          repository-name: wangzitao6/wangzitao6.github.io # 修改为你的 GitHub Pages 仓库
           publish_dir: ./public
-          #publish_branch: hugo
