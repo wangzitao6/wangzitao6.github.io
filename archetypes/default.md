@@ -10,6 +10,6 @@ url:    "/2020-08-/"
 categories:  [""]
 showtoc: true   # 是否显示目录
 # hugo server -t white
-# hugo -t casper
+# hugo -t hugo-theme-cleanwhite
 # hugo-algolia -s
 ---
