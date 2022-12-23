@@ -1,4 +1,5 @@
 ---
+
 title:     "{{ replace .Name "-" " " | title }}"  # 文章标题
 subtitle:    "{{ replace .Name "-" " " | title }}"  # 文章标题
 description: ""
@@ -12,4 +13,5 @@ showtoc: true   # 是否显示目录
 # hugo server -t white
 # hugo -t hugo-theme-cleanwhite
 # hugo-algolia -s
+
 ---
