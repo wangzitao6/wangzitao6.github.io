@@ -37,7 +37,7 @@ Thumbs.db
 *.iml
 .idea/
 overlays
-bin
+
 
 # vue #
 /dist/*
