@@ -1,131 +1,458 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="王子滔的学习笔记">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    
+
+    
+    <meta name="title" content="tcpip协议与socket区别" />
+    <meta property="og:title" content="tcpip协议与socket区别" />
+    <meta property="twitter:title" content="tcpip协议与socket区别" />
+    
+
+    
+    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
+    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>tcpip协议与socket区别 | </title>
+
+    <link rel="canonical" href="/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
 
 
 
-<header class="main-header post-head no-cover">
-  <nav class="main-nav clearfix">
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-135479251-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
 
 
-  
-  
-      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
-  
-  </nav>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/build">build</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/elk">elk</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/jvm">jvm</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/life">life</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/net">net</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/other">other</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/sql">sql</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tips">tips</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/1.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                    </div>
+                    <h1>tcpip协议与socket区别</h1>
+                    <h2 class="subheading">tcpip协议与socket区别</h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                WangZiTao
+                             
+                            on 
+                            Friday, April 19, 2019
+                            
+                                <span id="/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
 
 
 
-<main class="content" role="main">
 
+<article>
+    <div class="container">
+        <div class="row">
 
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-
-  <article class="post post">
-
-    <header class="post-header">
-        <h1 class="post-title">tcpip协议与socket区别</h1>
-        <small></small>
-
-        <section class="post-meta">
-        
-          <time class="post-date" datetime="2019-04-19T10:29:22&#43;08:00">
-            Apr 19, 2019
-          </time>
-        
-         
-          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/">#网络</a></span>
-         
-        </section>
-    </header>
-
-    <section class="post-content">
-      
-
-<h2 id="tcp-ip协议的组成">TCP/IP协议的组成</h2>
-
+                
+                <h2 id="tcpip协议的组成">TCP/IP协议的组成</h2>
 <p>TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。</p>
-
 <p>TCP/IP协议在一定程度上参考了OSI的体系结构。OSI模型共有七层，从下到上分别是物理层、数据链路层、网络层、运输层、会话层、表示层和应用层。但是这显然是有些复杂的，所以在TCP/IP协议中，它们被简化为了四个层次</p>
-
 <pre><code>应用层：TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet 等等
 传输层：TCP，UDP
 网络层：IP，ICMP，OSPF，EIGRP，IGMP
 数据链路层：SLIP，CSLIP，PPP，MTU
 </code></pre>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/1.png" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/1.png" alt="" /></p>
-
+</p>
 <p>ISO模型的七个分层与四个抽象层关系如下图:</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/2.png" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/2.png" alt="" /></p>
-
+</p>
 <h2 id="通信过程及相关协议">通信过程及相关协议</h2>
-
-<p>在网络通信的过程中，将发出数据的主机称为<strong>源主机</strong>，接收数据的主机称为<strong>目的主机</strong>。当<strong>源主机</strong>发出数据时，数据在源主机中从上层向下层传送。<font color = "red">源主机中的应用进程先将数据交给<strong>应用层</strong>，<strong>应用层</strong>加上必要的控制信息就成了报文流，向下传给<strong>传输层</strong>。<strong>传输层</strong>将收到的数据单元加上本层的控制信息，形成报文段、数据报，再交给<strong>网络层</strong>。<strong>网络层</strong>加上本层的控制信息，形成IP数据报，传给<strong>网络接口层</strong>。网络接口层将网际层交下来的IP数据报组装成帧，并以比特流的形式传给网络硬件（即物理层），数据就离开源主机。</font></p>
-
+<p>在网络通信的过程中，将发出数据的主机称为<strong>源主机</strong>，接收数据的主机称为<strong>目的主机</strong>。当<strong>源主机</strong>发出数据时，数据在源主机中从上层向下层传送。<!-- raw HTML omitted -->源主机中的应用进程先将数据交给<strong>应用层</strong>，<strong>应用层</strong>加上必要的控制信息就成了报文流，向下传给<strong>传输层</strong>。<strong>传输层</strong>将收到的数据单元加上本层的控制信息，形成报文段、数据报，再交给<strong>网络层</strong>。<strong>网络层</strong>加上本层的控制信息，形成IP数据报，传给<strong>网络接口层</strong>。网络接口层将网际层交下来的IP数据报组装成帧，并以比特流的形式传给网络硬件（即物理层），数据就离开源主机。<!-- raw HTML omitted --></p>
 <h3 id="链路层">链路层</h3>
-
-<p>以太网协议规定，接入网络的设备都必须安装网络适配器，即网卡，数据包必须从一块网卡送到另一块网卡。而网卡地址就是数据包的发送地址和接收地址，有了MAC地址以后，以太网才用广播形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包以后，都会读取首部里的目标MAC地址，然后和自己的MAC地址进行对比，如果相同就做下一步处理，如果不同，就丢弃这个包。</br>
+<p>以太网协议规定，接入网络的设备都必须安装网络适配器，即网卡，数据包必须从一块网卡送到另一块网卡。而网卡地址就是数据包的发送地址和接收地址，有了MAC地址以后，以太网才用广播形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包以后，都会读取首部里的目标MAC地址，然后和自己的MAC地址进行对比，如果相同就做下一步处理，如果不同，就丢弃这个包。<!-- raw HTML omitted -->
 所以链路层的主要工作就是对电信号进行分组并形成具有特定意义的数据帧，然后以广播的形式通过物理介质发送给接收方。</p>
-
 <h3 id="网络层">网络层</h3>
-
 <h4 id="ip协议">IP协议</h4>
-
 <p>网络层引入<strong>IP</strong>协议，制定了一套新地址，使得我们能够区分两台主机是否同属一个网络，这套地址就是网络地址，也就是所谓的<strong>IP</strong>地址，<strong>IP</strong>协议将这32位的地址分为两部分，前面部分代表网络地址，后面部分表示该主机在局域网中的地址。如果两个<strong>IP</strong>在同一个子网内，则网络地址一定相同。为了判断<strong>IP</strong>地址中的网络地址，<strong>IP</strong>协议还引入了子网掩码，<strong>IP</strong>地址和子网掩码通过按位与运算后就可以得到网络地址。</p>
-
 <h4 id="arp协议">ARP协议</h4>
-
 <p><strong>ARP</strong>协议即地址解析协议，是根据<strong>IP</strong>地址获取<strong>MAC</strong>地址的一个网络层协议。其工作原理如下：<strong>ARP</strong>首先会发起一个请求数据包，数据包的首部包含了目标主机的<strong>IP</strong>地址，然后这个数据包会在链路层进行再次包装，生成以太网数据包，最终由以太网广播给子网内的所有主机，每一台主机都会接收到这个数据包，并取出标头里的<strong>IP</strong>地址，然后和自己的IP地址进行比较，如果相同就返回自己的<strong>MAC</strong>地址，如果不同就丢弃该数据包。<strong>ARP</strong>接收返回消息，以此确定目标机的MAC地址；与此同时，<strong>ARP</strong>还会将返回的<strong>MAC</strong>地址与对应的<strong>IP</strong>地址存入本机<strong>ARP</strong>缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。</p>
-
 <h4 id="路由协议">路由协议</h4>
-
 <p>首先通过<strong>IP</strong>协议来判断两台主机是否在同一个子网中，如果在同一个子网，就通过<strong>ARP</strong>协议查询对应的<strong>MAC</strong>地址，然后以广播的形式向该子网内的主机发送数据包；如果不在同一个子网，以太网会将该数据包转发给本子网的网关进行路由。网关是互联网上子网与子网之间的桥梁，所以网关会进行多次转发，最终将该数据包转发到目标<strong>IP</strong>所在的子网中，然后再通过ARP获取目标机<strong>MAC</strong>，最终也是通过广播形式将数据包发送给接收方。而完成这个路由协议的物理设备就是路由器，路由器扮演着交通枢纽的角色，它会根据信道情况，选择并设定路由，以最佳路径来转发数据包。</p>
-
 <p>所以，网络层的主要工作是定义网络地址、区分网段、子网内<strong>MAC</strong>寻址、对于不同子网的数据包进行路由。</p>
-
 <h3 id="传输层">传输层</h3>
-
 <p>链路层定义了主机的身份，即<strong>MAC</strong>地址，而网络层定义了<strong>IP</strong>地址，明确了主机所在的网段，有了这两个地址，数据包就从可以从一个主机发送到另一台主机。但实际上数据包是从一个主机的某个应用程序发出，然后由对方主机的应用程序接收。而每台电脑都有可能同时运行着很多个应用程序，所以当数据包被发送到主机上以后，是无法确定哪个应用程序要接收这个包。因此传输层引入了<strong>UDP</strong>协议来解决这个问题，为了给每个应用程序标识身份。</p>
-
 <h4 id="udp协议">UDP协议</h4>
-
 <p><strong>UDP</strong>协议定义了端口，同一个主机上的每个应用程序都需要指定唯一的端口号，并且规定网络中传输的数据包必须加上端口信息，当数据包到达主机以后，就可以根据端口号找到对应的应用程序了。<strong>UDP</strong>协议比较简单，实现容易，但它没有确认机制，数据包一旦发出，无法知道对方是否收到，因此可靠性较差，为了解决这个问题，提高网络可靠性，<strong>TCP</strong>协议就诞生了。</p>
-
 <h4 id="tcp协议">TCP协议</h4>
-
-<p><strong>TCP</strong>即传输控制协议，是一种面向连接的、可靠的、基于字节流的通信协议。简单来说<strong>TCP</strong>就是有确认机制的<strong>UDP</strong>协议，每发出一个数据包都要求确认，如果有一个数据包丢失，就收不到确认，发送方就必须重发这个数据包。为了保证传输的可靠性，<strong>TCP</strong>协议在<strong>UDP</strong>基础之上建立了三次对话的确认机制，即在正式收发数据前，必须和对方建立可靠的连接。<strong>TCP</strong>数据包和<strong>UDP</strong>一样，都是由首部和数据两部分组成，唯一不同的是，<strong>TCP</strong>数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常<strong>TCP</strong>数据包的长度不会超过<strong>IP</strong>数据包的长度，以确保单个<strong>TCP</strong>数据包不必再分割。</br>
+<p><strong>TCP</strong>即传输控制协议，是一种面向连接的、可靠的、基于字节流的通信协议。简单来说<strong>TCP</strong>就是有确认机制的<strong>UDP</strong>协议，每发出一个数据包都要求确认，如果有一个数据包丢失，就收不到确认，发送方就必须重发这个数据包。为了保证传输的可靠性，<strong>TCP</strong>协议在<strong>UDP</strong>基础之上建立了三次对话的确认机制，即在正式收发数据前，必须和对方建立可靠的连接。<strong>TCP</strong>数据包和<strong>UDP</strong>一样，都是由首部和数据两部分组成，唯一不同的是，<strong>TCP</strong>数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常<strong>TCP</strong>数据包的长度不会超过<strong>IP</strong>数据包的长度，以确保单个<strong>TCP</strong>数据包不必再分割。<!-- raw HTML omitted -->
 传输层的主要工作是定义端口，标识应用程序身份，实现端口到端口的通信，<strong>TCP</strong>协议可以保证数据传输的可靠性。</p>
-
 <h3 id="应用层">应用层</h3>
-
 <p>理论上讲，有了以上三层协议的支持，数据已经可以从一个主机上的应用程序传输到另一台主机的应用程序了，但此时传过来的数据是字节流，不能很好的被程序识别，操作性差，因此，应用层定义了各种各样的协议来规范数据格式，常见的有<strong>http</strong>,<strong>ftp</strong>,<strong>smtp</strong>等，在请求<strong>Header</strong>中，分别定义了请求数据格式<strong>Accept</strong>和响应数据格式<strong>Content-Type</strong>，有了这个规范以后，当对方接收到请求以后就知道该用什么格式来解析，然后对请求进行处理，最后按照请求方要求的格式将数据返回，请求端接收到响应后，就按照规定的格式进行解读。</p>
-
 <p>所以应用层的主要工作就是定义数据格式并按照对应的格式解读数据。</p>
-
 <h2 id="socket">socket</h2>
-
 <p>我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用<strong>PID</strong>来唯一标示一个进程，但<strong>PID</strong>只在本地唯一，网络中的两个进程<strong>PID</strong>冲突几率很大，这时候我们需要另辟它径了，我们知道<strong>IP</strong>层的ip地址可以唯一标示主机，而<strong>TCP</strong>层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用ip地址＋协议＋端口号唯一标示网络中的一个进程。</p>
-
 <p>能够唯一标示网络中的进程后，它们就可以利用socket进行通信了，什么是socket呢？我们经常把socket翻译为套接字，socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信.</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/3.png" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/3.png" alt="" /></p>
-
-<p>socket是一种&rdquo;打开—读/写—关闭&rdquo;模式的实现，服务器和客户端各自维护一个&rdquo;文件&rdquo;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
-
+</p>
+<p>socket是一种&quot;打开—读/写—关闭&quot;模式的实现，服务器和客户端各自维护一个&quot;文件&quot;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
 <h3 id="socket通信流程">socket通信流程</h3>
+<p>socket是&quot;打开—读/写—关闭&quot;模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/4.png" alt="">
 
-<p>socket是&rdquo;打开—读/写—关闭&rdquo;模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的</p>
-
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/4.png" alt="" /></p>
-
+</p>
 <h3 id="服务器创建socket">服务器创建socket</h3>
-
 <p>服务器根据地址类型（ipv4,ipv6）、socket类型、协议创建socket
 服务器为socket绑定ip地址和端口号
 服务器socket监听端口号请求，随时准备接收客户端发来的连接，这时候服务器的socket并没有被打开</p>
-
 <h3 id="客户端创建socket">客户端创建socket</h3>
-
 <p>客户端打开socket
 根据服务器ip地址和端口号试图连接服务器socket
 服务器socket接收到客户端socket请求，被动打开，开始接收客户端请求，直到客户端返回连接信息。这时候socket进入阻塞状态，所谓阻塞即accept()方法一直到客户端返回连接信息后才返回，开始接收下一个客户端谅解请求
@@ -135,177 +462,547 @@
 服务器读取信息
 客户端关闭
 服务器端关闭</p>
+<p>
+  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/5.png" alt="">
 
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/5.png" alt="" /></p>
-
+</p>
 <h3 id="socket编程api">socket编程API</h3>
-
-<p>前面提到socket是&rdquo;打开—读/写—关闭&rdquo;模式的实现，简单了解一下socket提供了哪些API供应用程序使用，还是以TCP协议为例，看看Unix下的socket API，其它语言都很类似（PHP甚至名字都几乎一样），这里我就简单解释一下方法作用和参数，具体使用有兴趣同学可以看看博客参考中的链接或者上网搜索</p>
-
-<p><code>int socket(int domain, int type, int protocol);</code></br>
-根据指定的地址族、数据类型和协议来分配一个socket的描述字及其所用的资源。</br>
-domain:协议族，常用的有AF_INET、AF_INET6、AF_LOCAL、AF_ROUTE其中AF_INET代表使用ipv4地址</br>
-type:socket类型，常用的socket类型有，SOCK_STREAM、SOCK_DGRAM、SOCK_RAW、SOCK_PACKET、SOCK_SEQPACKET等</br>
+<p>前面提到socket是&quot;打开—读/写—关闭&quot;模式的实现，简单了解一下socket提供了哪些API供应用程序使用，还是以TCP协议为例，看看Unix下的socket API，其它语言都很类似（PHP甚至名字都几乎一样），这里我就简单解释一下方法作用和参数，具体使用有兴趣同学可以看看博客参考中的链接或者上网搜索</p>
+<p><code>int socket(int domain, int type, int protocol);</code><!-- raw HTML omitted -->
+根据指定的地址族、数据类型和协议来分配一个socket的描述字及其所用的资源。<!-- raw HTML omitted -->
+domain:协议族，常用的有AF_INET、AF_INET6、AF_LOCAL、AF_ROUTE其中AF_INET代表使用ipv4地址<!-- raw HTML omitted -->
+type:socket类型，常用的socket类型有，SOCK_STREAM、SOCK_DGRAM、SOCK_RAW、SOCK_PACKET、SOCK_SEQPACKET等<!-- raw HTML omitted -->
 protocol:协议。常用的协议有，IPPROTO_TCP、IPPTOTO_UDP、IPPROTO_SCTP、IPPROTO_TIPC等</p>
-
-<p><code>int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></br>
-把一个地址族中的特定地址赋给socket</br>
-sockfd:socket描述字，也就是socket引用</br>
-addr:要绑定给sockfd的协议地址</br>
-addrlen:地址的长度</br>
+<p><code>int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code><!-- raw HTML omitted -->
+把一个地址族中的特定地址赋给socket<!-- raw HTML omitted -->
+sockfd:socket描述字，也就是socket引用<!-- raw HTML omitted -->
+addr:要绑定给sockfd的协议地址<!-- raw HTML omitted -->
+addrlen:地址的长度<!-- raw HTML omitted -->
 通常服务器在启动的时候都会绑定一个众所周知的地址（如ip地址+端口号），用于提供服务，客户就可以通过它来接连服务器；而客户端就不用指定，有系统自动分配一个端口号和自身的ip地址组合。这就是为什么通常服务器端在listen之前会调用bind()，而客户端就不会调用，而是在connect()时由系统随机生成一个。</p>
-
-<p><code>int listen(int sockfd, int backlog);</code></br>
-监听socket</br>
-sockfd:要监听的socket描述字</br>
-backlog:相应socket可以排队的最大连接个数 </br></p>
-
-<p><code>int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code></br>
-连接某个socket</br>
-sockfd:客户端的socket描述字</br>
-addr:服务器的socket地址</br>
-addrlen:socket地址的长度</br></p>
-
-<p><code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code></br>
-TCP服务器监听到客户端请求之后，调用accept()函数取接收请求</br>
-sockfd:服务器的socket描述字</br>
-addr:客户端的socket地址</br>
-addrlen:socket地址的长度</br></p>
-
-<p><code>ssize_t read(int fd, void *buf, size_t count);</code></br>
-读取socket内容</br>
-fd:socket描述字</br>
-buf：缓冲区</br>
-count：缓冲区长度</br></p>
-
-<p><code>ssize_t write(int fd, const void *buf, size_t count);</code></br>
-向socket写入内容，其实就是发送内容</br>
-fd:socket描述字</br>
-buf：缓冲区</br>
-count：缓冲区长度</br></p>
-
-<p><code>int close(int fd);</code></br>
-socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引用计数为0的时候，触发TCP客户端向服务器发送终止连接请求。</br></p>
-
-    </section>
+<p><code>int listen(int sockfd, int backlog);</code><!-- raw HTML omitted -->
+监听socket<!-- raw HTML omitted -->
+sockfd:要监听的socket描述字<!-- raw HTML omitted -->
+backlog:相应socket可以排队的最大连接个数 <!-- raw HTML omitted --></p>
+<p><code>int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code><!-- raw HTML omitted -->
+连接某个socket<!-- raw HTML omitted -->
+sockfd:客户端的socket描述字<!-- raw HTML omitted -->
+addr:服务器的socket地址<!-- raw HTML omitted -->
+addrlen:socket地址的长度<!-- raw HTML omitted --></p>
+<p><code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code><!-- raw HTML omitted -->
+TCP服务器监听到客户端请求之后，调用accept()函数取接收请求<!-- raw HTML omitted -->
+sockfd:服务器的socket描述字<!-- raw HTML omitted -->
+addr:客户端的socket地址<!-- raw HTML omitted -->
+addrlen:socket地址的长度<!-- raw HTML omitted --></p>
+<p><code>ssize_t read(int fd, void *buf, size_t count);</code><!-- raw HTML omitted -->
+读取socket内容<!-- raw HTML omitted -->
+fd:socket描述字<!-- raw HTML omitted -->
+buf：缓冲区<!-- raw HTML omitted -->
+count：缓冲区长度<!-- raw HTML omitted --></p>
+<p><code>ssize_t write(int fd, const void *buf, size_t count);</code><!-- raw HTML omitted -->
+向socket写入内容，其实就是发送内容<!-- raw HTML omitted -->
+fd:socket描述字<!-- raw HTML omitted -->
+buf：缓冲区<!-- raw HTML omitted -->
+count：缓冲区长度<!-- raw HTML omitted --></p>
+<p><code>int close(int fd);</code><!-- raw HTML omitted -->
+socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引用计数为0的时候，触发TCP客户端向服务器发送终止连接请求。<!-- raw HTML omitted --></p>
 
 
-  <footer class="post-footer">
+                
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018-03-16-mysql%E5%86%85%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0/" data-toggle="tooltip" data-placement="top" title="Mysql内置条件判断函数">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/" data-toggle="tooltip" data-placement="top" title="了解ARP协议">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
 
 
-    
-
-
-
-
-
-
-
-
-
-<section class="author">
-  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
-  
-  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
-  
-  <div class="author-meta">
-    
-    
-  </div>
-</section>
-
-
-
-
-    
-<section class="share">
-  <h4>Share this post</h4>
-  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=tcpip%e5%8d%8f%e8%ae%ae%e4%b8%8esocket%e5%8c%ba%e5%88%ab&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-tcpip%25E5%258D%258F%25E8%25AE%25AE%25E4%25B8%258Esocket%25E5%258C%25BA%25E5%2588%25AB%2f"
-      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-      <span class="hidden">Twitter</span>
-  </a>
-  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-tcpip%25E5%258D%258F%25E8%25AE%25AE%25E4%25B8%258Esocket%25E5%258C%25BA%25E5%2588%25AB%2f"
-      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-      <span class="hidden">Facebook</span>
-  </a>
-  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-tcpip%25E5%258D%258F%25E8%25AE%25AE%25E4%25B8%258Esocket%25E5%258C%25BA%25E5%2588%25AB%2f&amp;description=tcpip%e5%8d%8f%e8%ae%ae%e4%b8%8esocket%e5%8c%ba%e5%88%ab"
-      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
-      <span class="hidden">Pinterest</span>
-  </a>
-  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-tcpip%25E5%258D%258F%25E8%25AE%25AE%25E4%25B8%258Esocket%25E5%258C%25BA%25E5%2588%25AB%2f"
-     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-      <span class="hidden">Google+</span>
-  </a>
-</section>
-
-
-
-    
-
+<div id="disqus-comment"></div>
 <div id="disqus_thread"></div>
-<script>
-
-
-
-
-var disqus_config = function () {
-this.page.url = "https:\/\/wangzitao6.github.io\/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB\/";  
-this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB\/"; 
-};
-
-(function() { 
-var d = document, s = d.createElement('script');
-s.src = 'https://WangZiTao.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "WangZiTao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 
+            </div>
 
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
 
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/api-gateway" title="api-gateway">
+                            api-gateway
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/blog" title="blog">
+                            blog
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/docker" title="docker">
+                            docker
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/elk" title="elk">
+                            elk
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/helm" title="helm">
+                            helm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/io" title="io">
+                            io
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/istio" title="istio">
+                            istio
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/juc" title="juc">
+                            juc
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/jvm" title="jvm">
+                            jvm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/kubernetes" title="kubernetes">
+                            kubernetes
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/microservice" title="microservice">
+                            microservice
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/nginmesh" title="nginmesh">
+                            nginmesh
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/security" title="security">
+                            security
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/service-mesh" title="service-mesh">
+                            service-mesh
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
+                            sql注入
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/tips" title="tips">
+                            tips
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/travel" title="travel">
+                            travel
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ubuntu" title="ubuntu">
+                            ubuntu
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/vim" title="vim">
+                            vim
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
+                            其他
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
+                            基础
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
+                            性能
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
+                            正则
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
+                            死锁
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
+                            端口转发
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
+                            网络
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
+                            设计模式
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
+                            配置
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
 
-
-  </footer>
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
 </article>
 
-</main>
-
-
-  <aside class="read-next">
-  
-      <a class="read-next-story" style="no-cover" href="/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/">
-          <section class="post">
-              <h2>了解ARP协议</h2>
-              
-          </section>
-      </a>
-  
-  
-      <a class="read-next-story prev" style="no-cover" href="/2018-03-16-mysql%E5%86%85%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0">
-          <section class="post">
-              <h2>Mysql内置条件判断函数</h2>
-          </section>
-      </a>
-  
-</aside>
 
 
 
-    <footer class="site-footer clearfix">
-        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
-        
-        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
-        
-    </footer>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:wang_zitao@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    <li>
+                        <a target="_blank" href="/images/qrcode.jpg">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wangzitao6">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+           
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; 王子滔的学习笔记 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
     </div>
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-    <script type="text/javascript" src="/js/index.js"></script>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
     
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+<script>
+    
+    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
+
+    
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+
 </body>
 </html>
-

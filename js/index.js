@@ -28,7 +28,7 @@
 
         var defaults = {
             elem: $(this),
-            speed: 100
+            speed: 500
         },
 
         allOptions = $.extend(defaults, options);

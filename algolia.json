@@ -1,5 +1,21 @@
 [
     {
+        "layout": "page",
+        "uri": "about",
+        "content": "Huabing Zhao software architect  Istio Member ONAP PTL  solid experience information telecommunication technology industry 17 years  Throughout career  built number large scale  cross country software systems  running production  loves open source contributing various open source projects  member Istio  previous PTL ONAP  author Hugo clean white theme open source project Aeraki Mesh  strong interests various technical topics Cloud Native  Artificial Intelligence  Cryptocurrencies  Smart Home  etc  love sharing ideas things blog  Huabing holds BSc Computer Science Technology Chongqing University China  Currently  Huabing works senior engineer Tencent Cloud wears hat PTL ONAP open source project  now  main focus build managed service mesh solution cloud  free  likes writing technical blog posts  watching movies  swimming  hiking  travelling learning languages  Feel free connect Huabing Github Linkedin  leave thoughts blog share ideas writing email  Publications   Title  Type  Publisher  Link                                                           Istio Service Mesh Advanced Practical Book         Buy now   Distributed Tracing Jaeger  Kubernetes  Istio Live Project Manning 30  off   Cloud Native Data Center Networking Translation         Buy now   Istio Operation Bible ebook  Read online  Presentations  Selected   Year  City  Conference   Title  Slides  Video                                                                                     2022 Virtual IstioCon Tencent Music s service mesh practice Istio Aeraki slides Video   2022 Virtual A2M          Aeraki Mesh     Istio               slides    2022 Virtual         Areaki Mesh   2022                     Slides Video   2021 Virtual IstioCon  manage layer 7 traffic Istio service mesh    Slides Video   2020 Virtual CNBPS Istio             Slides Video   2019 Chengdu Service Mesher Meetup What Service Mesh Learn SDN  Slides Video   2019 Xi an ONAP Workshop Service Mesh Practice 5G Management System Slides   2018 Nanjing GNTC Service Mesh Action ONAP   2017 Santa Clara NAP Developer Forum MSB Support Carrier Grade ONAP Microservice Architecture Service Mesh Slides   2017 Santa Clara ONS Microservice Powered Orchestration Slides   2017 New Jersey ONAP Developer Event MSB Technical Deep Dive ONAP Use Cases Slides   2017 Paris ONAP Developer Event Microservice Bus Tutorial Slides  Open Source Projects  Project  Role   Website   GitHub                                                            Aeraki Mesh   Creator   https   aeraki net   http   github com aeraki mesh     Istio   Contributor  https   istio io   https   github com istio istio    Envoy   Contributor  https   www envoyproxy io  https   github com envoyproxy envoy    ONAP   PTL   https   www onap org     hugo theme cleanwhite   Creator   https   themes gohugo io themes hugo theme cleanwhite   https   github com zhaohuabing hugo theme cleanwhite",
+        "objectID": "about",
+        "multilingual": true
+    },
+    {
+        "title": "Posts Archive",
+        "uri": "archive",
+        "content": "",
+        "objectID": "archive",
+        "layout": "archive",
+        "type": "archive",
+        "description": "Archive of historical posts."
+    },
+    {
         "title": "TcpIp协议族与socket区别",
         "uri": "bak/TcpIp协议族与socket区别",
         "content": "TCP IP         TCP IP       ISO        TCP IP          TCP IP                  TFTP HTTP SNMP FTP SMTP DNS Telnet        TCP UDP     IP ICMP OSPF EIGRP IGMP       SLIP CSLIP PPP MTU",
@@ -16,6 +32,471 @@
         "categories": [
             "net"
         ]
+    },
+    {
+        "layout": "page",
+        "uri": "notes",
+        "content": "Go        Envoy",
+        "objectID": "notes"
+    },
+    {
+        "layout": "post",
+        "uri": "post/2017-11-03-hello-world",
+        "content": "Yeah It s on    Hello World",
+        "objectID": "post/2017-11-03-hello-world",
+        "title": "Welcome to Zhaohuabing Blog",
+        "subtitle": "Hello World, Hello Blog",
+        "date": "2017-11-04T00:00:00.000Z",
+        "author": "赵化冰",
+        "URL": "/2017/11/03/hello-world/",
+        "image": "https://img.zhaohuabing.com/post-bg-2015.jpg"
+    },
+    {
+        "layout": "post",
+        "uri": "post/2017-11-04-istio-install_and_example",
+        "content": "Service Mesh                                                                                                                                                                                                                                                                                                                                                                                                                                                             sidecar                                 sidecar                                                                                sidecar                         Service Mesh                                                                                                                                               William Morgan WHAT S SERVICE MESH  WHY NEED ONE                      Istio Istio   Google IBM Lyft   Service Mesh            Google Kubernetes        Istio                  Linkerd nginmesh   Service Mesh       Red hat Pivotal Weaveworks Tigera Datawire                                  kubernetes              Istio                         Kubernetes Istio                                      Kubernetes             Istio                   kubernetes cloud foundry Mesos   Istio  Google         Kubernetes                 0 2         Kubernetes               Istio               Istio   Pilot                         Istio   Istio             kubernetes          Rancher   kubernetes                   kubernetes                                  Ubuntu 16 04 3 LTS             Rancher Server  10 12 25 60       10 12 25 116   Rancher  Kubernetes            server        docker   k8s         docker                docker http   rancher com docs rancher v1 6 en hosts      1 12      curl https   releases rancher com install docker 1 12 sh   sh         root    docker          root    docker      Rancher server   sudo docker run  d   restart always  p 8080 8080 rancher server     Rancher       k8s   Rancher           8080                Default  gt Manage Environment  gt Add Environment    kubernetes           kubernetes        kubernetes template   create   Kubernetes           kubernetes Environment         Add host     host kubernetes             host            docker        Rancher       host       Rancher agent   host  ranch cluster         rancher server     host     ping      host  cluster Rancher  host pull kubernetes images   kubernetes                                        kubectl  Rancher    kubernetes        kubernetes     kubectl   curl  LO https   storage googleapis com kubernetes release release v1 7 4 bin linux amd64 kubectl chmod  x   kubectl sudo mv   kubectl  usr local bin kubectl     Rancher        Environments  gt kubernetes  gt KUBERNETES  gt CLI create config          kube config      Kubectl kubernetes server         Istio Istio                       Istio               curl  L https   git io getLatestIstio   sh             Istio            PATH        export PATH   PATH  home ubuntu istio 0 2 10 bin     kubernetes     Istio        kubectl apply  f istio 0 2 10 install kubernetes istio yaml     Istio           Kubernetes     istio system namespace  Istio        namespace     Istio  Service        kubectl svc  n istio system     NAME CLUSTER IP EXTERNAL IP PORT S  AGE istio egress 10 43 192 74 80 TCP 25s istio ingress 10 43 16 24 10 12 25 116     80 30984 TCP 443 30254 TCP 25s istio mixer 10 43 215 250 9091 TCP 9093 TCP 9094 TCP 9102 TCP 9125 UDP 42422 TCP 26s istio pilot 10 43 211 140 8080 TCP 443 TCP 25s     Istio  Pod        kubectl pods  n istio system     NAME READY STATUS RESTARTS AGE istio ca 367485603 qvbfl 1 1 Running 0 2m istio egress 3571786535 gwbgk 1 1 Running 0 2m istio ingress 2270755287 phwvq 1 1 Running 0 2m istio mixer 1505455116 9hmcw 2 2 Running 0 2m istio pilot 2278433625 68l34 1 1 Running 0 2m                      Istio                                                      sidecar            Bookinfo                    Bookinfo         Istio    samples                       Bookinfo     kubectl apply  f 9080 TCP 6m kubernetes 10 43 0 1 443 TCP 5d productpage 10 43 19 154 9080 TCP 6m ratings 10 43 50 160 9080 TCP 6m reviews 10 43 219 248 9080 TCP 6m                    istio ingress External IP http   10 12 25 116 productpage   Istio Proxy            sprint cloud                                                    Istio                                  kubernetes            Bookinfo                   kubectl apply  f istio 0 2 10 samples bookinfo kube bookinfo yaml                 kubectl apply          kubernetes yaml     istioctl kube inject  f istio 0 2 10 samples bookinfo kube bookinfo yaml                                                 istioctl kube inject                  istioctl kube inject  f istio 0 2 10 samples bookinfo kube bookinfo yaml    bookinfowithsidecar yaml     bookinfo with sidecar yaml   bookinfo yaml         bookinfo yaml               pod       container  container      container                                  proxy container  15001           container        pod     init container  container    iptable    containe",
+        "objectID": "post/2017-11-04-istio-install_and_example",
+        "title": "Istio及Bookinfo示例程序安装试用笔记",
+        "subtitle": "手把手教你从零搭建Istio及Bookinfo示例程序",
+        "description": "Istio是来自Google，IBM和Lyft的一个Service Mesh（服务网格）开源项目，是Google继Kubernetes之后的又一大作,本文将演示如何从裸机开始从零搭建Istio及Bookinfo示例程序。",
+        "excerpt": "Istio是来自Google，IBM和Lyft的一个Service Mesh（服务网格）开源项目，是Google继Kubernetes之后的又一大作,本文将演示如何从裸机开始从零搭建Istio及Bookinfo示例程序。",
+        "date": "2017-11-04T12:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/istio-install_and_example/post-bg.jpg",
+        "tags": [
+            "Istio"
+        ],
+        "URL": "/2017/11/04/istio-install_and_example/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2017-11-07-istio-traffic-shifting",
+        "content": "Istio        istio          Traffic Shifting                                 Istio                10  20      100                                          reviews v1     reviews v3      50  100                      Istio    BookInfo                       kubernetes                      yaml     samples bookinfo kube route rule all v1 yaml    kubernetes                    kube                    Consul          samples bookinfo consul route rule all v1 yaml                           v1   bash istioctl create  f samples bookinfo kube route rule all v1 yaml          http    GATEWAY_URL productpage    reviews           v1            BooInfo   productpage      productpage                reviews v1    ratings                                      jason                       bash istioctl delete routerule reviews test v2              50     reviews v1   reviews v3   bash istioctl replace  f samples bookinfo kube route rule reviews 50 v3 yaml          istioctl replace   create           productpage      50                                Envoy sidecar          productpage                                 15              90       v3              v3   reviews             100       reviews v3   bash istioctl replace  f samples bookinfo kube route rule reviews v3 yaml              productpage                                   Istio                 reviews                                                            scaling            Istio      reviews         scale up scale down                             scaling            Canary Deployments using Istio              bash istioctl delete  f samples bookinfo kube route rule all v1 yaml                   BookInfo cleanup",
+        "objectID": "post/2017-11-07-istio-traffic-shifting",
+        "title": "使用Istio实现应用流量转移",
+        "subtitle": "  \"本文翻译自istio官方文档\"",
+        "description": "本任务将演示如何将应用流量逐渐从旧版本的服务迁移到新版本。通过Istio，可以使用一系列不同权重的规则（10%，20%，··· 100%）将流量平缓地从旧版本服务迁移到新版本服务。",
+        "excerpt": "本任务将演示如何将应用流量逐渐从旧版本的服务迁移到新版本。通过Istio，可以使用一系列不同权重的规则（10%，20%，··· 100%）将流量平缓地从旧版本服务迁移到新版本服务。",
+        "date": "2017-11-07T00:00:00.000Z",
+        "author": "    \"赵化冰\"",
+        "image": "/img/istio-traffic-shifting/crossroads.png",
+        "categories": [
+            "Tech"
+        ],
+        "tags": [
+            "Istio"
+        ],
+        "URL": "/2017/11/07/istio-traffic-shifting/"
+    },
+    {
+        "title": "采用Istio实现灰度发布(金丝雀发布)",
+        "uri": "post/2017-11-08-istio-canary-release",
+        "content": "ANYTHING GO WRONG WILL GO WRONG    MURPHY S LAW                                                                                                                                                                                                                                                                                                      1 1                                                                                                                                                                                                                                                                                               Istio                                                                                                                                               Istio                             sidecar             Pilot                                     kubernetes      rolling update                                                                                                                            Istio                                                                                                                                   Istio                         Istion   BookinfoInfo                                    Istio Bookinfo      Kubernetes Istio                  3    reviews                              istio 0 2 10 samples bookinfo kube cleanup sh     V1           V1   Bookinfo           yaml      3    reviews       V2 V3   Deployment yaml  istio 0 2 10 samples bookinfo kube bookinfo yaml      Bookinfo yaml            apiVersion  extensions v1beta1 kind  Deployment metadata  name  reviews v2 spec  replicas  1 template  metadata  labels  app  reviews version  v2 spec  containers  name  reviews image  istio examples bookinfo reviews v2 0 2 3 imagePullPolicy  IfNotPresent ports  containerPort  9080 apiVersion  extensions v1beta1 kind  Deployment metadata  name  reviews v3 spec  replicas  1 template  metadata  labels  app  reviews version  v3 spec  containers  name  reviews image  istio examples bookinfo reviews v3 0 2 3 imagePullPolicy  IfNotPresent ports  containerPort  9080     V1   Bookinfo      kubectl apply  f                      50     V2                                               5  10  20  50                apiVersion  config istio io v1alpha2 kind  RouteRule metadata  name  reviews default spec  destination  name  reviews precedence  1 route  labels  version  v1 weight  50 labels  version  v2 weight  50     istioctl replace  f route rule default reviews yaml  n default                           V2   reviews                           V2      apiVersion  config istio io v1alpha2 kind  RouteRule metadata  name  reviews default spec  destination  name  reviews precedence  1 route  labels  version  v2 weight  100     istioctl replace  f route rule default reviews yaml  n default                               V2                                                                V1        V2                V1   reviews    V2            V1   reviews           kubectl delete pod reviews v1 1360980140 0zs9z istioctl delete  f route rule test reviews v2 yaml  n default      Istio",
+        "objectID": "post/2017-11-08-istio-canary-release",
+        "subtitle": "用户无感知的平滑业务升级",
+        "description": "当应用上线以后，运维面临的一大挑战是如何能在不影响已上线业务的情况下进行升级。本文将介绍如何使用Istio实现应用的灰度发布（金丝雀发布）",
+        "excerpt": "当应用上线以后，运维面临的一大挑战是如何能在不影响已上线业务的情况下进行升级。本文将介绍如何使用Istio实现应用的灰度发布（金丝雀发布）",
+        "date": "2017-11-08T15:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/istio-canary-release/canary_bg.jpg",
+        "published": true,
+        "tags": [
+            "Istio"
+        ],
+        "URL": "/2017/11/08/istio-canary-release/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2017-11-28-access-application-from-outside",
+        "content": "kubernetes Cluster Network          cluster Network                  Kubernetes                                     kubernetes cluster                                                                                        kubernetes                                                            kubernetes      docker container pod                                                                    Pod Service          Kubernetes  Pod Service     Pod         Pod                  Pod            Pod             host         volumes network namespace   Kubernetes Pod                   pod  failover  load balance  Pod          Kubernetes          Pod                    kubernetes   Pod                Host                Pod               Pod                Pod           Kubernetes   Service    Service           Pod    Service           IP     IP  Kubernetes Cluster        IP                  IPtable          IPtable           Pod                         Pod           Pod                   Pod         Service         Kube proxy  kubernetes master     Service  Endpoint         Service kube proxy     iptables       Service Cluster IP      Service       Pod                  Service Cluster IP          Pod        Cluster IP Ping       Cluster IP  iptable                  Service    Service    ServiceType    Service                      Kubernetes cluster          Cluster   Service      ClusterIP NodePort LoadBalancer   ClusterIP Service                     Cluster        IP                 NodePort            Service      NodePort    Cluster                      Cluster                                   kubernetes        Pod              kubernetes cluster       IP                          Kubernetes clusterIp        Pod Iptable kube proxy       Nodeport                          kube proxy                                NodePort                    nodePort                 kubernetes                        kind  Service apiVersion  v1 metadata  name  influxdb spec  type  NodePort ports  port  8086 nodePort  30000 selector  name  influxdb     NodePort                                             Kubernetes cluster host IP     well known IP          IP  Cluster  host                    host IP                 host IP       well known IP             host IP           host    kubernetes cluster     reload                 host nodeport                   Kubernetes host                Kubernetes host                         APP        host                                  Cluster       kubernetes         4  load balancer    Load Balancer            Service      LoadBalancer    Service      Load Balancer Kubernetes       Service                     Kubernetes                Service  Load Balancer          Google Cloud Amazon Cloud            Load Balancer  Kubernetes Cluster       kubernetes 1 6    WS  Azure  CloudStack  GCE OpenStack          Kubernetes  Load Balancer      Load balancer   Service      kind  Service apiVersion  v1 metadata  name  influxdb spec  type  LoadBalancer ports  port  8086 selector  name  influxdb      Service        Kubernetes          kubectl svc influxdb NAME CLUSTER IP EXTERNAL IP PORT S  AGE influxdb 10 97 121 42 10 13 242 236 8086 30051 TCP 39s   Kubernetes   influxdb              ClusterIP 10 97 121 42       nodeport   kubernetes        30051     service              cloud provider     load balancer       EEXTERNAL IP  load balancer IP       Cloud Provider OpenStack     neutron lb vip show       Load Balancer          neutron lb vip show 9bf2a580 2ba4 4494 93fd 9b6969c55ac3                                                                                          Field   Value                                                                                            address   10 13 242 236     adminstateup   True     connection_limit    1     description   Kubernetes external service a6ffa4dadf99711e68ea2fa163e0b082     id   9bf2a580 2ba4 4494 93fd 9b6969c55ac3     name   a6ffa4dadf99711e68ea2fa163e0b082     pool_id   392917a6 ed61 4924 acb2 026cd4181755     port_id   e450b80b 6da1 4b31 a008 280abdc6400b     protocol   TCP     protocol_port   8086     session_persistence       status   ACTIVE     status_description       subnet_id   73f8eb91 90cf 42f4 85d0 dcff44077313     tenant_id   4d68886fea6e45b0bc2e05cd302cccb9                                                                                            neutron lb pool show 392917a6 ed61 4924 acb2 026cd4181755                                                                     Field   Value                                                                       adminstateup   True     description       health_monitors       healthmonitorsstatus       id   392917a6 ed61 4924 acb2 026cd4181755     lbmethod   ROUNDROBIN     members   d0825cc2 46a3 43bd af82 e9d8f1f85299       3f73d3bb bc40 478d 8d0e df05cdfb9734     name   a6ffa4dadf99711e68ea2fa163e0b082     protocol   TCP     provider   haproxy     status   ACTIVE     status_description       subnet_id   73f8eb91 90cf 42f4 85d0 dcff44077313     tenant_id   4d68886fea6e45b0bc2e05cd302cccb9     vip_id   9bf2a580 2ba4 449",
+        "objectID": "post/2017-11-28-access-application-from-outside",
+        "title": "如何从外部访问Kubernetes集群中的应用？",
+        "subtitle": "",
+        "description": "我们知道，kubernetes的Cluster Network属于私有网络，只能在cluster Network内部才能访问部署的应用，那如何才能将Kubernetes集群中的应用暴露到外部网络，为外部用户提供服务呢？本文探讨了从外部网络访问kubernetes cluster中应用的几种实现方式。",
+        "date": "2017-11-28T12:00:00.000Z",
+        "author": "赵化冰",
+        "image": "https://img.zhaohuabing.com/post-bg-2015.jpg",
+        "published": true,
+        "tags": [
+            "Kubernetes"
+        ],
+        "URL": "/2017/11/28/access-application-from-outside/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-01-02-nginmesh-install",
+        "content": "Nginmesh NGINX Service Mesh       Istio                                  Istio    sidecar                              Nginmesh           0 2 0 3                                             Ubuntu 16 04  Centos                      Kubernetes Cluster Kubernetes Cluster  etcd  api server  scheduler controller manager                                        kubernetes                             kubeadm            Kubernetes Cluster                               kubeadm  kubernetes cluster      kubeadm          kubernetes cluster        docker kubeadm  kubelet   kubectl    docker   apt get update apt get install  y docker io     google    kubelet kubeadm kubectl   apt get update    apt get install  y apt transport https curl  s https   packages cloud google com apt doc apt key gpg   apt key add   cat  etc apt sources list d kubernetes list deb http   apt kubernetes io  kubernetes xenial main EOF apt get update apt get install  y kubelet kubeadm kubectl     kubeadmin  kubernetes cluster Nginmesh  Kubernetes Initializer     sidecar      Initializer   kubernetes   Alpha feature             api server               kubeadm conf         api server        apiVersion  kubeadm k8s io v1alpha1 kind  MasterConfiguration apiServerExtraArgs  admission control  Initializers NamespaceLifecycle LimitRanger ServiceAccount PersistentVolumeLabel DefaultStorageClass ValidatingAdmissionWebhook ResourceQuota DefaultTolerationSeconds MutatingAdmissionWebhook runtime config  admissionregistration k8s io v1alpha1     kubeadmin init    kubernetes master           dry run              kubeadm init   config kubeadm conf   dry run          kubeadm    Finished dry running successfully  Above resources created                kubeadm init   config kubeadm conf   kubeadm        docker image               work node  cluster         kubeadm join   token fffbf6 13bcb3563428cf23 10 12 5 15 6443   discovery token ca cert hash sha256 27ad08b4cd9f02e522334979deaf09e3fae80507afde63acf88892c8b72f143f          kubeadm            master                  kubernetes     workaround        etcd   kubeadm limitations  Kubeadm     Pod                Pod         Calico   kubectl apply  f https   docs projectcalico org v2 6 getting started kubernetes installation hosted kubeadm 1 6 calico yaml     kubectl     master         ubuntu kube 1    kubectl NAME TYPE CLUSTER IP EXTERNAL IP PORT S  AGE svc kubernetes ClusterIP 10 96 0 1 443 TCP 12m               kubeadm join                  kubectl     cluster          ubuntu kube 1    kubectl nodes NAME STATUS ROLES AGE VERSION kube 1 Ready master 21m v1 9 0 kube 2 Ready 47s v1 9 0     Istio    Bookinfo   Nginmesh    Istio    Bookinfo                            Niginmesh        Ingress External IP  bookinfo      Loadbalancer                              Openstack      cluster          Openstack      Openstack     kubernetes Loadbalancer service              Ingress External IP     pending      NAME TYPE CLUSTER IP EXTERNAL IP PORT S  AGE istio ingress LoadBalancer 10 111 158 10 80 32765 TCP 443 31969 TCP 11m istio mixer ClusterIP 10 107 135 31 9091 TCP 15004 TCP 9093 TCP 9094 TCP 9102 TCP 9125 UDP 42422 TCP 11m istio pilot ClusterIP 10 111 110 65 15003 TCP 443 TCP 11m             Loadbalancer                    IP Nodeport  Bookinfo        http   10 12 5 31 32765 productpage                                     Kubernetes               sidecar    kubectl pod reviews v3 5fff595d9b zsb2q  o yaml     Bookinfo   reviews   Pod    apiVersion  v1 kind  Pod metadata  annotations  sidecar istio io status  injected version 0 2 12 creationTimestamp  2018 01 02T02 33 36Z generateName  reviews v3 5fff595d9b  labels  app  reviews pod template hash   1999151856  version  v3 name  reviews v3 5fff595d9b zsb2q namespace  default ownerReferences  apiVersion  extensions v1beta1 blockOwnerDeletion  true controller  true kind  ReplicaSet name  reviews v3 5fff595d9b uid  5599688c ef65 11e7 8be6 fa163e160c7d resourceVersion   3757  selfLink   api v1 namespaces default pods reviews v3 5fff595d9b zsb2q uid  559d8c6f ef65 11e7 8be6 fa163e160c7d spec  containers  image  istio examples bookinfo reviews v3 0 2 3 imagePullPolicy  IfNotPresent name  reviews ports  containerPort  9080 protocol  TCP resources     terminationMessagePath   dev termination log terminationMessagePolicy  File volumeMounts  mountPath   var run secrets kubernetes io serviceaccount name  default token 48vxx readOnly  true args  proxy sidecar  v  2    configPath  etc istio proxy   binaryPath  usr local bin envoy   serviceCluster reviews   drainDuration 45s   parentShutdownDuration 1m0s   discoveryAddress istio pilot istio system 15003   discoveryRefreshDelay 1s   zipkinAddress zipkin istio system 9411   connectTimeout 10s   statsdUdpAddress istio mixer istio system 9125   proxyAdminPort  15000    controlPlaneAuthPolicy NONE env  name  POD_NAME valueFrom  fieldRef  apiVersion  v1 fieldPath  metadata name name  POD_NAMESPACE valueFrom  fieldRef  apiVersion  v1 fieldPath  metadata namespace name  INSTANCE_IP valueFrom  fieldRef  apiVersion  v1 fieldPath  status podIP image  nginmesh proxy_debug 0 2",
+        "objectID": "post/2018-01-02-nginmesh-install",
+        "title": "Nginx开源Service Mesh组件Nginmesh安装指南",
+        "subtitle": "",
+        "description": "Nginmesh是NGINX的Service Mesh开源项目，用于Istio服务网格平台中的数据面代理。它旨在提供七层负载均衡和服务路由功能，与Istio集成作为sidecar部署，并将以“标准，可靠和安全的方式”使得服务间通信更容易。Nginmesh在今年底已经连续发布了0.2和0.3版本，提供了服务发现，请求转发，路由规则，性能指标收集等功能。本文介绍如何采用kubeadmin安装kubernetes集群并部署Nginmesh sidecar。",
+        "date": "2018-01-02T12:00:00.000Z",
+        "author": "赵化冰",
+        "image": "img/post-bg-2015.jpg",
+        "published": true,
+        "tags": [
+            "Istio",
+            "service Mesh",
+            "nginmesh"
+        ],
+        "URL": "/2018/01/02/nginmesh-install/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-02-03-authentication-and-authorization-of-microservice",
+        "content": "Session     Session          Session Id  Session                           User name  Role  Permission       Session Session Id           Session Id cookie  URL                                           Session Id                                        Session Id                     TLS     session                                  Session Id  HTTP                                           Session Id        Session Id                                                                                                                                                                                                                                                                                                                                                                   Scalability     Resiliency                    session                                                                                                                                                                                                                                             SSO                                                API Gateway                   API Gateway                   HTTP                      HTTP                        HTTP                                                                    HTTP                                                                                                                                        HTTP                                                     Cookie                                            Token           Token Seesion               Session             Token            cookie           Token                                                            Token                                    JWT Json Web Token      Token        RFC 7519     Token                  lib  JWT Token               Header            JWT    JWT   Hash         alg    HS256    typ    JWT      Payload                                              sub    1234567890    name    John Doe    admin   true     Signature Token              Token               Token            HMACSHA256  base64UrlEncode header          base64UrlEncode payload   secret          Base64                    Token                           Token   Token                                Token              Token     rfc6750           Authorization  Bearer HHTP Header        Authorization  Bearer mF_9 B5f 4 1JqM     Token                                                              JWT token      Token                   Cookie                                Token       Token                                       Token                                                         API Gateway                 Token                                                  Token                    API Gateway                          API Gateway API Gateway        Security Service Security Service          Token              API Gateway API Gateway   Security Service     Token                    Token Token    Token              Security Service                                   Business Service            API Gateway Token                                 API Gateway                     API Gateway                 HTTP         Resource HTTP Method       REST    URI               API Gateway                             Security Service                                      Business Service       API Gateway                                                                        REST                                                                                                                                   API Token             API Token            Token                                          Token                              Github    Personal API Token        Github           Token      Token   Github API    Token       Token               Repo     Repo                   API Token   Github API   curl  u zhaohuabing fbdf8e8862252ed0f3ba9dba4e328c01ac93aeec https   api github com user     API Token                API                         Token              API Token                                              OAuth                                            OAuth   OAuth                                                     Token                        Github           Travis CI GitBook     OAuth Github       OAuth                                  OAuth            OAuth                                                            callback URL                   OAuth                                            callback url                                   token              token                    token                   1  OAuth                                                         Github                  Github       Travis CI  GitBook       Travis CI  GitBook          2                         Authorization Code    Token              Token     OAuth                Callback URL                       Token                    Token                               Token                                      Token               Authorization Code   Token    clientid clientse",
+        "objectID": "post/2018-02-03-authentication-and-authorization-of-microservice",
+        "title": "如何构建安全的微服务应用？",
+        "subtitle": "微服务架构下的认证和鉴权方案探讨",
+        "description": "微服务架构的引入为软件应用带来了诸多好处：包括小开发团队，缩短开发周期，语言选择灵活性，增强服务伸缩能力等。与此同时，也引入了分布式系统的诸多复杂问题。其中一个挑战就是如何在微服务架构中实现一个灵活，安全，高效的认证和鉴权方案。本文将尝试就此问题进行一次比较完整的探讨。",
+        "excerpt": "微服务架构的引入为软件应用带来了诸多好处：包括小开发团队，缩短开发周期，语言选择灵活性，增强服务伸缩能力等。与此同时，也引入了分布式系统的诸多复杂问题。其中一个挑战就是如何在微服务架构中实现一个灵活，安全，高效的认证和鉴权方案。本文将尝试就此问题进行一次比较完整的探讨。",
+        "date": "2018-02-03T12:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/2018-02-03-authentication-and-authorization-of-microservice/AuthenticationTrack.jpeg",
+        "published": true,
+        "tags": [
+            "Microservice",
+            "Security"
+        ],
+        "URL": "/2018/05/22/user_authentication_authorization/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-02-09-docker-without-sudo",
+        "content": "Add docker group doesn t already exist  sudo groupadd docker Add connected user   USER  docker group  Change user name match preferred user not want use current user  sudo gpasswd  a  USER docker Either newgrp docker log out in activate changes groups",
+        "objectID": "post/2018-02-09-docker-without-sudo",
+        "title": "如何使用非root用户执行docker命令",
+        "subtitle": "",
+        "description": "如何使用非root用户执行docker命令",
+        "excerpt": "如何使用非root用户执行docker命令",
+        "date": "2018-02-09T10:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/docker.jpg",
+        "published": true,
+        "showtoc": false,
+        "tags": [
+            "Tips",
+            "Docker"
+        ],
+        "URL": "/2018/02/09/docker-without-sudo/",
+        "categories": [
+            "Tips"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-02-09-vim-tips",
+        "content": "vim graphical cheat sheet Vim Jumps     Move start line     Move end line b   Move back word w   Move forward word e   Move end next word Ctrl o Ctrl i go previous next location jumped    two backticks  jump back gi go back last place inserted text enter insert mode Vim Navigations     jump paragraph back forth Ctrl F B move one screen back forth Search word cursor  n p jump next previous Enable Vim mode bash vi    inputrc set editing mode vi Enable system clipboard upport system clipboard supported      vim   version   grep clipboard  clipboard  iconv  path_extra  toolbar  eval  mousedec  startuptime  xtermclipboard   Rinstall vim vim gnome    sudo apt get install vim gnome   Select want using mouse   type copy clipboard      y   paste vim clipboard type      p   Others Ex  open current directory set number  show line number",
+        "objectID": "post/2018-02-09-vim-tips",
+        "title": "Vim Tips",
+        "subtitle": "",
+        "description": "Vim Tips and tricks",
+        "date": "2018-02-09T11:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/2018-02-09-vim-tips/matrix.jpg",
+        "published": true,
+        "tags": [
+            "Tips",
+            "Vim"
+        ],
+        "URL": "/2018/02/09/vim-tips/",
+        "categories": [
+            "Tips"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-03-13-use-docker-behind-http-proxy",
+        "content": "Ubuntu   docker  http proxy   sudo  etc default docker export http_proxy  http   127 0 0 1 3128   export https_proxy  http   127 0 0 1 3128   export HTTP_PROXY  http   127 0 0 1 3128   export HTTPS_PROXY  http   127 0 0 1 3128            docker   sudo service docker restart   CentOS   docker  http proxy   sudo mkdir  p  etc systemd system docker service d echo    Service  Environment  HTTP_PROXY http   proxy foo bar com 80       sudo tee  etc systemd system docker service d http proxy conf          docker   sudo systemctl daemon reload sudo systemctl restart docker",
+        "objectID": "post/2018-03-13-use-docker-behind-http-proxy",
+        "title": "如何配置docker使用HTTP代理",
+        "subtitle": "",
+        "description": "如何配置docker使用HTTP代理",
+        "date": "2018-03-13T18:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/docker.jpg",
+        "published": true,
+        "tags": [
+            "Tips",
+            "Docker"
+        ],
+        "URL": "/2018/03/13/use-docker-behind-http-proxy/",
+        "categories": [
+            "Tips"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-03-29-what-is-service-mesh-and-istio",
+        "content": "TCP IP        TCP IP                        TCP IP                            TCP IP                TCP IP       IP       TCP                               Load balancing Retries Circuit Breaker                                                                                                                          sidecar                                     sidecar                                                                                sidecar                                                         Service Mesh        _                                                                                                                         William Morgan  WHAT S SERVICE MESH  WHY NEED ONE    https   buoyant io 2017 04 25 whats a service mesh and why do i need one  _            Sidecar                                                                          SDN           SDN                               SDN                                                                                                                           Istio     Istio   Service Mesh      Google Kubernetes                 Google IBM Lyft    kubernetes                Google  kubernetes         Kubernetes              Orchestration                                                    CNI         CRI                                                Istio                  Istio   Kubernetes          Google                  Google Istio                 Google     Google Cloud                   Redhat Pivotal Nginx Buoyant                     Istio                                               kubernetes              Istio                         Istio                              Envoy                                                             Istio    Istio      3    Pilot  Mixer Istio Auth  Pilot Pilot                                 Pilot                          Pilot  Kubernetes     Kubernetes API     kubernetes pod                                           Pilot           Pilot    Mesos  Cloud Foundry  Consul                               Pilot        Pilo               API API                                   API                                     API       Sidecar   Istio     Istio     Envoy      Linkerd  Nginmesh                   API    Sidecar    Pilot      DSL Domain Specific Language    DSL                                   DSL          Pilot      Pilot               API   Envoy                         Mixer                                                                 APM                                                                                                       Mixer                                                                         Mixer            Mixer           Mixer                                                                                      ACL                                                                              Rate Limiting                                                             Mixer            Sidecar                          IP      tracing               Mixer Mixer                   Mixer Sidecar                     Sidecar  Mixer                      Mixer                                    Mixer       Metrics   Prometheus  InfluxDB                              Sidecar             Mixer          Mixer                        Mixer                                                                              Rate limiting                           Mixer                          Istio          Mixer     Envoy               Istio Envoy      Mixer Filter  Filter     Mixer                       Mixer Filter                          Envoy              Mixer   Envoy             Envoy                      Mixer  Auth Istio    SSL   Mutual SSL Authentication            RBAC                    Istio        CA        CA                    SSL                                     CA  Kubernetes API Server          Service Account              Kubernetes API Server                        Service Account       Service Account kubernetes                Service Account       SAN Subject Alternative Name       Pod    Kubernetes   Pod   Service Account       Kubernetes Secrets        Pod Volume   Envoy    Pilot           Envoy                Service Account              Envoy                   Node Agent      Istio CA             Envoy                  Envoy        Envoy     Envoy    SSL            Envoy      Envoy    Service Account                                         TSL                   Envoy    Envoy       TCP             Istio            RBAC                                                                     Istio Config Store   Istio RBAC Engine Config Store                                             Istio RBAC Engine        Mixer Adapter       Mixer                     Subject       Action     Mixer                         Istio Policy           ServiceRole                                                            ServiceRoleBinding         Subject                     Istio    Istio         sidecar                                    Istio                              Istio     Envoy         Env",
+        "objectID": "post/2018-03-29-what-is-service-mesh-and-istio",
+        "title": "谈谈微服务架构中的基础设施：Service Mesh与Istio",
+        "subtitle": "Service Mesh模式及Istio开源项目介绍",
+        "description": "作为一种架构模式，微服务将复杂系统切分为数十乃至上百个小服务，每个服务负责实现一个独立的业务逻辑。这些小服务易于被小型的软件工程师团队所理解和修改，并带来了语言和框架选择灵活性，缩短应用开发上线时间，可根据不同的工作负载和资源要求对服务进行独立缩扩容等优势。另一方面，当应用被拆分为多个微服务进程后，进程内的方法调用变成了了进程间的远程调用。引入了对大量服务的连接、管理和监控的复杂性,本文介绍了Service Mesh模式如何应对微服务架构的这些挑战，以及Service Mesh的明星开源项目Istio。",
+        "date": "2018-03-29T12:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/istio-install_and_example/post-bg.jpg",
+        "published": true,
+        "tags": [
+            "Microservice",
+            "Service Mesh",
+            "Istio"
+        ],
+        "URL": "/2018/03/29/what-is-service-mesh-and-istio/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-04-11-service-mesh-vs-api-gateway",
+        "content": "Service Mesh vs API Gateway       Service Mesh             Service Mesh API Gateway                   Service Mesh API Gateway                API Gateway Service Mesh                    API Gateway           API        API Gateway                API                API Gateway    API                 API                                               API Edge                                                        API Gateway              API Gateway                                                      API Gateway API                     API        API       Service Mesh                     Service Mesh       Service Mesh                                            Service Mesh                                  Service Mesh                     API Gateway Service Mesh   API Gateway Service Mesh         API Gateway   API            Service Mesh                                    API Gateway Service Mesh                                                           1  API Gateway Service Mesh         Service Mesh  Sidecar                                API Gateway       API     API                           API Gateway                      Service Mesh        API Gateway  Service Mesh  Microservices    API          API Gateway                Service Mesh                          Service Mesh       API Gateway Service Mesh                                                                                     API Gateway                Service Mesh                                  API Gateway     Sidecar           API Gateway                         API Gateway    Sidecar                                               API Gateway  Service Mesh             Sidecar                         API Gateway Service Mesh          API Gateway       Service Mesh       Metrics                                       API Gateway                                 Service Mesh vs API Gateway",
+        "objectID": "post/2018-04-11-service-mesh-vs-api-gateway",
+        "title": "Service Mesh 和 API Gateway的关系探讨（译文）",
+        "subtitle": "",
+        "description": "API Gateway和Service Mesh的关系是我最近一直在思考的问题，也和同事及社区的朋友之间进行了一些讨论。这篇短文很清晰地总结了两者之间的相似之处以及这两者在微服务架构中的不同用途。",
+        "excerpt": "API Gateway和Service Mesh的关系是我最近一直在思考的问题，也和同事及社区的朋友之间进行了一些讨论。这篇短文很清晰地总结了两者之间的相似之处以及这两者在微服务架构中的不同用途。",
+        "date": "2018-04-11T09:32:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/2018-04-11-service-mesh-vs-api-gateway/background.jpg",
+        "published": true,
+        "tags": [
+            "Microservice",
+            "Service Mesh",
+            "API Gateway"
+        ],
+        "URL": "/2018/04/11/service-mesh-vs-api-gateway/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-04-16-using-helm-to-deploy-to-kubernetes",
+        "content": "Helm Kubernetes                          Helm  Kubernetes        Helm                          Helm              Kubernetes    Kubernetes                Kubernetes kubernetes                                                     kubernetes                       kubernetes                                         kubernetes                                      kubernetes                       kubernetes API              Pod Service Volume Namespace ReplicaSet Deployment Job                 yaml        kubernetes     kubectl          wordpress            kubernetes API     kubernetes API       yaml      1  Wordpress         kubernetes API           kubernetes                                 kubernetes                                       kubernetes       Helm                Helm            Ubuntu  ap get  CentOS  yum       Linux            apt get yum                                                           Helm  Kubernetes  apt get yum Helm Deis  https   deis com          kubernetes                     Helm                                          Helm       Kubernetes Yaml                Helm    kubernetes               Helm    kubernetes                        Helm            Helm            Helm                     Helm                  Helm            Helm Kubernetes                    Tiller Helm        Kubernetes        Helm       Chart Helm                kubernetes    Repoistory Helm      repository      web           chart               repository chart                Helm         Repository  Release   Helm install   Kubernetes      Chart  Release              Helm    Release                   Release     Helm  Chart                  Helm  Release  Deployment        Deployment       Kubernetes      Helm    Release              Helm       Helm      Tiller      Repository Chart      Chart             2  Helm       Helm                 Helm             Helm              kubernetes        Helm     https   docs helm sh using_helm  installing helm   Helm           Helm    Helm https   github com kubernetes helm releases    tar  zxvf helm v2 0 0 linux amd64 tgz    bin   mv linux amd64 helm  usr local bin helm                  Tiller  bash Helm init       Helm chart           Helm        Go                    Helm chart    git clone https   github com zhaohuabing testapi git  cd testapi         chart      helm create testapi chart          testapi chart                                Chart yaml values yaml   NOTES txt   Bash testapi chart     charts     Chart yaml     templates       deployment yaml       _helpers tpl       NOTES txt       service yaml     values yaml   Chart yaml       chart                values yaml     templates                      Go              Go            Hugo  https   gohugo io       Go       https   gohugo io templates go templates    NOTES txt       chart     chart                   chart             Chart yaml                 testapi      apiVersion  v1 description  simple api testing debugging name  testapi chart version  0 0 1              values yaml    testapi   values yaml        replicaCount  2 image  repository  daemonza testapi tag  latest pullPolicy  IfNotPresent service  name  testapi type  ClusterIP externalPort  80 internalPort  80 resources  limits  cpu  100m memory  128Mi requests  cpu  100m memory  128Mi     testapi_chart            chart        helm lint   Linting    INFO  Chart yaml  icon recommended 1 chart s  linted  no failures                                        chart        helm package testapi chart   debug           debug                       Saved  Users daemonza testapi testapi chart testapi chart 0 0 1 tgz current directory Saved  Users daemonza testapi testapi chart testapi chart 0 0 1 tgz  Users daemonza  helm repository local   chart         testapi chart 0 0 1 tgz                       helm            Helm Repository          chart     helm          Helm search                chart     helm search testapi No results found       repository    chart    Helm              Repository Server       Helm repo       helm repo list        helm         stable repo  repo   google         Bash helm repo list NAME URL stable https   kubernetes charts storage googleapis com     helm serve      repo server  server      HELM_HOME repository local     chart     8879          Bash helm serve  serving 127 0 0 1 8879       repo server      helm repo     Bash helm repo add local http   127 0 0 1 8879  local  added repositories        testapi chart           Bash helm search testapi NAME CHART VERSION APP VERSION DESCRIPTION local testapi chart 0 0 1 Helm chart Kubernetes    kubernetes   Chart chart            Helm instal    chart      chart  Release            helm install local testapi chart   name testapi                NAME  testapi LAST DEPLOYED  Mon Apr 16 10 21 44 2018 NAMESPACE  default STATUS  DEPLOYED RESOURCES    v1 Service NAME TYPE CLUSTER IP EXTERNAL IP PORT S  AGE testapi testapi chart ClusterIP 10 43 121 84 80 TCP 0s   v1beta1 Deployment NAME DESIRED CURRENT UP TO DATE AVAILABLE AGE testapi testapi chart 1 1 1 0 0s   v1 Pod related  NAME READY STATUS RESTARTS AGE tes",
+        "objectID": "post/2018-04-16-using-helm-to-deploy-to-kubernetes",
+        "title": "Helm介绍",
+        "subtitle": "强大的Kubernetes包管理工具",
+        "description": "Helm是Kubernetes生态系统中的一个软件包管理工具。本文将介绍为何要使用Helm进行Kubernetes软件包管理，澄清Helm中使用到的相关概念，并通过一个具体的示例学习如何使用Helm打包，分发，安装，升级及回退Kubernetes应用。",
+        "excerpt": "Helm是Kubernetes生态系统中的一个软件包管理工具。本文将介绍为何要使用Helm进行Kubernetes软件包管理，澄清Helm中使用到的相关概念，并通过一个具体的示例学习如何使用Helm打包，分发，安装，升级及回退Kubernetes应用。",
+        "date": "2018-04-16T15:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/2018-04-16-using-helm-to-deploy-to-kubernetes/buffalo.jpg",
+        "published": true,
+        "tags": [
+            "Kubernetes",
+            "Helm"
+        ],
+        "categories": [
+            "Tech"
+        ],
+        "URL": "/2018/04/16/using-helm-to-deploy-to-kubernetes/"
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-01-may-day-jiulonghu",
+        "content": "1                                                                                                                                                                                                                                                      317                                                                                                        1                                                                                                                                                                                                                                                                                                                                         1   6                               240   3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             30 40            1 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   76                                                                                                                                                                                                                                                                                                                                                                          1                                                                                                                                                                                      6000                                                                                                                    500                                                                                                                                                                                                                                          317                                  6",
+        "objectID": "post/2018-05-01-may-day-jiulonghu",
+        "title": "川西秘境探险",
+        "subtitle": "2018五一甘堡藏寨，九龙湖自驾游记",
+        "date": "2018-05-01T00:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/2018-05-01-may-day-jiulonghu/snowmountain.jpg",
+        "published": true,
+        "hide-in-home": true,
+        "tags": [
+            "Travel"
+        ],
+        "categories": [
+            "Life"
+        ],
+        "URL": "/2018/05/01/may-day-jiulonghu"
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-21-algolia-integration-with-jekyll",
+        "content": "series articles notes  Bitcoin Cryptocurrency Technologies  online course  Table Content    no_toc  Table Content   toc  Scrooge Coin Transaction Scrooge Coin programming assignment little bit tricky  video lesson hasn t explained implementation details  help understand transaction data structure used Scrooge Coin  draw diagram  Every transaction set inputs set outputs  input transaction use hash pointer refer its corresponding output previous transaction  signed private key owner owner needs prove he she agrees spend his her coins  Every output correlated public key receiver  his her ScroogeCoin address  first transaction  assume Scrooge created 10 coins assigned himself  don t doubt system Scroogecoin building rule says Scrooge right create coins  second transaction  Scrooge transferred 3 9 coins Alice 5 9 coins Bob  sum two outputs 0 2 less input transaction fee 0 2 coin  third transaction  two inputs one output  Alice Bob transferred 9 7 coins mike  transaction fee 0 1 coin  Unclaimed transaction outputs pool trick need Note when doing programming assignment UTXOPool introduced track unclaimed outputs  unspent coins   so know whether corresponding output input transaction available not  TxHandler Java Code   import java security PublicKey  import java util ArrayList  import java util HashSet  import java util List  import java util Set  public class TxHandler   private UTXOPool utxoPool      Creates public ledger whose current UTXOPool  collection unspent transaction outputs    code utxoPool   copy utxoPool using UTXOPool UTXOPool uPool  constructor     public TxHandler UTXOPool utxoPool    this utxoPool   new UTXOPool utxoPool          return true if   1  outputs claimed   code tx  current UTXO pool   2  signatures input   code tx  valid   3  no UTXO claimed multiple times   code tx    4    code tx s output values non negative   5  sum   code tx s input values greater equal sum its output values  false otherwise     public boolean isValidTx Transaction tx    Set claimedUTXO   new HashSet    double inputSum   0  double outputSum   0  List inputs   tx getInputs     int   0  outputs   tx getOutputs     int   0  inputSum    return false    return true    private boolean isCoinConsumedMultipleTimes Set claimedUTXO  Transaction Input input    UTXO utxo   new UTXO input prevTxHash  input outputIndex   return  claimedUTXO add utxo     private boolean verifySignatureOfConsumeCoin Transaction tx  int index  Transaction Input input    UTXO utxo   new UTXO input prevTxHash  input outputIndex   Transaction Output correspondingOutput   utxoPool getTxOutput utxo   PublicKey pk   correspondingOutput address  return Crypto verifySignature pk  tx getRawDataToSign index   input signature     private boolean isConsumedCoinAvailable Transaction Input input    UTXO utxo   new UTXO input prevTxHash  input outputIndex   return utxoPool contains utxo         Handles epoch receiving unordered array proposed transactions  checking transaction correctness  returning mutually valid array accepted transactions  updating current UTXO pool appropriate     public Transaction   handleTxs Transaction   possibleTxs    List acceptedTx   new ArrayList     int   0  outputs   tx getOutputs     int j   0  j inputs   tx getInputs     int j   0  j   inputs size    j      Transaction Input input   inputs get j   UTXO utxo   new UTXO input prevTxHash  input outputIndex   utxoPool removeUTXO utxo           Example Codes GitHub wrap codes maven project  just run mvn test example codes will build run test cases  Scrooge Coin example Java",
+        "objectID": "post/2018-05-21-algolia-integration-with-jekyll",
+        "title": "使用Algolia为Gitpage博客提供站内搜索",
+        "subtitle": "",
+        "date": "2018-05-21T11:00:00.000Z",
+        "author": "赵化冰",
+        "image": "/img/2018-05-06-cryptocurrency_week1/bitcoin_header.jpg",
+        "published": false,
+        "tags": [
+            "Jekyll:q",
+            "Bitcoin"
+        ],
+        "categories": [
+            "Tech"
+        ],
+        "URL": "/2018/05/21/algolia-integration-with-jekyll"
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-22-user_authentication_authorization",
+        "content": "no_toc       toc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             API Gateway                 API Gateway                                                HTTP                      HTTP                        HTTP                                                                         HTTP                                                                                                    HTTP                                                  HTTP                                                     Cookie                                            Token           Token Seesion               Session             Token            cookie           Token                                                            Token                                    JWT Json Web Token      Token        RFC 7519     Token                  lib  JWT Token               Header            JWT    JWT   Hash         alg    HS256    typ    JWT      Payload                                              sub    1234567890    name    John Doe    admin   true     Signature Token              Token               Token            HMACSHA256  base64UrlEncode header          base64UrlEncode payload   secret          Base64                    Token                           Token   Token                                Token              Token     rfc6750           Authorization  Bearer HHTP Header        Authorization  Bearer mF_9 B5f 4 1JqM     Token                                                              JWT token      Token                   Cookie                                Token       Token                                       Token                                                         API Gateway                 Token                                                  Token                    API Gateway                          API Gateway API Gateway        Security Service Security Service          Token              API Gateway API Gateway   Security Service     Token                    Token Token    Token              Security Service                                              Business Service            API Gateway Token                                 API Gateway                     API Gateway                 HTTP         Resource HTTP Method       REST    URI               API Gateway                             Security Service                                      Business Service              order_manager                 order_editor               order_inspector                          HTTP Verb           Role   Resource   Verbs                                                                         order_manager    orders    GET   POST   PUT   DELETE      order_editor    orders    GET   POST   PUT      order_inspector    orders    GET           API Gateway                                                                        REST                                                                                                                                                API Gateway             Http     Http header",
+        "objectID": "post/2018-05-22-user_authentication_authorization",
+        "title": "微服务安全沉思录之一",
+        "subtitle": "用户访问认证与鉴权",
+        "description": "这段时间对之前微服务安全相关的一些想法进行了进一步总结和归纳，理清在之前文章里面没有想得太清楚的地方，例如服务间的认证与鉴权以及用户身份在服务调用链中的传递。在这一系列博客里面将分为三个部分对微服务安全进行系统阐述：用户访问认证与鉴权，服务间认证与鉴权，外部系统访问控制。",
+        "excerpt": "这段时间对之前微服务安全相关的一些想法进行了进一步总结和归纳，理清在之前文章里面没有想得太清楚的地方，例如服务间的认证与鉴权以及用户身份在服务调用链中的传递。在这一系列博客里面将分为三个部分对微服务安全进行系统阐述：用户访问认证与鉴权，服务间认证与鉴权，外部系统访问控制。",
+        "date": "2018-05-23T10:00:00.000Z",
+        "author": "    \"赵化冰\"",
+        "image": "/img/2018-05-22-user_authentication_authorization/background.jpg",
+        "published": true,
+        "tags": [
+            "Microservice",
+            "Security"
+        ],
+        "URL": "/2018/05/22/user_authentication_authorization",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-23-external_system_auth",
+        "content": "API Token    API Token   API Key                         API Token                  API Token           API Token      API                     Token                              Github    Personal API Token        Github           Token      Token   Github API    Token       Token               Repo     Repo                   API Token   Github API   curl  u zhaohuabing fbdf8e8862252ed0f3ba9dba4e328c01ac93aeec https   api github com user                 API Token  just demonstration       API Token                API                         Token              API Token                                              OAuth                                            OAuth   OAuth                                                     Token                        Github           Travis CI GitBook     OAuth Github       OAuth                                  OAuth            OAuth                                                            callback URL                   OAuth                                            callback url                                   token              token                    token                   1  OAuth                                                         Github                  Github       Travis CI  GitBook       Travis CI  GitBook          2                         Authorization Code    Token              Token     OAuth                Callback URL                       Token                    Token                               Token                                      Token               Authorization Code   Token    clientid clientsecret                   POST  oauth token HTTP 1 1  Host  authorization server com    granttype authorizationcode   code xxxxxxxxxxx   redirect_uri https   example app com redirect   client_id xxxxxxxxxx   client_secret xxxxxxxxxx    OAuth          OAuth               OAuth    OAuth                                OAuth                                           QQ OAuth                            OAuth                                          OAuth                                        OAuth                   OAuth                                                                                                                                                                                                                      hash            tls                    sql",
+        "objectID": "post/2018-05-23-external_system_auth",
+        "title": "微服务安全沉思录之三",
+        "subtitle": "外部系统访问控制",
+        "description": "一些外部的第三方系统可能需要访问系统内部的微服务。例如在网上商店的例子中，外部的推荐服务可能需要接入系统，以获取商店的商品目录信息。相对于内部服务之间的访问而言，外部系统的访问需要进行严格的安全控制。",
+        "excerpt": "一些外部的第三方系统也可能需要访问系统内部的微服务。例如在网上商店的例子中，外部的推荐服务可能需要接入系统，以获取商店的商品目录信息。相对于内部服务之间的访问而言，外部系统的访问需要进行严格的安全控制。",
+        "date": "2018-05-23T18:00:00.000Z",
+        "author": "    \"赵化冰\"",
+        "image": "/img/2018-05-23-external_system_auth/background.jpg",
+        "published": true,
+        "tags": [
+            "Microservice",
+            "Security"
+        ],
+        "URL": "/2018/05/23/external_system_auth/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-23-istio-auto-injection-with-webhook",
+        "content": "Kubernets 1 9     Admission Webhook web           Webhook            Kubernets API Server         API Server                    webhook        API Server                                  web            kubernets   kubernets                     Istio 0 7      Kubernets webhook   sidecar          Admission Admission Kubernets          Kubernets API Server                    API Server                             Admission         etcd        Admission          Mutation Validation                Mutation Mutation                    Mutation               Validation  Validation                                         Admission webhook   Admission webhook     Mutation Validation     webhook        Kubernets       Admission                            Istio   Admin Webhook Pod      Envoy sidecar                                               Webhook    Istio Sidecar Kubernets     webhook    Kubernets1 9                 kube apiserver Admin webhook         kubectl api versions   grep admissionregistration admissionregistration k8s io v1beta1     sidecar injection webhook       Webhook       kube apiserver                        Istio CA            install kubernetes webhook create signed cert sh     service istio sidecar injector     namespace istio system     secret sidecar injector certs              webhook    cat install kubernetes istio sidecar injector yaml       install kubernetes webhook patch ca bundle sh     install kubernetes istio sidecar injector with ca bundle yaml     sidecar injection configmap   kubectl apply  f install kubernetes istio sidecar injector configmap release yaml     sidecar injection webhook   kubectl apply  f install kubernetes istio sidecar injector with ca bundle yaml             webhook injector    kubectl  n istio system deployment  listio sidecar injector Copy NAME DESIRED CURRENT UP TO DATE AVAILABLE AGE istio sidecar injector 1 1 1 1 1d           sidecar namespace   kubectl label namespace default istio injection enabled kubectl namespace  L istio injection NAME STATUS AGE ISTIO INJECTION default Active 1h enabled istio system Active 1h kube public Active 1h kube system Active 1h      Extensible Admission Beta Installing Istio Sidecar",
+        "objectID": "post/2018-05-23-istio-auto-injection-with-webhook",
+        "title": "Istio Sidecar自动注入原理",
+        "subtitle": "Kubernetes webhook扩展机制解析",
+        "description": "Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。 Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。",
+        "excerpt": "Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。 Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。",
+        "date": "2018-05-23T00:00:00.000Z",
+        "author": "    \"赵化冰\"",
+        "image": "/img/2018-4-25-istio-auto-injection-with-webhook/lion.jpg",
+        "published": true,
+        "tags": [
+            "Kubernetes",
+            "Istio"
+        ],
+        "URL": "/2018/05/23/istio-auto-injection-with-webhook/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-23-service_2_service_auth",
+        "content": "Service Account                                                                                                                                                                   User Account                                                          Service Accout                                                                                                                   SPIFEE   Secure Production Identity Framework Everyone  SPIFFE                              SPIFFE ID   SPIFFE ID                   Uniform Resource Identifier  URI     SVID SPIFFE Verifiable Identity Document     SPIFFE ID                      SVID   API    SPIFFE SVID          X 509      x 509 SVID    X 509     SAN Subject Alternative Name        SPIFFE ID  Istio Auth     Istio       Auth     SPIFFE               SPIFFE SVID                                Istio          Istio Auth   Kubernetes service account         SPIFFE ID    spiffe    lt domain gt  ns  lt namespace gt  sa  lt serviceaccount gt             domain    namspace kubernetes service account   Namespace serviceaccout kubernetes    service account  Istio Auth            CA        CA  Kubernetes API Server          Service Account           Pod    Kubernetes   Pod   Service Account       Kubernetes Secrets        Pod Volume   Envoy                  Envoy   Envoy            SSL                                                                                                                                                                          A                      B",
+        "objectID": "post/2018-05-23-service_2_service_auth",
+        "title": "微服务安全沉思录之二",
+        "subtitle": "服务间认证与鉴权",
+        "description": "除来自用户的访问请求以外，微服务应用中的各个微服务相互之间还有大量的访问,根据应用系统数据敏感程度不同，对于系统内微服务的访问也需要进行相应的安全控制。",
+        "showonlyimage": false,
+        "excerpt": "除来自用户的访问请求以外，微服务应用中的各个微服务相互之间还有大量的访问,根据应用系统数据敏感程度不同，对于系统内微服务的访问也需要进行相应的安全控制。",
+        "author": "    \"赵化冰\"",
+        "date": "2018-05-23T15:00:00.000Z",
+        "image": "/img/2018-05-23-service_2_service_auth/background.jpg",
+        "published": true,
+        "tags": [
+            "Microservice",
+            "Security"
+        ],
+        "URL": "/2018/05/23/service_2_service_auth/",
+        "categories": [
+            "Tech"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-05-24-set_up_my_ubuntu_desktop",
+        "content": "Generate SSH Key Pair   ssh keygen  C  zhaohuabing gmail com    Shadowsocks Install shadowsokcs   sudo apt get install python3 pip sudo pip3 install shadowsocks   Create config config shadowsocks json  following content       server   remote shadowsocks server ip addr    server_port  443   local_address   127 0 0 1    local_port  1080   password   your passwd    timeout  300   method   aes 256 cfb    fast_open  false   workers  1     Start local socks proxy   sudo sslocal  c config shadowsocks json  d start   case openssl error  modify shadowsocks source file    sudo vi  usr local lib python3 6 dist packages shadowsocks crypto openssl py   s cleanup reset gc   Convert shadowsocks socks proxy http proxy   sudo apt get install polipo echo  socksParentProxy   localhost 1080    sudo tee  a  etc polipo config sudo service polipo restart   Http proxy available port 8123 Set bing wallpaper desktop background   sudo add apt repository ppa whizzzkid bingwallpaper sudo apt get update sudo apt get install bingwallpaper   Use vim mode bash   echo  set  o vi       bashrc",
+        "objectID": "post/2018-05-24-set_up_my_ubuntu_desktop",
+        "title": "Everything about Setting Up My Ubuntu Desktop",
+        "description": "Everything about setting up my own ubuntu desktop, it's just a Note in case I need it later",
+        "excerpt": "Everything about setting up my own ubuntu desktop, it's just a Note in case I need it later",
+        "date": "2018-05-24T00:00:00.000Z",
+        "author": "    \"赵化冰\"",
+        "image": "/img/2018-05-23-service_2_service_auth/background.jpg",
+        "published": true,
+        "tags": [
+            "ubuntu"
+        ],
+        "URL": "/2018/05/24/set_up_my_ubuntu_desktop/",
+        "categories": [
+            "Tips"
+        ]
+    },
+    {
+        "layout": "post",
+        "uri": "post/2018-06-02-istio08",
+        "content": "6 1        Istio      0 8 Release                                               Networking           0 8               v1alpha3 Route API                                            Gateway         K8s  Ingress     Gateway     Service Mesh    HTTP TCP      Gateway          Ingress Gateway   Service Mesh          Sidecar Proxy            Egress Gateway  Mesh       Gateway         K8s  Ingress             Istio           0 8    L4 L6    L7         Gateway    L4 L6            TLS           VirtualService      Istio     Gateway      VirtualService   VirtualService   alpha2    RouteRule   VirtualService                                      reviews       destination v1   user jason    v2  v1                 VirtualService                 apiVersion  networking istio io v1alpha3 kind  VirtualService metadata  name  reviews spec  hosts  reviews http  match  headers  cookie  regex           user jason         route  destination  host  reviews subset  v2 route  destination  host  reviews subset  v1                                    Istio  Service        bookinfo com             bookinfo com reviews     reviews   bookinfo com ratings     ratings       VirtualService       Istio            Legacy   Istio       apiVersion  networking istio io v1alpha3 kind  VirtualService metadata  name  bookinfo spec  hosts  bookinfo com http  match  uri  prefix   reviews route  destination  host  reviews match  uri  prefix   ratings route  destination  host  ratings       Envoy V2              Envoy  Gateway   Ingress Engress                   Kubernetes Ingress Istio         Istio 0 8        Ingress Egress Gateway    Kubernetes Cloud Foundry  Istio                    0 8       Pod             Security     Citadel  Istio     Istio Auth Istio CA     Citadel                 Cluster  Citadel      Root Certificate      Cluster       Cluster                  Service to Service                    Mixer Pilot                  Mesh                                        Istio             Pilot     Mixer Citadel  Mixer CloudWatch      CloudWatch      AWS CloudWatch                Gateway   VirtualService    headless service             0 8   Kubernetes1 10 2             1 9    convert networking config            namespace       istio system namespace                         0 8                               Gateway   Sidecar Proxy        VirtualService",
+        "objectID": "post/2018-06-02-istio08",
+        "title": "Istio 0.8 Release发布",
+        "subtitle": "来自Istio的儿童节礼物",
+        "excerpt": "Istio 0.8 Release新特性",
+        "author": "    \"赵化冰\"",
+        "date": "2018-06-02T00:00:00.000Z",
+        "description": "在6月1日这一天的早上，Istio社区宣布发布0.8 Release，除了常规的故障修复和性能改进外，这个儿童节礼物里面还有什么值得期待内容呢？让我们来看一看：",
+        "image": "/img/2018-06-02-istio08/background.jpg",
+        "published": true,
+        "tags": [
+            "Istio"
+        ],
+        "categories": [
+            "Tech"
+        ],
+        "URL": "/2018/06/02/istio08/"
+    },
+    {
+        "showonlyimage": true,
+        "uri": "post/2018-06-04-introducing-the-istio-v1alpha3-routing-api",
+        "content": "Istio        API         API        RouteRule DestinationPolicy EgressRule Ingress      Kubernets Ingress       API         Istio          API                                                                    API        Istio                       API                                       HTTP             Kubernetes Ingress                                         Istio         API v1alpha3     API        API    v1alpha3                              API             Istio                                        v1alpha3 API                     API                                                                                                                                                      Controller                            Host                               Host                                    v1alpha3                               TLS                      gateway              sidecar gateway                               Google Maps API                                                             Egress gateway                             v1alpha3                                     Gateway VirtualService DestinationRule ServiceEntry VirtualService DestinationRule ServiceEntry      API  RouteRule DestinationPolicy EgressRule  Gateway                                                   Gateway Gateway   HTTP   TCP                                       Gateway        Gateway                           Pod       Gateway                          Gateway Controller                                    Kubernetes Ingress API      Ingress API    Istio       Ingress      HTTP                       HTTP                         annotation                            Istio Gateway    L4 L6   L7          Ingress       Gateway     L4 L6              TLS         L7                        Gateway   VirtualService           Istio       Gateway HTTP TCP              Gateway     Load Balancer      host bookinfo com https     mesh    yaml apiVersion  networking istio io v1alpha3 kind  Gateway metadata  name  bookinfo gateway spec  servers  port  number  443 name  https protocol  HTTPS hosts  bookinfo com tls  mode  SIMPLE serverCertificate   tmp tls crt privateKey   tmp tls key          Gateway                 host    VirtualService                 gateways          Gateway     yaml apiVersion  networking istio io v1alpha3 kind  VirtualService metadata  name  bookinfo spec  hosts  bookinfo com gateways  bookinfo gateway",
+        "objectID": "post/2018-06-04-introducing-the-istio-v1alpha3-routing-api",
+        "title": "Istio v1aplha3 routing API介绍(译文）",
+        "subtitle": "",
+        "excerpt": "介绍Istio v1alpha3 routing API及其设计原则",
+        "description": "介绍Istio v1alpha3 routing API及其设计原则",
+        "date": "2018-06-04T00:00:00.000Z",
+        "author": "    \"赵化冰\"",
+        "image": "/img/2018-06-04-introducing-the-istio-v1alpha3-routing-api/background.jpg",
+        "published": true,
+        "tags": [
+            "Istio"
+        ],
+        "categories": [
+            "Tech"
+        ],
+        "URL": "/2018/06/04/introducing-the-istio-v1alpha3-routing-api/"
     },
     {
         "title": "AbstractQueuedSynchronizer超详细原理解析",
@@ -500,6 +981,17 @@
         "showtoc": true
     },
     {
+        "layout": "post",
+        "uri": "post/readme",
+        "content": "Clean White Theme Hugo CleanWhite clean  elegant  fully functional blog theme Hugo  live demo site using theme  based huxblog Jekyll Theme Clean Blog Jekyll Theme  two upstream projects done awesome jobs create blog theme  I m doing porting Hugo  simplicity faster compiling speed  features think useful  site search algolia proxy Disqus access China  built CleanWhite theme  fancy features upstream projects not supported Hugo theme  I d simple possible focus blog purpose  least now  created theme  followed Hugo theme best practice tried every part template replaceable partial html  so easier customization based it  Screenshots Home Post Search Disqus Wechat Pay   Alipay Quick Start Go directory Hugo site run      mkdir themes   cd themes   git clone https   github com zhaohuabing hugo theme cleanwhite git   site already git project  may want choose add cleanwhite theme submodule avoid messing existing git repository      mkdir themes   git submodule add https   github com zhaohuabing hugo theme cleanwhite git themes hugo theme cleanwhite   Run Hugo Build in Server Locally     hugo serve  t hugo theme cleanwhite   enter localhost 1313 address bar browser  start scratch  working Hugo site configured CleanWhite theme exampleSite directory  use starting point site  information read official setup guide Hugo Configuration First  let s look config toml  will useful learn customize site  Feel free play around settings  Comments optional comments system powered Disqus  want enable comments  create account Disqus write down shortname   toml disqusShortname    your disqus short name    disable comments system leaving disqusShortname empty  Disqus China Disqus inaccessible China  work  set proxy disqus php api host sets client browser Disqus server  idea Disqus reached guest network  blog page will show original Disqus comments UI  otherwise  will downgrade use proxy access Disqus  UI will little different  visitors write comments page  client side java script already integrated CleanWhite them  need set proxy server yourself  proxy written php  found here  https   github com zhaohuabing disqus php api tree master api need specify Disqus account information config php    define  PUBLIC_KEY        define  SECRET_KEY        define  DISQUS_USERNAME        define  DISQUS_EMAIL        define  DISQUS_PASSWORD        define  DISQUS_WEBSITE        define  DISQUS_SHORTNAME          Set proxy server address site config file Hugo project   toml disqus_proxy    http   yourdisqusproxy com    Site Search Algolia Follow tutorial create index Algolia  index just storage indexing data site cloud   search page CleanWhite theme will utilize indexing data search  Go directory Hugo site run following commands   bash   npm init   npm install atomic algolia   save   Next  open newly created package json  we ll add NPM script update index Algolia  Find  scripts   add following   josn  algolia    atomic algolia    Algolia index output format already supported CleanWhite theme  so just build site  you ll find file called algolia json root  use update index Algolia  Generate index file   bash   hugo   Create new file root Hugo project called  env  add following contents   bash ALGOLIAAPPID    YOURAPPID    ALGOLIAADMINKEY    YOURADMINKEY    ALGOLIAINDEXNAME    YOURINDEXNAME    ALGOLIAINDEXFILE    PATH TO algolia json      push index Algolia simply running   bash   npm run algolia   Add following variables hugo site config so search page access algolia index data cloud    algolia_search   true algoliaappId      YOURAPP_ID    algoliaindexName      YOURINDEX_NAME    algoliaapiKey      YOURSEARCHONLYKEY      Open search page browser  http   localhost 1313 search Analytics optionally enable Google Baidu Analytics  Type tracking code  toml googleAnalytics    G XXXXX  batrackid    XXXXXXXXXXXXXXXX    Leave googleAnalytics  batrackid   key empty disable it  Wechat Pay   Alipay Rewards enable Wechat Pay   Alipay allow readers send money  So articles  may even rewards writing  motivated write more  Enable Wechat Pay   Alipay site config  toml reward   true   Replace QR codes Wechat Pay   Alipay overriding photos folder  static img reward   otherwise money will sent accounts  Thank Thanks great jobs huxblog Jekyll Theme Clean Blog Jekyll Theme two upstream projects CleanWhite Hugo theme based on  Feedback find problems  please feel free raise issue create pull request fix it  it s helpful you  appreciate star repository  thanks",
+        "objectID": "post/readme",
+        "title": "Clean White Theme for Hugo",
+        "subtitle": "How to set up this theme",
+        "date": "2019-01-09T00:00:00.000Z",
+        "author": "赵化冰",
+        "image": "https://img.zhaohuabing.com/post-bg-2015.jpg"
+    },
+    {
         "title": "SSH端口转发",
         "uri": "post/SSH端口转发",
         "content": "WiFi                                                               SSH                                                                               SSH            SSH                   SSH                                TCP           SSH                                        tunneling       SSH     TCP                         Telnet SMTP LDAP    TCP                                                                    SSH               TCP         SSH           SSH                 1    SSH Client    SSH Server             2                     TCP       1  SSH                      TCP      B                   SSH                                                                            LDAP     LdapServerHost                         LDAP                             LdapClientHost         LDAP                                           ssh  L        LdapClientHost               SSH               ssh  L 7001 localhost 389 LdapServerHost     2                          7001                                   1 1023               1024 65535                              LdapClientHost              7001         LDAP      389                           LdapClientHost               7001           SSH Client    7001               LdapServertHost   SSH Server    SSH Server                   LDAP 389            LDAP                                         LDAP                        SSH                                          SSH         SSH                  SSH                                              SSH                         SSH                             localhost                     LdapServertHost         localhost     IP                           LDAP                lookback                localhost    IP   127 0 0 1              IP                                                                             LdapClientHost                                      LdapClientHost2       LdapClientHost   7001               SSH                lookback           localhost    127 0 0 1                              connection refused       SSH       GatewayPorts                               ssh  g  L                                            SSH     LdapClientHost     LDAP     LdapServertHost                                               ssh  R          LDAP     LdapServertHost            ssh  R 7001 localhost 389 LdapClientHost     3                         SSH Server   SSH Client                          LdapClientHost               7001          SSH Server    7001               LdapServertHost   SSH Client    SSH Client                   LDAP 389           LDAP                                                                                    SSH Server SSH Client LdapServertHost LdapClientHost                                            SSH          SSH      SSH           SSH Client   SSH Server                      LDAP Server   LDAP Server      Server                   Client         Server                                                                              LdapClientHost              SSH Client            LdapServertHost    LDAP        SSH Server          LdapClientHost             SSH Server    LdapServertHost   LDAP          SSH Client                             Server                SSH Server     22 LDAP     389    Client                             7001        Server               Client                                                     Server        Client                                                    LdapClientHost    SSH     LdapServerHost     LdapServerHost    SSH     LdapClientHost                                                                                                                            ssh  L                             A B C D         4            SSH Client C            SSH             ssh  g  L 7001  389               A         C    7001                    g          A        C                                A   C      B  D                        SSH                                                                                                                                              LDAP      389                                                 Web        MSN                WiFi         SSH                 MSN                                 ssh  D         ssh  D 7001     5                              7001                SSH        SOCKS                 D          D port works allocating socket listen port local side  whenever connection made port  con  nection forwarded secure channel  applica  tion protocol used determine connect remote machine  Currently SOCKS4 SOCKS5 protocols supported  ssh will act SOCKS server  root forward privileged ports  Dynamic port forwardings specified configuration file                     localhost 7001        SOCKS               MSN         SSH Client                                   SSH                SSH Client     SSH Server            SSH Server                                                  X                           X                            Linux Unix Solaris HP                       GUI                       DB2 WebSphere       ",
@@ -775,7 +1267,7 @@
     {
         "title": "用hugo搭建个人网站",
         "uri": "post/用Hugo搭建个人网站",
-        "content": "Hugo    Hugo                   Github   Github pages     Hugo Hugo                                     CMS                                                       Github         Jekyll Middle Man App           Hugo         Windows               markdown                                        Hugo       1      Hugo Hugo  Go             Go      v0 18 1                  win64x    hugo0 18 1Windows 64bit zip             D  Hugo         bin Sites           D  Hugo bin     hugo0 18 1windows_amd64 exe      hugo exe         Path                    cmd  PowerShell     hugo version           Hugo Static Site Generator v0 54 0 B1A82C61 windows amd64 BuildDate  2017 08 01T09 42 02Z  2                               Github        Github Pages                           cd D  Hugo Sites hugo new site brent li github io    Site       brent li github io                         archetypes     config toml     content     data     layouts     static archetypes             hugo          config toml           content                       data   Hugo             layout         static            css          content            cd brent li github io hugo new post first md Hugo  content     post    post      first md       md                date    2017 10 08T22 07 46 08 00  title    first  draft   true               TOML          front matter     3            draft true Hugo                       date    2017 02 08T22 07 46 08 00  title    Scala           draft   false tags     scala   pattern matching          share   true                  md                              Hugo                          casper           themes           cd themes git clone git clone https   github com zhaohuabing hugo theme cleanwhite git white     config toml        baseurl    https   wangzitao6 github io       https github       title            theme    white  languageCode    zh_CN  Enable comments entering Disqus shortname DisqusShortname    WangZiTao  googleAnalytics      preserveTaxonomyNames   true paginate   5  frontpage pagination hasCJKLanguage   true  outputs  home     HTML    Algolia    params  header_image    images 1 jpg  description                                                 keyword         wangzitao  WangZiTao                                   Web       PaaS  Istio  Kubernetes       Microservice  slogan               image_404    images 404 bg jpg  title_404                    leancloud storage page view counter pageviewconter   false leancloudappid      leancloudappkey      algolia site search algolia_search   true algolia_appId    WM4BEY1UDN  algolia_indexName    blog  algolia_apiKey    090c4a77b8bd4b8d2f2c1262afbc4be2  Sidebar settings sidebaraboutdescription            sidebar_avatar    images avatar 1 jpg    use absolute URL  seeing it s used    about  sidebar_avatar    images me jpg    use absolute URL  seeing it s used    about  featured_tags   false featuredconditionsize   1 Baidu Analytics batrackid    28c952e35b6e860c096a2cdf52785c6f  need proxy access Disqus api China Follow https   github com zhaohuabing disqus php api set own disqus proxy disqus_proxy      disqus_site      friends   false bookmarks   false about_me   true  params social  rss   false email    wang_zitao foxmail com       facebook    full profile url facebook   googleplus    full profile url googleplus   twitter    full profile url twitter   linkedin    https   www linkedin com in yourlinkedinid   stackoverflow    https   stackoverflow com users yourstackoverflowid   instagram    full profile url instagram  github    https   github com wangzitao6   github    wechat   images qrcode jpg    Replace wechat qrcode image  medium    full profile url medium   pinterest    full profile url pinterest   outputFormats Algolia  baseName    algolia  isPlainText   true mediaType    application json  notAlternative   true  params algolia  vars     title    summary    date    publishdate    expirydate    permalink   params     categories    tags                          static images     3      Hugo                hugo server  t white          http   localhost 1313                    4    github                             hugo  t casper hugo algolia  s   alogolia         Hugo           public       github   repository      github io                 public           git init git add   git commit  m  Initial commit   git remote add origin git github com Brent Li brent li github io git git push  u origin master          github io",
+        "content": "Hugo    Hugo                   Github   Github pages     Hugo Hugo                                     CMS                                                       Github         Jekyll Middle Man App           Hugo         Windows               markdown                                        Hugo       1      Hugo Hugo  Go             Go      v0 18 1                  win64x    hugo0 18 1Windows 64bit zip             D  Hugo         bin Sites           D  Hugo bin     hugo0 18 1windows_amd64 exe      hugo exe         Path                    cmd  PowerShell     hugo version           Hugo Static Site Generator v0 54 0 B1A82C61 windows amd64 BuildDate  2017 08 01T09 42 02Z  2                               Github        Github Pages                           cd D  Hugo Sites hugo new site brent li github io    Site       brent li github io                         archetypes     config toml     content     data     layouts     static archetypes             hugo          config toml           content                       data   Hugo             layout         static            css          content            cd brent li github io hugo new post first md Hugo  content     post    post      first md       md                date    2017 10 08T22 07 46 08 00  title    first  draft   true               TOML          front matter     3            draft true Hugo                       date    2017 02 08T22 07 46 08 00  title    Scala           draft   false tags     scala   pattern matching          share   true                  md                              Hugo                          casper           themes           cd themes git clone git clone https   github com zhaohuabing hugo theme cleanwhite git white     config toml        baseurl    https   wangzitao6 github io       https github       title            theme    white  languageCode    zh_CN  Enable comments entering Disqus shortname DisqusShortname    WangZiTao  googleAnalytics      preserveTaxonomyNames   true paginate   5  frontpage pagination hasCJKLanguage   true  outputs  home     HTML    Algolia    params  header_image    images 1 jpg  description                                                 keyword         wangzitao  WangZiTao                                   Web       PaaS  Istio  Kubernetes       Microservice  slogan               image_404    images 404 bg jpg  title_404                    leancloud storage page view counter pageviewconter   false leancloudappid      leancloudappkey      algolia site search algolia_search   true algolia_appId    WM4BEY1UDN  algolia_indexName    blog  algolia_apiKey    090c4a77b8bd4b8d2f2c1262afbc4be2  Sidebar settings sidebaraboutdescription            sidebar_avatar    images avatar 1 jpg    use absolute URL  seeing it s used    about  sidebar_avatar    images me jpg    use absolute URL  seeing it s used    about  featured_tags   false featuredconditionsize   1 Baidu Analytics batrackid    28c952e35b6e860c096a2cdf52785c6f  need proxy access Disqus api China Follow https   github com zhaohuabing disqus php api set own disqus proxy disqus_proxy      disqus_site      friends   false bookmarks   false about_me   true  params social  rss   false email    wang_zitao foxmail com       facebook    full profile url facebook   googleplus    full profile url googleplus   twitter    full profile url twitter   linkedin    https   www linkedin com in yourlinkedinid   stackoverflow    https   stackoverflow com users yourstackoverflowid   instagram    full profile url instagram  github    https   github com wangzitao6   github    wechat   images qrcode jpg    Replace wechat qrcode image  medium    full profile url medium   pinterest    full profile url pinterest   outputFormats Algolia  baseName    algolia  isPlainText   true mediaType    application json  notAlternative   true  params algolia  vars     title    summary    date    publishdate    expirydate    permalink   params     categories    tags                          static images     3      Hugo                hugo server  t white          http   localhost 1313                    4    github                             hugo  t casper   alogolia         hugo algolia  s Hugo           public       github   repository      github io                 public           git init git add   git commit  m  Initial commit   git remote add origin git github com Brent Li brent li github io git git push  u origin hugo          github io",
         "objectID": "post/用Hugo搭建个人网站",
         "subtitle": "hugo",
         "description": "用Hugo搭建个人网站",
