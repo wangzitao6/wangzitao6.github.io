@@ -71,7 +71,6 @@ jobs:
  4. 在流水线中将personal_token值设置为步骤5中secret的名称，类似${{ secrets.PERSONAL_TOKEN }}s，至此personal_token设置过程完毕
 
 
-
 ## 参考文献
 [github-pages-action](https://github.com/marketplace/actions/github-pages-action#%EF%B8%8F-set-another-github-pages-branch-publish_branch)  
 [https://github.com/marketplace/actions/hugo-setup](https://github.com/marketplace/actions/hugo-setup)
