@@ -1,6 +1,6 @@
 baseurl = "https://wangzitao6.github.io" #一定要用https，github强制安全措施
 title = "王子滔的学习笔记"
-theme = "hugo-theme-cleanwhite"
+theme = "white"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
 DisqusShortname = "WangZiTao"
@@ -35,7 +35,7 @@ algolia_apiKey = "5190c8b2fe47aa98509827362cd12f03"
 reward = false
 
 # Sidebar settings
-sidebar_about_description = "搬砖工程师"
+sidebar_about_description = "后端工程师"
 #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 sidebar_avatar = "img/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
