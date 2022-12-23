@@ -1,0 +1,36 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master  # Set a branch that will trigger a deployment
+  pull_request:
+  # 如果使用自定义域名，还需要添加下面一行配置
+  #cname: www.goodfun.me
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          # extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          personal_token: ${{ secrets.PERSONAL_TOKEN }} # 另外还支持 deploy_token 和 github_token
+          external_repository: wangzitao6/wangzitao6.github.io # 修改为你的 GitHub Pages 仓库
+          #github_token: ${{ secrets.PERSONAL_TOKEN }}
+          publish_dir: ./public
