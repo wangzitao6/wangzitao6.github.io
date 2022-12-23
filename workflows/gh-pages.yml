@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - hugo  # Set a branch that will trigger a deployment
+      - hugo  # action触发条件，push到 hugo 分支上时触发
   pull_request:
   # 如果使用自定义域名，还需要添加下面一行配置
   #cname: www.goodfun.me
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'
+          hugo-version: '0.18.1'
           # extended: true
 
       - name: Build
@@ -30,8 +30,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
-          personal_token: ${{ secrets.PERSONAL_TOKEN }} # 另外还支持 deploy_token 和 github_token
-          external_repository: wangzitao6/wangzitao6.github.io # 修改为你的 GitHub Pages 仓库
-          #github_token: ${{ secrets.PERSONAL_TOKEN }}
+          #personal_token: ${{ secrets.PERSONAL_TOKEN }} # 另外还支持 deploy_token 和 github_token
+          #repository-name: wangzitao6/wangzitao6.github.io # 修改为你的 GitHub Pages 仓库
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
           publish_dir: ./public
           publish_branch: master
