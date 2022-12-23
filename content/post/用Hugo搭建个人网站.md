@@ -184,7 +184,8 @@ Hugo自带服务器，可以用命令行启动：
 
     hugo -t casper
 
-    hugo-algolia -s //alogolia生成搜索文件命令
+    //alogolia生成搜索文件命令
+    hugo-algolia -s 
 
 Hugo将编译所有文件并输出到public目录，你需要在github上创建repository，名字就是<你的用户名>.github.io，创建完后，返回你本地命令行，进入public目录，执行以下命令：
 
@@ -192,6 +193,6 @@ Hugo将编译所有文件并输出到public目录，你需要在github上创建r
     git add .
     git commit -m "Initial commit."
     git remote add origin git@github.com:Brent-Li/brent-li.github.io.git
-    git push -u origin master
+    git push -u origin hugo
 
 稍等片刻后，打开<你的用户名>.github.io网址，就可以看到你的个人网站了。
