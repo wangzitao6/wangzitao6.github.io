@@ -404,6 +404,25 @@
         "showtoc": true
     },
     {
+        "title": "mqtt",
+        "uri": "post/mqtt",
+        "content": "MQTT Message Queuing Telemetry Transport                        publish subscribe                TCP IP     MQTT                                                                                           MQTT                         MQTT                                                          M2M        IoT                                                     7654   bit 16         3   bit    21   bit qos   0     1     2       0   bit                  0        1                     MQTT                                                  1                                   2                3   TCP IP           MQTT   TCP                 UDP      MQTT SN                                 4                               TCP IP                                                                    APP                                                                                                                                                            APP                    5                   2                                                                                                                MQTT                        MQTT             Publish     Broker           Subscribe                                             MQTT           Topic     payload       1 Topic                  Subscribe                payload    2 payload",
+        "objectID": "post/mqtt",
+        "subtitle": "mqtt",
+        "description": "",
+        "date": "2021-06-15T07:35:35.000Z",
+        "author": "WangZiTao",
+        "image": "",
+        "tags": [
+            "网络"
+        ],
+        "url": "/2021-06-15-mqtt/",
+        "categories": [
+            "other"
+        ],
+        "showtoc": true
+    },
+    {
         "title": "Mysql内置条件判断函数",
         "uri": "post/mysql内置条件判断函数",
         "content": "Name  Description                CASE  Case operator   IF    If else construct   IFNULL    Null if else construct   NULLIF expr1 expr2   Return NULL expr1   expr2  CASE                          SQL CREATE TABLE demo   id INT  NAME VARCHAR   20    age INT   ENGINE   INNODB  insert demo values  1      13    1      28    1      61     case           CASE value WHEN  comparevalue  result  WHEN  comparevalue  result       ELSE result  END           value   compare_value   result   sql SELECT NAME  CASE NAME WHEN           WHEN           WHEN           END  Type  demo          NAME Type                                       CASE WHEN  condition  result  WHEN  condition  result       ELSE result  END     condition TRUE   result           else       else     NULL   sql SELECT NAME  CASE WHEN age   25 age   50      ELSE      END  Type  demo          NAME Type                                       IF   IF expr1 expr2 expr3    expr1 TRUE  expr1 0 expr1 NULL    IF      expr2          expr3   sql mysql  SELECT IF 1 2 2 3      3 mysql  SELECT IF 1  yes    IFNULL   IFNULL expr1 expr2     expr1 L      IFNULL      expr1       expr2   sql mysql  SELECT IFNULL 1 0      1 mysql  SELECT IFNULL NULL 10      10 mysql  SELECT IFNULL 1 0 10      10 mysql  SELECT IFNULL 8 5  yes       3   NULLIF   NULLIF expr1 expr2     expr1   expr2     NULL       expr1          CASE WHEN expr1   expr2 NULL ELSE expr1 END   sql mysql  SELECT NULLIF 1 1      NULL mysql  SELECT NULLIF 1 2      1        MySQL",

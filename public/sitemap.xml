@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://wangzitao6.github.io/2021-06-15-mqtt/</loc>
+    <lastmod>2021-06-15T15:35:35+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wangzitao6.github.io/2021-04-15-%E5%BC%82%E6%AD%A5io/</loc>
     <lastmod>2021-04-15T15:35:35+08:00</lastmod>
   </url>
@@ -235,7 +240,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/post/</loc>
-    <lastmod>2021-04-15T15:35:35+08:00</lastmod>
+    <lastmod>2021-06-15T15:35:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -334,7 +339,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/categories/other/</loc>
-    <lastmod>2021-04-15T15:35:35+08:00</lastmod>
+    <lastmod>2021-06-15T15:35:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -388,7 +393,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/</loc>
-    <lastmod>2021-04-15T15:35:35+08:00</lastmod>
+    <lastmod>2021-06-15T15:35:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -400,7 +405,7 @@
   
   <url>
     <loc>https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2019-09-18T15:06:02+08:00</lastmod>
+    <lastmod>2021-06-15T15:35:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
