@@ -6,7 +6,16 @@
     <description>Recent content in blog on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 Jun 2018 09:31:57 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Dec 2022 18:21:17 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo集成Github Action实现自动发布</title>
+      <link>https://wangzitao6.github.io/2022-12-10-%E9%9B%86%E6%88%90GithubAction%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Sat, 10 Dec 2022 18:21:17 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2022-12-10-%E9%9B%86%E6%88%90GithubAction%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</guid>
+      <description>前因: 前面讲过用Travis CI自动部署，现在Travis CI不是很好用，发现github官方提供了GitHub Action,我们使用Git</description>
+    </item>
+    
     <item>
       <title>gitment登录失败</title>
       <link>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</link>

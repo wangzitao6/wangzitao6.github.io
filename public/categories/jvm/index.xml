@@ -6,7 +6,16 @@
     <description>Recent content in jvm on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Sep 2019 16:47:28 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/categories/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Jul 2021 15:35:35 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/categories/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jvm调优</title>
+      <link>https://wangzitao6.github.io/2021-07-12-jvm%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Mon, 12 Jul 2021 15:35:35 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2021-07-12-jvm%E8%B0%83%E4%BC%98/</guid>
+      <description>jps：查看当前java进程id，java本身就是一个进程 jinfo -flags 6198 查看jvm参数 java -XX 查看更详细的jvm参数 java -XX:+PrintFlagsInitial 查看jvm设置初始值的 java -XX:+PrintFlagsFinal jvm</description>
+    </item>
+    
     <item>
       <title>Java常量池理解与总结</title>
       <link>https://wangzitao6.github.io/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/</link>

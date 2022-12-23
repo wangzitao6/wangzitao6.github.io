@@ -63,11 +63,11 @@ jobs:
 
 首先，需要生成一个Personal access tokens
 
-1. 在个人GitHub页面，依次点击Settings->Developer settings->Personal access tokens进入如下页面,**记得要勾选下面两个scope: workflow 和 write:packages**<br>
-   ![img](/images/22/12/23/01.jpg)
+1. 在个人GitHub页面，依次点击Settings->Developer settings->Personal access tokens进入如下页面,**记得要勾选下面两个scope: workflow 和 write:packages**<br>  
+   ![1](/img/post/22/12/23/01.png)
 2. 将生成的token复制出来为后续创建secret做准备，注意必须及时复制，一旦离开此页面后续就无法查看其值，只能重新创建新toke
 3. 进入对应的GitHub项目下，依次点击Settings->Secrets->Actions进入添加Action secrets的界面，点击New repository secret按钮<br>
-   ![img](/images/22/12/23/02.jpg)
+   ![22](/img/post/22/12/23/02.png)
 4. 在流水线中将personal_token值设置为步骤5中secret的名称，类似${{ secrets.PERSONAL_TOKEN }}s，至此personal_token设置过程完毕
 
 

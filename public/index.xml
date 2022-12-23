@@ -6,7 +6,25 @@
     <description>Recent content on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Jun 2021 15:35:35 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Dec 2022 18:21:17 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo集成Github Action实现自动发布</title>
+      <link>https://wangzitao6.github.io/2022-12-10-%E9%9B%86%E6%88%90GithubAction%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Sat, 10 Dec 2022 18:21:17 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2022-12-10-%E9%9B%86%E6%88%90GithubAction%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</guid>
+      <description>前因: 前面讲过用Travis CI自动部署，现在Travis CI不是很好用，发现github官方提供了GitHub Action,我们使用Git</description>
+    </item>
+    
+    <item>
+      <title>jvm调优</title>
+      <link>https://wangzitao6.github.io/2021-07-12-jvm%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Mon, 12 Jul 2021 15:35:35 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2021-07-12-jvm%E8%B0%83%E4%BC%98/</guid>
+      <description>jps：查看当前java进程id，java本身就是一个进程 jinfo -flags 6198 查看jvm参数 java -XX 查看更详细的jvm参数 java -XX:+PrintFlagsInitial 查看jvm设置初始值的 java -XX:+PrintFlagsFinal jvm</description>
+    </item>
+    
     <item>
       <title>mqtt</title>
       <link>https://wangzitao6.github.io/2021-06-15-mqtt/</link>

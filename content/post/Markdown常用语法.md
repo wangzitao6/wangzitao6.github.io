@@ -99,11 +99,11 @@ categories:  ["other" ]
 本地图片:
 
   ```
-  ![aa](/images/bg-blog.jpg)
+  ![aa]/img/bg-blog.jpg)
   ```
 
 效果:
-![aa](/images/bg-blog.jpg)
+![aa]/img/bg-blog.jpg)
 
 
 ------

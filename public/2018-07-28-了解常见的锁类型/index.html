@@ -10,8 +10,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
-    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
+    <meta property="og:image" content="https://wangzitao6.github.io/img/1.jpg">
+    <meta property="twitter:image" content="https://wangzitao6.github.io/img/1.jpg" />
     
 
     
@@ -208,7 +208,7 @@ if (!doNotTrack) {
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/images/1.jpg')
+        background-image: url('/img/1.jpg')
     }
 </style>
 
@@ -463,37 +463,19 @@ $(function() {
 <p>行锁这个名字听起来像是这个锁加在某个数据行上，实际上这里要指出的是：<strong>在 MySQL 中，行锁是加在索引上的</strong>。所以要深入了解行锁，还需要先了解下 MySQL 中索引的结构。</p>
 <h4 id="mysql-的索引结构">MySQL 的索引结构</h4>
 <p>我们知道，数据库中索引的作用是方便服务器根据用户条件快速查找数据库中的数据。在一堆有序的数据集中查找某条特定的记录，通常我们会使用<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95">二分查找算法（Binary search）</a>，使用该算法查询一组固定长度的数组数据是没问题的，但是如果数据集是动态增减的，使用扁平的数组结构就变得不那么方便了。所以，后来又发明了一种新的数据结构：<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9">二叉查找树（Binary search tree）</a>，又叫做排序二叉树（Sorted binary tree），使用树形结构的好处是，可以大大的提高数据插入和删除的复杂度。二叉查找树查找算法的复杂度依赖于树的高度，为 O(log n)，譬如下面这样的一颗 3 层的二叉查找树，查找任意元素最多不超过 3 次比较就可以找到。
-
-  <img src="/images/post/18/07/001.png" alt="">
-
-</p>
+![]/img/post/18/07/001.png)</p>
 <p>当然这是最理想的一种情况，我们考虑下最糟糕的一种情况，当数据本身就是有序的时候，生成的二叉树将会退化为线性表，复杂度就变成了 O(n)，如下图所示：
-
-  <img src="/images/post/18/07/002.png" alt="">
-
-</p>
+![]/img/post/18/07/002.png)</p>
 <p>为了解决这个问题，人们又想出了一种新的解决方法，那就是<a href="https://zh.wikipedia.org/wiki/%E5%B9%B3%E8%A1%A1%E6%A0%91">平衡树（Balanced search tree）</a>，其实平衡树有很多种，但是通常我们讨论的是 <a href="https://zh.wikipedia.org/wiki/AVL%E6%A0%91">AVL 树</a>，这个名字来自于它的发明者：G.M. Adelson-Velsky 和 E.M. Landis。通过平衡树的 树旋转 操作，可以使得任何情况下二叉树的任意两个子树高度最大差为 1，也就是说让二叉树一直保持着矮矮胖胖的身材，这样保证对树的所有操作最坏复杂度都是 O(log n)。</p>
 <p>那这些树结构和 MySQL 的索引有什么关系呢？其实，无论是 InnoDb 还是 MyISAM 存储引擎，它们的索引采用的数据结构都是<a href="https://zh.wikipedia.org/wiki/B%2B%E6%A0%91">B+ 树</a>，而 B+ 树又是从<a href="https://zh.wikipedia.org/wiki/B%E6%A0%91"> B 树</a>演变而来。二叉树虽然查找效率很高，但是也有着一些局限性，特别是当数据存储于外部设备时（如数据库或文件系统），因为这个时候不仅需要考虑算法本身的复杂度，还需要考虑程序与外部设备之间的读写效率。在二叉树中，每一个树节点只保存一条数据，并且最多有两个子节点。程序在查找数据时，读取一条数据，比较，再读取另一条数据，再比较，再读取，如此往复。每读取一次，都涉及到程序和外部设备之间的 IO 开销，而这个开销将大大降低程序的查找效率。于是，便有人提出了增加节点保存的数据条数的想法，譬如 <a href="https://zh.wikipedia.org/wiki/2-3%E6%A0%91">2-3 树</a>（每个节点保存 1 条或 2 条数据）<a href="https://zh.wikipedia.org/wiki/2-3-4%E6%A0%91">、2-3-4 树</a>（每个节点保存 1 条、2 条或 3 条数据）等，当然也不用限定得这么死，数值范围可以 1 - n 条，这就是 B 树。在实际应用中，会根据硬盘上一个 page 的大小来调整 n 的数值，这样可以让一次 IO 操作就读取到 n 条数据，减少了 IO 开销，并且，树的高度显著降低了，查找时只需几次 page 的 IO 即可定位到目标（page 翻译为中文为页，表示 InnoDB 每次从磁盘（data file）到内存（buffer pool）之间传送数据的大小）。一颗典型的 B 树如下图所示：</p>
-<p>
-  <img src="/images/post/18/07/003.png" alt="">
-
-</p>
+<p>![]/img/post/18/07/003.png)</p>
 <p>不过在现实场景里几乎没有地方在使用 B 树，这是因为 B 树没有很好的伸缩性，它将多条数据都保存在节点里，如果数据中某个字段太长，一个 page 能容纳的数据量将受到限制，最坏的情况是一个 page 保存一条数据，这个时候 B 树退化成二叉树；另外 B 树无法修改字段最大长度，除非调整 page 大小，重建整个数据库。于是，B+ 树横空出世，在 B+ 树里，内节点（非叶子节点）中不再保存数据，而只保存用于查找的 key，并且所有的叶子节点按顺序使用链表进行连接，这样可以大大的方便范围查询，只要先查到起始位置，然后按链表顺序查找，一直查到结束位置即可。如下图所示：</p>
-<p>
-  <img src="/images/post/18/07/004.png" alt="">
-
-</p>
+<p>![]/img/post/18/07/004.png)</p>
 <p>那么在 B+ 树中，数据保存在什么地方呢？关于这一点，InnoDb 和 MyISAM 的实现是不一样的，InnoDb 将数据保存在叶子节点中，而 MyISAM 将数据保存在独立的文件中，MyISAM 有三种类型的文件：*.frm 用于存储表的定义，*.MYI 用于存放表索引，*.MYD 用于存放数据。MYD 文件中的数据是以堆表的形式存储的，所以像 MyISAM 这样以堆形式存储数据的我们通常把它叫做 <strong>堆组织表（Heap organized table，简称 HOT）</strong>，而像 InnoDb 这种将数据保存在叶子节点中，叫做 <strong>索引组织表（Index organized table，简称 IOT）</strong>。</p>
 <p>MyISAM 索引结构如下图所示：
-
-  <img src="/images/post/18/07/005.png" alt="">
-
-</p>
+![]/img/post/18/07/005.png)</p>
 <p>InnoDb 索引结构如下图所示：
-
-  <img src="/images/post/18/07/006.png" alt="">
-
-</p>
+![]/img/post/18/07/006.png)</p>
 <p>可以看到，MyISAM 索引的 B+ 树中，非叶子节点中保存 key，叶子节点中保存着数据的地址，指向数据文件中数据的位置；InnoDb 索引的 B+ 树中，非叶子节点和 MyISAM 一样保存 key，但是叶子节点直接保存数据。所以，MyISAM 在通过索引查找数据时，必须通过两步才能拿到数据（先获取数据的地址，再读取数据文件），InnoDb 在通过索引查找数据时，可以直接读取数据。</p>
 <p>注意上面两张图都是对应着 Primary Key 的情况，MySQL 有两种索引类型：主键索引（Primary Index）和非主键索引（Secondary Index，又称为二级索引、辅助索引），MyISAM 存储引擎对两种索引的存储没有区别，InnoDb 存储引擎的数据是保存在主键索引里的，非主键索引里保存着该节点对应的主键。所以 InnoDb 的主键索引有时候又被称为 聚簇索引（Clustered Index），二级索引被称为 非聚簇索引（Nonclustered Index）。如果没有主键，InnoDB 会试着使用一个非空的唯一索引（Unique nonnullable index）代替；如果没有这种索引，会定义一个隐藏的主键。所以 InnoDb 的表一定会有主键索引。关于聚簇索引和二级索引，可以参看这里的 <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-index-types.html">MySQL 文档</a>。（疑惑：MyISAM 如果没有索引，会怎么样？会定义隐藏的主键吗？）</p>
 <h4 id="mysql-加锁流程">MySQL 加锁流程</h4>
@@ -502,17 +484,11 @@ $(function() {
 </span></span></code></pre></div><p>当执行下面的 SQL 时（name 为 students 表的二级索引），InnoDb 存储引擎会在 name = &lsquo;Tom&rsquo; 这个索引上加一把 X 锁，同时会通过 name = &lsquo;Tom&rsquo; 这个二级索引定位到 id = 49 这个主键索引，并在 id = 49 这个主键索引上加一把 X 锁。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SQL" data-lang="SQL"><span style="display:flex;"><span>mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">update</span> students <span style="color:#66d9ef">set</span> score <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span> <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Tom&#39;</span>;
 </span></span></code></pre></div><p>加锁过程如下图所示：
-
-  <img src="/images/post/18/07/007.png" alt="">
-
-</p>
+![]/img/post/18/07/007.png)</p>
 <p>像上面这样的 SQL 比较简单，只操作单条记录，如果要同时更新多条记录，加锁的过程又是什么样的呢？譬如下面的 SQL（假设 score 字段为二级索引）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SQL" data-lang="SQL"><span style="display:flex;"><span>mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">update</span> students <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">level</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">where</span> score <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">60</span>;
 </span></span></code></pre></div><p>下图展示了当用户执行这条 SQL 时，MySQL Server 和 InnoDb 之间的执行流程：
-
-  <img src="/images/post/18/07/008.png" alt="">
-
-</p>
+![]/img/post/18/07/008.png)</p>
 <p>从图中可以看到当 UPDATE 语句被发给 MySQL 后，MySQL Server 会根据 WHERE 条件读取第一条满足条件的记录，然后 InnoDB 引擎会将第一条记录返回并加锁（current read），待 MySQL Server 收到这条加锁的记录之后，会再发起一个 UPDATE 请求，更新这条记录。一条记录操作完成，再读取下一条记录，直至没有满足条件的记录为止。因此，MySQL 在操作多条记录时 InnoDB 与 MySQL Server 的交互是一条一条进行的，加锁也是一条一条依次进行的，先对一条满足条件的记录加锁，返回给 MySQL Server，做一些 DML 操作，然后在读取下一条加锁，直至读取完毕。理解这一点，对我们后面分析复杂 SQL 语句的加锁过程将很有帮助。</p>
 <h4 id="行锁种类">行锁种类</h4>
 <p>根据锁的粒度可以把锁细分为表锁和行锁，行锁根据场景的不同又可以进一步细分，在 MySQL 的源码里，定义了四种类型的行锁，如下：</p>
@@ -557,10 +533,7 @@ $(function() {
 <p>表锁锁定了整张表，而行锁是锁定表中的某条记录，它们俩锁定的范围有交集，因此表锁和行锁之间是有冲突的。譬如某个表有 10000 条记录，其中有一条记录加了 X 锁，如果这个时候系统需要对该表加表锁，为了判断是否能加这个表锁，系统需要遍历表中的所有 10000 条记录，看看是不是某条记录被加锁，如果有锁，则不允许加表锁，显然这是很低效的一种方法，为了方便检测表锁和行锁的冲突，从而引入了意向锁。</p>
 <p>意向锁为表级锁，也可分为读意向锁（IS 锁）和写意向锁（IX 锁）。当事务试图读或写某一条记录时，会先在表上加上意向锁，然后才在要操作的记录上加上读锁或写锁。这样判断表中是否有记录加锁就很简单了，只要看下表上是否有意向锁就行了。意向锁之间是不会产生冲突的，也不和 AUTO_INC 表锁冲突，它只会阻塞表级读锁或表级写锁，另外，意向锁也不会和行锁冲突，行锁只会和行锁冲突。</p>
 <p>下面是各个表锁之间的兼容矩阵：
-
-  <img src="/images/post/18/07/009.png" alt="">
-
-</p>
+![]/img/post/18/07/009.png)</p>
 <p>这个矩阵看上去有点眼花缭乱，其实很简单，因为是斜对称的，所以我们用一条斜线把表格分割成两个部分，只需要看左下角的一半即可。总结起来有下面几点：</p>
 <ul>
 <li>意向锁之间互不冲突；</li>
@@ -660,20 +633,14 @@ $(function() {
 <p>插入意向锁只会和间隙锁或 Next-key 锁冲突，正如上面所说，<!-- raw HTML omitted -->间隙锁唯一的作用就是防止其他事务插入记录造成幻读<!-- raw HTML omitted --> ，那么间隙锁是如何防止幻读的呢？<strong>正是由于在执行 INSERT 语句时需要加插入意向锁，而插入意向锁和间隙锁冲突，从而阻止了插入操作的执行</strong>。</p>
 <h3 id="行锁的兼容矩阵">行锁的兼容矩阵</h3>
 <p>下面我们对这四种行锁做一个总结，它们之间的兼容矩阵如下图所示：
-
-  <img src="/images/post/18/07/010.png" alt="">
-
-</p>
+![]/img/post/18/07/010.png)</p>
 <p>其中，<strong>第一行表示已有的锁，第一列表示要加的锁</strong>。这个矩阵看起来很复杂，因为它是不对称的，如果要死记硬背可能会晕掉。其实仔细看可以发现，不对称的只有插入意向锁，所以我们先对插入意向锁做个总结，如下：</p>
 <ul>
 <li><!-- raw HTML omitted --> 插入意向锁不影响其他事务加其他任何锁。也就是说，一个事务已经获取了插入意向锁，对其他事务是没有任何影响的；</li>
 <li>插入意向锁与间隙锁和 Next-key 锁冲突。也就是说，一个事务想要获取插入意向锁，如果有其他事务已经加了间隙锁或 Next-key 锁，则会阻塞。<!-- raw HTML omitted --></li>
 </ul>
 <p>了解插入意向锁的特点之后，我们将它从矩阵中移去，兼容矩阵就变成了下面这个样子：</p>
-<p>
-  <img src="/images/post/18/07/011.png" alt="">
-
-</p>
+<p>![]/img/post/18/07/011.png)</p>
 <p>这个看起来就非常简单了，可以得出下面的结论：</p>
 <ul>
 <li><!-- raw HTML omitted -->间隙锁不和其他锁（不包括插入意向锁）冲突；</li>
