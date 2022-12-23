@@ -1,146 +1,3 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    
-    
-        <meta name="twitter:card" content="summary"/>
-    
-
-
-
-<meta name="twitter:title" content="了解MySQL中EXPLAIN解释命令"/>
-<meta name="twitter:description" content="EXPLAIN会向我们提供一些MySQL是执行sql的信息"/>
-<meta name="twitter:site" content="@"/>
-
-
-
-  	<meta property="og:title" content="了解MySQL中EXPLAIN解释命令 &middot; 王子滔的学习笔记" />
-  	<meta property="og:site_name" content="王子滔的学习笔记" />
-  	<meta property="og:url" content="https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/" />
-
-    
-        
-    
-
-    
-    <meta property="og:description" content="EXPLAIN会向我们提供一些MySQL是执行sql的信息" />
-  	<meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2018-08-13T11:49:13&#43;08:00" />
-
-    
-    <meta property="article:tag" content="MySQL" />
-    
-    
-
-    <title>了解MySQL中EXPLAIN解释命令 &middot; 王子滔的学习笔记</title>
-
-    
-    <meta name="description" content="EXPLAIN会向我们提供一些MySQL是执行sql的信息" />
-    
-
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="shortcut icon" href="/images/favicon.ico">
-	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
-
-    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
-
-    
-
-    
-
-    
-      
-          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
-      
-      
-    
-    <meta name="generator" content="Hugo 0.54.0" />
-
-    <link rel="canonical" href="https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/" />
-
-    
-      
-    
-    <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "publisher": {
-        "@type": "Organization",
-        "name": 
-    },
-    "author": {
-        "@type": "Person",
-        "name": ,
-        
-        "url": ,
-        "sameAs": [
-            
-            
-             
-             
-             
-             
-             
-            
-        ]
-    },
-    "headline": 了解MySQL中EXPLAIN解释命令,
-    "name": 了解MySQL中EXPLAIN解释命令,
-    "wordCount": 5433,
-    "timeRequired": "PT11M",
-    "inLanguage": {
-      "@type": "Language",
-      "alternateName": en
-    },
-    "url": https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/,
-    "datePublished": 2018-08-13T11:49Z,
-    "dateModified": 2018-08-13T11:49Z,
-    
-    "keywords": MySQL,
-    "description": EXPLAIN会向我们提供一些MySQL是执行sql的信息,
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/
-    }
-}
-    </script>
-    
-
-
-    
-
-    
-
-    
-</head>
-<body class="nav-closed">
-
-  <div class="nav">
-    <h3 class="nav-title">Menu</h3>
-    <a href="#" class="nav-close">
-        <span class="hidden">Close</span>
-    </a>
-    <ul>
-        
-        
-    </ul>
-
-    
-    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
-    
-</div>
-<span class="nav-cover"></span>
-
-
- <div class="site-wrapper">
 
 
 
@@ -729,19 +586,19 @@ unique_subquery是一个索引查找函数，可以完全替换子查询，效�
     
 <section class="share">
   <h4>Share this post</h4>
-  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=%e4%ba%86%e8%a7%a3MySQL%e4%b8%adEXPLAIN%e8%a7%a3%e9%87%8a%e5%91%bd%e4%bb%a4&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4%2f"
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=%e4%ba%86%e8%a7%a3MySQL%e4%b8%adEXPLAIN%e8%a7%a3%e9%87%8a%e5%91%bd%e4%bb%a4&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4"
       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
       <span class="hidden">Twitter</span>
   </a>
-  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4%2f"
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4"
       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
       <span class="hidden">Facebook</span>
   </a>
-  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4%2f&amp;description=%e4%ba%86%e8%a7%a3MySQL%e4%b8%adEXPLAIN%e8%a7%a3%e9%87%8a%e5%91%bd%e4%bb%a4"
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4&amp;description=%e4%ba%86%e8%a7%a3MySQL%e4%b8%adEXPLAIN%e8%a7%a3%e9%87%8a%e5%91%bd%e4%bb%a4"
       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
       <span class="hidden">Pinterest</span>
   </a>
-  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4%2f"
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2018-08-13-%25E4%25BA%2586%25E8%25A7%25A3explain%25E8%25A7%25A3%25E9%2587%258A%25E5%2591%25BD%25E4%25BB%25A4"
      onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
       <span class="hidden">Google+</span>
   </a>
@@ -758,8 +615,8 @@ unique_subquery是一个索引查找函数，可以完全替换子查询，效�
 
 
 var disqus_config = function () {
-this.page.url = "https:\/\/wangzitao6.github.io\/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4\/";  
-this.page.identifier = "https:\/\/wangzitao6.github.io\/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4\/"; 
+this.page.url = "https:\/\/wangzitao6.github.io\/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4"; 
 };
 
 (function() { 
@@ -794,7 +651,7 @@ s.setAttribute('data-timestamp', +new Date());
       </a>
   
   
-      <a class="read-next-story prev" style="no-cover" href="/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/">
+      <a class="read-next-story prev" style="no-cover" href="/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97">
           <section class="post">
               <h2>死锁-了解MySQL死锁日志</h2>
           </section>

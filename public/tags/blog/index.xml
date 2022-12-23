@@ -2,14 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>blog on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/tags/blog/</link>
+    <link>https://wangzitao6.github.io/tags/blog/index.xml</link>
     <description>Recent content in blog on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 Jun 2018 09:31:57 +0800</lastBuildDate>
-    
-	<atom:link href="https://wangzitao6.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://wangzitao6.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>gitment登录失败</title>
@@ -17,7 +14,60 @@
       <pubDate>Tue, 12 Jun 2018 09:31:57 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</guid>
-      <description>gitment登录失败 搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent]</description>
+      <description>
+
+&lt;h2 id=&#34;gitment登录失败&#34;&gt;gitment登录失败&lt;/h2&gt;
+
+&lt;p&gt;搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名&lt;a href=&#34;https://gh-oauth.imsun.net证书过期了&#34;&gt;https://gh-oauth.imsun.net证书过期了&lt;/a&gt;,
+地址:&lt;code&gt;https://github.com/imsun/gitment/issues/170&lt;/code&gt;
+里面有几种解决方法&lt;/p&gt;
+
+&lt;h2 id=&#34;解决方法&#34;&gt;解决方法&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-本地解决&#34;&gt;1.本地解决&lt;/h3&gt;
+
+&lt;p&gt;由于引入的 gitment.js 中有这样的一段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   _utils.http.post(&#39;https://gh-oauth.imsun.net&#39;, {
+      code: code,
+      client_id: client_id,
+      client_secret: client_secret
+    }, &#39;&#39;).then(function (data) {
+      _this.accessToken = data.access_token;
+      _this.update();
+    }).catch(function (e) {
+      _this.state.user.isLoggingIn = false;
+      alert(e);
+    });
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
+这里可以直接改为请求 github 认证的接口&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; _utils.http.post(&#39;https://github.com/login/oauth/access_token&#39;, {...}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以了,不用经过作者的服务&lt;/p&gt;
+
+&lt;h3 id=&#34;2-借用别人的服务&#34;&gt;2.借用别人的服务&lt;/h3&gt;
+
+&lt;p&gt;由于作者貌似已经弃坑,无法登陆的问题一直没有得到修复,许多大牛已经自己搭建了服务,可以在征得他们同意后,修改配置&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;把Install那一步换成这两个：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://jjeejj.github.io/css/gitment.css&amp;quot;&amp;gt;
+   &amp;lt;script src=&amp;quot;https://www.wenjunjiang.win/js/gitment.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-自己搭建服务&#34;&gt;3.自己搭建服务&lt;/h3&gt;
+
+&lt;p&gt;这个我没有试过,有兴趣的朋友可以参考这里:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://smalbox.club/2018/10/24/an-zhuang-gitment-ji-chang-jian-wen-ti-jie-jue/&#34;&gt;参考链接&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -26,7 +76,310 @@
       <pubDate>Tue, 10 Apr 2018 18:21:17 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-04-10-%E9%9B%86%E6%88%90algolia%E6%90%9C%E7%B4%A2/</guid>
-      <description>1.简介 Algolia是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化</description>
+      <description>
+
+&lt;h2 id=&#34;1-简介&#34;&gt;1.简介&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.algolia.com/&#34;&gt;Algolia&lt;/a&gt;是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化率等等。可以使用 InstantSearch 等前端框架进行自定义搜索，为用户创造最佳的搜索体验。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-注册&#34;&gt;2.注册&lt;/h2&gt;
+
+&lt;p&gt;前往官方网站&lt;a href=&#34;https://www.algolia.com/&#34;&gt;https://www.algolia.com/&lt;/a&gt; 使用 GitHub 或 Google 帐号登录。登录完成后根据提示信息填写一些基本的信息即可，注册完成后前往 &lt;a href=&#34;https://www.algolia.com/dashboard&#34;&gt;Dashboard&lt;/a&gt;，我们可以发现 Algolia 会默认给我们生成一个 app。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/005.png&#34; alt=&#34;dashboard index&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择 Indices，添加一个新的索引，我们这里命名为&lt;code&gt;hugo&lt;/code&gt;，创建成功后，我们可以看到提示中还没有任何记录。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/004.png&#34; alt=&#34;indices&#34; /&gt;
+Algolia 为我们提供了三种方式来增加记录：手动添加、上传 json 文件、API。我们这里使用第三种方式来进行数据的添加。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-插件&#34;&gt;3.插件&lt;/h2&gt;
+
+&lt;p&gt;要使用 API 的方式来添加搜索的数据，我们可以自己根据 Algolia 提供的 &lt;a href=&#34;https://www.algolia.com/doc/api-reference/&#34;&gt;API 文档&lt;/a&gt;进行开发，这也是很容易的，为简单起见，我们这里使用一个&lt;code&gt;hugo-algolia&lt;/code&gt;的插件来完成我们的数据同步工作。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;要安装&lt;code&gt;hugo-aligolia&lt;/code&gt;我们需要先确保我们已经安装了 npm 或者 yarn 包管理工具。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;使用下面的命令安装即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ npm install hugo-algolia -g
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;安装完成后，在我们 hugo 生产的静态页面的根目录下面新建一个&lt;code&gt;config.yaml&lt;/code&gt;的文件(和&lt;code&gt;config.toml&lt;/code&gt;同级)，然后在&lt;code&gt;config.yaml&lt;/code&gt;文件中指定 &lt;code&gt;Algolia&lt;/code&gt;相关的 API 数据。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;baseurl: &amp;quot;/&amp;quot;
+DefaultContentLanguage: &amp;quot;zh-cn&amp;quot;
+hasCJKLanguage: true
+languageCode: &amp;quot;zh-cn&amp;quot;
+title: &amp;quot;River&#39;s Site&amp;quot;
+theme: &amp;quot;beautifulhugo&amp;quot;
+metaDataFormat: &amp;quot;yaml&amp;quot;
+
+algolia_search = true
+algolia_appId = &amp;quot;3DH4V2B4JK&amp;quot;
+algolia_indexName = &amp;quot;hugo&amp;quot;
+algolia_apiKey = &amp;quot;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;API 相关数据可以前往 dashboard 的 &lt;code&gt;API Keys&lt;/code&gt;查看，注意上面的&lt;code&gt;key&lt;/code&gt;是&lt;strong&gt;Admin API Key&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;配置完成以后，在根目录下面执行下面的命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ hugo-algolia -s
+JSON index file was created in public/algolia.json
+{ updatedAt: &#39;2019-03-20T10:29:03.861Z&#39;, taskID: 4896848941 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后我们可以看到，上面命令执行完成后会在&lt;code&gt;public&lt;/code&gt;目录下面生成一个&lt;code&gt;algolia.json&lt;/code&gt;的文件。这个时候我们在 dashboard 中打开 Indices，可以看到已经有几十条数据了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/003.png&#34; alt=&#34;Indices&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果某篇文章不想被索引的话，我们只需要在文件的最前面设置 index 参数为 false 即可，&lt;code&gt;hugo-algolia&lt;/code&gt;插件在索引的过程中会自动跳过它。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;4-前端&#34;&gt;4.前端&lt;/h2&gt;
+
+&lt;p&gt;现在我们将需要被搜索的文章数据已经成功提交到&lt;code&gt;Algolia&lt;/code&gt;，接下来的事情就是前端页面的展示了。下面的操作对于不同的主题或许有不同的地方，请根据自己的实际情况进行相应的修改。我这里使用的是&lt;code&gt;white&lt;/code&gt;主题，在&lt;code&gt;themes/white/layouts/partials&lt;/code&gt;目录下面新增文件：（&lt;strong&gt;search.html&lt;/strong&gt;）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;  &amp;lt;!-- Including InstantSearch.js library and styling --&amp;gt;
+  &amp;lt;script src=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&amp;quot;&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&amp;quot;&amp;gt;
+
+  &amp;lt;div id=&amp;quot;search-searchbar&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+   &amp;lt;div class=&amp;quot;post-list&amp;quot; id=&amp;quot;search-hits&amp;quot;&amp;gt;
+   &amp;lt;/div&amp;gt;
+
+  &amp;lt;script&amp;gt;
+  const search = instantsearch({
+    appId: &#39;{{ .Site.Params.algolia_appId }}&#39;,
+    indexName: &#39;{{ .Site.Params.algolia_indexName }}&#39;,
+    apiKey: &#39;{{ .Site.Params.algolia_apiKey }}&#39;
+  });
+
+  const hitTemplate = function(hit) {
+  /*  if (hit === null){
+        return;
+    }*/
+    // debugger;
+    let date = &#39;&#39;;
+    if (hit.date) {
+      date = moment(hit.date).format(&#39;MMM D, YYYY&#39;);
+    }
+    let url = `${hit.url}#${hit.author}`;
+    const title = hit._highlightResult.title.value;
+
+    let breadcrumbs = &#39;&#39;;
+    if (hit._highlightResult.headings) {
+      breadcrumbs = hit._highlightResult.headings.map(match =&amp;gt; {
+        return `&amp;lt;span class=&amp;quot;post-breadcrumb&amp;quot;&amp;gt;${match.value}&amp;lt;/span&amp;gt;`
+      }).join(&#39; &amp;gt; &#39;)
+    }
+
+    let description = &amp;quot;&amp;quot; ;
+    if (hit._highlightResult.description){
+        description = hit._highlightResult.description.value;
+    }
+    else{
+        description = hit.summary;
+    }
+
+
+    return `
+      &amp;lt;div class=&amp;quot;post-item&amp;quot;&amp;gt;
+        &amp;lt;h3&amp;gt;&amp;lt;a class=&amp;quot;post-link&amp;quot; href=&amp;quot;${url}&amp;quot;&amp;gt;${title}&amp;lt;/a&amp;gt;&amp;lt;/h3&amp;gt;
+        &amp;lt;a href=&amp;quot;${url}&amp;quot; class=&amp;quot;post-breadcrumbs&amp;quot;&amp;gt;${breadcrumbs}&amp;lt;/a&amp;gt;
+        &amp;lt;div class=&amp;quot;post-snippet&amp;quot;&amp;gt;${description}&amp;lt;/div&amp;gt;
+        &amp;lt;span class=&amp;quot;post-meta&amp;quot;&amp;gt;${date}&amp;lt;/span&amp;gt;
+      &amp;lt;/div&amp;gt;
+    `;
+  }
+
+
+  search.addWidget(
+    instantsearch.widgets.searchBox({
+      container: &#39;#search-searchbar&#39;,
+      placeholder: &#39;Search into posts...&#39;,
+      poweredBy: true // This is required if you&#39;re on the free Community plan
+    })
+  );
+
+  search.addWidget(
+    instantsearch.widgets.hits({
+      container: &#39;#search-hits&#39;,
+      templates: {
+        item: hitTemplate
+      }
+    })
+  );
+
+  search.start();
+  &amp;lt;/script&amp;gt;
+
+  &amp;lt;style&amp;gt;
+  .ais-search-box {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  .post-item {
+    margin-bottom: 30px;
+  }
+  .post-link .ais-Highlight {
+    color: #111;
+    font-style: normal;
+    text-decoration: underline;
+  }
+  .post-breadcrumbs {
+    color: #424242;
+    display: block;
+  }
+  .post-breadcrumb {
+    font-size: 18px;
+    color: #424242;
+  }
+  .post-breadcrumb .ais-Highlight {
+    font-weight: bold;
+    font-style: normal;
+  }
+  .post-snippet .ais-Highlight {
+    color: #2a7ae2;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .post-snippet img {
+    display: none;
+  }
+  &amp;lt;/style&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意上面 JS 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;  &amp;lt;script&amp;gt;
+  const search = instantsearch({
+    appId: &#39;{{ .Site.Params.algolia_appId }}&#39;,
+    indexName: &#39;{{ .Site.Params.algolia_indexName }}&#39;,
+    apiKey: &#39;{{ .Site.Params.algolia_apiKey }}&#39;
+  });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;algolia_search&lt;/code&gt;的第一个参数为是否开启索引&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;algolia_appId&lt;/code&gt;的第二个参数为Application ID &lt;code&gt;3DH4V2B4JK&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;algolia_indexName&lt;/code&gt;为我们创建的索引名称&lt;code&gt;hugo&lt;/code&gt;，&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;algolia_apiKey&lt;/code&gt;为我们的Admin API Key&lt;code&gt;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;然后我们只需要添加一个搜索入口即可，在&lt;code&gt;themes/white/layouts/partials/nav.html&lt;/code&gt;文件最下面添加如下代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;  &amp;lt;!-- Navigation --&amp;gt;
+  &amp;lt;nav class=&amp;quot;navbar navbar-default navbar-custom navbar-fixed-top&amp;quot;&amp;gt;
+      &amp;lt;div class=&amp;quot;container-fluid&amp;quot;&amp;gt;
+          &amp;lt;!-- Brand and toggle get grouped for better mobile display --&amp;gt;
+          &amp;lt;div class=&amp;quot;navbar-header page-scroll&amp;quot;&amp;gt;
+              &amp;lt;button type=&amp;quot;button&amp;quot; class=&amp;quot;navbar-toggle&amp;quot;&amp;gt;
+                  &amp;lt;span class=&amp;quot;sr-only&amp;quot;&amp;gt;Toggle navigation&amp;lt;/span&amp;gt;
+                  &amp;lt;span class=&amp;quot;icon-bar&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+                  &amp;lt;span class=&amp;quot;icon-bar&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+                  &amp;lt;span class=&amp;quot;icon-bar&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+              &amp;lt;/button&amp;gt;
+              &amp;lt;a class=&amp;quot;navbar-brand&amp;quot; href=&amp;quot;{{ &amp;quot;/&amp;quot; | relLangURL }}&amp;quot;&amp;gt;{{ .Site.Title }}&amp;lt;/a&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+          &amp;lt;!-- Collect the nav links, forms, and other content for toggling --&amp;gt;
+          &amp;lt;!-- Known Issue, found by Hux:
+              &amp;lt;nav&amp;gt;&#39;s height woule be hold on by its content.
+              so, when navbar scale out, the &amp;lt;nav&amp;gt; will cover tags.
+              also mask any touch event of tags, unfortunately.
+          --&amp;gt;
+          &amp;lt;div id=&amp;quot;huxblog_navbar&amp;quot;&amp;gt;
+              &amp;lt;div class=&amp;quot;navbar-collapse&amp;quot;&amp;gt;
+                  &amp;lt;ul class=&amp;quot;nav navbar-nav navbar-right&amp;quot;&amp;gt;
+                      &amp;lt;li&amp;gt;
+                          &amp;lt;a href=&amp;quot;{{ &amp;quot;/&amp;quot; | relLangURL }}&amp;quot;&amp;gt;Home&amp;lt;/a&amp;gt;
+                      &amp;lt;/li&amp;gt;
+                      {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                      &amp;lt;li&amp;gt;
+                          &amp;lt;a href=&amp;quot;{{ &amp;quot;categories/&amp;quot; | relLangURL }}{{ $name | urlize }}&amp;quot;&amp;gt;{{ $name }}&amp;lt;/a&amp;gt;
+                      &amp;lt;/li&amp;gt;
+                      {{ end }}
+
+            {{ range .Site.Params.addtional_menus }}
+                          &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;{{.href | relLangURL}}&amp;quot;&amp;gt;{{.title}}&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+                      {{ end }}
+
+                      {{ if .Site.Params.algolia_search }}
+            &amp;lt;li&amp;gt;
+                          &amp;lt;a href=&amp;quot;{{ &amp;quot;search&amp;quot; | relURL }}&amp;quot;&amp;gt;SEARCH &amp;lt;img src=&amp;quot;{{ &amp;quot;img/search.png&amp;quot; | relURL }}&amp;quot; height=&amp;quot;15&amp;quot; style=&amp;quot;cursor: pointer;&amp;quot; alt=&amp;quot;Search&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+            &amp;lt;/li&amp;gt;
+                      {{ end }}
+                  &amp;lt;/ul&amp;gt;
+              &amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+          &amp;lt;!-- /.navbar-collapse --&amp;gt;
+      &amp;lt;/div&amp;gt;
+      &amp;lt;!-- /.container --&amp;gt;
+  &amp;lt;/nav&amp;gt;
+  &amp;lt;script&amp;gt;
+      // Drop Bootstarp low-performance Navbar
+      // Use customize navbar with high-quality material design animation
+      // in high-perf jank-free CSS3 implementation
+      var $body   = document.body;
+      var $toggle = document.querySelector(&#39;.navbar-toggle&#39;);
+      var $navbar = document.querySelector(&#39;#huxblog_navbar&#39;);
+      var $collapse = document.querySelector(&#39;.navbar-collapse&#39;);
+
+      $toggle.addEventListener(&#39;click&#39;, handleMagic)
+      function handleMagic(e){
+          if ($navbar.className.indexOf(&#39;in&#39;) &amp;gt; 0) {
+          // CLOSE
+              $navbar.className = &amp;quot; &amp;quot;;
+              // wait until animation end.
+              setTimeout(function(){
+                  // prevent frequently toggle
+                  if($navbar.className.indexOf(&#39;in&#39;) &amp;lt; 0) {
+                      $collapse.style.height = &amp;quot;0px&amp;quot;
+                  }
+              },400)
+          }else{
+          // OPEN
+              $collapse.style.height = &amp;quot;auto&amp;quot;
+              $navbar.className += &amp;quot; in&amp;quot;;
+          }
+      }
+  &amp;lt;/script&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中最重要的代码是引入上面我们新建的&lt;code&gt;search.html&lt;/code&gt;文件。css引用的别人的文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&amp;quot;&amp;gt;
+&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&amp;quot;&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;5-搜索&#34;&gt;5.搜索&lt;/h2&gt;
+
+&lt;p&gt;上面的所有工作完成后，我们重新生成静态页面，更新网站数据。我们可以看到导航栏最右边已经有了一个搜索按钮了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/006.png&#34; alt=&#34;search demo&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;6-参考资料&#34;&gt;6.参考资料&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/zhaohuabing/hugo-theme-cleanwhite/&#34;&gt;https://github.com/zhaohuabing/hugo-theme-cleanwhite/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gohugo.io/tools/search/&#34;&gt;https://gohugo.io/tools/search/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.npmjs.com/package/hugo-algolia&#34;&gt;https://www.npmjs.com/package/hugo-algolia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
@@ -35,7 +388,87 @@
       <pubDate>Tue, 20 Mar 2018 11:06:11 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
-      <description>引言 Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown</description>
+      <description>
+
+&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
+
+&lt;p&gt;Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown / GFM 和代码高亮支持。尤为适合各种基于 GitHub Pages 的静态博客或项目页面。&lt;/p&gt;
+
+&lt;p&gt;本博客评论系统已迁移至 Gitment。虽然 Gitment 只能使用 GitHub 账号进行评论，但考虑到博客受众，这是可以接受的。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/imsun/gitment&#34;&gt;项目地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://imsun.github.io/gitment/&#34;&gt;示例页面&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-注册-oauth-application&#34;&gt;1. 注册 OAuth Application&lt;/h2&gt;
+
+&lt;p&gt;点击此处 来注册一个新的 OAuth Application,&lt;a href=&#34;https://github.com/settings/developers&#34;&gt;申请地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;其他内容可以随意填写，但要确保填入正确的Authorization callback URL（一般是评论页面对应的域名，
+如 &lt;code&gt;https://wangzitao6.github.io&lt;/code&gt;）注意域名后不要带斜杠&lt;/p&gt;
+
+&lt;p&gt;Homepage URL也可以填写域名&lt;code&gt;https://wangzitao6.github.io&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;你会得到一个 client ID 和一个 client secret，这个将被用于之后的用户登录。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-引入-gitment&#34;&gt;2. 引入 Gitment&lt;/h2&gt;
+
+&lt;p&gt;将下面的代码添加到你的页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;lt;div id=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://imsun.github.io/gitment/style/default.css&amp;quot;&amp;gt;
+  &amp;lt;script src=&amp;quot;https://imsun.github.io/gitment/dist/gitment.browser.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;gt;
+  var gitment = new Gitment({
+    id: &#39;页面 ID&#39;, // 可选。默认为 location.href
+    owner: &#39;你的 GitHub ID&#39;,
+    repo: &#39;存储评论的 repo&#39;,
+    oauth: {
+      client_id: &#39;你的 client ID&#39;,
+      client_secret: &#39;你的 client secret&#39;,
+    },
+  })
+  gitment.render(&#39;container&#39;)
+  &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，上述代码引用的 Gitment 将会随着开发变动。如果你希望始终使用最新的界面与特性即可引入上述代码。&lt;/p&gt;
+
+&lt;p&gt;如果你希望引用确定版本的 Gitment，则应该使用 npm 进行安装。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ npm install --save gitment&lt;/code&gt;
+关于构造函数中的更多可用参数&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;owner:是你的github登录名,&lt;/li&gt;
+&lt;li&gt;repo:是你的github里面的项目名,初始化的评论会放在项目的issues中&lt;/li&gt;
+&lt;li&gt;id:页面评论在issues的唯一标示,不宜过长,否则会报错&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我的示例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;lt;script&amp;gt;
+    var gitment = new Gitment({
+      id: &#39;{{ .File.BaseFileName }}&#39;,
+      owner: &#39;wangzitao6&#39;,
+      repo: &#39;wangzitao6.github.io&#39;,
+      oauth: {
+        client_id: &#39;a09xxxxxxxxxxxxxxx&#39;,
+        client_secret: &#39;ec6b34b6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;,
+      }
+    })
+    gitment.render(&#39;git-comments&#39;)
+  &amp;lt;/script&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;3-初始化评论&#34;&gt;3. 初始化评论&lt;/h2&gt;
+
+&lt;p&gt;页面发布后，你需要访问页面并使用你的 GitHub 账号登录（请确保你的账号是第二步所填 repo 的 owner），点击初始化按钮。
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/03/002.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后其他用户即可在该页面发表评论。&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -44,7 +477,104 @@
       <pubDate>Sat, 10 Mar 2018 00:16:42 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-03-10-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</guid>
-      <description>1.简介 Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个</description>
+      <description>
+
+&lt;h2 id=&#34;1-简介&#34;&gt;1.简介&lt;/h2&gt;
+
+&lt;p&gt;Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个人博客的绝佳选择。但是用hugo一段时间后,发现新增博客时部署比较麻烦,经过几天的折腾后发现了Travis CI。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-travis-ci是什么&#34;&gt;2.Travis CI是什么&lt;/h2&gt;
+
+&lt;p&gt;一个持续化集成平台，类似Jenkins。功能强大，和GitHub的集成尤其好，我们用它部署个人博客算大材小用。它有两个版本:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://travis-ci.org/&#34;&gt;https://travis-ci.org/&lt;/a&gt; 免费版本，可以集成GitHub的public项目&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://travis-ci.com/&#34;&gt;https://travis-ci.com/&lt;/a&gt; 商业版本，可以集成GitHub的private项目&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们使用第一个，免费版本。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-配置travis-ci&#34;&gt;3.配置Travis CI&lt;/h2&gt;
+
+&lt;h3 id=&#34;3-1-为travis-ci生成github-token&#34;&gt;3.1 为Travis CI生成GitHub Token&lt;/h3&gt;
+
+&lt;p&gt;打开GitHub。路径: “Settings”-&amp;gt;“Developer settings”-&amp;gt;“Personal access tokens”-&amp;gt;“Generate new token”。&lt;a href=&#34;https://github.com/settings/tokens/new&#34;&gt;直达车&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;因为是public项目，而且Travis CI是用来push代码，所以只需勾选 public_repo, repo:status, repo_deployment 三项。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;
+然后点击Generate Token 生成token.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-2-配置travis-ci构建选项&#34;&gt;3.2 配置Travis CI构建选项&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;1.用GitHub方式登录&lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.“Settings”-“General” 勾选&lt;code&gt;Build pushed branches&lt;/code&gt;和&lt;code&gt;Build pushed pull requests&lt;/code&gt;两项。&lt;/p&gt;
+
+&lt;p&gt;3.“Settings”-“Environment Variables” 添加&lt;code&gt;GITHUB_API_KEY&lt;/code&gt;，值是上一步得到的Token&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;3-3-添加配置文件&#34;&gt;3.3 添加配置文件&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;在git根目录下添加 .travis.yml 文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意我的项目背景,项目有两个git分支&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;hugo: 存放博客源码&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;master: 存放Hugo生成的静态站点文件&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yml&#34;&gt;  language: go
+  # Specify which branches to build using a safelist
+  # 分支白名单限制: 只有hugo分支的提交才会触发构建
+  branches:
+    only:
+      - hugo
+  git:
+    depth: 1
+  install:
+  # 安装最新的hugo
+    - go get github.com/spf13/hugo
+  script:
+    # 运行hugo命令
+    - hugo
+  deploy:
+    provider: pages  # 重要，指定这是一份github pages的部署配置
+    skip-cleanup: true  # 重要，不能省略
+    # token is set in travis-ci.org dashboard
+    github_token: $GITHUB_API_KEY  # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
+
+    local-dir: public # 静态站点文件所在目录
+    repo: wangzitao6/wangzitao6.github.io # github用户名/博客仓库名称
+    target_branch: master # 要将静态站点文件发布到哪个分支
+    keep-history: true # 是否保持target-branch分支的提交记录
+    on:
+      branch: hugo # 博客源码的分支
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;把 .travis.yml 放到hugo分支，push到GitHub。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-自动部署&#34;&gt;4.自动部署&lt;/h2&gt;
+
+&lt;p&gt;上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署,可以在Travis CI中看到构建日志。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -53,7 +583,212 @@
       <pubDate>Mon, 28 Aug 2017 23:41:16 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
-      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
+      <description>
+
+&lt;ul&gt;
+&lt;li&gt;摘要：
+本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;什么是hugo&#34;&gt;什么是Hugo&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hugo是一种静态网站生成器。适用于搭建个人博客、小型公司主页等网站，是一种小型的CMS系统。&lt;/p&gt;
+
+&lt;p&gt;静态站点的好处就是快速、安全、易于部署，最主要是可以通过版本控制来进行管理。&lt;/p&gt;
+
+&lt;p&gt;静态网站生成器有很多种，Github上有总结，知名的有Jekyll，Middle Man App，等等。&lt;/p&gt;
+
+&lt;p&gt;我之所以选择Hugo，首先是因为它支持Windows系统，并且安装很简单。其次是对markdown语法的支持，这对我来说很方便。然后是主题、文档支持等等各方面都比较完善。&lt;/p&gt;
+
+&lt;h2 id=&#34;如何用hugo搭建个人网站&#34;&gt;如何用Hugo搭建个人网站&lt;/h2&gt;
+
+&lt;p&gt;=============&lt;/p&gt;
+
+&lt;h3 id=&#34;1-下载和安装hugo&#34;&gt;1.下载和安装Hugo&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hugo是用Go语言写的，早期版本还要下载Go，目前版本是v0.18.1，直接下载，不再需要额外的依赖了。&lt;/p&gt;
+
+&lt;p&gt;win64x对应的是hugo_0.18.1_Windows-64bit.zip，下载后创建安装目录，例如D:\Hugo，之下建两个子目录bin和Sites，然后解压，例如解压到D:\Hugo\bin，把解压的hugo_0.18.1_windows_amd64.exe文件重命名为hugo.exe，然后加到环境变量Path里，方便在命令行里使用。&lt;/p&gt;
+
+&lt;p&gt;添加成功后打开cmd或者PowerShell，运行命令hugo version，如果安装成功，会输出Hugo Static Site Generator v0.54.0-B1A82C61 windows/amd64 BuildDate: 2017-08-01T09:42:02Z。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-搭建个人网站&#34;&gt;2.搭建个人网站&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;首先要确定自己要搭建什么网站，我要建的是托管到Github的用户网站，按照Github Pages规则，网站名应该是&lt;username.github.io&gt;，所以我第一步创建网站用以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd D:\Hugo\Sites
+hugo new site brent-li.github.io
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在Site目录下多了一个brent-li.github.io文件夹，进入文件夹可以看到目录结构如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|-- archetypes
+|-- config.toml
+|-- content
+|-- data
+|-- layouts
+`-- static
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;archetypes目录里可以放一些原型，用于hugo新建内容的配置属性。config.toml是网站的配置属性文件。content文件夹里放你网站的内容，例如你发布的博客文章。data目录是Hugo使用的配置文件存放的地方。layout目录存放布局内容。static目录存放静态资源如图片、css等。&lt;/p&gt;
+
+&lt;p&gt;接下来我们先在content里放点东西。命令如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd brent-li.github.io
+hugo new post/first.md
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hugo会在content目录下创建post目录，在post目录下创建 first.md文件。之后打开md文件，里面已经有些内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+++
+date = &amp;quot;2017-10-08T22:07:46+08:00&amp;quot;
+title = &amp;quot;first&amp;quot;
+draft = true
++++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;+++包起来的内容是TOML配置信息，叫作扉页(front matter)，默认这3项，可以再添加一些，其中draft是true时Hugo不会真正发布它，我修改后的扉页如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+++
+date = &amp;quot;2017-02-08T22:07:46+08:00&amp;quot;
+title = &amp;quot;Scala学习笔记之模式匹配&amp;quot;
+draft = false
+tags = [&amp;quot;scala&amp;quot;,&amp;quot;pattern matching&amp;quot;,&amp;quot;模式匹配&amp;quot;]
+share = true
++++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后再把我的博客内容复制进md文件，一篇博客完成了。接下来该给网站添加主题来装饰一下了。&lt;/p&gt;
+
+&lt;p&gt;Hugo主题网站提供了很多主题，选择自己喜欢的下载，我选择了casper，在自己网站目录下创建themes目录，然后下载主题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd themes
+git clone git clone https://github.com/zhaohuabing/hugo-theme-cleanwhite.git white
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后配置config.toml文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  baseurl = &amp;quot;https://wangzitao6.github.io&amp;quot; #一定要用https，github强制安全措施
+  title = &amp;quot;王子滔的博客&amp;quot;
+  theme = &amp;quot;white&amp;quot;
+  languageCode = &amp;quot;zh_CN&amp;quot;
+  # Enable comments by entering your Disqus shortname
+  DisqusShortname = &amp;quot;WangZiTao&amp;quot;
+  googleAnalytics = &amp;quot;&amp;quot;
+  preserveTaxonomyNames = true
+  paginate = 5 #frontpage pagination
+  hasCJKLanguage = true
+  [outputs]
+  home = [&amp;quot;HTML&amp;quot;, &amp;quot;Algolia&amp;quot;]
+
+  [params]
+    header_image = &amp;quot;images/1.jpg&amp;quot;
+    description = &amp;quot;王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。&amp;quot;
+    keyword = &amp;quot;王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice&amp;quot;
+    slogan = &amp;quot;~路漫漫其修远兮~&amp;quot;
+
+    image_404 = &amp;quot;images/404-bg.jpg&amp;quot;
+    title_404 = &amp;quot;你来到了没有知识的荒原 :(&amp;quot;
+
+    # leancloud storage for page view counter
+    page_view_conter = false
+    leancloud_app_id = &amp;quot;&amp;quot;
+    leancloud_app_key = &amp;quot;&amp;quot;
+
+    # algolia site search
+    algolia_search = true
+    algolia_appId = &amp;quot;WM4BEY1UDN&amp;quot;
+    algolia_indexName = &amp;quot;blog&amp;quot;
+    algolia_apiKey = &amp;quot;090c4a77b8bd4b8d2f2c1262afbc4be2&amp;quot;
+
+
+    # Sidebar settings
+    sidebar_about_description = &amp;quot;搬砖工程师&amp;quot;
+    #sidebar_avatar = &amp;quot;images/avatar-1.jpg&amp;quot;      # use absolute URL, seeing it&#39;s used in both `/` and `/about/`
+    sidebar_avatar = &amp;quot;images/me.jpg&amp;quot;      # use absolute URL, seeing it&#39;s used in both `/` and `/about/`
+
+    featured_tags = false
+    featured_condition_size = 1
+
+    # Baidu Analytics
+    ba_track_id = &amp;quot;28c952e35b6e860c096a2cdf52785c6f&amp;quot;
+
+    # We need a proxy to access Disqus api in China
+    # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
+    disqus_proxy = &amp;quot;&amp;quot;
+    disqus_site = &amp;quot;&amp;quot;
+
+    friends = false
+    bookmarks = false
+    about_me = true
+
+    [params.social]
+    rss            = false
+    email = &amp;quot;wang_zitao@foxmail.com&amp;quot; #邮箱
+    #facebook      = &amp;quot;full profile url in facebook&amp;quot;
+    #googleplus    = &amp;quot;full profile url in googleplus&amp;quot;
+    #twitter       = &amp;quot;full profile url in twitter&amp;quot;
+    #linkedin       = &amp;quot;https://www.linkedin.com/in/yourlinkedinid&amp;quot;
+    #stackoverflow  = &amp;quot;https://stackoverflow.com/users/yourstackoverflowid&amp;quot;
+    #instagram     = &amp;quot;full profile url in instagram&amp;quot;
+    github = &amp;quot;https://github.com/wangzitao6&amp;quot; #github用户名
+    wechat= &amp;quot;images/qrcode.jpg&amp;quot;  # Replace with your wechat qrcode image
+    #medium         = &amp;quot;full profile url in medium&amp;quot;
+    #pinterest     = &amp;quot;full profile url in pinterest&amp;quot;
+
+
+  [outputFormats.Algolia]
+  baseName = &amp;quot;algolia&amp;quot;
+  isPlainText = true
+  mediaType = &amp;quot;application/json&amp;quot;
+  notAlternative = true
+
+  [params.algolia]
+  vars = [&amp;quot;title&amp;quot;, &amp;quot;summary&amp;quot;, &amp;quot;date&amp;quot;, &amp;quot;publishdate&amp;quot;, &amp;quot;expirydate&amp;quot;, &amp;quot;permalink&amp;quot;]
+  params = [&amp;quot;categories&amp;quot;, &amp;quot;tags&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;配置完不要忘了把封面、头像图片都拷贝到static\images目录下。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;3-本地测试&#34;&gt;3.本地测试&lt;/h3&gt;
+
+&lt;p&gt;Hugo自带服务器，可以用命令行启动：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hugo server -t white
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;服务器启动后访问 &lt;a href=&#34;http://localhost:1313&#34;&gt;http://localhost:1313&lt;/a&gt; , 访问网站，发现问题可以及时修改。&lt;/p&gt;
+
+&lt;h3 id=&#34;4-发布到github&#34;&gt;4.发布到github&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;本地测试网站没有问题后，就可以准备发布了。执行以下命令&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hugo -t casper
+
+hugo-algolia -s //alogolia生成搜索文件命令
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hugo将编译所有文件并输出到public目录，你需要在github上创建repository，名字就是&amp;lt;你的用户名&amp;gt;.github.io，创建完后，返回你本地命令行，进入public目录，执行以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git init
+git add .
+git commit -m &amp;quot;Initial commit.&amp;quot;
+git remote add origin git@github.com:Brent-Li/brent-li.github.io.git
+git push -u origin master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;稍等片刻后，打开&amp;lt;你的用户名&amp;gt;.github.io网址，就可以看到你的个人网站了。&lt;/p&gt;
+</description>
     </item>
     
   </channel>

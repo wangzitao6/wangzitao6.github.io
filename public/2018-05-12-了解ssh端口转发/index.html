@@ -1,146 +1,3 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    
-    
-        <meta name="twitter:card" content="summary"/>
-    
-
-
-
-<meta name="twitter:title" content="SSH端口转发"/>
-<meta name="twitter:description" content="讲解ssh端口转发的大致原理以及使用"/>
-<meta name="twitter:site" content="@"/>
-
-
-
-  	<meta property="og:title" content="SSH端口转发 &middot; 王子滔的学习笔记" />
-  	<meta property="og:site_name" content="王子滔的学习笔记" />
-  	<meta property="og:url" content="https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" />
-
-    
-        
-    
-
-    
-    <meta property="og:description" content="讲解ssh端口转发的大致原理以及使用" />
-  	<meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2018-05-12T15:37:21&#43;08:00" />
-
-    
-    <meta property="article:tag" content="端口转发" />
-    
-    
-
-    <title>SSH端口转发 &middot; 王子滔的学习笔记</title>
-
-    
-    <meta name="description" content="讲解ssh端口转发的大致原理以及使用" />
-    
-
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="shortcut icon" href="/images/favicon.ico">
-	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
-
-    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
-
-    
-
-    
-
-    
-      
-          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
-      
-      
-    
-    <meta name="generator" content="Hugo 0.54.0" />
-
-    <link rel="canonical" href="https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" />
-
-    
-      
-    
-    <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "publisher": {
-        "@type": "Organization",
-        "name": 
-    },
-    "author": {
-        "@type": "Person",
-        "name": ,
-        
-        "url": ,
-        "sameAs": [
-            
-            
-             
-             
-             
-             
-             
-            
-        ]
-    },
-    "headline": SSH端口转发,
-    "name": SSH端口转发,
-    "wordCount": 4401,
-    "timeRequired": "PT9M",
-    "inLanguage": {
-      "@type": "Language",
-      "alternateName": en
-    },
-    "url": https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/,
-    "datePublished": 2018-05-12T15:37Z,
-    "dateModified": 2018-05-12T15:37Z,
-    
-    "keywords": 端口转发,
-    "description": 讲解ssh端口转发的大致原理以及使用,
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/
-    }
-}
-    </script>
-    
-
-
-    
-
-    
-
-    
-</head>
-<body class="nav-closed">
-
-  <div class="nav">
-    <h3 class="nav-title">Menu</h3>
-    <a href="#" class="nav-close">
-        <span class="hidden">Close</span>
-    </a>
-    <ul>
-        
-        
-    </ul>
-
-    
-    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
-    
-</div>
-<span class="nav-cover"></span>
-
-
- <div class="site-wrapper">
 
 
 
@@ -413,19 +270,19 @@ X 转发
     
 <section class="share">
   <h4>Share this post</h4>
-  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=SSH%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591%2f"
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=SSH%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591"
       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
       <span class="hidden">Twitter</span>
   </a>
-  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591%2f"
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591"
       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
       <span class="hidden">Facebook</span>
   </a>
-  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591%2f&amp;description=SSH%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91"
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591&amp;description=SSH%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91"
       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
       <span class="hidden">Pinterest</span>
   </a>
-  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591%2f"
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2018-05-12-%25E4%25BA%2586%25E8%25A7%25A3ssh%25E7%25AB%25AF%25E5%258F%25A3%25E8%25BD%25AC%25E5%258F%2591"
      onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
       <span class="hidden">Google+</span>
   </a>
@@ -442,8 +299,8 @@ X 转发
 
 
 var disqus_config = function () {
-this.page.url = "https:\/\/wangzitao6.github.io\/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91\/";  
-this.page.identifier = "https:\/\/wangzitao6.github.io\/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91\/"; 
+this.page.url = "https:\/\/wangzitao6.github.io\/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"; 
 };
 
 (function() { 
@@ -470,7 +327,7 @@ s.setAttribute('data-timestamp', +new Date());
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="no-cover" href="/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+      <a class="read-next-story" style="no-cover" href="/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">
           <section class="post">
               <h2>校验手机号码正则表达式</h2>
               
@@ -478,7 +335,7 @@ s.setAttribute('data-timestamp', +new Date());
       </a>
   
   
-      <a class="read-next-story prev" style="no-cover" href="/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5/">
+      <a class="read-next-story prev" style="no-cover" href="/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5">
           <section class="post">
               <h2>了解SQL注入</h2>
           </section>

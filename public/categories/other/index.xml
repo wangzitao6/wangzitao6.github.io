@@ -2,14 +2,96 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>other on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/categories/other/</link>
+    <link>https://wangzitao6.github.io/categories/other/index.xml</link>
     <description>Recent content in other on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Aug 2020 14:30:21 +0800</lastBuildDate>
+    <atom:link href="https://wangzitao6.github.io/categories/other/index.xml" rel="self" type="application/rss+xml" />
     
-	<atom:link href="https://wangzitao6.github.io/categories/other/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Io</title>
+      <link>https://wangzitao6.github.io/2021-04-15-%E5%BC%82%E6%AD%A5io/</link>
+      <pubDate>Thu, 15 Apr 2021 15:35:35 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2021-04-15-%E5%BC%82%E6%AD%A5io/</guid>
+      <description>&lt;p&gt;IO  -&amp;gt;网络通信IO socket -&amp;gt;BIO NIO 多路复用  -&amp;gt;Netty&lt;/p&gt;
+
+&lt;p&gt;BIO 每线程，每连接
+优势:可以接收很多的连接
+缺点:线程内存浪费 ，CPU调度消耗
+根源 BLOCKING  阻塞 accept recv
+解决方案 NONBLOCKING&lt;/p&gt;
+
+&lt;p&gt;NIO  一个是java New IO   一个是操作系统的nonblocking&lt;/p&gt;
+
+&lt;p&gt;java New IO 中会有对OS NONBLOCKING 的使用&lt;/p&gt;
+
+&lt;p&gt;ss.accept()时不会被卡住，会有返回(没有返回空，有就返回客户端)&lt;/p&gt;
+
+&lt;p&gt;NIO
+优势 规避多线程的问题
+弊端：当有一万个连接，但是只有一个连接发送消息的时候，每循环一次，会向内核发送一万次recv的请求调用，有9999此时无意义的 浪费和消耗资源&lt;/p&gt;
+
+&lt;p&gt;多路复用  多路复用器只是读取的状态，哪几个连接可以获取数据，由程序自己去发送recv请求调用获取数据&lt;/p&gt;
+
+&lt;p&gt;select 最多接收1024个链接
+poll   不限制链接数&lt;/p&gt;
+
+&lt;p&gt;select、poll多路复用器
+优势： 用过一次调用， 把fds传递给内核，有内核去遍历，返回可读的链接，这种遍历减少了系统调用的次数
+弊端：  1，重复传递fd(文件标示符)    解决方案，内核开辟空间保留fd
+2,每次select、poll 都要重新遍历全量的fd   解决方案（计算机组成原理的深度知识，中断，callback,增强）&lt;/p&gt;
+
+&lt;p&gt;epoll&lt;/p&gt;
+
+&lt;p&gt;同步IO模型： 如果程序自己读取IO,无论是BIO、NIO、多路复用器(select、poll、epoll)，统一称为同步IO模型
+异步IO模型：windows IOCP 内核有线程，将数据拷贝的程序的内存空间&lt;/p&gt;
+
+&lt;p&gt;=======================================================================================================================================================&lt;/p&gt;
+
+&lt;p&gt;在java中，NIO(New IO)有三个核心部分组成，分别是Buffer(缓冲区)，Channel(管道),以及Selector(选择器)
+IO处理客户端请求的最小单位是线程
+而NIO使用了比线程还小一级的单位：通道（Channel）
+可以说，NIO中只需要一个线程就能完成所有接收，读，写等操作&lt;/p&gt;
+
+&lt;p&gt;可以简单的理解为
+Buffer:是需要存储数据的地方。
+Channel:是运输数据的载体。
+Selector:用于检查多个Selector变更的状况。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                             Channel &amp;lt;-----(data)----&amp;gt; Channel 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;[client] &amp;mdash;-(data)&amp;mdash;-&amp;gt; Buffer &amp;mdash;-(data)&amp;mdash;&amp;gt;                                      &amp;mdash;-(data)&amp;mdash;-&amp;gt; Buffer &amp;mdash;-(data)&amp;mdash;&amp;gt; [Server]&lt;/p&gt;
+
+&lt;p&gt;ByteBuffer:&lt;/p&gt;
+
+&lt;p&gt;Buffer中对应的Position， Mark， Capacity，Limit都啥？
+capacity：缓冲区容量的大小，就是里面包含的数据大小。
+limit：对buffer缓冲区使用的一个限制，从这个index开始就不能读取数据了。
+position：代表着数组中可以开始读写的index， 不能大于limit。
+mark：是类似路标的东西，在某个position的时候，设置一下mark，此时就可以设置一个标记&lt;/p&gt;
+
+&lt;p&gt;所有的数据只会存在于缓存区中，无论你是写或是读，必然是缓存区通过通道到达磁盘文件，或是磁盘文件通过通道到达缓存区
+即缓存区是数据的「起点」，也是「终点」
+// 要使用NIO，有了Channel，就必然要有Buffer，Buffer是与数据打交道的呢，为ByteBuffer分配空间
+ByteBuffer buffer = ByteBuffer.allocate(1024);&lt;/p&gt;
+
+&lt;p&gt;//向Buffer写入数据
+1).数据从Channel到Buffer：channel.read(byteBuffer);
+2).数据从Client到Buffer： byteBuffer.put(&amp;hellip;);&lt;/p&gt;
+
+&lt;p&gt;//从Buffer读出数据
+1).数据从Buffer到Channel：channel.write(byteBuffer);
+2).数据从Buffer到Server： byteBuffer.get(&amp;hellip;);&lt;/p&gt;
+
+&lt;p&gt;Selector
+可使一个单独的线程管理多个 Channel， open 方法可创建 Selector， register 方法向多路复用器器注册通道，
+可以监听的事件类型：读、写、连接、 accept。注册事件后会产生一个 SelectionKey：
+它表示 SelectableChannel 和 Selector 之间的注册关系， wakeup 方法：使尚未返回的第一个选择操作立即返回，
+唤醒的原因是：注册了新的 channel 或者事件； channel 关闭，取消注册；优先级更高的事件触发（如定时器事件），希望及时处理&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>tps与qps</title>
@@ -17,16 +99,94 @@
       <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</guid>
-      <description>TPS TPS：是TransactionsPerSecond的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发</description>
+      <description>
+
+&lt;h1 id=&#34;tps&#34;&gt;TPS&lt;/h1&gt;
+
+&lt;p&gt;TPS：是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;TransactionsPerSecond&lt;/strong&gt;&lt;/font&gt;的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。&lt;/p&gt;
+
+&lt;p&gt;TPS处理流程：
+Tps即每秒处理事务数，包括了&lt;/p&gt;
+
+&lt;p&gt;1、用户请求服务器&lt;/p&gt;
+
+&lt;p&gt;2、服务器自己的内部查询等处理&lt;/p&gt;
+
+&lt;p&gt;3、服务器返回给用户&lt;/p&gt;
+
+&lt;p&gt;这三个过程，每秒能够完成N个这三个过程，Tps也就是N；&lt;/p&gt;
+
+&lt;p&gt;# QPS
+QPS：&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Queries Per Second&lt;/strong&gt; &lt;/font&gt;，顾名思义：“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。&lt;/p&gt;
+
+&lt;h1 id=&#34;tps与qps&#34;&gt;TPS与QPS&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;QPS基本类似于TPS，但是不同的是，对于一个页面的一次访问，形成一个TPS；&lt;/li&gt;
+&lt;li&gt;但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计入QPS之中,形成多个QPS。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;每秒查询率QPS是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准.&lt;/p&gt;
+
+&lt;p&gt;如果是对一个接口（单场景）压测，且这个接口内部不会再去请求其它接口，那么TPS等于QPS，否则，TPS不等于QPS&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Markdown进阶语法</title>
-      <link>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</link>
+      <link>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95</link>
       <pubDate>Fri, 02 Aug 2019 13:59:37 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</guid>
-      <description>字体、大小、颜色 &amp;lt;font face=&amp;quot;黑体&amp;quot;&amp;gt;我是黑体字&amp;lt;/font&amp;gt; &amp;lt;font face=&amp;quot;微软雅黑&amp;quo</description>
+      <guid>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95</guid>
+      <description>
+
+&lt;h2 id=&#34;字体-大小-颜色&#34;&gt;字体、大小、颜色&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;font face=&amp;quot;黑体&amp;quot;&amp;gt;我是黑体字&amp;lt;/font&amp;gt;
+&amp;lt;font face=&amp;quot;微软雅黑&amp;quot;&amp;gt;我是微软雅黑&amp;lt;/font&amp;gt;
+&amp;lt;font face=&amp;quot;STCAIYUN&amp;quot;&amp;gt;我是华文彩云&amp;lt;/font&amp;gt;
+&amp;lt;font color=red&amp;gt;我是红色&amp;lt;/font&amp;gt;
+&amp;lt;font color=#008000&amp;gt;我是绿色&amp;lt;/font&amp;gt;
+&amp;lt;font color=&amp;quot;#00dd00&amp;quot;&amp;gt;我是浅绿色&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;
+&amp;lt;font color=Blue&amp;gt;我是蓝色&amp;lt;/font&amp;gt;
+&amp;lt;font size=8&amp;gt;我是尺寸&amp;lt;/font&amp;gt;
+&amp;lt;font face=&amp;quot;黑体&amp;quot; color=red size=8&amp;gt;我是黑体，红色，尺寸为8&amp;lt;/font&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：&lt;/p&gt;
+
+&lt;p&gt;&lt;font face=&#34;黑体&#34;&gt;我是黑体字&lt;/font&gt;
+&lt;font face=&#34;微软雅黑&#34;&gt;我是微软雅黑&lt;/font&gt;
+&lt;font face=&#34;STCAIYUN&#34;&gt;我是华文彩云&lt;/font&gt;
+&lt;font color=red&gt;我是红色&lt;/font&gt;
+&lt;font color=#008000&gt;我是绿色&lt;/font&gt;
+&lt;font color=&#34;#00dd00&#34;&gt;我是浅绿色&lt;/font&gt;&lt;br /&gt;
+&lt;font color=Blue&gt;我是蓝色&lt;/font&gt;
+&lt;font size=8&gt;我是尺寸&lt;/font&gt;
+&lt;font face=&#34;黑体&#34; color=red size=8&gt;我是黑体，红色，尺寸为8&lt;/font&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;空格&#34;&gt;空格&lt;/h2&gt;
+
+&lt;p&gt;一个汉字占两个空格大小，所以使用四个空格就可以达到首行缩进两个汉字的效果。有如下几种方法：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;一个空格大小的表示：&lt;strong&gt;&amp;amp;ensp&lt;/strong&gt;;或 &lt;strong&gt;&amp;amp;#8194&lt;/strong&gt;;，此时只要在相应需要缩进的段落前加上 4个 如上的标记即可，&lt;strong&gt;注意要带上分号&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;两个空格的大小表示：&lt;strong&gt;&amp;amp;emsp&lt;/strong&gt;;或 &lt;strong&gt;&amp;amp;#8195&lt;/strong&gt;;，同理，使用2个即可缩进2个汉字，&lt;strong&gt;推荐使用该方式&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不换行空格：&lt;strong&gt;&amp;amp;nbsp&lt;/strong&gt;;或 &lt;strong&gt;&amp;amp;#160&lt;/strong&gt;;，使用4个 &lt;strong&gt;&amp;amp;#160&lt;/strong&gt;;即可。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;文字背景&#34;&gt;文字背景&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;table&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td bgcolor=red&amp;gt;红色背景&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/table&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=red&gt;红色背景&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;a href=&#34;https://www.appinn.com/markdown/basic.html&#34;&gt;Markdown: Basics （快速入门）&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -35,25 +195,332 @@
       <pubDate>Tue, 12 Jun 2018 09:31:57 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</guid>
-      <description>gitment登录失败 搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent]</description>
+      <description>
+
+&lt;h2 id=&#34;gitment登录失败&#34;&gt;gitment登录失败&lt;/h2&gt;
+
+&lt;p&gt;搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent],去官网看下发现是域名&lt;a href=&#34;https://gh-oauth.imsun.net证书过期了&#34;&gt;https://gh-oauth.imsun.net证书过期了&lt;/a&gt;,
+地址:&lt;code&gt;https://github.com/imsun/gitment/issues/170&lt;/code&gt;
+里面有几种解决方法&lt;/p&gt;
+
+&lt;h2 id=&#34;解决方法&#34;&gt;解决方法&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-本地解决&#34;&gt;1.本地解决&lt;/h3&gt;
+
+&lt;p&gt;由于引入的 gitment.js 中有这样的一段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   _utils.http.post(&#39;https://gh-oauth.imsun.net&#39;, {
+      code: code,
+      client_id: client_id,
+      client_secret: client_secret
+    }, &#39;&#39;).then(function (data) {
+      _this.accessToken = data.access_token;
+      _this.update();
+    }).catch(function (e) {
+      _this.state.user.isLoggingIn = false;
+      alert(e);
+    });
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;请求了一个服务接口，由于这个服务接口是作者自己搭建的，已经停止了。
+这里可以直接改为请求 github 认证的接口&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; _utils.http.post(&#39;https://github.com/login/oauth/access_token&#39;, {...}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就可以了,不用经过作者的服务&lt;/p&gt;
+
+&lt;h3 id=&#34;2-借用别人的服务&#34;&gt;2.借用别人的服务&lt;/h3&gt;
+
+&lt;p&gt;由于作者貌似已经弃坑,无法登陆的问题一直没有得到修复,许多大牛已经自己搭建了服务,可以在征得他们同意后,修改配置&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/06/001.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;把Install那一步换成这两个：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://jjeejj.github.io/css/gitment.css&amp;quot;&amp;gt;
+   &amp;lt;script src=&amp;quot;https://www.wenjunjiang.win/js/gitment.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-自己搭建服务&#34;&gt;3.自己搭建服务&lt;/h3&gt;
+
+&lt;p&gt;这个我没有试过,有兴趣的朋友可以参考这里:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://smalbox.club/2018/10/24/an-zhuang-gitment-ji-chang-jian-wen-ti-jie-jue/&#34;&gt;参考链接&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>校验手机号码正则表达式</title>
-      <link>https://wangzitao6.github.io/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+      <link>https://wangzitao6.github.io/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F</link>
       <pubDate>Tue, 29 May 2018 10:16:26 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
-      <description>需要通过的手机号： 中国移动：134、135、136、137、138、139、148、150、151、152、157(TD)、158、159、</description>
+      <guid>https://wangzitao6.github.io/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F</guid>
+      <description>&lt;p&gt;需要通过的手机号：&lt;/p&gt;
+
+&lt;p&gt;中国移动：&lt;strong&gt;134、135、136、137、138、139、148、150、151、152、157(TD)、158、159、182、183、184、187、178、188、198、147（数据卡号段） 、1705（虚拟运营商移动号段）、144十三位移动物联网&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;中国联通：&lt;strong&gt;130、131、132、145(数据卡号段)155、146、156、166、176、185、186、1709（虚拟运营商联通号段）、141十三位电信物联网&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;中国电信：&lt;strong&gt;133、153、177、180、181、189、199、1740、1349（卫星通讯号段）、1741（卫星通信号段）、1700（虚拟运营商电信号段）&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;整理后:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  130、131、132、133、134、135、136、137、138、139、
+  145、146、147、148、
+  150、151、152、153、155、156、157、158、159、
+  166、
+  176、177、178、
+
+  180、181、182、183、184、185、186、187、188、189、198、199
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;   ^((13[0-9])|(14[5-8])|(15([0-3]|[5-9]))|(16[6])|(17[0|4|6|7|8])|(18[0-9])|(19[8-9]))\d{8}$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;特殊：&lt;strong&gt;1349、1700、1705、1740、1741&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;    ^((134[9])|(170[0|5])|(174[0|1]))\d{7}$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;十三位：&lt;strong&gt;141、144&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;     ^(14[1|4])\d{10}$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;全部校验的正则：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  (^((13[0-9])|(14[5-8])|(15([0-3]|[5-9]))|(16[6])|(17[0|4|6|7|8])|(18[0-9])|(19[8-9]))\d{8}$)|(^((170[0|5])|(174[0|1]))\d{7}$)|(^(14[1|4])\d{10}$)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;最后觉得太麻烦,改成&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;12位,13-19开头&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt; ^(1[3-9])\\d{9}$
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
       <title>SSH端口转发</title>
-      <link>https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/</link>
+      <link>https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91</link>
       <pubDate>Sat, 12 May 2018 15:37:21 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/</guid>
-      <description>概述 当你在咖啡馆享受免费 WiFi 的时候，有没有想到可能有人正在窃取你的密码及隐私信息？当你发现实验室的防火墙阻止了你的网络应用端口，是不是有苦难言</description>
+      <guid>https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91</guid>
+      <description>
+
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+
+&lt;p&gt;当你在咖啡馆享受免费 WiFi 的时候，有没有想到可能有人正在窃取你的密码及隐私信息？当你发现实验室的防火墙阻止了你的网络应用端口，是不是有苦难言？来看看 SSH 的端口转发功能能给我们带来什么好处吧！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;端口转发概述&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;让我们先来了解一下端口转发的概念吧。我们知道，SSH 会自动加密和解密所有 SSH 客户端与服务端之间的网络数据。但是，SSH 还同时提供了一个非常有用的功能，这就是端口转发。它能够将其他 TCP 端口的网络数据通过 SSH 链接来转发，并且自动提供了相应的加密及解密服务。这一过程有时也被叫做“隧道”（tunneling），这是因为 SSH 为其他 TCP 链接提供了一个安全的通道来进行传输而得名。例如，Telnet，SMTP，LDAP 这些 TCP 应用均能够从中得益，避免了用户名，密码以及隐私信息的明文传输。而与此同时，如果您工作环境中的防火墙限制了一些网络端口的使用，但是允许 SSH 的连接，那么也是能够通过将 TCP 端口转发来使用 SSH 进行通讯。总的来说 SSH 端口转发能够提供两大功能：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;1.加密 SSH Client 端至 SSH Server 端之间的通讯数据。&lt;/p&gt;
+
+&lt;p&gt;2.突破防火墙的限制完成一些之前无法建立的 TCP 连接。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;图 1. SSH 端口转发
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/05/001.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如上图所示，使用了端口转发之后，TCP 端口 A 与 B 之间现在并不直接通讯，而是转发到了 SSH 客户端及服务端来通讯，从而自动实现了数据加密并同时绕过了防火墙的限制。&lt;/p&gt;
+
+&lt;h2 id=&#34;本地转发与远程转发&#34;&gt;本地转发与远程转发&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;本地转发实例分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;我们先来看第一个例子，在实验室里有一台 LDAP 服务器（LdapServerHost），但是限制了只有本机上部署的应用才能直接连接此 LDAP 服务器。如果我们由于调试或者测试的需要想临时从远程机器（LdapClientHost）直接连接到这个 LDAP 服务器 , 有什么方法能够实现呢？&lt;/p&gt;
+
+&lt;p&gt;答案无疑是本地端口转发了，它的命令格式是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -L &amp;lt;local port&amp;gt;:&amp;lt;remote host&amp;gt;:&amp;lt;remote port&amp;gt; &amp;lt;SSH hostname&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在 LdapClientHost 上执行如下命令即可建立一个 SSH 的本地端口转发，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -L 7001:localhost:389 LdapServerHost
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;图 2. 本地端口转发
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/05/002.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这里需要注意的是本例中我们选择了 7001 端口作为本地的监听端口，在选择端口号时要注意非管理员帐号是无权绑定 1-1023 端口的，所以一般是选用一个 1024-65535 之间的并且尚未使用的端口号即可。&lt;/p&gt;
+
+&lt;p&gt;然后我们可以将远程机器（LdapClientHost）上的应用直接配置到本机的 7001 端口上（而不是 LDAP 服务器的 389 端口上）。之后的数据流将会是下面这个样子：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;我们在 LdapClientHost 上的应用将数据发送到本机的 7001 端口上，&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;而本机的 SSH Client 会将 7001 端口收到的数据加密并转发到 LdapServertHost 的 SSH Server 上。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;SSH Server 会解密收到的数据并将之转发到监听的 LDAP 389 端口上，&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;最后再将从 LDAP 返回的数据原路返回以完成整个流程。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们可以看到，这整个流程应用并没有直接连接 LDAP 服务器，而是连接到了本地的一个监听端口，但是 SSH 端口转发完成了剩下的所有事情，加密，转发，解密，通讯。&lt;/p&gt;
+
+&lt;p&gt;这里有几个地方需要注意：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;SSH 端口转发是通过 SSH 连接建立起来的，我们必须保持这个 SSH 连接以使端口转发保持生效。一旦关闭了此连接，相应的端口转发也会随之关闭。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;我们只能在建立 SSH 连接的同时创建端口转发，而不能给一个已经存在的 SSH 连接增加端口转发。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;你可能会疑惑上面命令中的 &lt;remote host&gt; 为什么用 localhost，它指向的是哪台机器呢？&lt;strong&gt;&lt;code&gt;在本例中，它指向 LdapServertHost 。我们为什么用 localhost 而不是 IP 地址或者主机名呢？其实这个取决于我们之前是如何限制 LDAP 只有本机才能访问&lt;/code&gt;&lt;/strong&gt;。如果只允许 lookback 接口访问的话，那么自然就只有 localhost 或者 IP 为 127.0.0.1 才能访问了，而不能用真实 IP 或者主机名。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;命令中的 &lt;code&gt;&amp;lt;remote host&amp;gt;&lt;/code&gt; 和 &lt;code&gt;&amp;lt;SSH hostname&amp;gt;&lt;/code&gt; 必须是同一台机器么？其实是不一定的，它们可以是两台不同的机器。我们在后面的例子里会详细阐述这点。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;好了，我们已经在 LdapClientHost 建立了端口转发，那么这个端口转发可以被其他机器使用么？比如能否新增加一台 LdapClientHost2 来直接连接 LdapClientHost 的 7001 端口？答案是不行的，在主流 SSH 实现中，本地端口转发绑定的是 lookback 接口，这意味着只有 localhost 或者 127.0.0.1 才能使用本机的端口转发 , 其他机器发起的连接只会得到“ connection refused. ”。好在 SSH 同时提供了 GatewayPorts 关键字，我们可以通过指定它与其他机器共享这个本地端口转发。
+&lt;code&gt;ssh -g -L &amp;lt;local port&amp;gt;:&amp;lt;remote host&amp;gt;:&amp;lt;remote port&amp;gt; &amp;lt;SSH hostname&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;远程转发实例分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;我们来看第二个例子，这次假设由于网络或防火墙的原因我们不能用 SSH 直接从 LdapClientHost 连接到 LDAP 服务器（LdapServertHost），但是反向连接却是被允许的。那此时我们的选择自然就是远程端口转发了。&lt;/p&gt;
+
+&lt;p&gt;它的命令格式是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -R &amp;lt;local port&amp;gt;:&amp;lt;remote host&amp;gt;:&amp;lt;remote port&amp;gt; &amp;lt;SSH hostname&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如在 LDAP 服务器（LdapServertHost）端执行如下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -R 7001:localhost:389 LdapClientHost
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;图 3. 远程端口转发
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/05/003.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;和本地端口转发相比，这次的图里，SSH Server 和 SSH Client 的位置对调了一下，但是数据流依然是一样的。我们在 LdapClientHost 上的应用将数据发送到本机的 7001 端口上，而本机的 SSH Server 会将 7001 端口收到的数据加密并转发到 LdapServertHost 的 SSH Client 上。 SSH Client 会解密收到的数据并将之转发到监听的 LDAP 389 端口上，最后再将从 LDAP 返回的数据原路返回以完成整个流程。&lt;/p&gt;
+
+&lt;p&gt;看到这里，你是不是会有点糊涂了么？为什么叫本地转发，而有时又叫远程转发？这两者有什么区别？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;本地转发与远程转发的对比与分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;不错，SSH Server，SSH Client，LdapServertHost，LdapClientHost，本地转发，远程转发，这么多的名词的确容易让人糊涂。让我们来分析一下其中的结构吧。首先，SSH 端口转发自然需要 SSH 连接，而 SSH 连接是有方向的，从 SSH Client 到 SSH Server 。而我们的应用也是有方向的，比如需要连接 LDAP Server 时，LDAP Server 自然就是 Server 端，我们应用连接的方向也是从应用的 Client 端连接到应用的 Server 端。如果这两个连接的方向一致，那我们就说它是本地转发。而如果两个方向不一致，我们就说它是远程转发。&lt;/p&gt;
+
+&lt;p&gt;我们可以回忆上面的两个例子来做个对照。&lt;/p&gt;
+
+&lt;p&gt;本地转发时：&lt;/p&gt;
+
+&lt;p&gt;LdapClientHost 同时是应用的客户端，也是 SSH Client，这两个连接都从它指向 LdapServertHost（既是 LDAP 服务端，也是 SSH Server）。&lt;/p&gt;
+
+&lt;p&gt;远程转发时：&lt;/p&gt;
+
+&lt;p&gt;LdapClientHost 是应用的客户端，但却是 SSH Server ；而 LdapServertHost 是 LDAP 的服务端，但却是 SSH Client 。这样两个连接的方向刚好相反。&lt;/p&gt;
+
+&lt;p&gt;另一个方便记忆的方法是，Server 端的端口都是预定义的固定端口（SSH Server 的端口 22，LDAP 的端口 389），而 Client 端的端口都是动态可供我们选择的端口（如上述例子中选用的 7001 端口）。如果 Server 端的两个端口都在同一台机器，Client 端的两个端口都在另一台机器上，那么这就是本地连接；如果这四个端口交叉分布在两个机器上，每台机器各有一个 Server 端端口，一个 Client 端端口，那就是远程连接。&lt;/p&gt;
+
+&lt;p&gt;弄清楚了两者的区别之后，再来看看两者的相同之处。如果你所在的环境下，既允许 LdapClientHost 发起 SSH 连接到 LdapServerHost，也允许 LdapServerHost 发起 SSH 连接到 LdapClientHost 。那么这时我们选择本地转发或远程转发都是可以的，能完成一样的功能。&lt;/p&gt;
+
+&lt;p&gt;接着让我们来看个进阶版的端口转发。我们之前涉及到的各种连接 / 转发都只涉及到了两台机器，还记得我们在本地转发中提到的一个问题么？本地转发命令中的 &lt;remote host&gt; 和 &lt;SSH hostname&gt; 可以是不同的机器么？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -L &amp;lt;local port&amp;gt;:&amp;lt;remote host&amp;gt;:&amp;lt;remote port&amp;gt; &amp;lt;SSH hostname&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案是可以的！让我们来看一个涉及到四台机器 (A,B,C,D) 的例子。&lt;/p&gt;
+
+&lt;p&gt;图 4. 多主机转发应用
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/05/004.jpg&#34; alt=&#34;&#34; /&gt;
+在 SSH Client&amp;copy; 执行下列命令来建立 SSH 连接以及端口转发：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -g -L 7001:&amp;lt;B&amp;gt;:389 &amp;lt;D&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后在我们的应用客户端（A）上配置连接机器（C ）的 7001 端口即可。注意我们在命令中指定了“ -g ”参数以保证机器（A）能够使用机器（C）建立的本地端口转发。而另一个值得注意的地方是，在上述连接中，（A）&amp;lt;-&amp;gt; &amp;copy; 以及 (B)&amp;lt;-&amp;gt;(D) 之间的连接并不是安全连接，它们之间没有经过 SSH 的加密及解密。如果他们之间的网络并不是值得信赖的网络连接，我们就需要谨慎使用这种连接方式了。&lt;/p&gt;
+
+&lt;h2 id=&#34;其他类型的转发&#34;&gt;其他类型的转发&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;动态转发实例分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;恩，动态转发，听上去很酷。当你看到这里时，有没有想过我们已经讨论过了本地转发，远程转发，但是前提都是要求有一个固定的应用服务端的端口号，例如前面例子中的 LDAP 服务端的 389 端口。那如果没有这个端口号怎么办？等等，什么样的应用会没有这个端口号呢？嗯，比如说用浏览器进行 Web 浏览，比如说 MSN 等等。&lt;/p&gt;
+
+&lt;p&gt;当我们在一个不安全的 WiFi 环境下上网，用 SSH 动态转发来保护我们的网页浏览及 MSN 信息无疑是十分必要的。让我们先来看一下动态转发的命令格式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   ssh -D &amp;lt;local port&amp;gt; &amp;lt;SSH Server&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   ssh -D 7001 &amp;lt;SSH Server&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;图 5. 动态端口转发
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/05/005.jpg&#34; alt=&#34;&#34; /&gt;
+动态端口转发
+似乎很简单，我们依然选择了 7001 作为本地的端口号，其实在这里 SSH 是创建了一个 SOCKS 代理服务。来看看帮助文档中对 -D 参数的描述：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;-D port
+   This works by allocating a socket to listen to port on the local
+   side, and whenever a connection is made to this port, the con-
+   nection is forwarded over the secure channel, and the applica-
+   tion protocol is then used to determine where to connect to from
+   the remote machine.  Currently the SOCKS4 and SOCKS5 protocols
+   are supported, and ssh will act as a SOCKS server.  Only root
+   can forward privileged ports.  Dynamic port forwardings can also
+   be specified in the configuration file.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;之后的使用就简单了，我们可以直接使用 localhost:7001 来作为正常的 SOCKS 代理来使用，直接在浏览器或 MSN 上设置即可。在 SSH Client 端无法访问的网站现在也都可以正常浏览。而这里需要值得注意的是，此时 SSH 所包护的范围只包括从浏览器端（SSH Client 端）到 SSH Server 端的连接，并不包含从 SSH Server 端 到目标网站的连接。如果后半截连接的安全不能得到充分的保证的话，这种方式仍不是合适的解决方案。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;X 协议转发实例分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;好了，让我们来看最后一个例子 - X 协议转发。&lt;/p&gt;
+
+&lt;p&gt;我们日常工作当中，可能会经常会远程登录到 Linux/Unix/Solaris/HP 等机器上去做一些开发或者维护，也经常需要以 GUI 方式运行一些程序，比如要求图形化界面来安装 DB2/WebSphere 等等。这时候通常有两种选择来实现：VNC 或者 X 窗口，让我们来看看后者。&lt;/p&gt;
+
+&lt;p&gt;使用 X 窗口通常需要分别安装：X Client 和 X Server 。在本例中我们的 X Client 就是所访问的远程 Linux/Unix/Solaris/HP，而我们的 X Server 则是发起访问的本地机器（例如你面前正在使用的笔记本或台式机）。把 X Client 端的 X 窗口显示在 X Server 端需要先行在 X Client 端指定 X Server 的位置，命令格式如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   export DISPLAY=&amp;lt;X Server IP&amp;gt;:&amp;lt;display #&amp;gt;.&amp;lt;virtual #&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  export DISPLAY=myDesktop:1.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后直接运行 X 应用即可，X 窗口就会自动在我们的本地端打开。&lt;/p&gt;
+
+&lt;p&gt;一切运行正常，但是，这时候 IT 部门突然在远程 Linux/Unix/Solaris/HP 前面加了一道防火墙。非常不幸的是，X 协议并不在允许通过的列表之内。怎么办？只能使用 VNC 了么？不，其实只要使用了 SSH 端口转发即可通过，同时也对 X 通讯数据做了加密，真是一举两得。（当然，使用此方法前最好先咨询相关 IT 部门是否符合相应的安全条例，以免造成违规操作。）&lt;/p&gt;
+
+&lt;p&gt;建立命令也很简单，直接从本地机器（X Server 端）发起一个如下的 SSH 连接即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ssh -X &amp;lt;SSH Server&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;图 5. X 转发
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/05/006.jpg&#34; alt=&#34;&#34; /&gt;
+X 转发
+建立连接之后就可以直接运行远程的 X 应用。注意建立 X 转发之后会自动设置 DISPLAY 环境变量，通常会被设置成localhost:10.0，我们无需也不应该在连接之后再进行修改此环境变量。&lt;/p&gt;
+
+&lt;p&gt;一个比较常见的场景是，我们的本地机器是 Windows 操作系统，这时可以选择开源的 XMing 来作为我们的 XServer，而 SSH Client 则可以任意选择了，例如 PuTTY，Cygwin 均可以配置 访问 SSH 的同时建立 X 转发。&lt;/p&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;至此，我们已经完成了本地端口转发，远程端口转发，动态端口转发以及 X 转发的介绍。回顾起来，总的思路是通过将 TCP 连接转发到 SSH 通道上以解决数据加密以及突破防火墙的种种限制。对一些已知端口号的应用，例如 Telnet/LDAP/SMTP，我们可以使用本地端口转发或者远程端口转发来达到目的。动态端口转发则可以实现 SOCKS 代理从而加密以及突破防火墙对 Web 浏览的限制。对于 X 应用，无疑是 X 转发最为适用了。虽然每一部分我们都只是简单的介绍了一下，但如果能灵活应用这些技巧，相信对我们的日常生活 / 工作也是会有所帮助的。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/?mhq=ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91&#34;&gt;原文链接&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -62,7 +529,310 @@
       <pubDate>Tue, 10 Apr 2018 18:21:17 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-04-10-%E9%9B%86%E6%88%90algolia%E6%90%9C%E7%B4%A2/</guid>
-      <description>1.简介 Algolia是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化</description>
+      <description>
+
+&lt;h2 id=&#34;1-简介&#34;&gt;1.简介&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.algolia.com/&#34;&gt;Algolia&lt;/a&gt;是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化率等等。可以使用 InstantSearch 等前端框架进行自定义搜索，为用户创造最佳的搜索体验。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-注册&#34;&gt;2.注册&lt;/h2&gt;
+
+&lt;p&gt;前往官方网站&lt;a href=&#34;https://www.algolia.com/&#34;&gt;https://www.algolia.com/&lt;/a&gt; 使用 GitHub 或 Google 帐号登录。登录完成后根据提示信息填写一些基本的信息即可，注册完成后前往 &lt;a href=&#34;https://www.algolia.com/dashboard&#34;&gt;Dashboard&lt;/a&gt;，我们可以发现 Algolia 会默认给我们生成一个 app。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/005.png&#34; alt=&#34;dashboard index&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择 Indices，添加一个新的索引，我们这里命名为&lt;code&gt;hugo&lt;/code&gt;，创建成功后，我们可以看到提示中还没有任何记录。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/004.png&#34; alt=&#34;indices&#34; /&gt;
+Algolia 为我们提供了三种方式来增加记录：手动添加、上传 json 文件、API。我们这里使用第三种方式来进行数据的添加。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-插件&#34;&gt;3.插件&lt;/h2&gt;
+
+&lt;p&gt;要使用 API 的方式来添加搜索的数据，我们可以自己根据 Algolia 提供的 &lt;a href=&#34;https://www.algolia.com/doc/api-reference/&#34;&gt;API 文档&lt;/a&gt;进行开发，这也是很容易的，为简单起见，我们这里使用一个&lt;code&gt;hugo-algolia&lt;/code&gt;的插件来完成我们的数据同步工作。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;要安装&lt;code&gt;hugo-aligolia&lt;/code&gt;我们需要先确保我们已经安装了 npm 或者 yarn 包管理工具。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;使用下面的命令安装即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ npm install hugo-algolia -g
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;安装完成后，在我们 hugo 生产的静态页面的根目录下面新建一个&lt;code&gt;config.yaml&lt;/code&gt;的文件(和&lt;code&gt;config.toml&lt;/code&gt;同级)，然后在&lt;code&gt;config.yaml&lt;/code&gt;文件中指定 &lt;code&gt;Algolia&lt;/code&gt;相关的 API 数据。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;baseurl: &amp;quot;/&amp;quot;
+DefaultContentLanguage: &amp;quot;zh-cn&amp;quot;
+hasCJKLanguage: true
+languageCode: &amp;quot;zh-cn&amp;quot;
+title: &amp;quot;River&#39;s Site&amp;quot;
+theme: &amp;quot;beautifulhugo&amp;quot;
+metaDataFormat: &amp;quot;yaml&amp;quot;
+
+algolia_search = true
+algolia_appId = &amp;quot;3DH4V2B4JK&amp;quot;
+algolia_indexName = &amp;quot;hugo&amp;quot;
+algolia_apiKey = &amp;quot;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;API 相关数据可以前往 dashboard 的 &lt;code&gt;API Keys&lt;/code&gt;查看，注意上面的&lt;code&gt;key&lt;/code&gt;是&lt;strong&gt;Admin API Key&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;配置完成以后，在根目录下面执行下面的命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ hugo-algolia -s
+JSON index file was created in public/algolia.json
+{ updatedAt: &#39;2019-03-20T10:29:03.861Z&#39;, taskID: 4896848941 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后我们可以看到，上面命令执行完成后会在&lt;code&gt;public&lt;/code&gt;目录下面生成一个&lt;code&gt;algolia.json&lt;/code&gt;的文件。这个时候我们在 dashboard 中打开 Indices，可以看到已经有几十条数据了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/003.png&#34; alt=&#34;Indices&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果某篇文章不想被索引的话，我们只需要在文件的最前面设置 index 参数为 false 即可，&lt;code&gt;hugo-algolia&lt;/code&gt;插件在索引的过程中会自动跳过它。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;4-前端&#34;&gt;4.前端&lt;/h2&gt;
+
+&lt;p&gt;现在我们将需要被搜索的文章数据已经成功提交到&lt;code&gt;Algolia&lt;/code&gt;，接下来的事情就是前端页面的展示了。下面的操作对于不同的主题或许有不同的地方，请根据自己的实际情况进行相应的修改。我这里使用的是&lt;code&gt;white&lt;/code&gt;主题，在&lt;code&gt;themes/white/layouts/partials&lt;/code&gt;目录下面新增文件：（&lt;strong&gt;search.html&lt;/strong&gt;）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;  &amp;lt;!-- Including InstantSearch.js library and styling --&amp;gt;
+  &amp;lt;script src=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&amp;quot;&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&amp;quot;&amp;gt;
+
+  &amp;lt;div id=&amp;quot;search-searchbar&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+   &amp;lt;div class=&amp;quot;post-list&amp;quot; id=&amp;quot;search-hits&amp;quot;&amp;gt;
+   &amp;lt;/div&amp;gt;
+
+  &amp;lt;script&amp;gt;
+  const search = instantsearch({
+    appId: &#39;{{ .Site.Params.algolia_appId }}&#39;,
+    indexName: &#39;{{ .Site.Params.algolia_indexName }}&#39;,
+    apiKey: &#39;{{ .Site.Params.algolia_apiKey }}&#39;
+  });
+
+  const hitTemplate = function(hit) {
+  /*  if (hit === null){
+        return;
+    }*/
+    // debugger;
+    let date = &#39;&#39;;
+    if (hit.date) {
+      date = moment(hit.date).format(&#39;MMM D, YYYY&#39;);
+    }
+    let url = `${hit.url}#${hit.author}`;
+    const title = hit._highlightResult.title.value;
+
+    let breadcrumbs = &#39;&#39;;
+    if (hit._highlightResult.headings) {
+      breadcrumbs = hit._highlightResult.headings.map(match =&amp;gt; {
+        return `&amp;lt;span class=&amp;quot;post-breadcrumb&amp;quot;&amp;gt;${match.value}&amp;lt;/span&amp;gt;`
+      }).join(&#39; &amp;gt; &#39;)
+    }
+
+    let description = &amp;quot;&amp;quot; ;
+    if (hit._highlightResult.description){
+        description = hit._highlightResult.description.value;
+    }
+    else{
+        description = hit.summary;
+    }
+
+
+    return `
+      &amp;lt;div class=&amp;quot;post-item&amp;quot;&amp;gt;
+        &amp;lt;h3&amp;gt;&amp;lt;a class=&amp;quot;post-link&amp;quot; href=&amp;quot;${url}&amp;quot;&amp;gt;${title}&amp;lt;/a&amp;gt;&amp;lt;/h3&amp;gt;
+        &amp;lt;a href=&amp;quot;${url}&amp;quot; class=&amp;quot;post-breadcrumbs&amp;quot;&amp;gt;${breadcrumbs}&amp;lt;/a&amp;gt;
+        &amp;lt;div class=&amp;quot;post-snippet&amp;quot;&amp;gt;${description}&amp;lt;/div&amp;gt;
+        &amp;lt;span class=&amp;quot;post-meta&amp;quot;&amp;gt;${date}&amp;lt;/span&amp;gt;
+      &amp;lt;/div&amp;gt;
+    `;
+  }
+
+
+  search.addWidget(
+    instantsearch.widgets.searchBox({
+      container: &#39;#search-searchbar&#39;,
+      placeholder: &#39;Search into posts...&#39;,
+      poweredBy: true // This is required if you&#39;re on the free Community plan
+    })
+  );
+
+  search.addWidget(
+    instantsearch.widgets.hits({
+      container: &#39;#search-hits&#39;,
+      templates: {
+        item: hitTemplate
+      }
+    })
+  );
+
+  search.start();
+  &amp;lt;/script&amp;gt;
+
+  &amp;lt;style&amp;gt;
+  .ais-search-box {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  .post-item {
+    margin-bottom: 30px;
+  }
+  .post-link .ais-Highlight {
+    color: #111;
+    font-style: normal;
+    text-decoration: underline;
+  }
+  .post-breadcrumbs {
+    color: #424242;
+    display: block;
+  }
+  .post-breadcrumb {
+    font-size: 18px;
+    color: #424242;
+  }
+  .post-breadcrumb .ais-Highlight {
+    font-weight: bold;
+    font-style: normal;
+  }
+  .post-snippet .ais-Highlight {
+    color: #2a7ae2;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .post-snippet img {
+    display: none;
+  }
+  &amp;lt;/style&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意上面 JS 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;  &amp;lt;script&amp;gt;
+  const search = instantsearch({
+    appId: &#39;{{ .Site.Params.algolia_appId }}&#39;,
+    indexName: &#39;{{ .Site.Params.algolia_indexName }}&#39;,
+    apiKey: &#39;{{ .Site.Params.algolia_apiKey }}&#39;
+  });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;algolia_search&lt;/code&gt;的第一个参数为是否开启索引&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;algolia_appId&lt;/code&gt;的第二个参数为Application ID &lt;code&gt;3DH4V2B4JK&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;algolia_indexName&lt;/code&gt;为我们创建的索引名称&lt;code&gt;hugo&lt;/code&gt;，&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;algolia_apiKey&lt;/code&gt;为我们的Admin API Key&lt;code&gt;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;然后我们只需要添加一个搜索入口即可，在&lt;code&gt;themes/white/layouts/partials/nav.html&lt;/code&gt;文件最下面添加如下代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;  &amp;lt;!-- Navigation --&amp;gt;
+  &amp;lt;nav class=&amp;quot;navbar navbar-default navbar-custom navbar-fixed-top&amp;quot;&amp;gt;
+      &amp;lt;div class=&amp;quot;container-fluid&amp;quot;&amp;gt;
+          &amp;lt;!-- Brand and toggle get grouped for better mobile display --&amp;gt;
+          &amp;lt;div class=&amp;quot;navbar-header page-scroll&amp;quot;&amp;gt;
+              &amp;lt;button type=&amp;quot;button&amp;quot; class=&amp;quot;navbar-toggle&amp;quot;&amp;gt;
+                  &amp;lt;span class=&amp;quot;sr-only&amp;quot;&amp;gt;Toggle navigation&amp;lt;/span&amp;gt;
+                  &amp;lt;span class=&amp;quot;icon-bar&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+                  &amp;lt;span class=&amp;quot;icon-bar&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+                  &amp;lt;span class=&amp;quot;icon-bar&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+              &amp;lt;/button&amp;gt;
+              &amp;lt;a class=&amp;quot;navbar-brand&amp;quot; href=&amp;quot;{{ &amp;quot;/&amp;quot; | relLangURL }}&amp;quot;&amp;gt;{{ .Site.Title }}&amp;lt;/a&amp;gt;
+          &amp;lt;/div&amp;gt;
+
+          &amp;lt;!-- Collect the nav links, forms, and other content for toggling --&amp;gt;
+          &amp;lt;!-- Known Issue, found by Hux:
+              &amp;lt;nav&amp;gt;&#39;s height woule be hold on by its content.
+              so, when navbar scale out, the &amp;lt;nav&amp;gt; will cover tags.
+              also mask any touch event of tags, unfortunately.
+          --&amp;gt;
+          &amp;lt;div id=&amp;quot;huxblog_navbar&amp;quot;&amp;gt;
+              &amp;lt;div class=&amp;quot;navbar-collapse&amp;quot;&amp;gt;
+                  &amp;lt;ul class=&amp;quot;nav navbar-nav navbar-right&amp;quot;&amp;gt;
+                      &amp;lt;li&amp;gt;
+                          &amp;lt;a href=&amp;quot;{{ &amp;quot;/&amp;quot; | relLangURL }}&amp;quot;&amp;gt;Home&amp;lt;/a&amp;gt;
+                      &amp;lt;/li&amp;gt;
+                      {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                      &amp;lt;li&amp;gt;
+                          &amp;lt;a href=&amp;quot;{{ &amp;quot;categories/&amp;quot; | relLangURL }}{{ $name | urlize }}&amp;quot;&amp;gt;{{ $name }}&amp;lt;/a&amp;gt;
+                      &amp;lt;/li&amp;gt;
+                      {{ end }}
+
+            {{ range .Site.Params.addtional_menus }}
+                          &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;{{.href | relLangURL}}&amp;quot;&amp;gt;{{.title}}&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+                      {{ end }}
+
+                      {{ if .Site.Params.algolia_search }}
+            &amp;lt;li&amp;gt;
+                          &amp;lt;a href=&amp;quot;{{ &amp;quot;search&amp;quot; | relURL }}&amp;quot;&amp;gt;SEARCH &amp;lt;img src=&amp;quot;{{ &amp;quot;img/search.png&amp;quot; | relURL }}&amp;quot; height=&amp;quot;15&amp;quot; style=&amp;quot;cursor: pointer;&amp;quot; alt=&amp;quot;Search&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+            &amp;lt;/li&amp;gt;
+                      {{ end }}
+                  &amp;lt;/ul&amp;gt;
+              &amp;lt;/div&amp;gt;
+          &amp;lt;/div&amp;gt;
+          &amp;lt;!-- /.navbar-collapse --&amp;gt;
+      &amp;lt;/div&amp;gt;
+      &amp;lt;!-- /.container --&amp;gt;
+  &amp;lt;/nav&amp;gt;
+  &amp;lt;script&amp;gt;
+      // Drop Bootstarp low-performance Navbar
+      // Use customize navbar with high-quality material design animation
+      // in high-perf jank-free CSS3 implementation
+      var $body   = document.body;
+      var $toggle = document.querySelector(&#39;.navbar-toggle&#39;);
+      var $navbar = document.querySelector(&#39;#huxblog_navbar&#39;);
+      var $collapse = document.querySelector(&#39;.navbar-collapse&#39;);
+
+      $toggle.addEventListener(&#39;click&#39;, handleMagic)
+      function handleMagic(e){
+          if ($navbar.className.indexOf(&#39;in&#39;) &amp;gt; 0) {
+          // CLOSE
+              $navbar.className = &amp;quot; &amp;quot;;
+              // wait until animation end.
+              setTimeout(function(){
+                  // prevent frequently toggle
+                  if($navbar.className.indexOf(&#39;in&#39;) &amp;lt; 0) {
+                      $collapse.style.height = &amp;quot;0px&amp;quot;
+                  }
+              },400)
+          }else{
+          // OPEN
+              $collapse.style.height = &amp;quot;auto&amp;quot;
+              $navbar.className += &amp;quot; in&amp;quot;;
+          }
+      }
+  &amp;lt;/script&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中最重要的代码是引入上面我们新建的&lt;code&gt;search.html&lt;/code&gt;文件。css引用的别人的文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&amp;quot;&amp;gt;
+&amp;lt;link rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; href=&amp;quot;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&amp;quot;&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;5-搜索&#34;&gt;5.搜索&lt;/h2&gt;
+
+&lt;p&gt;上面的所有工作完成后，我们重新生成静态页面，更新网站数据。我们可以看到导航栏最右边已经有了一个搜索按钮了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/006.png&#34; alt=&#34;search demo&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;6-参考资料&#34;&gt;6.参考资料&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/zhaohuabing/hugo-theme-cleanwhite/&#34;&gt;https://github.com/zhaohuabing/hugo-theme-cleanwhite/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gohugo.io/tools/search/&#34;&gt;https://gohugo.io/tools/search/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.npmjs.com/package/hugo-algolia&#34;&gt;https://www.npmjs.com/package/hugo-algolia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
@@ -71,7 +841,87 @@
       <pubDate>Tue, 20 Mar 2018 11:06:11 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
-      <description>引言 Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown</description>
+      <description>
+
+&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;
+
+&lt;p&gt;Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown / GFM 和代码高亮支持。尤为适合各种基于 GitHub Pages 的静态博客或项目页面。&lt;/p&gt;
+
+&lt;p&gt;本博客评论系统已迁移至 Gitment。虽然 Gitment 只能使用 GitHub 账号进行评论，但考虑到博客受众，这是可以接受的。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/imsun/gitment&#34;&gt;项目地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://imsun.github.io/gitment/&#34;&gt;示例页面&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-注册-oauth-application&#34;&gt;1. 注册 OAuth Application&lt;/h2&gt;
+
+&lt;p&gt;点击此处 来注册一个新的 OAuth Application,&lt;a href=&#34;https://github.com/settings/developers&#34;&gt;申请地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;其他内容可以随意填写，但要确保填入正确的Authorization callback URL（一般是评论页面对应的域名，
+如 &lt;code&gt;https://wangzitao6.github.io&lt;/code&gt;）注意域名后不要带斜杠&lt;/p&gt;
+
+&lt;p&gt;Homepage URL也可以填写域名&lt;code&gt;https://wangzitao6.github.io&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;你会得到一个 client ID 和一个 client secret，这个将被用于之后的用户登录。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-引入-gitment&#34;&gt;2. 引入 Gitment&lt;/h2&gt;
+
+&lt;p&gt;将下面的代码添加到你的页面：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;lt;div id=&amp;quot;container&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;https://imsun.github.io/gitment/style/default.css&amp;quot;&amp;gt;
+  &amp;lt;script src=&amp;quot;https://imsun.github.io/gitment/dist/gitment.browser.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+  &amp;lt;script&amp;gt;
+  var gitment = new Gitment({
+    id: &#39;页面 ID&#39;, // 可选。默认为 location.href
+    owner: &#39;你的 GitHub ID&#39;,
+    repo: &#39;存储评论的 repo&#39;,
+    oauth: {
+      client_id: &#39;你的 client ID&#39;,
+      client_secret: &#39;你的 client secret&#39;,
+    },
+  })
+  gitment.render(&#39;container&#39;)
+  &amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，上述代码引用的 Gitment 将会随着开发变动。如果你希望始终使用最新的界面与特性即可引入上述代码。&lt;/p&gt;
+
+&lt;p&gt;如果你希望引用确定版本的 Gitment，则应该使用 npm 进行安装。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ npm install --save gitment&lt;/code&gt;
+关于构造函数中的更多可用参数&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;owner:是你的github登录名,&lt;/li&gt;
+&lt;li&gt;repo:是你的github里面的项目名,初始化的评论会放在项目的issues中&lt;/li&gt;
+&lt;li&gt;id:页面评论在issues的唯一标示,不宜过长,否则会报错&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我的示例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;lt;script&amp;gt;
+    var gitment = new Gitment({
+      id: &#39;{{ .File.BaseFileName }}&#39;,
+      owner: &#39;wangzitao6&#39;,
+      repo: &#39;wangzitao6.github.io&#39;,
+      oauth: {
+        client_id: &#39;a09xxxxxxxxxxxxxxx&#39;,
+        client_secret: &#39;ec6b34b6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#39;,
+      }
+    })
+    gitment.render(&#39;git-comments&#39;)
+  &amp;lt;/script&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;3-初始化评论&#34;&gt;3. 初始化评论&lt;/h2&gt;
+
+&lt;p&gt;页面发布后，你需要访问页面并使用你的 GitHub 账号登录（请确保你的账号是第二步所填 repo 的 owner），点击初始化按钮。
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/03/002.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;之后其他用户即可在该页面发表评论。&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -80,7 +930,104 @@
       <pubDate>Sat, 10 Mar 2018 00:16:42 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-03-10-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</guid>
-      <description>1.简介 Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个</description>
+      <description>
+
+&lt;h2 id=&#34;1-简介&#34;&gt;1.简介&lt;/h2&gt;
+
+&lt;p&gt;Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个人博客的绝佳选择。但是用hugo一段时间后,发现新增博客时部署比较麻烦,经过几天的折腾后发现了Travis CI。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-travis-ci是什么&#34;&gt;2.Travis CI是什么&lt;/h2&gt;
+
+&lt;p&gt;一个持续化集成平台，类似Jenkins。功能强大，和GitHub的集成尤其好，我们用它部署个人博客算大材小用。它有两个版本:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://travis-ci.org/&#34;&gt;https://travis-ci.org/&lt;/a&gt; 免费版本，可以集成GitHub的public项目&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://travis-ci.com/&#34;&gt;https://travis-ci.com/&lt;/a&gt; 商业版本，可以集成GitHub的private项目&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们使用第一个，免费版本。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-配置travis-ci&#34;&gt;3.配置Travis CI&lt;/h2&gt;
+
+&lt;h3 id=&#34;3-1-为travis-ci生成github-token&#34;&gt;3.1 为Travis CI生成GitHub Token&lt;/h3&gt;
+
+&lt;p&gt;打开GitHub。路径: “Settings”-&amp;gt;“Developer settings”-&amp;gt;“Personal access tokens”-&amp;gt;“Generate new token”。&lt;a href=&#34;https://github.com/settings/tokens/new&#34;&gt;直达车&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;因为是public项目，而且Travis CI是用来push代码，所以只需勾选 public_repo, repo:status, repo_deployment 三项。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/br&gt;
+然后点击Generate Token 生成token.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-2-配置travis-ci构建选项&#34;&gt;3.2 配置Travis CI构建选项&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;1.用GitHub方式登录&lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.“Settings”-“General” 勾选&lt;code&gt;Build pushed branches&lt;/code&gt;和&lt;code&gt;Build pushed pull requests&lt;/code&gt;两项。&lt;/p&gt;
+
+&lt;p&gt;3.“Settings”-“Environment Variables” 添加&lt;code&gt;GITHUB_API_KEY&lt;/code&gt;，值是上一步得到的Token&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;3-3-添加配置文件&#34;&gt;3.3 添加配置文件&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;在git根目录下添加 .travis.yml 文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注意我的项目背景,项目有两个git分支&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;hugo: 存放博客源码&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;master: 存放Hugo生成的静态站点文件&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yml&#34;&gt;  language: go
+  # Specify which branches to build using a safelist
+  # 分支白名单限制: 只有hugo分支的提交才会触发构建
+  branches:
+    only:
+      - hugo
+  git:
+    depth: 1
+  install:
+  # 安装最新的hugo
+    - go get github.com/spf13/hugo
+  script:
+    # 运行hugo命令
+    - hugo
+  deploy:
+    provider: pages  # 重要，指定这是一份github pages的部署配置
+    skip-cleanup: true  # 重要，不能省略
+    # token is set in travis-ci.org dashboard
+    github_token: $GITHUB_API_KEY  # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
+
+    local-dir: public # 静态站点文件所在目录
+    repo: wangzitao6/wangzitao6.github.io # github用户名/博客仓库名称
+    target_branch: master # 要将静态站点文件发布到哪个分支
+    keep-history: true # 是否保持target-branch分支的提交记录
+    on:
+      branch: hugo # 博客源码的分支
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;把 .travis.yml 放到hugo分支，push到GitHub。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-自动部署&#34;&gt;4.自动部署&lt;/h2&gt;
+
+&lt;p&gt;上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署,可以在Travis CI中看到构建日志。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -89,7 +1036,611 @@
       <pubDate>Sat, 28 Oct 2017 22:59:30 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2017-10-28-markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</guid>
-      <description>1.内容目录 在段落中填写 [TOC] 以显示全文内容的目录结构。 2.标题 # 这是一级标题 ## 这是二级标题 ### 这是三级标题 #### 这是四级标题 ##### 这是五级标题 ###### 这是六级</description>
+      <description>
+
+&lt;h2 id=&#34;1-内容目录&#34;&gt;1.内容目录&lt;/h2&gt;
+
+&lt;p&gt;在段落中填写 &lt;code&gt;[TOC]&lt;/code&gt; 以显示全文内容的目录结构。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-标题&#34;&gt;2.标题&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;# 这是一级标题
+## 这是二级标题
+### 这是三级标题
+#### 这是四级标题
+##### 这是五级标题
+###### 这是六级标题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;3-字体&#34;&gt;3.字体&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;加粗&lt;/strong&gt;
+要加粗的文字左右分别用两个*号包起来&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;斜体&lt;/strong&gt;
+要倾斜的文字左右分别用一个*号包起来&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;斜体加粗&lt;/strong&gt;
+要倾斜和加粗的文字左右分别用三个*号包起来&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;删除线&lt;/strong&gt;
+要加删除线的文字左右分别用两个~~号包起来&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;**这是加粗的文字**
+*这是倾斜的文字*`
+***这是斜体加粗的文字***
+~~这是加删除线的文字~~
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;这是加粗的文字&lt;/strong&gt;
+&lt;em&gt;这是倾斜的文字&lt;/em&gt;`
+&lt;strong&gt;&lt;em&gt;这是斜体加粗的文字&lt;/em&gt;&lt;/strong&gt;
+&lt;del&gt;这是加删除线的文字&lt;/del&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;4-引用&#34;&gt;4.引用&lt;/h2&gt;
+
+&lt;p&gt;在引用的文字前加&amp;gt;即可。引用也可以嵌套，如加两个&amp;gt;&amp;gt;三个&amp;gt;&amp;gt;&amp;gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;gt;这是引用的内容
+  &amp;gt;&amp;gt;这是引用的内容
+  &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;这是引用的内容
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这是引用的内容&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这是引用的内容&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这是引用的内容&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;5-分割线&#34;&gt;5.分割线&lt;/h2&gt;
+
+&lt;p&gt;三个或者三个以上的 - 或者 *
+示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ---
+  ----
+  ***
+  *****
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果如下：&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;6-图片&#34;&gt;6.图片&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;网络图片
+![bb](https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/background/1.jpeg)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/background/1.jpeg&#34; alt=&#34;bb&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;本地图片:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  ![aa](/images/bg-blog.jpg)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:
+&lt;img src=&#34;https://wangzitao6.github.io/images/bg-blog.jpg&#34; alt=&#34;aa&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;7-超链接&#34;&gt;7.超链接&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[超链接名](超链接地址 &amp;quot;超链接title&amp;quot;)
+title可加可不加
+
+https://wangzitao6.github.io/ - 自动生成！
+[博客](https://wangzitao6.github.io/,&amp;quot;超链接title&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:
+&lt;a href=&#34;https://wangzitao6.github.io/&#34;&gt;https://wangzitao6.github.io/&lt;/a&gt; - 自动生成！&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://wangzitao6.github.io/,&#34; title=&#34;超链接title&#34;&gt;博客&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;8-列表&#34;&gt;8.列表&lt;/h2&gt;
+
+&lt;h3 id=&#34;8-1-无序列表&#34;&gt;8.1 无序列表&lt;/h3&gt;
+
+&lt;p&gt;语法：
+无序列表用 - + * 任意一种&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  - 列表内容
+  + 列表内容
+  * 列表内容
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：- + * 跟内容之间都要有一个空格&lt;/p&gt;
+
+&lt;p&gt;效果如下：
+- 列表内容
++ 列表内容
+* 列表内容&lt;/p&gt;
+
+&lt;h3 id=&#34;8-2-有序列表&#34;&gt;8.2 有序列表&lt;/h3&gt;
+
+&lt;p&gt;语法：
+数字加点&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  1. 列表内容
+  2. 列表内容
+  3. 列表内容
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：序号跟内容之间要有空格&lt;/p&gt;
+
+&lt;p&gt;效果如下：
+1. 列表内容
+2. 列表内容
+3. 列表内容&lt;/p&gt;
+
+&lt;h3 id=&#34;8-3-列表嵌套&#34;&gt;8.3 列表嵌套&lt;/h3&gt;
+
+&lt;p&gt;下一级比上一级多敲两个空格&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+  - 一级无序列表内容
+    - 二级有序列表内容
+      - 三级有序列表内容
+          - 四级有序列表内容
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一级无序列表内容
+
+&lt;ul&gt;
+&lt;li&gt;二级有序列表内容
+
+&lt;ul&gt;
+&lt;li&gt;三级有序列表内容
+
+&lt;ul&gt;
+&lt;li&gt;四级有序列表内容&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;  1. 一级有序列表内容
+
+      2. 二级无序列表内容
+
+         3. 二级无序列表内容
+
+            4. 二级无序列表内容
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;一级有序列表内容&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;二级无序列表内容&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;三级无序列表内容&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;四级无序列表内容&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;9-语法&#34;&gt;9.语法&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;  无序列表用 - + * 任何一种都可以
+  - 列表内容
+  + 列表内容
+  * 列表内容
+  注意：- + * 跟内容之间都要有一个空格
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;列表内容&lt;/li&gt;
+&lt;li&gt;列表内容&lt;/li&gt;
+&lt;li&gt;列表内容&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;语法：
+数字加点&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  1.列表内容
+  2.列表内容
+  3.列表内容
+
+  注意：序号跟内容之间要有空格
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;1.列表内容
+2.列表内容
+3.列表内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  表头|表头|表头
+  ---|:--:|---:
+  内容|内容|内容
+  内容|内容|内容
+
+  第二行分割表头和内容。
+  - 有一个就行，为了对齐，多加了几个
+  文字默认居左
+  -两边加：表示文字居中
+  -右边加：表示文字居右
+  注：原生的语法两边都要用 | 包起来。此处省略
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;10-行内代码块&#34;&gt;10. 行内代码块&lt;/h2&gt;
+
+&lt;p&gt;使用 `代码` 表示行内代码块。&lt;/p&gt;
+
+&lt;p&gt;示例：&lt;/p&gt;
+
+&lt;p&gt;让我们聊聊 &lt;code&gt;html&lt;/code&gt;。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;11-代码块&#34;&gt;11.代码块&lt;/h2&gt;
+
+&lt;p&gt;使用 `&lt;code&gt;代码&lt;/code&gt;` 表示行内代码块。&lt;/p&gt;
+
+&lt;h3 id=&#34;11-1-代码块语言高亮&#34;&gt;11.1 代码块语言高亮&lt;/h3&gt;
+
+&lt;p&gt;在代码块标识&amp;rdquo;&amp;lsquo;后面添加语言名java&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;      ```java
+      public static void main(String[] args) {
+          System.out.println(&amp;quot;hello&amp;quot;);
+          System.out.println(&amp;quot;world&amp;quot;);
+          System.out.println(&amp;quot;!&amp;quot;);
+      }
+      ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  public static void main(String[] args) {
+      System.out.println(&amp;quot;hello&amp;quot;);
+      System.out.println(&amp;quot;world&amp;quot;);
+      System.out.println(&amp;quot;!&amp;quot;);
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;11-2-代码块显示行数&#34;&gt;11.2 代码块显示行数&lt;/h3&gt;
+
+&lt;p&gt;在代码块标识&amp;rdquo;&amp;lsquo;java后面添加{.line-numbers}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;      ```java {.line-numbers}
+      public static void main(String[] args) {
+          System.out.println(&amp;quot;hello&amp;quot;);
+          System.out.println(&amp;quot;world&amp;quot;);
+          System.out.println(&amp;quot;!&amp;quot;);
+      }
+      ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：
+  ```java {.line-numbers}
+  public static void main(String[] args) {
+      System.out.println(&amp;ldquo;hello&amp;rdquo;);
+      System.out.println(&amp;ldquo;world&amp;rdquo;);
+      System.out.println(&amp;ldquo;!&amp;rdquo;);
+  }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;### 11.3 代码块高亮代码
+在代码块标识&#39;&#39;&#39;java后面添加{.line-numbers highlight=2-3}
+  &amp;lt;!-- 代码块内语法高亮  显示代码行数,高亮代码--&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;  ```java {.line-numbers highlight=2-3}
+  public static void main(String[] args) {
+      System.out.println(&amp;quot;hello&amp;quot;);
+      System.out.println(&amp;quot;world&amp;quot;);
+      System.out.println(&amp;quot;!&amp;quot;);
+  }
+  ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;效果：
+  ```java {.line-numbers highlight=2-3}
+  public static void main(String[] args) {
+      System.out.println(&amp;quot;hello&amp;quot;);
+      System.out.println(&amp;quot;world&amp;quot;);
+      System.out.println(&amp;quot;!&amp;quot;);
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;12-表格&#34;&gt;12.表格&lt;/h2&gt;
+
+&lt;h3 id=&#34;12-1-单元格和表头&#34;&gt;12.1 单元格和表头&lt;/h3&gt;
+
+&lt;p&gt;使用 | 来分隔不同的单元格，使用 - 来分隔表头和其他行：&lt;/p&gt;
+
+&lt;p&gt;示例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  name | age
+  ---- | ---
+  LearnShare | 12
+  Mike |  32
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;LearnShare&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Mike&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;为了美观，可以使用空格对齐不同行的单元格，并在左右两侧都使用 | 来标记单元格边界：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  |    name    | age |
+  | ---------- | --- |
+  | LearnShare |  12 |
+  | Mike       |  32 |
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;name&lt;/th&gt;
+&lt;th&gt;age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;LearnShare&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Mike&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;为了使 Markdown 更清晰，| 和 - 两侧需要至少有一个空格（最左侧和最右侧的 | 外就不需要了）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;12-2-对齐&#34;&gt;12.2 对齐&lt;/h3&gt;
+
+&lt;p&gt;在表头下方的分隔线标记中加入 :，即可标记下方单元格内容的对齐方式：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;:&amp;mdash;&lt;/strong&gt; 代表左对齐&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;:&amp;ndash;:&lt;/strong&gt; 代表居中对齐&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&amp;mdash;:&lt;/strong&gt;  代表右对齐&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;  | left | center | right |
+  | :--- | :----: | ----: |
+  | aaaa | bbbbbb | ccccc |
+  | a    | b      | c     |
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:
+  | left | center | right |
+  | :&amp;mdash; | :&amp;mdash;-: | &amp;mdash;-: |
+  | aaaa | bbbbbb | ccccc |
+  | a    | b      | c     |&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果不使用对齐标记，单元格中的内容默认左对齐；表头单元格中的内容会一直居中对齐（不同的实现可能会有不同表现）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;12-3-插入其他内容&#34;&gt;12.3 插入其他内容&lt;/h3&gt;
+
+&lt;p&gt;表格中可以插入其他 Markdown 中的行内标记：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  |     name     | age |             blog                |
+  | ------------ | --- | ------------------------------- |
+  | _LearnShare_ |  12 | [LearnShare](http://xianbai.me) |
+  | __Mike__     |  32 | [Mike](http://mike.me)          |
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果:
+|     name     | age |             blog                |
+| &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash; | &amp;mdash; | &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;- |
+| &lt;em&gt;LearnShare&lt;/em&gt; |  12 | &lt;a href=&#34;http://xianbai.me&#34;&gt;LearnShare&lt;/a&gt; |
+| &lt;strong&gt;Mike&lt;/strong&gt;     |  32 | &lt;a href=&#34;http://mike.me&#34;&gt;Mike&lt;/a&gt;          |&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;13-流程图&#34;&gt;13.流程图&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;  流程图
+    ```flow
+    st=&amp;gt;start: 开始
+    op=&amp;gt;operation: My Operation
+    cond=&amp;gt;condition: Yes or No?
+    e=&amp;gt;end
+    st-&amp;gt;op-&amp;gt;cond
+    cond(yes)-&amp;gt;e
+    cond(no)-&amp;gt;op
+    &amp;amp;```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-flow&#34;&gt;st=&amp;gt;start: Start:&amp;gt;https://www.zybuluo.com
+io=&amp;gt;inputoutput: verification
+op=&amp;gt;operation: Your Operation
+cond=&amp;gt;condition: Yes or No?
+sub=&amp;gt;subroutine: Your Subroutine
+e=&amp;gt;end
+
+st-&amp;gt;io-&amp;gt;op-&amp;gt;cond
+cond(yes)-&amp;gt;e
+cond(no)-&amp;gt;sub-&amp;gt;io
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;14-待办事宜-todo-列表&#34;&gt;14. 待办事宜 Todo 列表&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;  - [ ] ** Todo 列表**
+         - [ ] one
+         - [ ] two
+         - [x] three
+         - [x] four
+             - [x] Todo事件
+             - [x] Todo事件
+     - [ ] **Todo 列表2**
+         - [ ] Todo事件
+         - [ ] Todo事件
+         - [x] Todo事件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul class=&#34;task-list&#34;&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; ** Todo 列表**
+
+&lt;ul class=&#34;task-list&#34;&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; one&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; two&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; three&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; four&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; &lt;strong&gt;Todo 列表2&lt;/strong&gt;
+
+&lt;ul class=&#34;task-list&#34;&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; Todo事件&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; Todo事件&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; Todo事件&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;15-html-标签&#34;&gt;15. Html 标签&lt;/h2&gt;
+
+&lt;p&gt;本站支持在 Markdown 语法中嵌套 Html 标签，譬如，你可以用 Html 写一个纵跨两行的表格：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;      &amp;lt;table&amp;gt;
+          &amp;lt;tr&amp;gt;
+              &amp;lt;th rowspan=&amp;quot;2&amp;quot;&amp;gt;值班人员&amp;lt;/th&amp;gt;
+              &amp;lt;th&amp;gt;星期一&amp;lt;/th&amp;gt;
+              &amp;lt;th&amp;gt;星期二&amp;lt;/th&amp;gt;
+              &amp;lt;th&amp;gt;星期三&amp;lt;/th&amp;gt;
+          &amp;lt;/tr&amp;gt;
+          &amp;lt;tr&amp;gt;
+              &amp;lt;td&amp;gt;李强&amp;lt;/td&amp;gt;
+              &amp;lt;td&amp;gt;张明&amp;lt;/td&amp;gt;
+              &amp;lt;td&amp;gt;王平&amp;lt;/td&amp;gt;
+          &amp;lt;/tr&amp;gt;
+      &amp;lt;/table&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：&lt;/p&gt;
+
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th rowspan=&#34;2&#34;&gt;值班人员&lt;/th&gt;
+        &lt;th&gt;星期一&lt;/th&gt;
+        &lt;th&gt;星期二&lt;/th&gt;
+        &lt;th&gt;星期三&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;李强&lt;/td&gt;
+        &lt;td&gt;张明&lt;/td&gt;
+        &lt;td&gt;王平&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;16-注释&#34;&gt;16.注释&lt;/h2&gt;
+
+&lt;h3 id=&#34;16-1-html语法&#34;&gt;16.1 html语法&lt;/h3&gt;
+
+&lt;p&gt;既然支持html语法，那也支持html注释。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &amp;lt;!--哈哈我是注释，不会在浏览器中显示。--&amp;gt;
+
+  &amp;lt;!--
+  哈哈我是多段
+  注释，
+  不会在浏览器中显示。
+  --&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;16-2-hack方法&#34;&gt;16.2 hack方法&lt;/h3&gt;
+
+&lt;p&gt;hack方法就是利用markdown的解析原理来实现注释的。&lt;/p&gt;
+
+&lt;p&gt;一般有的markdown解析器不支持上面的注释方法，这个时候就可以用hack方法。&lt;/p&gt;
+
+&lt;p&gt;hack方法比上面2种方法稳定得多，但是语义化太差。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[comment]: &amp;lt;&amp;gt; (哈哈我是注释，不会在浏览器中显示。)
+[comment]: &amp;lt;&amp;gt; (哈哈我是注释，不会在浏览器中显示。)
+[comment]: &amp;lt;&amp;gt; (哈哈我是注释，不会在浏览器中显示。)
+[//]: &amp;lt;&amp;gt; (哈哈我是注释，不会在浏览器中显示。)
+[//]: # (哈哈我是注释，不会在浏览器中显示。)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中，这种方法最稳定，适用性最强：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;[//]: # (哈哈我是注释，不会在浏览器中显示。)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这种方法最可爱，超级无敌萌啊：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;[^_^]: # (哈哈我是注释，不会在浏览器中显示。)&lt;/code&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -98,7 +1649,212 @@
       <pubDate>Mon, 28 Aug 2017 23:41:16 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
-      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
+      <description>
+
+&lt;ul&gt;
+&lt;li&gt;摘要：
+本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;什么是hugo&#34;&gt;什么是Hugo&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hugo是一种静态网站生成器。适用于搭建个人博客、小型公司主页等网站，是一种小型的CMS系统。&lt;/p&gt;
+
+&lt;p&gt;静态站点的好处就是快速、安全、易于部署，最主要是可以通过版本控制来进行管理。&lt;/p&gt;
+
+&lt;p&gt;静态网站生成器有很多种，Github上有总结，知名的有Jekyll，Middle Man App，等等。&lt;/p&gt;
+
+&lt;p&gt;我之所以选择Hugo，首先是因为它支持Windows系统，并且安装很简单。其次是对markdown语法的支持，这对我来说很方便。然后是主题、文档支持等等各方面都比较完善。&lt;/p&gt;
+
+&lt;h2 id=&#34;如何用hugo搭建个人网站&#34;&gt;如何用Hugo搭建个人网站&lt;/h2&gt;
+
+&lt;p&gt;=============&lt;/p&gt;
+
+&lt;h3 id=&#34;1-下载和安装hugo&#34;&gt;1.下载和安装Hugo&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hugo是用Go语言写的，早期版本还要下载Go，目前版本是v0.18.1，直接下载，不再需要额外的依赖了。&lt;/p&gt;
+
+&lt;p&gt;win64x对应的是hugo_0.18.1_Windows-64bit.zip，下载后创建安装目录，例如D:\Hugo，之下建两个子目录bin和Sites，然后解压，例如解压到D:\Hugo\bin，把解压的hugo_0.18.1_windows_amd64.exe文件重命名为hugo.exe，然后加到环境变量Path里，方便在命令行里使用。&lt;/p&gt;
+
+&lt;p&gt;添加成功后打开cmd或者PowerShell，运行命令hugo version，如果安装成功，会输出Hugo Static Site Generator v0.54.0-B1A82C61 windows/amd64 BuildDate: 2017-08-01T09:42:02Z。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-搭建个人网站&#34;&gt;2.搭建个人网站&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;首先要确定自己要搭建什么网站，我要建的是托管到Github的用户网站，按照Github Pages规则，网站名应该是&lt;username.github.io&gt;，所以我第一步创建网站用以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd D:\Hugo\Sites
+hugo new site brent-li.github.io
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;之后在Site目录下多了一个brent-li.github.io文件夹，进入文件夹可以看到目录结构如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|-- archetypes
+|-- config.toml
+|-- content
+|-- data
+|-- layouts
+`-- static
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;archetypes目录里可以放一些原型，用于hugo新建内容的配置属性。config.toml是网站的配置属性文件。content文件夹里放你网站的内容，例如你发布的博客文章。data目录是Hugo使用的配置文件存放的地方。layout目录存放布局内容。static目录存放静态资源如图片、css等。&lt;/p&gt;
+
+&lt;p&gt;接下来我们先在content里放点东西。命令如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd brent-li.github.io
+hugo new post/first.md
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hugo会在content目录下创建post目录，在post目录下创建 first.md文件。之后打开md文件，里面已经有些内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+++
+date = &amp;quot;2017-10-08T22:07:46+08:00&amp;quot;
+title = &amp;quot;first&amp;quot;
+draft = true
++++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;+++包起来的内容是TOML配置信息，叫作扉页(front matter)，默认这3项，可以再添加一些，其中draft是true时Hugo不会真正发布它，我修改后的扉页如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+++
+date = &amp;quot;2017-02-08T22:07:46+08:00&amp;quot;
+title = &amp;quot;Scala学习笔记之模式匹配&amp;quot;
+draft = false
+tags = [&amp;quot;scala&amp;quot;,&amp;quot;pattern matching&amp;quot;,&amp;quot;模式匹配&amp;quot;]
+share = true
++++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后再把我的博客内容复制进md文件，一篇博客完成了。接下来该给网站添加主题来装饰一下了。&lt;/p&gt;
+
+&lt;p&gt;Hugo主题网站提供了很多主题，选择自己喜欢的下载，我选择了casper，在自己网站目录下创建themes目录，然后下载主题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd themes
+git clone git clone https://github.com/zhaohuabing/hugo-theme-cleanwhite.git white
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后配置config.toml文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  baseurl = &amp;quot;https://wangzitao6.github.io&amp;quot; #一定要用https，github强制安全措施
+  title = &amp;quot;王子滔的博客&amp;quot;
+  theme = &amp;quot;white&amp;quot;
+  languageCode = &amp;quot;zh_CN&amp;quot;
+  # Enable comments by entering your Disqus shortname
+  DisqusShortname = &amp;quot;WangZiTao&amp;quot;
+  googleAnalytics = &amp;quot;&amp;quot;
+  preserveTaxonomyNames = true
+  paginate = 5 #frontpage pagination
+  hasCJKLanguage = true
+  [outputs]
+  home = [&amp;quot;HTML&amp;quot;, &amp;quot;Algolia&amp;quot;]
+
+  [params]
+    header_image = &amp;quot;images/1.jpg&amp;quot;
+    description = &amp;quot;王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的博客，与你一起发现更大的世界。&amp;quot;
+    keyword = &amp;quot;王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的博客, 博客, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice&amp;quot;
+    slogan = &amp;quot;~路漫漫其修远兮~&amp;quot;
+
+    image_404 = &amp;quot;images/404-bg.jpg&amp;quot;
+    title_404 = &amp;quot;你来到了没有知识的荒原 :(&amp;quot;
+
+    # leancloud storage for page view counter
+    page_view_conter = false
+    leancloud_app_id = &amp;quot;&amp;quot;
+    leancloud_app_key = &amp;quot;&amp;quot;
+
+    # algolia site search
+    algolia_search = true
+    algolia_appId = &amp;quot;WM4BEY1UDN&amp;quot;
+    algolia_indexName = &amp;quot;blog&amp;quot;
+    algolia_apiKey = &amp;quot;090c4a77b8bd4b8d2f2c1262afbc4be2&amp;quot;
+
+
+    # Sidebar settings
+    sidebar_about_description = &amp;quot;搬砖工程师&amp;quot;
+    #sidebar_avatar = &amp;quot;images/avatar-1.jpg&amp;quot;      # use absolute URL, seeing it&#39;s used in both `/` and `/about/`
+    sidebar_avatar = &amp;quot;images/me.jpg&amp;quot;      # use absolute URL, seeing it&#39;s used in both `/` and `/about/`
+
+    featured_tags = false
+    featured_condition_size = 1
+
+    # Baidu Analytics
+    ba_track_id = &amp;quot;28c952e35b6e860c096a2cdf52785c6f&amp;quot;
+
+    # We need a proxy to access Disqus api in China
+    # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
+    disqus_proxy = &amp;quot;&amp;quot;
+    disqus_site = &amp;quot;&amp;quot;
+
+    friends = false
+    bookmarks = false
+    about_me = true
+
+    [params.social]
+    rss            = false
+    email = &amp;quot;wang_zitao@foxmail.com&amp;quot; #邮箱
+    #facebook      = &amp;quot;full profile url in facebook&amp;quot;
+    #googleplus    = &amp;quot;full profile url in googleplus&amp;quot;
+    #twitter       = &amp;quot;full profile url in twitter&amp;quot;
+    #linkedin       = &amp;quot;https://www.linkedin.com/in/yourlinkedinid&amp;quot;
+    #stackoverflow  = &amp;quot;https://stackoverflow.com/users/yourstackoverflowid&amp;quot;
+    #instagram     = &amp;quot;full profile url in instagram&amp;quot;
+    github = &amp;quot;https://github.com/wangzitao6&amp;quot; #github用户名
+    wechat= &amp;quot;images/qrcode.jpg&amp;quot;  # Replace with your wechat qrcode image
+    #medium         = &amp;quot;full profile url in medium&amp;quot;
+    #pinterest     = &amp;quot;full profile url in pinterest&amp;quot;
+
+
+  [outputFormats.Algolia]
+  baseName = &amp;quot;algolia&amp;quot;
+  isPlainText = true
+  mediaType = &amp;quot;application/json&amp;quot;
+  notAlternative = true
+
+  [params.algolia]
+  vars = [&amp;quot;title&amp;quot;, &amp;quot;summary&amp;quot;, &amp;quot;date&amp;quot;, &amp;quot;publishdate&amp;quot;, &amp;quot;expirydate&amp;quot;, &amp;quot;permalink&amp;quot;]
+  params = [&amp;quot;categories&amp;quot;, &amp;quot;tags&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;配置完不要忘了把封面、头像图片都拷贝到static\images目录下。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;3-本地测试&#34;&gt;3.本地测试&lt;/h3&gt;
+
+&lt;p&gt;Hugo自带服务器，可以用命令行启动：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hugo server -t white
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;服务器启动后访问 &lt;a href=&#34;http://localhost:1313&#34;&gt;http://localhost:1313&lt;/a&gt; , 访问网站，发现问题可以及时修改。&lt;/p&gt;
+
+&lt;h3 id=&#34;4-发布到github&#34;&gt;4.发布到github&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;本地测试网站没有问题后，就可以准备发布了。执行以下命令&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hugo -t casper
+
+hugo-algolia -s //alogolia生成搜索文件命令
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hugo将编译所有文件并输出到public目录，你需要在github上创建repository，名字就是&amp;lt;你的用户名&amp;gt;.github.io，创建完后，返回你本地命令行，进入public目录，执行以下命令：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git init
+git add .
+git commit -m &amp;quot;Initial commit.&amp;quot;
+git remote add origin git@github.com:Brent-Li/brent-li.github.io.git
+git push -u origin master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;稍等片刻后，打开&amp;lt;你的用户名&amp;gt;.github.io网址，就可以看到你的个人网站了。&lt;/p&gt;
+</description>
     </item>
     
   </channel>
