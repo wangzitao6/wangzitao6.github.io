@@ -1,6 +1,6 @@
 baseurl = "https://wangzitao6.github.io" #一定要用https，github强制安全措施
 title = "王子滔的学习笔记"
-theme = "paper"
+theme = "hugo-paper"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
 DisqusShortname = "WangZiTao"
