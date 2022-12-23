@@ -1,0 +1,273 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="王子滔的学习笔记"><meta property="og:type" content="article"><meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg"><meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg"><meta name=title content="Hugo集成Algolia搜索"><meta property="og:title" content="Hugo集成Algolia搜索"><meta property="twitter:title" content="Hugo集成Algolia搜索"><meta name=description content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:card" content="summary"><meta name=keyword content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"><link rel="shortcut icon" href=/img/favicon.ico><title>Hugo集成Algolia搜索 |</title><link rel=canonical href=/2018-04-10-%E9%9B%86%E6%88%90algolia%E6%90%9C%E7%B4%A2/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script></head><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-135479251-2","auto"),ga("send","pageview"))</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>王子滔的学习笔记</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/build>build</a></li><li><a href=/categories/elk>elk</a></li><li><a href=/categories/java>java</a></li><li><a href=/categories/jvm>jvm</a></li><li><a href=/categories/life>life</a></li><li><a href=/categories/net>net</a></li><li><a href=/categories/other>other</a></li><li><a href=/categories/sql>sql</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/categories/tips>tips</a></li><li><a href=/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B>多线程</a></li><li><a href=/top/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/images/1.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/blog title=blog>blog</a>
+<a class=tag href=/tags/%E5%85%B6%E4%BB%96 title=其他>其他</a></div><h1>Hugo集成Algolia搜索</h1><h2 class=subheading>Hugo集成Algolia搜索</h2><span class=meta>Posted by
+WangZiTao
+on
+Tuesday, April 10, 2018
+<span id=/2018-04-10-%E9%9B%86%E6%88%90algolia%E6%90%9C%E7%B4%A2/ class="leancloud_visitors meta_data_item" data-flag-title><span class=post-meta-item-icon><span class="octicon octicon-eye"></span></span>
+<i class="fa fa-eye"></i>
+<span class=old-visitors-count style=display:none></span>
+<span class=leancloud-visitors-count></span></span>
+<script src=https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js></script>
+<script>AV.initialize("","")</script><script type=text/javascript>function showTime(e){var n=new AV.Query(e),t=[],s=$(".leancloud_visitors");s.each(function(){t.push($(this).attr("id").trim())}),n.containedIn("url",t),n.find().done(function(e){for(var s,o,i,a,r,l,c=".leancloud-visitors-count",d=".old-visitors-count",n=0;n<e.length;n++)a=e[n],o=a.get("url"),l=a.get("time"),s=document.getElementById(o),$(s).find(c).text(l);for(n=0;n<t.length;n++)o=t[n],s=document.getElementById(o),i=$(s).find(c),i.text()==""&&(r=$(s).find(d).text(),r!=""?i.text(0+parseInt(r)):i.text(0))}).fail(function(e,t){console.log("Error: "+t.code+" "+t.message)})}function addCount(e){var n=$(".leancloud_visitors"),t=n.attr("id").trim(),o=n.attr("data-flag-title").trim(),s=new AV.Query(e);s.equalTo("url",t),s.find({success:function(n){if(n.length>0){var s,i,r,c,l,a=n[0];a.fetchWhenSave(!0),a.increment("time"),a.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to save Visitor num, with error message: "+t.message)}})}else s=new e,i=new AV.ACL,i.setPublicReadAccess(!0),i.setPublicWriteAccess(!0),s.setACL(i),s.set("title",o),s.set("url",t),c=".old-visitors-count",l=$(document.getElementById(t)),r=l.find(c).text(),r!=""?s.set("time",parseInt(r)+1):s.set("time",1),s.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(){console.log("Failed to create")}})},error:function(e){console.log("Error:"+e.code+" "+e.message)}})}$(function(){var e=AV.Object.extend("Counter");$(".leancloud_visitors").length==1?addCount(e):showTime(e)})</script></span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h2 id=1简介>1.简介</h2><p><a href=https://www.algolia.com/>Algolia</a>是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化率等等。可以使用 InstantSearch 等前端框架进行自定义搜索，为用户创造最佳的搜索体验。</p><h2 id=2注册>2.注册</h2><p>前往官方网站<a href=https://www.algolia.com/>https://www.algolia.com/</a> 使用 GitHub 或 Google 帐号登录。登录完成后根据提示信息填写一些基本的信息即可，注册完成后前往 <a href=https://www.algolia.com/dashboard>Dashboard</a>，我们可以发现 Algolia 会默认给我们生成一个 app。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/005.png alt="dashboard index"></p><p>选择 Indices，添加一个新的索引，我们这里命名为<code>hugo</code>，创建成功后，我们可以看到提示中还没有任何记录。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/004.png alt=indices>
+Algolia 为我们提供了三种方式来增加记录：手动添加、上传 json 文件、API。我们这里使用第三种方式来进行数据的添加。</p><h2 id=3插件>3.插件</h2><p>要使用 API 的方式来添加搜索的数据，我们可以自己根据 Algolia 提供的 <a href=https://www.algolia.com/doc/api-reference/>API 文档</a>进行开发，这也是很容易的，为简单起见，我们这里使用一个<code>hugo-algolia</code>的插件来完成我们的数据同步工作。</p><blockquote><p>要安装<code>hugo-aligolia</code>我们需要先确保我们已经安装了 npm 或者 yarn 包管理工具。</p></blockquote><p>使用下面的命令安装即可：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ npm install hugo-algolia -g
+</span></span></code></pre></div><p>安装完成后，在我们 hugo 生产的静态页面的根目录下面新建一个<code>config.yaml</code>的文件(和<code>config.toml</code>同级)，然后在<code>config.yaml</code>文件中指定 <code>Algolia</code>相关的 API 数据。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>baseurl</span>: <span style=color:#e6db74>&#34;/&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>DefaultContentLanguage</span>: <span style=color:#e6db74>&#34;zh-cn&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>hasCJKLanguage</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>languageCode</span>: <span style=color:#e6db74>&#34;zh-cn&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>title</span>: <span style=color:#e6db74>&#34;River&#39;s Site&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>theme</span>: <span style=color:#e6db74>&#34;beautifulhugo&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metaDataFormat</span>: <span style=color:#e6db74>&#34;yaml&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>algolia_search = true</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>algolia_appId = &#34;3DH4V2B4JK&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>algolia_indexName = &#34;hugo&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>algolia_apiKey = &#34;31c446dxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>
+</span></span></code></pre></div><blockquote><p>API 相关数据可以前往 dashboard 的 <code>API Keys</code>查看，注意上面的<code>key</code>是<strong>Admin API Key</strong>。</p></blockquote><p>配置完成以后，在根目录下面执行下面的命令：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ hugo-algolia -s
+</span></span><span style=display:flex><span>JSON index file was created in public/algolia.json
+</span></span><span style=display:flex><span><span style=color:#f92672>{</span> updatedAt: <span style=color:#e6db74>&#39;2019-03-20T10:29:03.861Z&#39;</span>, taskID: <span style=color:#ae81ff>4896848941</span> <span style=color:#f92672>}</span>
+</span></span></code></pre></div><p>然后我们可以看到，上面命令执行完成后会在<code>public</code>目录下面生成一个<code>algolia.json</code>的文件。这个时候我们在 dashboard 中打开 Indices，可以看到已经有几十条数据了。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/003.png alt=Indices></p><blockquote><p>如果某篇文章不想被索引的话，我们只需要在文件的最前面设置 index 参数为 false 即可，<code>hugo-algolia</code>插件在索引的过程中会自动跳过它。</p></blockquote><h2 id=4前端>4.前端</h2><p>现在我们将需要被搜索的文章数据已经成功提交到<code>Algolia</code>，接下来的事情就是前端页面的展示了。下面的操作对于不同的主题或许有不同的地方，请根据自己的实际情况进行相应的修改。我这里使用的是<code>white</code>主题，在<code>themes/white/layouts/partials</code>目录下面新增文件：（<strong>search.html</strong>）</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!-- Including InstantSearch.js library and styling --&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>link</span> <span style=color:#a6e22e>rel</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/css&#34;</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>link</span> <span style=color:#a6e22e>rel</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/css&#34;</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&#34;</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;search-searchbar&#34;</span>&gt;&lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span> &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;post-list&#34;</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;search-hits&#34;</span>&gt;
+</span></span><span style=display:flex><span> &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>search</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>instantsearch</span>({
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>appId</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;{{ .Site.Params.algolia_appId }}&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>indexName</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;{{ .Site.Params.algolia_indexName }}&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>apiKey</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;{{ .Site.Params.algolia_apiKey }}&#39;</span>
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>hitTemplate</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(<span style=color:#a6e22e>hit</span>) {
+</span></span><span style=display:flex><span><span style=color:#75715e>/*  if (hit === null){
+</span></span></span><span style=display:flex><span><span style=color:#75715e>      return;
+</span></span></span><span style=display:flex><span><span style=color:#75715e>  }*/</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// debugger;
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>date</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>date</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>date</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>moment</span>(<span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>date</span>).<span style=color:#a6e22e>format</span>(<span style=color:#e6db74>&#39;MMM D, YYYY&#39;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>url</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>`</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>url</span><span style=color:#e6db74>}</span><span style=color:#e6db74>#</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>author</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>_highlightResult</span>.<span style=color:#a6e22e>title</span>.<span style=color:#a6e22e>value</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>breadcrumbs</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>_highlightResult</span>.<span style=color:#a6e22e>headings</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>breadcrumbs</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>_highlightResult</span>.<span style=color:#a6e22e>headings</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>match</span> =&gt; {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span> <span style=color:#e6db74>`&lt;span class=&#34;post-breadcrumb&#34;&gt;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>match</span>.<span style=color:#a6e22e>value</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&lt;/span&gt;`</span>
+</span></span><span style=display:flex><span>    }).<span style=color:#a6e22e>join</span>(<span style=color:#e6db74>&#39; &gt; &#39;</span>)
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>description</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span> ;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>_highlightResult</span>.<span style=color:#a6e22e>description</span>){
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>description</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>_highlightResult</span>.<span style=color:#a6e22e>description</span>.<span style=color:#a6e22e>value</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>description</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>hit</span>.<span style=color:#a6e22e>summary</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#e6db74>`
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &lt;div class=&#34;post-item&#34;&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &lt;h3&gt;&lt;a class=&#34;post-link&#34; href=&#34;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>url</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;&gt;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>title</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&lt;/a&gt;&lt;/h3&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &lt;a href=&#34;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>url</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34; class=&#34;post-breadcrumbs&#34;&gt;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>breadcrumbs</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&lt;/a&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &lt;div class=&#34;post-snippet&#34;&gt;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>description</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&lt;/div&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &lt;span class=&#34;post-meta&#34;&gt;</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>date</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&lt;/span&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &lt;/div&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  `</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>search</span>.<span style=color:#a6e22e>addWidget</span>(
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>instantsearch</span>.<span style=color:#a6e22e>widgets</span>.<span style=color:#a6e22e>searchBox</span>({
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>container</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#search-searchbar&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>placeholder</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;Search into posts...&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>poweredBy</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span> <span style=color:#75715e>// This is required if you&#39;re on the free Community plan
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  })
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>search</span>.<span style=color:#a6e22e>addWidget</span>(
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>instantsearch</span>.<span style=color:#a6e22e>widgets</span>.<span style=color:#a6e22e>hits</span>({
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>container</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;#search-hits&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>templates</span><span style=color:#f92672>:</span> {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>item</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>hitTemplate</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>search</span>.<span style=color:#a6e22e>start</span>();
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>style</span>&gt;
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>ais-search-box</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>max-width</span>: <span style=color:#ae81ff>100</span><span style=color:#66d9ef>%</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>margin-bottom</span>: <span style=color:#ae81ff>15</span><span style=color:#66d9ef>px</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-item</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>margin-bottom</span>: <span style=color:#ae81ff>30</span><span style=color:#66d9ef>px</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-link</span> .<span style=color:#a6e22e>ais-Highlight</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>color</span>: <span style=color:#ae81ff>#111</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>font-style</span>: <span style=color:#66d9ef>normal</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>text-decoration</span>: <span style=color:#66d9ef>underline</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-breadcrumbs</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>color</span>: <span style=color:#ae81ff>#424242</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>display</span>: <span style=color:#66d9ef>block</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-breadcrumb</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>font-size</span>: <span style=color:#ae81ff>18</span><span style=color:#66d9ef>px</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>color</span>: <span style=color:#ae81ff>#424242</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-breadcrumb</span> .<span style=color:#a6e22e>ais-Highlight</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>font-weight</span>: <span style=color:#66d9ef>bold</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>font-style</span>: <span style=color:#66d9ef>normal</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-snippet</span> .<span style=color:#a6e22e>ais-Highlight</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>color</span>: <span style=color:#ae81ff>#2a7ae2</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>font-style</span>: <span style=color:#66d9ef>normal</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>font-weight</span>: <span style=color:#66d9ef>bold</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>.<span style=color:#a6e22e>post-snippet</span> <span style=color:#f92672>img</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>display</span>: <span style=color:#66d9ef>none</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>style</span>&gt;
+</span></span></code></pre></div><p>注意上面 JS 代码：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#f92672>&lt;</span><span style=color:#a6e22e>script</span><span style=color:#f92672>&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>search</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>instantsearch</span>({
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>appId</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;{{ .Site.Params.algolia_appId }}&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>indexName</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;{{ .Site.Params.algolia_indexName }}&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>apiKey</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;{{ .Site.Params.algolia_apiKey }}&#39;</span>
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><blockquote><ul><li><code>algolia_search</code>的第一个参数为是否开启索引</li><li><code>algolia_appId</code>的第二个参数为Application ID <code>3DH4V2B4JK</code></li><li><code>algolia_indexName</code>为我们创建的索引名称<code>hugo</code>，</li><li><code>algolia_apiKey</code>为我们的Admin API Key<code>31c446dxxxxxxxxxxxxxxxxxxxxxxxx</code>。</li></ul></blockquote><p>然后我们只需要添加一个搜索入口即可，在<code>themes/white/layouts/partials/nav.html</code>文件最下面添加如下代码：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!-- Navigation --&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>nav</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;navbar navbar-default navbar-custom navbar-fixed-top&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;container-fluid&#34;</span>&gt;
+</span></span><span style=display:flex><span>        <span style=color:#75715e>&lt;!-- Brand and toggle get grouped for better mobile display --&gt;</span>
+</span></span><span style=display:flex><span>        &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;navbar-header page-scroll&#34;</span>&gt;
+</span></span><span style=display:flex><span>            &lt;<span style=color:#f92672>button</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;button&#34;</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;navbar-toggle&#34;</span>&gt;
+</span></span><span style=display:flex><span>                &lt;<span style=color:#f92672>span</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;sr-only&#34;</span>&gt;Toggle navigation&lt;/<span style=color:#f92672>span</span>&gt;
+</span></span><span style=display:flex><span>                &lt;<span style=color:#f92672>span</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;icon-bar&#34;</span>&gt;&lt;/<span style=color:#f92672>span</span>&gt;
+</span></span><span style=display:flex><span>                &lt;<span style=color:#f92672>span</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;icon-bar&#34;</span>&gt;&lt;/<span style=color:#f92672>span</span>&gt;
+</span></span><span style=display:flex><span>                &lt;<span style=color:#f92672>span</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;icon-bar&#34;</span>&gt;&lt;/<span style=color:#f92672>span</span>&gt;
+</span></span><span style=display:flex><span>            &lt;/<span style=color:#f92672>button</span>&gt;
+</span></span><span style=display:flex><span>            &lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;navbar-brand&#34;</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{ &#34;</span><span style=color:#960050;background-color:#1e0010>/&#34;</span> <span style=color:#960050;background-color:#1e0010>|</span> <span style=color:#a6e22e>relLangURL</span> <span style=color:#960050;background-color:#1e0010>}}&#34;</span>&gt;{{ .Site.Title }}&lt;/<span style=color:#f92672>a</span>&gt;
+</span></span><span style=display:flex><span>        &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>&lt;!-- Collect the nav links, forms, and other content for toggling --&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>&lt;!-- Known Issue, found by Hux:
+</span></span></span><span style=display:flex><span><span style=color:#75715e>            &lt;nav&gt;&#39;s height woule be hold on by its content.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>            so, when navbar scale out, the &lt;nav&gt; will cover tags.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>            also mask any touch event of tags, unfortunately.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>        --&gt;</span>
+</span></span><span style=display:flex><span>        &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;huxblog_navbar&#34;</span>&gt;
+</span></span><span style=display:flex><span>            &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;navbar-collapse&#34;</span>&gt;
+</span></span><span style=display:flex><span>                &lt;<span style=color:#f92672>ul</span> <span style=color:#a6e22e>class</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;nav navbar-nav navbar-right&#34;</span>&gt;
+</span></span><span style=display:flex><span>                    &lt;<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                        &lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{ &#34;</span><span style=color:#960050;background-color:#1e0010>/&#34;</span> <span style=color:#960050;background-color:#1e0010>|</span> <span style=color:#a6e22e>relLangURL</span> <span style=color:#960050;background-color:#1e0010>}}&#34;</span>&gt;Home&lt;/<span style=color:#f92672>a</span>&gt;
+</span></span><span style=display:flex><span>                    &lt;/<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                    {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+</span></span><span style=display:flex><span>                    &lt;<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                        &lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{ &#34;</span><span style=color:#a6e22e>categories</span><span style=color:#960050;background-color:#1e0010>/&#34;</span> <span style=color:#960050;background-color:#1e0010>|</span> <span style=color:#a6e22e>relLangURL</span> <span style=color:#960050;background-color:#1e0010>}}{{</span> <span style=color:#960050;background-color:#1e0010>$</span><span style=color:#a6e22e>name</span> <span style=color:#960050;background-color:#1e0010>|</span> <span style=color:#a6e22e>urlize</span> <span style=color:#960050;background-color:#1e0010>}}&#34;</span>&gt;{{ $name }}&lt;/<span style=color:#f92672>a</span>&gt;
+</span></span><span style=display:flex><span>                    &lt;/<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                    {{ end }}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		    {{ range .Site.Params.addtional_menus }}
+</span></span><span style=display:flex><span>                        &lt;<span style=color:#f92672>li</span>&gt;&lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{.href | relLangURL}}&#34;</span>&gt;{{.title}}&lt;/<span style=color:#f92672>a</span>&gt;&lt;/<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                    {{ end }}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                    {{ if .Site.Params.algolia_search }}
+</span></span><span style=display:flex><span>		    &lt;<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                        &lt;<span style=color:#f92672>a</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{ &#34;</span><span style=color:#a6e22e>search</span><span style=color:#960050;background-color:#1e0010>&#34;</span> <span style=color:#960050;background-color:#1e0010>|</span> <span style=color:#a6e22e>relURL</span> <span style=color:#960050;background-color:#1e0010>}}&#34;</span>&gt;SEARCH &lt;<span style=color:#f92672>img</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;{{ &#34;</span><span style=color:#a6e22e>img</span><span style=color:#960050;background-color:#1e0010>/</span><span style=color:#a6e22e>search</span><span style=color:#960050;background-color:#1e0010>.</span><span style=color:#a6e22e>png</span><span style=color:#960050;background-color:#1e0010>&#34;</span> <span style=color:#960050;background-color:#1e0010>|</span> <span style=color:#a6e22e>relURL</span> <span style=color:#960050;background-color:#1e0010>}}&#34;</span> <span style=color:#a6e22e>height</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;15&#34;</span> <span style=color:#a6e22e>style</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;cursor: pointer;&#34;</span> <span style=color:#a6e22e>alt</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Search&#34;</span>&gt;&lt;/<span style=color:#f92672>a</span>&gt;
+</span></span><span style=display:flex><span>		    &lt;/<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>                    {{ end }}
+</span></span><span style=display:flex><span>                &lt;/<span style=color:#f92672>ul</span>&gt;
+</span></span><span style=display:flex><span>            &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>        &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>        <span style=color:#75715e>&lt;!-- /.navbar-collapse --&gt;</span>
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>    <span style=color:#75715e>&lt;!-- /.container --&gt;</span>
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>nav</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Drop Bootstarp low-performance Navbar
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#75715e>// Use customize navbar with high-quality material design animation
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#75715e>// in high-perf jank-free CSS3 implementation
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>$body</span>   <span style=color:#f92672>=</span> document.<span style=color:#a6e22e>body</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>$toggle</span> <span style=color:#f92672>=</span> document.<span style=color:#a6e22e>querySelector</span>(<span style=color:#e6db74>&#39;.navbar-toggle&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>$navbar</span> <span style=color:#f92672>=</span> document.<span style=color:#a6e22e>querySelector</span>(<span style=color:#e6db74>&#39;#huxblog_navbar&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>$collapse</span> <span style=color:#f92672>=</span> document.<span style=color:#a6e22e>querySelector</span>(<span style=color:#e6db74>&#39;.navbar-collapse&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>$toggle</span>.<span style=color:#a6e22e>addEventListener</span>(<span style=color:#e6db74>&#39;click&#39;</span>, <span style=color:#a6e22e>handleMagic</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>handleMagic</span>(<span style=color:#a6e22e>e</span>){
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>$navbar</span>.<span style=color:#a6e22e>className</span>.<span style=color:#a6e22e>indexOf</span>(<span style=color:#e6db74>&#39;in&#39;</span>) <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// CLOSE
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>$navbar</span>.<span style=color:#a6e22e>className</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34; &#34;</span>;
+</span></span><span style=display:flex><span>            <span style=color:#75715e>// wait until animation end.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>setTimeout</span>(<span style=color:#66d9ef>function</span>(){
+</span></span><span style=display:flex><span>                <span style=color:#75715e>// prevent frequently toggle
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>                <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>$navbar</span>.<span style=color:#a6e22e>className</span>.<span style=color:#a6e22e>indexOf</span>(<span style=color:#e6db74>&#39;in&#39;</span>) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>) {
+</span></span><span style=display:flex><span>                    <span style=color:#a6e22e>$collapse</span>.<span style=color:#a6e22e>style</span>.<span style=color:#a6e22e>height</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;0px&#34;</span>
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>            },<span style=color:#ae81ff>400</span>)
+</span></span><span style=display:flex><span>        }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// OPEN
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>            <span style=color:#a6e22e>$collapse</span>.<span style=color:#a6e22e>style</span>.<span style=color:#a6e22e>height</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;auto&#34;</span>
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>$navbar</span>.<span style=color:#a6e22e>className</span> <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34; in&#34;</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span></code></pre></div><p>其中最重要的代码是引入上面我们新建的<code>search.html</code>文件。css引用的别人的文件</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span>&lt;<span style=color:#f92672>link</span> <span style=color:#a6e22e>rel</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/css&#34;</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>link</span> <span style=color:#a6e22e>rel</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;stylesheet&#34;</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/css&#34;</span> <span style=color:#a6e22e>href</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css&#34;</span>&gt;
+</span></span></code></pre></div><h2 id=5搜索>5.搜索</h2><p>上面的所有工作完成后，我们重新生成静态页面，更新网站数据。我们可以看到导航栏最右边已经有了一个搜索按钮了。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/006.png alt="search demo"></p><h2 id=6参考资料>6.参考资料</h2><ul><li><a href=https://github.com/zhaohuabing/hugo-theme-cleanwhite/>https://github.com/zhaohuabing/hugo-theme-cleanwhite/</a></li><li><a href=https://gohugo.io/tools/search/>https://gohugo.io/tools/search/</a></li><li><a href=https://www.npmjs.com/package/hugo-algolia>https://www.npmjs.com/package/hugo-algolia</a></li></ul><hr><ul class=pager><li class=previous><a href=/2018/03/29/what-is-service-mesh-and-istio/ data-toggle=tooltip data-placement=top title="谈谈微服务架构中的基础设施：Service Mesh与Istio">&larr;
+Previous Post</a></li><li class=next><a href=/2018/04/11/service-mesh-vs-api-gateway/ data-toggle=tooltip data-placement=top title="Service Mesh 和 API Gateway的关系探讨（译文）">Next
+Post &rarr;</a></li></ul><div id=disqus-comment></div><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//WangZiTao.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/api-gateway title=api-gateway>api-gateway</a>
+<a href=/tags/blog title=blog>blog</a>
+<a href=/tags/docker title=docker>docker</a>
+<a href=/tags/elk title=elk>elk</a>
+<a href=/tags/git title=git>git</a>
+<a href=/tags/helm title=helm>helm</a>
+<a href=/tags/io title=io>io</a>
+<a href=/tags/istio title=istio>istio</a>
+<a href=/tags/java title=java>java</a>
+<a href=/tags/juc title=juc>juc</a>
+<a href=/tags/jvm title=jvm>jvm</a>
+<a href=/tags/kubernetes title=kubernetes>kubernetes</a>
+<a href=/tags/microservice title=microservice>microservice</a>
+<a href=/tags/mysql title=mysql>mysql</a>
+<a href=/tags/nginmesh title=nginmesh>nginmesh</a>
+<a href=/tags/security title=security>security</a>
+<a href=/tags/service-mesh title=service-mesh>service-mesh</a>
+<a href=/tags/sql%E6%B3%A8%E5%85%A5 title=sql注入>sql注入</a>
+<a href=/tags/tips title=tips>tips</a>
+<a href=/tags/travel title=travel>travel</a>
+<a href=/tags/ubuntu title=ubuntu>ubuntu</a>
+<a href=/tags/vim title=vim>vim</a>
+<a href=/tags/%E5%85%B6%E4%BB%96 title=其他>其他</a>
+<a href=/tags/%E5%9F%BA%E7%A1%80 title=基础>基础</a>
+<a href=/tags/%E6%80%A7%E8%83%BD title=性能>性能</a>
+<a href=/tags/%E6%AD%A3%E5%88%99 title=正则>正则</a>
+<a href=/tags/%E6%AD%BB%E9%94%81 title=死锁>死锁</a>
+<a href=/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91 title=端口转发>端口转发</a>
+<a href=/tags/%E7%BD%91%E7%BB%9C title=网络>网络</a>
+<a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F title=设计模式>设计模式</a>
+<a href=/tags/%E9%85%8D%E7%BD%AE title=配置>配置</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.ibm.com/developerworks/cn/>IBM Developer 中国</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:wang_zitao@foxmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/images/qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/wangzitao6><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; 王子滔的学习笔记 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script>(function(){var t,e=document.createElement("script"),n=window.location.protocol.split(":")[0];n==="https"?e.src="https://zz.bdstatic.com/linksubmit/push.js":e.src="http://push.zhanzhang.baidu.com/push.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)})()</script><script>var _baId="28c952e35b6e860c096a2cdf52785c6f",_hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="//hm.baidu.com/hm.js?"+_baId,e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>

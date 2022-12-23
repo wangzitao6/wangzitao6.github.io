@@ -1,0 +1,241 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="王子滔的学习笔记"><meta property="og:type" content="article"><meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg"><meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg"><meta name=title content="AbstractQueuedSynchronizer超详细原理解析"><meta property="og:title" content="AbstractQueuedSynchronizer超详细原理解析"><meta property="twitter:title" content="AbstractQueuedSynchronizer超详细原理解析"><meta name=description content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:card" content="summary"><meta name=keyword content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"><link rel="shortcut icon" href=/img/favicon.ico><title>AbstractQueuedSynchronizer超详细原理解析 |</title><link rel=canonical href=/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script></head><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-135479251-2","auto"),ga("send","pageview"))</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>王子滔的学习笔记</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/build>build</a></li><li><a href=/categories/elk>elk</a></li><li><a href=/categories/java>java</a></li><li><a href=/categories/jvm>jvm</a></li><li><a href=/categories/life>life</a></li><li><a href=/categories/net>net</a></li><li><a href=/categories/other>other</a></li><li><a href=/categories/sql>sql</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/categories/tips>tips</a></li><li><a href=/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B>多线程</a></li><li><a href=/top/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/images/1.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/juc title=JUC>JUC</a></div><h1>AbstractQueuedSynchronizer超详细原理解析</h1><h2 class=subheading>AbstractQueuedSynchronizer超详细原理解析</h2><span class=meta>Posted by
+WangZiTao
+on
+Thursday, July 9, 2020
+<span id=/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/ class="leancloud_visitors meta_data_item" data-flag-title><span class=post-meta-item-icon><span class="octicon octicon-eye"></span></span>
+<i class="fa fa-eye"></i>
+<span class=old-visitors-count style=display:none></span>
+<span class=leancloud-visitors-count></span></span>
+<script src=https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js></script>
+<script>AV.initialize("","")</script><script type=text/javascript>function showTime(e){var n=new AV.Query(e),t=[],s=$(".leancloud_visitors");s.each(function(){t.push($(this).attr("id").trim())}),n.containedIn("url",t),n.find().done(function(e){for(var s,o,i,a,r,l,c=".leancloud-visitors-count",d=".old-visitors-count",n=0;n<e.length;n++)a=e[n],o=a.get("url"),l=a.get("time"),s=document.getElementById(o),$(s).find(c).text(l);for(n=0;n<t.length;n++)o=t[n],s=document.getElementById(o),i=$(s).find(c),i.text()==""&&(r=$(s).find(d).text(),r!=""?i.text(0+parseInt(r)):i.text(0))}).fail(function(e,t){console.log("Error: "+t.code+" "+t.message)})}function addCount(e){var n=$(".leancloud_visitors"),t=n.attr("id").trim(),o=n.attr("data-flag-title").trim(),s=new AV.Query(e);s.equalTo("url",t),s.find({success:function(n){if(n.length>0){var s,i,r,c,l,a=n[0];a.fetchWhenSave(!0),a.increment("time"),a.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to save Visitor num, with error message: "+t.message)}})}else s=new e,i=new AV.ACL,i.setPublicReadAccess(!0),i.setPublicWriteAccess(!0),s.setACL(i),s.set("title",o),s.set("url",t),c=".old-visitors-count",l=$(document.getElementById(t)),r=l.find(c).text(),r!=""?s.set("time",parseInt(r)+1):s.set("time",1),s.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(){console.log("Failed to create")}})},error:function(e){console.log("Error:"+e.code+" "+e.message)}})}$(function(){var e=AV.Object.extend("Counter");$(".leancloud_visitors").length==1?addCount(e):showTime(e)})</script></span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p>今天我们来研究学习一下 <strong>AbstractQueuedSynchronizer</strong>类的相关原理， <strong>java.util.concurrent</strong>包中很多类都依赖于这个类所提供队列式同步器，比如说常用的 <strong>ReentranLock</strong>， <strong>Semaphore</strong>和 <strong>CountDownLatch</strong>等。
+ 为了方便理解，我们以一段使用 <strong>ReentranLock</strong>的代码为例，讲解 <strong>ReentranLock</strong>每个方法中有关AQS的使用。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/lock%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.png alt=bb></p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E5%A4%9A%E4%B8%AA%E5%9B%BE%E7%BB%84%E5%90%88.png alt=bb></p><h1 id=10-reentranlock示例>1.0 ReentranLock示例</h1><p>我们都知道 <strong>ReentranLock</strong>的加锁行为和 <strong>Synchronized</strong>类似，都是可重入的锁，但是二者的实现方式确实完全不同的，我们之后也会讲解 <strong>Synchronized</strong>的原理。<strong>除此之外，Synchronized的阻塞无法被中断，而 <strong>ReentrantLock</strong>则提供了可中断的阻塞</strong>。下面的代码是 <strong>ReentranLock</strong>的函数，我们就以此为顺序，依次讲解这些函数背后的实现原理。</p><pre><code>ReentrantLock lock = new ReentrantLock();
+lock.lock();
+lock.unlock();
+</code></pre><h1 id=20-公平锁和非公平锁>2.0 公平锁和非公平锁</h1><p><strong>ReentranLock</strong>分为公平锁和非公平锁，二者的区别就在获取锁机会是否和排队顺序相关。我们都知道，如果锁被另一个线程持有，那么申请锁的其他线程会被挂起等待，加入等待队列。理论上，先调用 <strong>lock</strong>函数被挂起等待的线程应该排在等待队列的前端，后调用的就排在后边。如果此时，锁被释放，需要通知等待线程再次尝试获取锁，公平锁会让最先进入队列的线程获得锁。而非公平锁则会唤醒所有线程，让它们再次尝试获取锁，所以可能会导致后来的线程先获得了锁，则就是非公平。</p><pre><code>public ReentrantLock(boolean fair) {
+    sync = fair ? new FairSync() : new NonfairSync();
+}
+</code></pre><p>我们会发现 <strong>FairSync</strong>和 <strong>NonfairSync</strong>都继承了 <strong>Sync</strong>类，而 <strong>Sync</strong>的父类就是 <strong>AbstractQueuedSynchronizer</strong>(后续简称AQS)。但是 <strong>AQS</strong>的构造函数是空的,并没有任何操作。
+ 之后的源码分析，如果没有特别说明，就是指公平锁。</p><h1 id=30-lock操作>3.0 Lock操作</h1><p><strong>ReentranLock的lock</strong>函数如下所示，直接调用了 <strong>sync</strong> 的 <strong>lock</strong>函数。也就是调用了 <strong>FairSync的lock</strong>函数。</p><pre><code>//ReentranLock
+public void lock() {
+    sync.lock();
+}
+//FairSync
+final void lock() {
+    //调用了AQS的acquire函数,这是关键函数之一
+    acquire(1);
+}
+</code></pre><p>我们接下来就正式开始 <strong>AQS</strong>相关的源码分析了， <strong>acquire</strong>函数的作用是获取同一时间段内只能被一个线程获取的量，这个量就是抽象化的锁概念。我们先分析代码，你慢慢就会明白其中的含义。</p><pre><code>public final void acquire(int arg) {
+    // tryAcquire先尝试获取&quot;锁&quot;,获取了就不进入后续流程
+    if (!tryAcquire(arg) &amp;&amp;
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        //addWaiter是给当前线程创建一个节点,并将其加入等待队列
+        //acquireQueued是当线程已经加入等待队列之后继续尝试获取锁.
+        selfInterrupt();
+}
+</code></pre><p><strong>tryAcquire</strong>， <strong>addWaiter</strong>和 <strong>acquireQueued</strong>都是十分重要的函数，我们接下来依次学习一下这些函数，理解它们的作用。</p><pre><code>//AQS类中的变量.
+private volatile int state;
+//这是FairSync的实现,AQS中未实现,子类按照自己的需要实现该函数
+protected final boolean tryAcquire(int acquires) {
+    final Thread current = Thread.currentThread();
+    //获取AQS中的state变量,代表抽象概念的锁.
+    int c = getState();
+    if (c == 0) { //值为0,那么当前独占性变量还未被线程占有
+        //如果当前阻塞队列上没有先来的线程在等待,UnfairSync这里的实现就不一致
+        if (!hasQueuedPredecessors() &amp;&amp; 
+            compareAndSetState(0, acquires)) {
+            //成功cas,那么代表当前线程获得该变量的所有权,也就是说成功获得锁
+            setExclusiveOwnerThread(current);
+            // setExclusiveOwnerThread将本线程设置为独占性变量所有者线程
+            return true;
+        }
+    }
+    else if (current == getExclusiveOwnerThread()) {
+        //如果该线程已经获取了独占性变量的所有权,那么根据重入性
+        //原理,将state值进行加1,表示多次lock
+        //由于已经获得锁,该段代码只会被一个线程同时执行,所以不需要
+        //进行任何并行处理
+        int nextc = c + acquires;
+        if (nextc &lt; 0)
+            throw new Error(&quot;Maximum lock count exceeded&quot;);
+        setState(nextc);
+        return true;
+    }
+    //上述情况都不符合,说明获取锁失败
+    return false;
+}
+</code></pre><p>由上述代码我们可以发现， <strong>tryAcquire</strong>就是尝试获取那个线程独占的变量 <strong>state</strong>。 <strong>state</strong>的值表示其状态：如果是0，那么当前还没有线程独占此变量；否在就是已经有线程独占了这个变量，也就是代表已经有线程获得了锁。但是这个时候要再进行一次判断，看是否是当前线程自己获得的这个锁，如果是，就增加 <strong>state</strong>的值。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B.webp alt></p><p>ReentranLock获得锁</p><p>这里有几点需要说明一下，首先是 <strong>compareAndSetState</strong>函数，这是使用 <strong>CAS</strong>操作来设置 <strong>state</strong>的值，而且 <strong>state</strong>值设置了 <strong>volatile</strong>修饰符，通过这两点来确保修改 <strong>state</strong>的值不会出现多线程问题。然后是公平锁和非公平锁的区别问题，在 <strong>UnfairSync</strong>的 <strong>nonfairTryAcquire</strong>函数中不会在相同的位置上调用 <strong>hasQueuedPredecessors</strong>来判断当前是否已经有线程在排队等待获得锁。</p><p>如果 <strong>tryAcquire</strong>返回true，那么就是获取锁成功；如果返回false，那么就是未获得锁，需要加入阻塞等待队列。我们下面就来看一下 <strong>addWaiter</strong>的相关操作。</p><h1 id=40--等待锁的阻塞队列>4.0 等待锁的阻塞队列</h1><p>将保存当前线程信息的节点加入到等待队列的相关函数中涉及到了无锁队列的相关算法，由于在 <strong>AQS</strong>中只是将节点添加到队尾，使用到的无锁算法也相对简单。真正的无锁队列的算法我们等到分析 <strong>ConcurrentSkippedListMap</strong>时在进行讲解。</p><pre><code>private Node addWaiter(Node mode) {
+    Node node = new Node(Thread.currentThread(), mode);
+    //先使用快速入列法来尝试一下,如果失败,则进行更加完备的入列算法.
+    //只有在必要的情况下才会使用更加复杂耗时的算法，也就是乐观的态度
+    Node pred = tail; //列尾指针
+    if (pred != null) {
+        node.prev = pred; //步骤1:该节点的前趋指针指向tail
+        if (compareAndSetTail(pred, node)){ //步骤二:cas将尾指针指向该节点
+            pred.next = node;//步骤三:如果成果,让旧列尾节点的next指针指向该节点.
+            return node;
+        }
+    }
+    //cas失败,或在pred == null时调用enq
+    enq(node);
+    return node;
+}
+private Node enq(final Node node) {
+    for (;;) { //cas无锁算法的标准for循环,不停的尝试
+        Node t = tail;
+        if (t == null) { //初始化
+            if (compareAndSetHead(new Node())) 
+            //需要注意的是head是一个哨兵的作用,并不代表某个要获取锁的线程节点
+                tail = head;
+        } else {
+            //和addWaiter中一致,不过有了外侧的无限循环,不停的尝试,自旋锁
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+</code></pre><p>通过调用 <strong>addWaiter</strong>函数， <strong>AQS</strong>将当前线程加入到了等待队列，但是还没有阻塞当前线程的执行，接下来我们就来分析一下 <strong>acquireQueued</strong>函数。</p><h1 id=50--等待队列节点的操作>5.0 等待队列节点的操作</h1><p>由于进入阻塞状态的操作会降低执行效率，所以， <strong>AQS</strong>会尽力避免试图获取独占性变量的线程进入阻塞状态。所以，当线程加入等待队列之后， <strong>acquireQueued</strong>会执行一个for循环，每次都判断当前节点是否应该获得这个变量(在队首了)。如果不应该获取或在再次尝试获取失败，那么就调用 <strong>shouldParkAfterFailedAcquire</strong>判断是否应该进入阻塞状态。如果当前节点之前的节点已经进入阻塞状态了，那么就可以判定当前节点不可能获取到锁，为了防止CPU不停的执行for循环，消耗CPU资源，调用 <strong>parkAndCheckInterrupt</strong>函数来进入阻塞状态。</p><pre><code>final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) { //一直执行,直到获取锁,返回.
+            final Node p = node.predecessor(); 
+            //node的前驱是head,就说明,node是将要获取锁的下一个节点.
+            if (p == head &amp;&amp; tryAcquire(arg)) { //所以再次尝试获取独占性变量
+                setHead(node); //如果成果,那么就将自己设置为head
+                p.next = null; // help GC
+                failed = false;
+                return interrupted;
+                //此时,还没有进入阻塞状态,所以直接返回false,表示不需要中断调用selfInterrupt函数
+            }
+            //判断是否要进入阻塞状态.如果`shouldParkAfterFailedAcquire`
+            //返回true,表示需要进入阻塞
+            //调用parkAndCheckInterrupt；否则表示还可以再次尝试获取锁,继续进行for循环
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                parkAndCheckInterrupt())
+                //调用parkAndCheckInterrupt进行阻塞,然后返回是否为中断状态
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+
+private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    int ws = pred.waitStatus;
+    if (ws == Node.SIGNAL) //前一个节点在等待独占性变量释放的通知,所以,当前节点可以阻塞
+        return true;
+    if (ws &gt; 0) { //前一个节点处于取消获取独占性变量的状态,所以,可以跳过去
+        //返回false
+        do {
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus &gt; 0);
+        pred.next = node;
+    } else {
+        //将上一个节点的状态设置为signal,返回false,
+        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+    return false;
+}
+private final boolean parkAndCheckInterrupt() {
+    LockSupport.park(this); //将AQS对象自己传入
+    return Thread.interrupted();
+}
+</code></pre><h1 id=60--阻塞和中断>6.0 阻塞和中断</h1><p>由上述分析，我们知道了 <strong>AQS</strong>通过调用 <strong>LockSupport</strong>的 <strong>park</strong>方法来执行阻塞当前进程的操作。其实，这里的阻塞就是线程不再执行的含义，通过调用这个函数，线程进入阻塞状态，上述的 <strong>lock</strong>操作也就阻塞了，等待中断或在独占性变量被释放。</p><pre><code>public static void park(Object blocker) {
+    Thread t = Thread.currentThread();
+    setBlocker(t, blocker);//设置阻塞对象,用来记录线程被谁阻塞的,用于线程监控和分析工具来定位
+    UNSAFE.park(false, 0L);//让当前线程不再被线程调度,就是当前线程不再执行.
+    setBlocker(t, null);
+}
+</code></pre><p>关于中断的相关知识，我们以后再说，就继续沿着AQS的主线，看一下释放独占性变量的相关操作吧。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B2.webp alt></p><p>ReentrantLock未获得阻塞,加入队列</p><h1 id=70--unlock操作>7.0 unlock操作</h1><p>与<strong>lock</strong>操作类似， <strong>unlock</strong>操作调用了 <strong>AQS</strong>的relase方法，参数和调用 <strong>acquire</strong>时一样，都是1。</p><pre><code>public final boolean release(int arg) {
+    if (tryRelease(arg)) { 
+    //释放独占性变量,起始就是将status的值减1,因为acquire时是加1
+        Node h = head;
+        if (h != null &amp;&amp; h.waitStatus != 0)
+            unparkSuccessor(h);//唤醒head的后继节点
+        return true;
+    }
+    return false;
+}
+</code></pre><p>由上述代码可知，release就是先调用 <strong>tryRelease</strong>来释放独占性变量。如果成功，那么就看一下是否有等待锁的阻塞线程，如果有，就调用 <strong>unparkSuccessor</strong>来唤醒他们。</p><pre><code>protected final boolean tryRelease(int releases) {
+    //由于只有一个线程可以获得独占先变量,所以,所有操作不需要考虑多线程
+    int c = getState() - releases; 
+    if (Thread.currentThread() != getExclusiveOwnerThread())
+        throw new IllegalMonitorStateException();
+    boolean free = false;
+    if (c == 0) { //如果等于0,那么说明锁应该被释放了,否则表示当前线程有多次lock操作.
+        free = true;
+        setExclusiveOwnerThread(null);
+    }
+    setState(c);
+    return free;
+}
+</code></pre><p>我们可以看到 <strong>tryRelease</strong>中的逻辑也体现了可重入锁的概念，只有等到 <strong>state</strong>的值为0时，才代表锁真正被释放了。所以独占性变量 <strong>state</strong>的值就代表锁的有无。当 <strong>state</strong>=0时，表示锁未被占有，否在表示当前锁已经被占有。</p><pre><code>private void unparkSuccessor(Node node) {
+    .....
+    //一般来说,需要唤醒的线程就是head的下一个节点,但是如果它获取锁的操作被取消,或在节点为null时
+    //就直接继续往后遍历,找到第一个未取消的后继节点.
+    Node s = node.next;
+    if (s == null || s.waitStatus &gt; 0) {
+        s = null;
+        for (Node t = tail; t != null &amp;&amp; t != node; t = t.prev)
+            if (t.waitStatus &lt;= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+</code></pre><p>调用了 <strong>unpark</strong>方法后，进行 <strong>lock</strong>操作被阻塞的线程就恢复到运行状态,就会再次执行 <strong>acquireQueued</strong>中的无限for循环中的操作，再次尝试获取锁。</p><p><img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B3.webp alt></p><p>ReentrantLock释放锁并通知阻塞线程恢复执行</p><h1 id=80--后记>8.0 后记</h1><p>有关 <strong>AQS</strong>和 <strong>ReentrantLock</strong>的分析就差不多结束了。不得不说，我第一次看到 <strong>AQS</strong>的实现时真是震惊，以前都认为 <strong>Synchronized</strong>和 <strong>ReentrantLock</strong>的实现原理是一致的，都是依靠java虚拟机的功能实现的。没有想到还有 <strong>AQS</strong>这样一个背后大Boss在提供帮助啊。学习了这个类的原理，我们对JUC的很多类的分析就简单了很多。此外， <strong>AQS</strong>涉及的 <strong>CAS</strong>操作和无锁队列的算法也为我们学习其他无锁算法提供了基础。</p><p>转载自： <a href=https://www.cnblogs.com/sweetorangezzz/p/13184325.html>https://www.cnblogs.com/sweetorangezzz/p/13184325.html</a></p><hr><ul class=pager><li class=previous><a href=/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/ data-toggle=tooltip data-placement=top title=Mysql自定义变量和结束分隔符>&larr;
+Previous Post</a></li><li class=next><a href=/2020-08-03-tps%E4%B8%8Eqps/ data-toggle=tooltip data-placement=top title=tps与qps>Next
+Post &rarr;</a></li></ul><div id=disqus-comment></div><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//WangZiTao.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/api-gateway title=api-gateway>api-gateway</a>
+<a href=/tags/blog title=blog>blog</a>
+<a href=/tags/docker title=docker>docker</a>
+<a href=/tags/elk title=elk>elk</a>
+<a href=/tags/git title=git>git</a>
+<a href=/tags/helm title=helm>helm</a>
+<a href=/tags/io title=io>io</a>
+<a href=/tags/istio title=istio>istio</a>
+<a href=/tags/java title=java>java</a>
+<a href=/tags/juc title=juc>juc</a>
+<a href=/tags/jvm title=jvm>jvm</a>
+<a href=/tags/kubernetes title=kubernetes>kubernetes</a>
+<a href=/tags/microservice title=microservice>microservice</a>
+<a href=/tags/mysql title=mysql>mysql</a>
+<a href=/tags/nginmesh title=nginmesh>nginmesh</a>
+<a href=/tags/security title=security>security</a>
+<a href=/tags/service-mesh title=service-mesh>service-mesh</a>
+<a href=/tags/sql%E6%B3%A8%E5%85%A5 title=sql注入>sql注入</a>
+<a href=/tags/tips title=tips>tips</a>
+<a href=/tags/travel title=travel>travel</a>
+<a href=/tags/ubuntu title=ubuntu>ubuntu</a>
+<a href=/tags/vim title=vim>vim</a>
+<a href=/tags/%E5%85%B6%E4%BB%96 title=其他>其他</a>
+<a href=/tags/%E5%9F%BA%E7%A1%80 title=基础>基础</a>
+<a href=/tags/%E6%80%A7%E8%83%BD title=性能>性能</a>
+<a href=/tags/%E6%AD%A3%E5%88%99 title=正则>正则</a>
+<a href=/tags/%E6%AD%BB%E9%94%81 title=死锁>死锁</a>
+<a href=/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91 title=端口转发>端口转发</a>
+<a href=/tags/%E7%BD%91%E7%BB%9C title=网络>网络</a>
+<a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F title=设计模式>设计模式</a>
+<a href=/tags/%E9%85%8D%E7%BD%AE title=配置>配置</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.ibm.com/developerworks/cn/>IBM Developer 中国</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:wang_zitao@foxmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/images/qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/wangzitao6><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; 王子滔的学习笔记 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script>(function(){var t,e=document.createElement("script"),n=window.location.protocol.split(":")[0];n==="https"?e.src="https://zz.bdstatic.com/linksubmit/push.js":e.src="http://push.zhanzhang.baidu.com/push.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)})()</script><script>var _baId="28c952e35b6e860c096a2cdf52785c6f",_hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="//hm.baidu.com/hm.js?"+_baId,e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
