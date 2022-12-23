@@ -1,741 +1,359 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-	<meta name="generator" content="Hugo 0.80.0" />
-    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
-    <meta name="baidu-site-verification" content="LRrmH41lz7" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <meta property="og:site_name" content="王子滔的学习笔记">
-    <meta property="og:type" content="article">
-
-    
-    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
-    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
-    
-
-    
-    <meta name="title" content="" />
-    <meta property="og:title" content="" />
-    <meta property="twitter:title" content="" />
-    
-
-    
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
-    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    
-
-    
-    <meta property="twitter:card" content="summary" />
-    
-    
-
-    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <title>王子滔的学习笔记</title>
-
-    <link rel="canonical" href="/">
-
-    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
-	
-    
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
-    
-    <link rel="stylesheet" href="/css/syntax.css">
-
-    
-    <link rel="stylesheet" href="/css/zanshang.css">
-
-    
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    
-    <script src="/js/jquery.min.js"></script>
-    
-    
-    <script src="/js/bootstrap.min.js"></script>
-    
-    
-    <script src="/js/hux-blog.min.js"></script>
-	
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
 
 
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
+
+
+	<header class="main-header tag-head no-cover">
+
+    <nav class="main-nav overlay clearfix">
+      
+      
         
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
-        </div>
-
+          <a class="menu-button icon-feed" href="https://wangzitao6.github.io/index.xml">&nbsp;&nbsp;Subscribe</a>
         
-        
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/build">build</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/elk">elk</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/java">java</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/jvm">jvm</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/net">net</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/other">other</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/sql">sql</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
-                    </li>
-                    
-
-		    
-                        <li><a href="/top/about/">ABOUT</a></li>
-                    
-
-                    
-		    <li>
-                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
-		    </li>
-                    
-                </ul>
-            </div>
-        </div>
-        
-    </div>
-    
-</nav>
-<script>
-    
-    
-    
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        
-            $navbar.className = " ";
-            
-            setTimeout(function(){
+      
+    </nav>
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">王子滔的学习笔记</h1>
+            <h2 class="page-description">
                 
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
-
-
-
-<header class="intro-header" style="background-image: url('/images/1.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>王子滔的学习笔记 </h1>
-                    
-		    <span class="subheading">~路漫漫其修远兮~</span>
-                </div>
-            </div>
+            </h2>
         </div>
     </div>
 </header>
 
-
-
-  
-<div class="container">
-    <div class="row">
-        
-        
-   	    <div class="
-            col-lg-8 col-lg-offset-1
-            col-md-8 col-md-offset-1
-            col-sm-12
-            col-xs-12
-            post-container
-        ">
-            
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/">
-        <h2 class="post-title">
-            Int类型强制转换byte类型
-        </h2>
-	
-        <h3 class="post-subtitle">
-            Int类型强制转换byte类型
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            java中为什么int类型的-129转换成byte类型的会变成127 int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完整形
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Saturday, August 24, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">
-        <h2 class="post-title">
-            原码 补码 反码
-        </h2>
-	
-        <h3 class="post-subtitle">
-            原码 补码 反码
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            Java数据类型 了解原码、补码、反码之前，我们先看下java的数据类型： Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Friday, August 23, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-08-19-MYSQL%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/">
-        <h2 class="post-title">
-            MYSQL配置读取
-        </h2>
-	
-        <h3 class="post-subtitle">
-            MYSQL配置读取
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            讲解mysql配置文件读取顺序,文件中配置读取顺序
-        
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Monday, August 19, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/">
-        <h2 class="post-title">
-            Markdown进阶语法
-        </h2>
-	
-        <h3 class="post-subtitle">
-            Markdown进阶语法
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            Markdown
-        
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Friday, August 2, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
-        <h2 class="post-title">
-            了解三次握手与四次挥手
-        </h2>
-	
-        <h3 class="post-subtitle">
-            了解三次握手与四次挥手
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            三次握手 TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Saturday, April 20, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/">
-        <h2 class="post-title">
-            http协议无状态中的状态到底指的是什么
-        </h2>
-	
-        <h3 class="post-subtitle">
-            http协议无状态中的状态到底指的是什么
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            转载自：http协议无状态中的【状态】到底指的是什么？！ http协议无状态中的【状态】到底指的是什么？！ 先来看这句话的另外两个概念：（标准的
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Friday, April 19, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/">
-        <h2 class="post-title">
-            了解ARP协议
-        </h2>
-	
-        <h3 class="post-subtitle">
-            了解ARP协议
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            MAC地址 什么是MAC地址？MAC地址与IP有什么区别？ 大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？ 知乎回答:http
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Friday, April 19, 2019
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="https://wangzitao6.github.io/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/">
-        <h2 class="post-title">
-            tcpip协议与socket区别
-        </h2>
-	
-        <h3 class="post-subtitle">
-            tcpip协议与socket区别
-        </h3>
-	
-        <div class="post-content-preview">
-	
-            TCP/IP协议的组成 TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。 TCP/IP协议
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    Posted by WangZiTao Friday, April 19, 2019
-    </p>
-</div>
-<hr>
-
-
-            
-
-
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/">&larr; Newer Posts</a>
-    </li>
-    
-    
-    <li class="next">
-        <a href="/page/3/">Older Posts &rarr;</a>
-    </li>
-    
-</ul>
-
-
-       	</div>
-        
-
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-    
-    <section>
-        <hr class="hidden-sm hidden-xs">
-        <h5>FEATURED TAGS</h5>
-        <div class="tags">
-             
-            
-                
-                    <a href="/tags/blog" title="blog">
-                        blog
-                    </a>
-                
-            
-                
-                    <a href="/tags/elk" title="elk">
-                        elk
-                    </a>
-                
-            
-                
-                    <a href="/tags/git" title="git">
-                        git
-                    </a>
-                
-            
-                
-                    <a href="/tags/java" title="java">
-                        java
-                    </a>
-                
-            
-                
-                    <a href="/tags/juc" title="juc">
-                        juc
-                    </a>
-                
-            
-                
-                    <a href="/tags/jvm" title="jvm">
-                        jvm
-                    </a>
-                
-            
-                
-                    <a href="/tags/mysql" title="mysql">
-                        mysql
-                    </a>
-                
-            
-                
-                    <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
-                        sql注入
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                        其他
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
-                        基础
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
-                        性能
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
-                        正则
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
-                        死锁
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
-                        端口转发
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                        网络
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
-                        设计模式
-                    </a>
-                
-            
-                
-                    <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
-                        配置
-                    </a>
-                
-            
-        </div>
-    </section>
+<main class="content" role="main">
     
 
-    
+	<div class="extra-pagination inner">
+    <nav class="pagination" role="navigation">
 	
-    <section class="visible-md visible-lg">
-	<hr><h5><a href="/top/about">ABOUT ME</a></h5>
-        <div class="short-about">
-            
-            <a href="/top/about">
-               <img src="/images/me.jpg" alt="avatar" style="cursor: pointer" />
-            </a>
-            
-            
-                <p>搬砖工程师</p>
-            
-           
-           <ul class="list-inline"> 
-               
-               
-               
-               
-               
-               
-               <li>
-                   <a target="_blank" href="/images/qrcode.jpg">
-                       <span class="fa-stack fa-lg">
-                           <i class="fa fa-circle fa-stack-2x"></i>
-                           <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               <li>
-                   <a target="_blank" href="https://github.com/wangzitao6">
-                       <span class="fa-stack fa-lg">
-                           <i class="fa fa-circle fa-stack-2x"></i>
-                           <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               
-                </ul>
-            </div>
-    </section>
+	    <a class="newer-posts" href="/">&larr; Newer Posts</a>
 	
-    
-    
-    <section>
-        <hr class="hidden-sm hidden-xs">
-        <h5>FRIENDS</h5>
-        <ul class="list-inline">
-            
-            <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
-            
-        </ul>
-    </section>
-    
-
-    
-    
-</div>
+	<span class="page-number">Page 2 of 6</span>
+	
+	    <a class="older-posts" href="/page/3/">Older Posts &rarr;</a>
+	
+</nav>
 
 	</div>
-</div>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-08-26-integer%E7%9A%84integercache/">Integer的IntegerCache</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>首先我们来看这样一个例子: int m = 10; int n = 10; System.out.println(m == n); int j = 128; int k = 128; System.out.println(j == k); 输出结果： true true 出现这样的一个结果大家都意外。 下面我们再看一个例子： Integer a <a class="read-more" href="/2019-08-26-integer%E7%9A%84integercache/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/java/">#java</a>,
+            
+                <a href="https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/">#基础</a>,
+            
+        
+        <time class="post-date" datetime="2019-08-26T10:23:46&#43;08:00">
+            26 Aug 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/">Java位运算</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>单位换算 bit：位 一个二进制数据0或1，是1bit； byte：字节 1 byte = 8 bit , 存储空间的基本计量单位； 一个英文字符占一个字节 1 字母 = 1 byte = 8 <a class="read-more" href="/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/java/">#java</a>,
+            
+                <a href="https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/">#基础</a>,
+            
+        
+        <time class="post-date" datetime="2019-08-24T15:09:25&#43;08:00">
+            24 Aug 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/">Int类型强制转换byte类型</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>java中为什么int类型的-129转换成byte类型的会变成127 int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完整形 <a class="read-more" href="/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/java/">#java</a>,
+            
+                <a href="https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/">#基础</a>,
+            
+        
+        <time class="post-date" datetime="2019-08-24T11:13:05&#43;08:00">
+            24 Aug 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">原码 补码 反码</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>Java数据类型 了解原码、补码、反码之前，我们先看下java的数据类型： Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环 <a class="read-more" href="/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/java/">#java</a>,
+            
+                <a href="https://wangzitao6.github.io/tags/%E5%9F%BA%E7%A1%80/">#基础</a>,
+            
+        
+        <time class="post-date" datetime="2019-08-23T16:28:33&#43;08:00">
+            23 Aug 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96">MYSQL配置读取</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>配置文件读取 在Unix, Linux 或者 Mac OS X 系统中, MYSQL 从以下配置文件中读取启动配置, 读取顺序由上到下: File Name Purpose /etc/my.cnf 全局配置选项 /etc/mysql/my.cnf 全局配置选项 SYSCONFDIR/my.cnf 全局配置选 <a class="read-more" href="/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/%E9%85%8D%E7%BD%AE/">#配置</a>,
+            
+                <a href="https://wangzitao6.github.io/tags/mysql/">#MySQL</a>,
+            
+        
+        <time class="post-date" datetime="2019-08-19T15:06:29&#43;08:00">
+            19 Aug 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95">Markdown进阶语法</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>字体、大小、颜色 &lt;font face=&quot;黑体&quot;&gt;我是黑体字&lt;/font&gt; &lt;font face=&quot;微软雅黑&quo <a class="read-more" href="/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/%E5%85%B6%E4%BB%96/">#其他</a>,
+            
+        
+        <time class="post-date" datetime="2019-08-02T13:59:37&#43;08:00">
+            2 Aug 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">了解三次握手与四次挥手</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>三次握手 TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接 <a class="read-more" href="/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/">#网络</a>,
+            
+        
+        <time class="post-date" datetime="2019-04-20T14:38:17&#43;08:00">
+            20 Apr 2019
+        </time>
+    </footer>
+</article>
+
+	
+	   <article class="post post">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/">http协议无状态中的状态到底指的是什么</a></h2>
+    </header>
+    <section class="post-excerpt">
+        
+            <p>转载自：http协议无状态中的【状态】到底指的是什么？！ http协议无状态中的【状态】到底指的是什么？！ 先来看这句话的另外两个概念：（标准的 <a class="read-more" href="/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/">&raquo;</a></p>
+        
+    </section>
+    <footer class="post-meta">
+        
+
+        
+            
+            
+
+            
+            
+            
+            WangZiTao
+                 
+        
+
+        on
+            
+                <a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/">#网络</a>,
+            
+        
+        <time class="post-date" datetime="2019-04-19T17:52:39&#43;08:00">
+            19 Apr 2019
+        </time>
+    </footer>
+</article>
+
+	
+
+	<nav class="pagination" role="navigation">
+	
+	    <a class="newer-posts" href="/">&larr; Newer Posts</a>
+	
+	<span class="page-number">Page 2 of 6</span>
+	
+	    <a class="older-posts" href="/page/3/">Older Posts &rarr;</a>
+	
+</nav>
+
+</main>
 
 
 
-
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                   
-                    
-                    <li>
-                        <a href="mailto:wang_zitao@foxmail.com">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-
-                    
-                    
-                    
-
-                    
-
-		    
-                    
-                    <li>
-                        <a target="_blank" href="/images/qrcode.jpg">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    <li>
-                        <a target="_blank" href="https://github.com/wangzitao6">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    
-                </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2021
-                    <br>
-                </p>
-            </div>
-        </div>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
     </div>
-</footer>
-
-
-
-
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-
-
-
-
-
-<script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     
-    if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-
-<script>
-    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https'){
-       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-      }
-      else{
-      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-      }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
-
-
-
-
-<script>
-    
-    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
-
-    
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135479251-2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-135479251-2');
-</script>
-
-
 </body>
 </html>

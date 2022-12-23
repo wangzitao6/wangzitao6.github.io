@@ -1,19 +1,230 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>配置 on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/tags/%E9%85%8D%E7%BD%AE/</link>
+    <link>https://wangzitao6.github.io/tags/%E9%85%8D%E7%BD%AE/index.xml</link>
     <description>Recent content in 配置 on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Aug 2019 15:06:29 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://wangzitao6.github.io/tags/%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>MYSQL配置读取</title>
-      <link>https://wangzitao6.github.io/2019-08-19-MYSQL%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/</link>
+      <link>https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96</link>
       <pubDate>Mon, 19 Aug 2019 15:06:29 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2019-08-19-MYSQL%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/</guid>
-      <description>配置文件读取 在Unix, Linux 或者 Mac OS X 系统中, MYSQL 从以下配置文件中读取启动配置, 读取顺序由上到下: File Name Purpose /etc/my.cnf 全局配置选项 /etc/mysql/my.cnf 全局配置选项 SYSCONFDIR/my.cnf 全局配置选</description>
+      <guid>https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96</guid>
+      <description>
+
+&lt;h2 id=&#34;配置文件读取&#34;&gt;配置文件读取&lt;/h2&gt;
+
+&lt;p&gt;在Unix, Linux 或者 Mac OS X 系统中, MYSQL 从以下配置文件中读取启动配置, 读取顺序由上到下:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;File Name&lt;/th&gt;
+&lt;th&gt;Purpose&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; /etc/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;全局配置选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; /etc/mysql/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;全局配置选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; SYSCONFDIR/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;全局配置选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; $MYSQL_HOME/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;特定于服务器的选项（仅限服务器）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; defaults-extra-file &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;命令行指定的额外配置文件路径&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; ~/.my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;用户特定选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; ~/.mylogin.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;用户特定的登录路径选项（仅限客户端）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&amp;ndash;defaults-extra-file
+ 在读取全局配置文件之后，读取用户配置文件(~/.my.cnf)之前，读取extra指定的参数文件&lt;/p&gt;
+
+&lt;p&gt;~/.my.cnf&lt;br /&gt;
+home目录下面的隐藏文件，my.cnf前面的点，说明my.cnf是隐藏文件&lt;/p&gt;
+
+&lt;p&gt;~/.mylogin.cnf&lt;br /&gt;
+配置文件有点儿特殊，它不是一个纯文本文件（其他的配置文件都是纯文本文件），而是使用mysql_config_editor实用程序创建的加密文件。文件中只能包含一些用于启动客户端软件时连接服务器的一些选项，包括 host、user、password、port和 socket。而且它只能被客户端程序所使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color=Red&gt;读取顺序:&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;/etc/my.cnf&lt;/li&gt;
+&lt;li&gt;basedir/my.cnf&lt;/li&gt;
+&lt;li&gt;datadir/my.cnf&lt;/li&gt;
+&lt;li&gt;&amp;ndash;defaults-extra-file&lt;/li&gt;
+&lt;li&gt;~/.my.cnf&lt;/li&gt;
+&lt;li&gt;~/.mylogin.cnf&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最后两个以~开头的路径是用户相关的，&lt;strong&gt;&lt;font color=Red&gt;~&lt;/font&gt;&lt;/strong&gt; 就代表这个用户目录. 用户可以在自己的用户目录下创建&lt;font color=Red&gt;.my.cnf&lt;/font&gt;或者&lt;font color=Red&gt;.mylogin.cnf&lt;/font&gt;，换句话说，不同登录用户使用的 &lt;font color=Red&gt;.my.cnf&lt;/font&gt;或者 &lt;font color=Red&gt;.mylogin.cnf&lt;/font&gt; 配置文件是不同的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;当多个文件中出现同一个配置时,以最后读取的配置为准&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;比方说&lt;font color=Red&gt;/etc/my.cnf&lt;/font&gt;文件的内容是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=InnoDB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而~/.my.cnf文件中的内容是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;又因为&lt;font color=Red&gt;~/.my.cnf&lt;/font&gt;比&lt;font color=Red&gt;/etc/my.cnf&lt;/font&gt;顺序靠后，所以如果两个配置文件中出现相同的启动选项，以&lt;font color=Red&gt;~/.my.cnf&lt;/font&gt;中的为准，所以MySQL服务器程序启动之后，&lt;font color=Red&gt;default-storage-engine&lt;/font&gt;的值就是&lt;font color=Red&gt;MyISAM&lt;/font&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;文件中配置读取&#34;&gt;文件中配置读取&lt;/h2&gt;
+
+&lt;p&gt;与在命令行中指定启动选项不同的是，配置文件中的启动选项被划分为若干个组，每个组有一个组名，用中括号[]扩起来，像这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+(具体的启动选项...)
+
+[mysqld]
+(具体的启动选项...)
+
+[mysqld_safe]
+(具体的启动选项...)
+
+[client]
+(具体的启动选项...)
+
+[mysql]
+(具体的启动选项...)
+
+[mysqladmin]
+(具体的启动选项...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配置文件中不同的选项组是给不同的启动命令使用的，&lt;font color=Red&gt;[mysqld]&lt;/font&gt;和&lt;font color=Red&gt;[mysql]&lt;/font&gt;组分别应用于&lt;font color=Red&gt;mysqld&lt;/font&gt;服务器程序和&lt;font color=Red&gt;mysql&lt;/font&gt;客户端程序。不过有两个选项组比较特别：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;[server]组下边的启动选项将作用于所有的服务器程序。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;[client]组下边的启动选项将作用于所有的客户端程序。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;启动命令&lt;/th&gt;
+&lt;th&gt;类别&lt;/th&gt;
+&lt;th&gt;能读取的组&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;mysqld&lt;/td&gt;
+&lt;td&gt;启动服务器&lt;/td&gt;
+&lt;td&gt;[mysqld]、[server]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysqld_safe&lt;/td&gt;
+&lt;td&gt;启动服务器&lt;/td&gt;
+&lt;td&gt;[mysqld]、[server]、[mysqld_safe]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysql.server&lt;/td&gt;
+&lt;td&gt;启动服务器&lt;/td&gt;
+&lt;td&gt;[mysqld]、[server]、[mysql.server]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysql&lt;/td&gt;
+&lt;td&gt;启动客户端&lt;/td&gt;
+&lt;td&gt;[mysql]、[client]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysqladmin&lt;/td&gt;
+&lt;td&gt;启动客户端&lt;/td&gt;
+&lt;td&gt;[mysqladmin]、[client]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysqldump&lt;/td&gt;
+&lt;td&gt;启动客户端&lt;/td&gt;
+&lt;td&gt;[mysqldump]、[client]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;假如我们在&lt;font color=Red&gt;/etc/mysql/my.cnf&lt;/font&gt; 中添加配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+skip-networking
+default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后直接用mysqld启动服务器程序：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysqld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;虽然在命令行没有添加启动选项，但是在程序启动的时候，就会默认的到我们上边提到的配置文件路径下查找配置文件，其中就包括&lt;font color=Red&gt;/etc/mysql/my.cnf&lt;/font&gt;。又由于&lt;font color=Red&gt;mysqld&lt;/font&gt;命令可以读取&lt;font color=Red&gt;[server]&lt;/font&gt;选项组的内容，所以&lt;font color=Red&gt;skip-networking&lt;/font&gt;和&lt;font color=Red&gt;default-storage-engine=MyISAM&lt;/font&gt;这两个选项是生效的。你可以把这些启动选项放在&lt;font color=Red&gt;[client]&lt;/font&gt;组里再试试用&lt;font color=Red&gt;mysqld&lt;/font&gt;启动服务器程序，结果是&lt;strong&gt;不生效&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;同一个配置文件中多个组的优先级&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;我们说同一个命令可以访问配置文件中的多个组，比如&lt;font color=Red&gt;mysqld&lt;/font&gt;可以访问&lt;font color=Red&gt;[mysqld]&lt;/font&gt;、&lt;font color=Red&gt;[server]&lt;/font&gt;组，如果在同一个配置文件中，比如&lt;font color=Red&gt;~/.my.cnf&lt;/font&gt;，在这些组里出现了同样的配置项，比如这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=InnoDB
+
+[mysqld]
+default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么，将以最后一个出现的组中的启动选项为准，比方说例子中&lt;font color=Red&gt;default-storage-engine&lt;/font&gt;既出现在&lt;font color=Red&gt;[mysqld]&lt;/font&gt;组也出现在&lt;font color=Red&gt;[server]&lt;/font&gt;组，因为&lt;font color=Red&gt;[mysqld]&lt;/font&gt;组在&lt;font color=Red&gt;[server]&lt;/font&gt;组后边，就以&lt;font color=Red&gt;[mysqld]&lt;/font&gt;组中的配置项为准。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color=Red&gt;如果同一个启动选项既出现在命令行中，又出现在配置文件中，那么以命令行中的启动选项为准。&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;例如我们在配置文件中写了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=InnoDB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而我们的启动命令是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysql.server start --default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那最后&lt;font color=Red&gt;default-storage-engine&lt;/font&gt;的值就是&lt;font color=Red&gt;MyISAM&lt;/font&gt;！&lt;/p&gt;
+</description>
     </item>
     
   </channel>

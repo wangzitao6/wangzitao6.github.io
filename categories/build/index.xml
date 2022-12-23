@@ -1,19 +1,99 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>build on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/categories/build/</link>
+    <link>https://wangzitao6.github.io/categories/build/index.xml</link>
     <description>Recent content in build on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Nov 2016 23:10:30 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/categories/build/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://wangzitao6.github.io/categories/build/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>git常用命令</title>
       <link>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>1. 分支操作 1.创建，删除本地分支 git branch 分支名 创建名称为branchname的本地分支 git branch branchName git branch -d 分支名 删除名称为branchname的本地分支</description>
+      <description>
+
+&lt;h2 id=&#34;1-分支操作&#34;&gt;1. 分支操作&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;1.创建，删除本地分支&lt;/strong&gt;
+git branch 分支名  创建名称为branchname的本地分支&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git branch branchName&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;git branch -d 分支名  删除名称为branchname的本地分支&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git branch -d branchname&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.切换本地分支&lt;/strong&gt;
+git checkout 分支名，例如从master切换到dev分支：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git checkout dev&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.远程分支就是本地分支push到服务器上。比如master就是一个最典型的远程分支（默认）&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git push origin dev&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;4.远程分支和本地分支需要区分好，所以，在从服务器上拉取特定分支的时候，需要指定远程分支的名字。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git checkout --track origin/dev&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;注意该命令由于带有&amp;ndash;track参数，所以要求git1.6.4以上！这样git会自动切换到分支。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;5.提交分支数据到远程服务器&lt;/strong&gt;
+git push origin &lt;local_branch_name&gt;:&lt;remote_branch_name&gt;
+例如：
+&lt;strong&gt;&lt;code&gt;git push origin dev:dev&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;一般当前如果不在该分支时，使用这种方式提交。如果当前在 dev 分支下，也可以直接提交&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git push&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6.删除远程分支&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git push origin :develop&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;7.拉取项目分支&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;git clone --branch branchname  repoPath&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;8.查看所有的分支&lt;/strong&gt;
+查看所有的分支  高亮的是当前分支:
+&lt;strong&gt;&lt;code&gt;git branch&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;2-文件操作&#34;&gt;2. 文件操作&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-git&#34;&gt;  git status   查看这次修改的东西
+
+  git diff filepath  查看此次修改差异
+
+  git add filepath 把某一个文件加入暂存区
+
+  git  add .   把所有的修改文件放入暂存区
+
+  git commit -m &amp;quot; 修改的信息&amp;quot;   提交修改并显示修改的信息
+
+  git pull  origin/master 拉去远程的master分支（git pull  origin master ） 放在add commit 之后
+
+  git checkout filepath   回滚某一个文件的修改
+
+  git checkout .  回滚所有的修改
+
+  git reset  撤销所有暂存区文件
+
+  git reset filepath  撤销暂存区中的某一个文件
+
+  git push  origin/master   推送到远程的master分支  （git push  origin master ）
+
+  git log 查看项目的commit版本
+
+  git log -p  filepath 查看某一个文件的所有commit版本
+
+  git show commit版本号  显示此次commit所修改的内容
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
   </channel>

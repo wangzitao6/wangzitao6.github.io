@@ -1,148 +1,3 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    
-    
-        <meta name="twitter:card" content="summary"/>
-    
-
-
-
-<meta name="twitter:title" content="MYSQL配置读取"/>
-<meta name="twitter:description" content="讲解mysql配置文件读取顺序,文件中配置读取顺序"/>
-<meta name="twitter:site" content="@"/>
-
-
-
-  	<meta property="og:title" content="MYSQL配置读取 &middot; 王子滔的学习笔记" />
-  	<meta property="og:site_name" content="王子滔的学习笔记" />
-  	<meta property="og:url" content="https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/" />
-
-    
-        
-    
-
-    
-    <meta property="og:description" content="讲解mysql配置文件读取顺序,文件中配置读取顺序" />
-  	<meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2019-08-19T15:06:29&#43;08:00" />
-
-    
-    <meta property="article:tag" content="配置" />
-    
-    <meta property="article:tag" content="MySQL" />
-    
-    
-
-    <title>MYSQL配置读取 &middot; 王子滔的学习笔记</title>
-
-    
-    <meta name="description" content="讲解mysql配置文件读取顺序,文件中配置读取顺序" />
-    
-
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="shortcut icon" href="/images/favicon.ico">
-	  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
-
-    <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-    <link rel="stylesheet" type="text/css" href="/css/nav.css" />
-
-    
-
-    
-
-    
-      
-          <link href="/index.xml" rel="alternate" type="application/rss+xml" title="王子滔的学习笔记" />
-      
-      
-    
-    <meta name="generator" content="Hugo 0.54.0" />
-
-    <link rel="canonical" href="https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/" />
-
-    
-      
-    
-    <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "publisher": {
-        "@type": "Organization",
-        "name": 
-    },
-    "author": {
-        "@type": "Person",
-        "name": ,
-        
-        "url": ,
-        "sameAs": [
-            
-            
-             
-             
-             
-             
-             
-            
-        ]
-    },
-    "headline": MYSQL配置读取,
-    "name": MYSQL配置读取,
-    "wordCount": 1738,
-    "timeRequired": "PT4M",
-    "inLanguage": {
-      "@type": "Language",
-      "alternateName": en
-    },
-    "url": https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/,
-    "datePublished": 2019-08-19T15:06Z,
-    "dateModified": 2019-08-19T15:06Z,
-    
-    "keywords": 配置, MySQL,
-    "description": 讲解mysql配置文件读取顺序,文件中配置读取顺序,
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/
-    }
-}
-    </script>
-    
-
-
-    
-
-    
-
-    
-</head>
-<body class="nav-closed">
-
-  <div class="nav">
-    <h3 class="nav-title">Menu</h3>
-    <a href="#" class="nav-close">
-        <span class="hidden">Close</span>
-    </a>
-    <ul>
-        
-        
-    </ul>
-
-    
-    <a class="subscribe-button icon-feed" href="/index.xml">Subscribe</a>
-    
-</div>
-<span class="nav-cover"></span>
-
-
- <div class="site-wrapper">
 
 
 
@@ -429,19 +284,19 @@ default-storage-engine=InnoDB
     
 <section class="share">
   <h4>Share this post</h4>
-  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=MYSQL%e9%85%8d%e7%bd%ae%e8%af%bb%e5%8f%96&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596%2f"
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=MYSQL%e9%85%8d%e7%bd%ae%e8%af%bb%e5%8f%96&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596"
       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
       <span class="hidden">Twitter</span>
   </a>
-  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596%2f"
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596"
       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
       <span class="hidden">Facebook</span>
   </a>
-  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596%2f&amp;description=MYSQL%e9%85%8d%e7%bd%ae%e8%af%bb%e5%8f%96"
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596&amp;description=MYSQL%e9%85%8d%e7%bd%ae%e8%af%bb%e5%8f%96"
       onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
       <span class="hidden">Pinterest</span>
   </a>
-  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596%2f"
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-08-19-mysql%25E9%2585%258D%25E7%25BD%25AE%25E8%25AF%25BB%25E5%258F%2596"
      onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
       <span class="hidden">Google+</span>
   </a>
@@ -458,8 +313,8 @@ default-storage-engine=InnoDB
 
 
 var disqus_config = function () {
-this.page.url = "https:\/\/wangzitao6.github.io\/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96\/";  
-this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96\/"; 
+this.page.url = "https:\/\/wangzitao6.github.io\/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96"; 
 };
 
 (function() { 
@@ -494,7 +349,7 @@ s.setAttribute('data-timestamp', +new Date());
       </a>
   
   
-      <a class="read-next-story prev" style="background-image: url(https://img.zhaohuabing.com/post-bg-2015.jpg)" href="/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/">
+      <a class="read-next-story prev" style="background-image: url(https://img.zhaohuabing.com/post-bg-2015.jpg)" href="/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95">
           <section class="post">
               <h2>Markdown进阶语法</h2>
           </section>

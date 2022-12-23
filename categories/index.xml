@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 王子滔的学习笔记</title>
@@ -6,31 +6,16 @@
     <description>Recent content in Categories on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Aug 2020 14:30:21 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>other</title>
-      <link>https://wangzitao6.github.io/categories/other/</link>
-      <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/categories/other/</guid>
-      <description></description>
-    </item>
+    
+	<atom:link href="https://wangzitao6.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
-      <title>多线程</title>
-      <link>https://wangzitao6.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
-      <pubDate>Thu, 09 Jul 2020 16:40:03 +0800</pubDate>
+      <title>build</title>
+      <link>https://wangzitao6.github.io/categories/build/</link>
+      <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sql</title>
-      <link>https://wangzitao6.github.io/categories/sql/</link>
-      <pubDate>Tue, 07 Jul 2020 09:23:19 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/categories/sql/</guid>
+      <guid>https://wangzitao6.github.io/categories/build/</guid>
       <description></description>
     </item>
     
@@ -44,11 +29,11 @@
     </item>
     
     <item>
-      <title>net</title>
-      <link>https://wangzitao6.github.io/categories/net/</link>
-      <pubDate>Wed, 18 Sep 2019 15:06:02 +0800</pubDate>
+      <title>java</title>
+      <link>https://wangzitao6.github.io/categories/java/</link>
+      <pubDate>Mon, 26 Aug 2019 10:23:46 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/net/</guid>
+      <guid>https://wangzitao6.github.io/categories/java/</guid>
       <description></description>
     </item>
     
@@ -62,20 +47,38 @@
     </item>
     
     <item>
-      <title>java</title>
-      <link>https://wangzitao6.github.io/categories/java/</link>
-      <pubDate>Mon, 26 Aug 2019 10:23:46 +0800</pubDate>
+      <title>net</title>
+      <link>https://wangzitao6.github.io/categories/net/</link>
+      <pubDate>Wed, 18 Sep 2019 15:06:02 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/java/</guid>
+      <guid>https://wangzitao6.github.io/categories/net/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>build</title>
-      <link>https://wangzitao6.github.io/categories/build/</link>
-      <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
+      <title>other</title>
+      <link>https://wangzitao6.github.io/categories/other/</link>
+      <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/categories/build/</guid>
+      <guid>https://wangzitao6.github.io/categories/other/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sql</title>
+      <link>https://wangzitao6.github.io/categories/sql/</link>
+      <pubDate>Tue, 07 Jul 2020 09:23:19 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>多线程</title>
+      <link>https://wangzitao6.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+      <pubDate>Thu, 09 Jul 2020 16:40:03 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</guid>
       <description></description>
     </item>
     

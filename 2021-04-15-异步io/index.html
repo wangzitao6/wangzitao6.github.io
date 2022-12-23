@@ -1,0 +1,239 @@
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Io</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2021-04-15T15:35:35&#43;08:00">
+            Apr 15, 2021
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/io/">#io</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>IO  -&gt;网络通信IO socket -&gt;BIO NIO 多路复用  -&gt;Netty</p>
+
+<p>BIO 每线程，每连接
+优势:可以接收很多的连接
+缺点:线程内存浪费 ，CPU调度消耗
+根源 BLOCKING  阻塞 accept recv
+解决方案 NONBLOCKING</p>
+
+<p>NIO  一个是java New IO   一个是操作系统的nonblocking</p>
+
+<p>java New IO 中会有对OS NONBLOCKING 的使用</p>
+
+<p>ss.accept()时不会被卡住，会有返回(没有返回空，有就返回客户端)</p>
+
+<p>NIO
+优势 规避多线程的问题
+弊端：当有一万个连接，但是只有一个连接发送消息的时候，每循环一次，会向内核发送一万次recv的请求调用，有9999此时无意义的 浪费和消耗资源</p>
+
+<p>多路复用  多路复用器只是读取的状态，哪几个连接可以获取数据，由程序自己去发送recv请求调用获取数据</p>
+
+<p>select 最多接收1024个链接
+poll   不限制链接数</p>
+
+<p>select、poll多路复用器
+优势： 用过一次调用， 把fds传递给内核，有内核去遍历，返回可读的链接，这种遍历减少了系统调用的次数
+弊端：  1，重复传递fd(文件标示符)    解决方案，内核开辟空间保留fd
+2,每次select、poll 都要重新遍历全量的fd   解决方案（计算机组成原理的深度知识，中断，callback,增强）</p>
+
+<p>epoll</p>
+
+<p>同步IO模型： 如果程序自己读取IO,无论是BIO、NIO、多路复用器(select、poll、epoll)，统一称为同步IO模型
+异步IO模型：windows IOCP 内核有线程，将数据拷贝的程序的内存空间</p>
+
+<p>=======================================================================================================================================================</p>
+
+<p>在java中，NIO(New IO)有三个核心部分组成，分别是Buffer(缓冲区)，Channel(管道),以及Selector(选择器)
+IO处理客户端请求的最小单位是线程
+而NIO使用了比线程还小一级的单位：通道（Channel）
+可以说，NIO中只需要一个线程就能完成所有接收，读，写等操作</p>
+
+<p>可以简单的理解为
+Buffer:是需要存储数据的地方。
+Channel:是运输数据的载体。
+Selector:用于检查多个Selector变更的状况。</p>
+
+<pre><code>                                             Channel &lt;-----(data)----&gt; Channel 
+</code></pre>
+
+<p>[client] &mdash;-(data)&mdash;-&gt; Buffer &mdash;-(data)&mdash;&gt;                                      &mdash;-(data)&mdash;-&gt; Buffer &mdash;-(data)&mdash;&gt; [Server]</p>
+
+<p>ByteBuffer:</p>
+
+<p>Buffer中对应的Position， Mark， Capacity，Limit都啥？
+capacity：缓冲区容量的大小，就是里面包含的数据大小。
+limit：对buffer缓冲区使用的一个限制，从这个index开始就不能读取数据了。
+position：代表着数组中可以开始读写的index， 不能大于limit。
+mark：是类似路标的东西，在某个position的时候，设置一下mark，此时就可以设置一个标记</p>
+
+<p>所有的数据只会存在于缓存区中，无论你是写或是读，必然是缓存区通过通道到达磁盘文件，或是磁盘文件通过通道到达缓存区
+即缓存区是数据的「起点」，也是「终点」
+// 要使用NIO，有了Channel，就必然要有Buffer，Buffer是与数据打交道的呢，为ByteBuffer分配空间
+ByteBuffer buffer = ByteBuffer.allocate(1024);</p>
+
+<p>//向Buffer写入数据
+1).数据从Channel到Buffer：channel.read(byteBuffer);
+2).数据从Client到Buffer： byteBuffer.put(&hellip;);</p>
+
+<p>//从Buffer读出数据
+1).数据从Buffer到Channel：channel.write(byteBuffer);
+2).数据从Buffer到Server： byteBuffer.get(&hellip;);</p>
+
+<p>Selector
+可使一个单独的线程管理多个 Channel， open 方法可创建 Selector， register 方法向多路复用器器注册通道，
+可以监听的事件类型：读、写、连接、 accept。注册事件后会产生一个 SelectionKey：
+它表示 SelectableChannel 和 Selector 之间的注册关系， wakeup 方法：使尚未返回的第一个选择操作立即返回，
+唤醒的原因是：注册了新的 channel 或者事件； channel 关闭，取消注册；优先级更高的事件触发（如定时器事件），希望及时处理</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Io&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2021-04-15-%25E5%25BC%2582%25E6%25AD%25A5io%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2021-04-15-%25E5%25BC%2582%25E6%25AD%25A5io%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2021-04-15-%25E5%25BC%2582%25E6%25AD%25A5io%2f&amp;description=Io"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2021-04-15-%25E5%25BC%2582%25E6%25AD%25A5io%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/2021-04-15-%E5%BC%82%E6%AD%A5io\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2021-04-15-%E5%BC%82%E6%AD%A5io\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2021-06-15-mqtt/">
+          <section class="post">
+              <h2>mqtt</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="/2020-08-03-tps%E4%B8%8Eqps/">
+          <section class="post">
+              <h2>tps与qps</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    
+</body>
+</html>
+

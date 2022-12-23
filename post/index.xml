@@ -1,37 +1,654 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/post/</link>
+    <link>https://wangzitao6.github.io/post/index.xml</link>
     <description>Recent content in Posts on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Aug 2020 14:30:21 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Jun 2021 15:35:35 +0800</lastBuildDate>
+    <atom:link href="https://wangzitao6.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>mqtt</title>
+      <link>https://wangzitao6.github.io/2021-06-15-mqtt/</link>
+      <pubDate>Tue, 15 Jun 2021 15:35:35 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2021-06-15-mqtt/</guid>
+      <description>&lt;p&gt;MQTT（Message Queuing Telemetry Transport，消息队列遥测传输协议），是一种基于发布/订阅（publish/subscribe）模式的轻量级协议，该协议构建于TCP/IP协议之上，MQTT最大优点在于，可以以极少的代码和有限的带宽，为连接远程设备提供实时可靠的消息服务。
+作为一种低开销、低带宽占用的即时通讯协议，使其在物联网、小型设备、移动应用等方面有较广泛的应用。&lt;/p&gt;
+
+&lt;p&gt;MQTT是一个基于客户端-服务器的消息发布/订阅传输协议。MQTT协议是轻量、简单、开放和易于实现的，这些特点使它适用范围非常广泛。在很多情况下，包括受限的环境中，
+如：机器与机器（M2M）通信和物联网（IoT）。其在，通过卫星链路通信传感器、偶尔拨号的医疗设备、智能家居、及一些小型化设备中已广泛使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;固定报头
+7654    四个bit   16位数字 消息类型
+3       一个bit    重发
+21      两个bit    qos类型 0至多一次 1至少一次  2有且只有一次
+0       一个bit    是否保留消息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第二个字节，最高最 0没有下一次字节，1还有下一个字节，最多只有五个字节&lt;/p&gt;
+
+&lt;p&gt;特性：
+MQTT协议工作在低带宽、不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;（1）使用发布/订阅消息模式，提供一对多的消息发布，解除应用程序耦合。
+（2）对负载内容屏蔽的消息传输。
+（3）使用TCP/IP提供网络连接。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;主流的MQTT是基于TCP连接进行数据推送的，但是同样有基于UDP的版本，叫做MQTT-SN。这两种版本由于基于不同的连接方式，优缺点自然也就各有不同了。&lt;/p&gt;
+
+&lt;p&gt;（4）有三种消息发布服务质量：&lt;/p&gt;
+
+&lt;p&gt;“至多一次”，消息发布完全依赖底层TCP/IP网络。会发生消息丢失或重复。这一级别可用于如下情况，环境传感器数据，丢失一次读记录无所谓，因为不久后还会有第二次发送。这一种方式主要普通APP的推送，倘若你的智能设备在消息推送时未联网，推送过去没收到，再次联网也就收不到了。&lt;/p&gt;
+
+&lt;p&gt;“至少一次”，确保消息到达，但消息重复可能会发生。&lt;/p&gt;
+
+&lt;p&gt;“只有一次”，确保消息到达一次。在一些要求比较严格的计费系统中，可以使用此级别。在计费系统中，消息重复或丢失会导致不正确的结果。这种最高质量的消息发布服务还可以用于即时通讯类的APP的推送，确保用户收到且只会收到一次。&lt;/p&gt;
+
+&lt;p&gt;（5）小型传输，开销很小（固定长度的头部是2字节），协议交换最小化，以降低网络流量。&lt;/p&gt;
+
+&lt;p&gt;这就是为什么在介绍里说它非常适合“在物联网领域，传感器与服务器的通信，信息的收集”，要知道嵌入式设备的运算能力和带宽都相对薄弱，使用这种协议来传递消息再适合不过了。&lt;/p&gt;
+
+&lt;p&gt;实现方式:&lt;/p&gt;
+
+&lt;p&gt;实现MQTT协议需要客户端和服务器端通讯完成，在通讯过程中，MQTT协议中有三种身份：发布者（Publish）、代理（Broker）（服务器）、订阅者（Subscribe）。其中，消息的发布者和订阅者都是客户端，消息代理是服务器，消息发布者可以同时是订阅者。&lt;/p&gt;
+
+&lt;p&gt;MQTT传输的消息分为：主题（Topic）和负载（payload）两部分：&lt;/p&gt;
+
+&lt;p&gt;（1）Topic，可以理解为消息的类型，订阅者订阅（Subscribe）后，就会收到该主题的消息内容（payload）；&lt;/p&gt;
+
+&lt;p&gt;（2）payload，可以理解为消息的内容，是指订阅者具体要使用的内容。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Io</title>
+      <link>https://wangzitao6.github.io/2021-04-15-%E5%BC%82%E6%AD%A5io/</link>
+      <pubDate>Thu, 15 Apr 2021 15:35:35 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2021-04-15-%E5%BC%82%E6%AD%A5io/</guid>
+      <description>&lt;p&gt;IO  -&amp;gt;网络通信IO socket -&amp;gt;BIO NIO 多路复用  -&amp;gt;Netty&lt;/p&gt;
+
+&lt;p&gt;BIO 每线程，每连接
+优势:可以接收很多的连接
+缺点:线程内存浪费 ，CPU调度消耗
+根源 BLOCKING  阻塞 accept recv
+解决方案 NONBLOCKING&lt;/p&gt;
+
+&lt;p&gt;NIO  一个是java New IO   一个是操作系统的nonblocking&lt;/p&gt;
+
+&lt;p&gt;java New IO 中会有对OS NONBLOCKING 的使用&lt;/p&gt;
+
+&lt;p&gt;ss.accept()时不会被卡住，会有返回(没有返回空，有就返回客户端)&lt;/p&gt;
+
+&lt;p&gt;NIO
+优势 规避多线程的问题
+弊端：当有一万个连接，但是只有一个连接发送消息的时候，每循环一次，会向内核发送一万次recv的请求调用，有9999此时无意义的 浪费和消耗资源&lt;/p&gt;
+
+&lt;p&gt;多路复用  多路复用器只是读取的状态，哪几个连接可以获取数据，由程序自己去发送recv请求调用获取数据&lt;/p&gt;
+
+&lt;p&gt;select 最多接收1024个链接
+poll   不限制链接数&lt;/p&gt;
+
+&lt;p&gt;select、poll多路复用器
+优势： 用过一次调用， 把fds传递给内核，有内核去遍历，返回可读的链接，这种遍历减少了系统调用的次数
+弊端：  1，重复传递fd(文件标示符)    解决方案，内核开辟空间保留fd
+2,每次select、poll 都要重新遍历全量的fd   解决方案（计算机组成原理的深度知识，中断，callback,增强）&lt;/p&gt;
+
+&lt;p&gt;epoll&lt;/p&gt;
+
+&lt;p&gt;同步IO模型： 如果程序自己读取IO,无论是BIO、NIO、多路复用器(select、poll、epoll)，统一称为同步IO模型
+异步IO模型：windows IOCP 内核有线程，将数据拷贝的程序的内存空间&lt;/p&gt;
+
+&lt;p&gt;=======================================================================================================================================================&lt;/p&gt;
+
+&lt;p&gt;在java中，NIO(New IO)有三个核心部分组成，分别是Buffer(缓冲区)，Channel(管道),以及Selector(选择器)
+IO处理客户端请求的最小单位是线程
+而NIO使用了比线程还小一级的单位：通道（Channel）
+可以说，NIO中只需要一个线程就能完成所有接收，读，写等操作&lt;/p&gt;
+
+&lt;p&gt;可以简单的理解为
+Buffer:是需要存储数据的地方。
+Channel:是运输数据的载体。
+Selector:用于检查多个Selector变更的状况。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;                                             Channel &amp;lt;-----(data)----&amp;gt; Channel 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;[client] &amp;mdash;-(data)&amp;mdash;-&amp;gt; Buffer &amp;mdash;-(data)&amp;mdash;&amp;gt;                                      &amp;mdash;-(data)&amp;mdash;-&amp;gt; Buffer &amp;mdash;-(data)&amp;mdash;&amp;gt; [Server]&lt;/p&gt;
+
+&lt;p&gt;ByteBuffer:&lt;/p&gt;
+
+&lt;p&gt;Buffer中对应的Position， Mark， Capacity，Limit都啥？
+capacity：缓冲区容量的大小，就是里面包含的数据大小。
+limit：对buffer缓冲区使用的一个限制，从这个index开始就不能读取数据了。
+position：代表着数组中可以开始读写的index， 不能大于limit。
+mark：是类似路标的东西，在某个position的时候，设置一下mark，此时就可以设置一个标记&lt;/p&gt;
+
+&lt;p&gt;所有的数据只会存在于缓存区中，无论你是写或是读，必然是缓存区通过通道到达磁盘文件，或是磁盘文件通过通道到达缓存区
+即缓存区是数据的「起点」，也是「终点」
+// 要使用NIO，有了Channel，就必然要有Buffer，Buffer是与数据打交道的呢，为ByteBuffer分配空间
+ByteBuffer buffer = ByteBuffer.allocate(1024);&lt;/p&gt;
+
+&lt;p&gt;//向Buffer写入数据
+1).数据从Channel到Buffer：channel.read(byteBuffer);
+2).数据从Client到Buffer： byteBuffer.put(&amp;hellip;);&lt;/p&gt;
+
+&lt;p&gt;//从Buffer读出数据
+1).数据从Buffer到Channel：channel.write(byteBuffer);
+2).数据从Buffer到Server： byteBuffer.get(&amp;hellip;);&lt;/p&gt;
+
+&lt;p&gt;Selector
+可使一个单独的线程管理多个 Channel， open 方法可创建 Selector， register 方法向多路复用器器注册通道，
+可以监听的事件类型：读、写、连接、 accept。注册事件后会产生一个 SelectionKey：
+它表示 SelectableChannel 和 Selector 之间的注册关系， wakeup 方法：使尚未返回的第一个选择操作立即返回，
+唤醒的原因是：注册了新的 channel 或者事件； channel 关闭，取消注册；优先级更高的事件触发（如定时器事件），希望及时处理&lt;/p&gt;
+</description>
+    </item>
+    
     <item>
       <title>tps与qps</title>
       <link>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</link>
       <pubDate>Mon, 03 Aug 2020 14:30:21 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2020-08-03-tps%E4%B8%8Eqps/</guid>
-      <description>TPS TPS：是TransactionsPerSecond的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发</description>
+      <description>
+
+&lt;h1 id=&#34;tps&#34;&gt;TPS&lt;/h1&gt;
+
+&lt;p&gt;TPS：是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;TransactionsPerSecond&lt;/strong&gt;&lt;/font&gt;的缩写，也就是事务数/秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。&lt;/p&gt;
+
+&lt;p&gt;TPS处理流程：
+Tps即每秒处理事务数，包括了&lt;/p&gt;
+
+&lt;p&gt;1、用户请求服务器&lt;/p&gt;
+
+&lt;p&gt;2、服务器自己的内部查询等处理&lt;/p&gt;
+
+&lt;p&gt;3、服务器返回给用户&lt;/p&gt;
+
+&lt;p&gt;这三个过程，每秒能够完成N个这三个过程，Tps也就是N；&lt;/p&gt;
+
+&lt;p&gt;# QPS
+QPS：&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Queries Per Second&lt;/strong&gt; &lt;/font&gt;，顾名思义：“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。&lt;/p&gt;
+
+&lt;h1 id=&#34;tps与qps&#34;&gt;TPS与QPS&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;QPS基本类似于TPS，但是不同的是，对于一个页面的一次访问，形成一个TPS；&lt;/li&gt;
+&lt;li&gt;但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计入QPS之中,形成多个QPS。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;每秒查询率QPS是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准.&lt;/p&gt;
+
+&lt;p&gt;如果是对一个接口（单场景）压测，且这个接口内部不会再去请求其它接口，那么TPS等于QPS，否则，TPS不等于QPS&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>AbstractQueuedSynchronizer超详细原理解析</title>
-      <link>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/</link>
+      <link>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90</link>
       <pubDate>Thu, 09 Jul 2020 16:40:03 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/</guid>
-      <description>今天我们来研究学习一下AbstractQueuedSynchronizer类的相关原理，java.util.concurrent包中很多类都</description>
+      <guid>https://wangzitao6.github.io/2020-07-09-abstractqueuedsynchronizer%E8%B6%85%E8%AF%A6%E7%BB%86%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90</guid>
+      <description>
+
+&lt;p&gt;今天我们来研究学习一下&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AbstractQueuedSynchronizer&lt;/strong&gt;&lt;/font&gt;类的相关原理，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;java.util.concurrent&lt;/strong&gt;&lt;/font&gt;包中很多类都依赖于这个类所提供队列式同步器，比如说常用的&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock&lt;/strong&gt;&lt;/font&gt;，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Semaphore&lt;/strong&gt;&lt;/font&gt;和&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;CountDownLatch&lt;/strong&gt;&lt;/font&gt;等。
+ 为了方便理解，我们以一段使用 &lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock&lt;/strong&gt;&lt;/font&gt;的代码为例，讲解&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock&lt;/strong&gt;&lt;/font&gt;每个方法中有关AQS的使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/lock%E7%9A%84%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.png&#34; alt=&#34;bb&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E5%A4%9A%E4%B8%AA%E5%9B%BE%E7%BB%84%E5%90%88.png&#34; alt=&#34;bb&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;1-0-reentranlock示例&#34;&gt;1.0 ReentranLock示例&lt;/h1&gt;
+
+&lt;p&gt;我们都知道&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock&lt;/strong&gt;&lt;/font&gt;的加锁行为和&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Synchronized&lt;/strong&gt;&lt;/font&gt;类似，都是可重入的锁，但是二者的实现方式确实完全不同的，我们之后也会讲解&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Synchronized&lt;/strong&gt;&lt;/font&gt;的原理。**除此之外，Synchronized的阻塞无法被中断，而&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentrantLock&lt;/strong&gt;&lt;/font&gt;则提供了可中断的阻塞**。下面的代码是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock&lt;/strong&gt;&lt;/font&gt;的函数，我们就以此为顺序，依次讲解这些函数背后的实现原理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ReentrantLock lock = new ReentrantLock();
+lock.lock();
+lock.unlock();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;2-0-公平锁和非公平锁&#34;&gt;2.0 公平锁和非公平锁&lt;/h1&gt;
+
+&lt;p&gt;&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock&lt;/strong&gt;&lt;/font&gt;分为公平锁和非公平锁，二者的区别就在获取锁机会是否和排队顺序相关。我们都知道，如果锁被另一个线程持有，那么申请锁的其他线程会被挂起等待，加入等待队列。理论上，先调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;lock&lt;/strong&gt;&lt;/font&gt;函数被挂起等待的线程应该排在等待队列的前端，后调用的就排在后边。如果此时，锁被释放，需要通知等待线程再次尝试获取锁，公平锁会让最先进入队列的线程获得锁。而非公平锁则会唤醒所有线程，让它们再次尝试获取锁，所以可能会导致后来的线程先获得了锁，则就是非公平。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public ReentrantLock(boolean fair) {
+    sync = fair ? new FairSync() : new NonfairSync();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们会发现&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;FairSync&lt;/strong&gt;&lt;/font&gt;和&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;NonfairSync&lt;/strong&gt;&lt;/font&gt;都继承了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Sync&lt;/strong&gt;&lt;/font&gt;类，而&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Sync&lt;/strong&gt;&lt;/font&gt;的父类就是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AbstractQueuedSynchronizer&lt;/strong&gt;&lt;/font&gt;(后续简称AQS)。但是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;的构造函数是空的,并没有任何操作。
+ 之后的源码分析，如果没有特别说明，就是指公平锁。&lt;/p&gt;
+
+&lt;h1 id=&#34;3-0-lock操作&#34;&gt;3.0 Lock操作&lt;/h1&gt;
+
+&lt;p&gt;&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentranLock的lock&lt;/strong&gt;&lt;/font&gt;函数如下所示，直接调用了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;sync&lt;/strong&gt;&lt;/font&gt; 的 &lt;font color =&#39;red&#39;&gt; &lt;strong&gt;lock&lt;/strong&gt;&lt;/font&gt;函数。也就是调用了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;FairSync的lock&lt;/strong&gt;&lt;/font&gt;函数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//ReentranLock
+public void lock() {
+    sync.lock();
+}
+//FairSync
+final void lock() {
+    //调用了AQS的acquire函数,这是关键函数之一
+    acquire(1);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们接下来就正式开始 &lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;相关的源码分析了， &lt;font color =&#39;red&#39;&gt; &lt;strong&gt;acquire&lt;/strong&gt;&lt;/font&gt;函数的作用是获取同一时间段内只能被一个线程获取的量，这个量就是抽象化的锁概念。我们先分析代码，你慢慢就会明白其中的含义。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public final void acquire(int arg) {
+    // tryAcquire先尝试获取&amp;quot;锁&amp;quot;,获取了就不进入后续流程
+    if (!tryAcquire(arg) &amp;amp;&amp;amp;
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        //addWaiter是给当前线程创建一个节点,并将其加入等待队列
+        //acquireQueued是当线程已经加入等待队列之后继续尝试获取锁.
+        selfInterrupt();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;tryAcquire&lt;/strong&gt;&lt;/font&gt;， &lt;font color =&#39;red&#39;&gt; &lt;strong&gt;addWaiter&lt;/strong&gt;&lt;/font&gt;和 &lt;font color =&#39;red&#39;&gt; &lt;strong&gt;acquireQueued&lt;/strong&gt;&lt;/font&gt;都是十分重要的函数，我们接下来依次学习一下这些函数，理解它们的作用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//AQS类中的变量.
+private volatile int state;
+//这是FairSync的实现,AQS中未实现,子类按照自己的需要实现该函数
+protected final boolean tryAcquire(int acquires) {
+    final Thread current = Thread.currentThread();
+    //获取AQS中的state变量,代表抽象概念的锁.
+    int c = getState();
+    if (c == 0) { //值为0,那么当前独占性变量还未被线程占有
+        //如果当前阻塞队列上没有先来的线程在等待,UnfairSync这里的实现就不一致
+        if (!hasQueuedPredecessors() &amp;amp;&amp;amp; 
+            compareAndSetState(0, acquires)) {
+            //成功cas,那么代表当前线程获得该变量的所有权,也就是说成功获得锁
+            setExclusiveOwnerThread(current);
+            // setExclusiveOwnerThread将本线程设置为独占性变量所有者线程
+            return true;
+        }
+    }
+    else if (current == getExclusiveOwnerThread()) {
+        //如果该线程已经获取了独占性变量的所有权,那么根据重入性
+        //原理,将state值进行加1,表示多次lock
+        //由于已经获得锁,该段代码只会被一个线程同时执行,所以不需要
+        //进行任何并行处理
+        int nextc = c + acquires;
+        if (nextc &amp;lt; 0)
+            throw new Error(&amp;quot;Maximum lock count exceeded&amp;quot;);
+        setState(nextc);
+        return true;
+    }
+    //上述情况都不符合,说明获取锁失败
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由上述代码我们可以发现，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;tryAcquire&lt;/strong&gt;&lt;/font&gt;就是尝试获取那个线程独占的变量&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;。&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;的值表示其状态：如果是0，那么当前还没有线程独占此变量；否在就是已经有线程独占了这个变量，也就是代表已经有线程获得了锁。但是这个时候要再进行一次判断，看是否是当前线程自己获得的这个锁，如果是，就增加&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;的值。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B.webp&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ReentranLock获得锁&lt;/p&gt;
+
+&lt;p&gt;这里有几点需要说明一下，首先是&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;compareAndSetState&lt;/strong&gt;&lt;/font&gt;函数，这是使用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;CAS&lt;/strong&gt;&lt;/font&gt;操作来设置&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;的值，而且&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;值设置了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;volatile&lt;/strong&gt;&lt;/font&gt;修饰符，通过这两点来确保修改&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;的值不会出现多线程问题。然后是公平锁和非公平锁的区别问题，在&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;UnfairSync&lt;/strong&gt;&lt;/font&gt;的&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;nonfairTryAcquire&lt;/strong&gt;&lt;/font&gt;函数中不会在相同的位置上调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;hasQueuedPredecessors&lt;/strong&gt;&lt;/font&gt;来判断当前是否已经有线程在排队等待获得锁。&lt;/p&gt;
+
+&lt;p&gt;如果&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;tryAcquire&lt;/strong&gt;&lt;/font&gt;返回true，那么就是获取锁成功；如果返回false，那么就是未获得锁，需要加入阻塞等待队列。我们下面就来看一下&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;addWaiter&lt;/strong&gt;&lt;/font&gt;的相关操作。&lt;/p&gt;
+
+&lt;h1 id=&#34;4-0-等待锁的阻塞队列&#34;&gt;4.0  等待锁的阻塞队列&lt;/h1&gt;
+
+&lt;p&gt;将保存当前线程信息的节点加入到等待队列的相关函数中涉及到了无锁队列的相关算法，由于在&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;中只是将节点添加到队尾，使用到的无锁算法也相对简单。真正的无锁队列的算法我们等到分析&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ConcurrentSkippedListMap&lt;/strong&gt;&lt;/font&gt;时在进行讲解。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private Node addWaiter(Node mode) {
+    Node node = new Node(Thread.currentThread(), mode);
+    //先使用快速入列法来尝试一下,如果失败,则进行更加完备的入列算法.
+    //只有在必要的情况下才会使用更加复杂耗时的算法，也就是乐观的态度
+    Node pred = tail; //列尾指针
+    if (pred != null) {
+        node.prev = pred; //步骤1:该节点的前趋指针指向tail
+        if (compareAndSetTail(pred, node)){ //步骤二:cas将尾指针指向该节点
+            pred.next = node;//步骤三:如果成果,让旧列尾节点的next指针指向该节点.
+            return node;
+        }
+    }
+    //cas失败,或在pred == null时调用enq
+    enq(node);
+    return node;
+}
+private Node enq(final Node node) {
+    for (;;) { //cas无锁算法的标准for循环,不停的尝试
+        Node t = tail;
+        if (t == null) { //初始化
+            if (compareAndSetHead(new Node())) 
+            //需要注意的是head是一个哨兵的作用,并不代表某个要获取锁的线程节点
+                tail = head;
+        } else {
+            //和addWaiter中一致,不过有了外侧的无限循环,不停的尝试,自旋锁
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通过调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;addWaiter&lt;/strong&gt;&lt;/font&gt;函数，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;将当前线程加入到了等待队列，但是还没有阻塞当前线程的执行，接下来我们就来分析一下&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;acquireQueued&lt;/strong&gt;&lt;/font&gt;函数。&lt;/p&gt;
+
+&lt;h1 id=&#34;5-0-等待队列节点的操作&#34;&gt;5.0  等待队列节点的操作&lt;/h1&gt;
+
+&lt;p&gt;由于进入阻塞状态的操作会降低执行效率，所以，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;会尽力避免试图获取独占性变量的线程进入阻塞状态。所以，当线程加入等待队列之后，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;acquireQueued&lt;/strong&gt;&lt;/font&gt;会执行一个for循环，每次都判断当前节点是否应该获得这个变量(在队首了)。如果不应该获取或在再次尝试获取失败，那么就调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;shouldParkAfterFailedAcquire&lt;/strong&gt;&lt;/font&gt;判断是否应该进入阻塞状态。如果当前节点之前的节点已经进入阻塞状态了，那么就可以判定当前节点不可能获取到锁，为了防止CPU不停的执行for循环，消耗CPU资源，调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;parkAndCheckInterrupt&lt;/strong&gt;&lt;/font&gt;函数来进入阻塞状态。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) { //一直执行,直到获取锁,返回.
+            final Node p = node.predecessor(); 
+            //node的前驱是head,就说明,node是将要获取锁的下一个节点.
+            if (p == head &amp;amp;&amp;amp; tryAcquire(arg)) { //所以再次尝试获取独占性变量
+                setHead(node); //如果成果,那么就将自己设置为head
+                p.next = null; // help GC
+                failed = false;
+                return interrupted;
+                //此时,还没有进入阻塞状态,所以直接返回false,表示不需要中断调用selfInterrupt函数
+            }
+            //判断是否要进入阻塞状态.如果`shouldParkAfterFailedAcquire`
+            //返回true,表示需要进入阻塞
+            //调用parkAndCheckInterrupt；否则表示还可以再次尝试获取锁,继续进行for循环
+            if (shouldParkAfterFailedAcquire(p, node) &amp;amp;&amp;amp;
+                parkAndCheckInterrupt())
+                //调用parkAndCheckInterrupt进行阻塞,然后返回是否为中断状态
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+
+private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    int ws = pred.waitStatus;
+    if (ws == Node.SIGNAL) //前一个节点在等待独占性变量释放的通知,所以,当前节点可以阻塞
+        return true;
+    if (ws &amp;gt; 0) { //前一个节点处于取消获取独占性变量的状态,所以,可以跳过去
+        //返回false
+        do {
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus &amp;gt; 0);
+        pred.next = node;
+    } else {
+        //将上一个节点的状态设置为signal,返回false,
+        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+    return false;
+}
+private final boolean parkAndCheckInterrupt() {
+    LockSupport.park(this); //将AQS对象自己传入
+    return Thread.interrupted();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;6-0-阻塞和中断&#34;&gt;6.0  阻塞和中断&lt;/h1&gt;
+
+&lt;p&gt;由上述分析，我们知道了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;通过调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;LockSupport&lt;/strong&gt;&lt;/font&gt;的&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;park&lt;/strong&gt;&lt;/font&gt;方法来执行阻塞当前进程的操作。其实，这里的阻塞就是线程不再执行的含义，通过调用这个函数，线程进入阻塞状态，上述的&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;lock&lt;/strong&gt;&lt;/font&gt;操作也就阻塞了，等待中断或在独占性变量被释放。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public static void park(Object blocker) {
+    Thread t = Thread.currentThread();
+    setBlocker(t, blocker);//设置阻塞对象,用来记录线程被谁阻塞的,用于线程监控和分析工具来定位
+    UNSAFE.park(false, 0L);//让当前线程不再被线程调度,就是当前线程不再执行.
+    setBlocker(t, null);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于中断的相关知识，我们以后再说，就继续沿着AQS的主线，看一下释放独占性变量的相关操作吧。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B2.webp&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ReentrantLock未获得阻塞,加入队列&lt;/p&gt;
+
+&lt;h1 id=&#34;7-0-unlock操作&#34;&gt;7.0  unlock操作&lt;/h1&gt;
+
+&lt;p&gt;与&lt;font color =&#39;red&#39;&gt;&lt;strong&gt;lock&lt;/strong&gt;&lt;/font&gt;操作类似，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;unlock&lt;/strong&gt;&lt;/font&gt;操作调用了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;的relase方法，参数和调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;acquire&lt;/strong&gt;&lt;/font&gt;时一样，都是1。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public final boolean release(int arg) {
+    if (tryRelease(arg)) { 
+    //释放独占性变量,起始就是将status的值减1,因为acquire时是加1
+        Node h = head;
+        if (h != null &amp;amp;&amp;amp; h.waitStatus != 0)
+            unparkSuccessor(h);//唤醒head的后继节点
+        return true;
+    }
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由上述代码可知，release就是先调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;tryRelease&lt;/strong&gt;&lt;/font&gt;来释放独占性变量。如果成功，那么就看一下是否有等待锁的阻塞线程，如果有，就调用&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;unparkSuccessor&lt;/strong&gt;&lt;/font&gt;来唤醒他们。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;protected final boolean tryRelease(int releases) {
+    //由于只有一个线程可以获得独占先变量,所以,所有操作不需要考虑多线程
+    int c = getState() - releases; 
+    if (Thread.currentThread() != getExclusiveOwnerThread())
+        throw new IllegalMonitorStateException();
+    boolean free = false;
+    if (c == 0) { //如果等于0,那么说明锁应该被释放了,否则表示当前线程有多次lock操作.
+        free = true;
+        setExclusiveOwnerThread(null);
+    }
+    setState(c);
+    return free;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以看到&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;tryRelease&lt;/strong&gt;&lt;/font&gt;中的逻辑也体现了可重入锁的概念，只有等到&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;的值为0时，才代表锁真正被释放了。所以独占性变量&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;的值就代表锁的有无。当&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;state&lt;/strong&gt;&lt;/font&gt;=0时，表示锁未被占有，否在表示当前锁已经被占有。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void unparkSuccessor(Node node) {
+    .....
+    //一般来说,需要唤醒的线程就是head的下一个节点,但是如果它获取锁的操作被取消,或在节点为null时
+    //就直接继续往后遍历,找到第一个未取消的后继节点.
+    Node s = node.next;
+    if (s == null || s.waitStatus &amp;gt; 0) {
+        s = null;
+        for (Node t = tail; t != null &amp;amp;&amp;amp; t != node; t = t.prev)
+            if (t.waitStatus &amp;lt;= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;调用了&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;unpark&lt;/strong&gt;&lt;/font&gt;方法后，进行&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;lock&lt;/strong&gt;&lt;/font&gt;操作被阻塞的线程就恢复到运行状态,就会再次执行&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;acquireQueued&lt;/strong&gt;&lt;/font&gt;中的无限for循环中的操作，再次尝试获取锁。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/20/07/09/%E6%B5%81%E7%A8%8B3.webp&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ReentrantLock释放锁并通知阻塞线程恢复执行&lt;/p&gt;
+
+&lt;h1 id=&#34;8-0-后记&#34;&gt;8.0  后记&lt;/h1&gt;
+
+&lt;p&gt;有关&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;和&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentrantLock&lt;/strong&gt;&lt;/font&gt;的分析就差不多结束了。不得不说，我第一次看到&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;的实现时真是震惊，以前都认为&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;Synchronized&lt;/strong&gt;&lt;/font&gt;和&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;ReentrantLock&lt;/strong&gt;&lt;/font&gt;的实现原理是一致的，都是依靠java虚拟机的功能实现的。没有想到还有&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;这样一个背后大Boss在提供帮助啊。学习了这个类的原理，我们对JUC的很多类的分析就简单了很多。此外，&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;AQS&lt;/strong&gt;&lt;/font&gt;涉及的&lt;font color =&#39;red&#39;&gt; &lt;strong&gt;CAS&lt;/strong&gt;&lt;/font&gt;操作和无锁队列的算法也为我们学习其他无锁算法提供了基础。&lt;/p&gt;
+
+&lt;p&gt;转载自： &lt;a href=&#34;https://www.cnblogs.com/sweetorangezzz/p/13184325.html&#34;&gt;https://www.cnblogs.com/sweetorangezzz/p/13184325.html&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Mysql自定义变量和结束分隔符</title>
-      <link>https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/</link>
+      <link>https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6</link>
       <pubDate>Tue, 07 Jul 2020 09:23:19 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6/</guid>
-      <description>1. 自定义变量 1-1. SET方式赋值 自定义变量前边必须加一个 @符号，环境变量赋值用SET,查询变量时用SELECT,不过仍然需要在变量名称前加一个@</description>
+      <guid>https://wangzitao6.github.io/2020-07-06-mysql%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F%E5%92%8C%E7%BB%93%E6%9D%9F%E5%88%86%E9%9A%94%E7%AC%A6</guid>
+      <description>
+
+&lt;h1 id=&#34;1-自定义变量&#34;&gt;1. 自定义变量&lt;/h1&gt;
+
+&lt;h2 id=&#34;1-1-set方式赋值&#34;&gt;1-1. SET方式赋值&lt;/h2&gt;
+
+&lt;p&gt;自定义变量前边必须加一个 &lt;font color = &#34;red&#34;&gt;@&lt;/font&gt; 符号，环境变量赋值用&lt;font color = &#34;red&#34;&gt;SET&lt;/font&gt;,查询变量时用&lt;font color = &#34;red&#34;&gt; SELECT,不过仍然需要在变量名称前加一个@符号&lt;/font&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; set @a = &#39;1&#39;;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&amp;gt; select @a;
++------+
+| @a   |
++------+
+| 1    |
++------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;1-2-环境变量之间相互赋值&#34;&gt;1-2. 环境变量之间相互赋值&lt;/h2&gt;
+
+&lt;p&gt;环境变量也可以相互之间赋值,比如把a的值赋值给b。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; set @b = @a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&amp;gt; select @b;
++------+
+| @b   |
++------+
+| 1    |
++------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;1-3-根据查询结果赋值&#34;&gt;1-3. 根据查询结果赋值&lt;/h2&gt;
+
+&lt;p&gt;我们还可以将某个查询的结果赋值给一个变量，&lt;font color = &#34;red&#34;&gt;前提是这个查询的结果只有一个值：&lt;/font&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; set @a =(select age from a where id =1);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&amp;gt; select @a;
++------+
+| @a   |
++------+
+|   11 |
++------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;否则会报错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; set @a =(select age from a where age =&#39;11&#39;);
+ERROR 1242 (21000):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;1-4-使用into赋值&#34;&gt;1-4. 使用INTO赋值&lt;/h2&gt;
+
+&lt;p&gt;还可以用另一种形式的语句来将查询的结果赋值给一个变量,为查询语句加上&lt;font color = &#34;red&#34;&gt;limit&lt;/font&gt; 可以确保只有一个返回结果。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; select age from a where age = &#39;11&#39; limit 1 into @b;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&amp;gt; select @b;
++------+
+| @b   |
++------+
+|   11 |
++------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;2-语句结束分隔符&#34;&gt;2. 语句结束分隔符&lt;/h1&gt;
+
+&lt;p&gt;在MySQL客户端的交互界面处，当我们完成键盘输入并按下回车键时，MySQL客户端会检测我们输入的内容中是否包含 &lt;font color = &#34;red&#34;&gt; &lt;strong&gt;;&lt;/strong&gt;&lt;/font&gt; 、&lt;font color = &#34;red&#34;&gt; &lt;strong&gt;\g&lt;/strong&gt; &lt;/font&gt;或者&lt;font color = &#34;red&#34;&gt; &lt;strong&gt;\G&lt;/strong&gt;&lt;/font&gt;这三个符号之一，如果有的话，会把我们输入的内容发送到服务器。这样一来，如果我们想一次性给服务器发送多条的话，就需要把这些语句写到一行中，比如这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; select age from a; select id from a;
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+
+
+--------------------------------------
+mysql&amp;gt;  select age from a\g select id from a \g
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;font color = &#34;red&#34;&gt;delimiter $ &lt;/font&gt;命令意味着修改语句结束分隔符为&lt;font color = &#34;red&#34;&gt; $&lt;/font&gt;，也就是说之后MySQL客户端检测用户语句输入结束的符号为&lt;font color = &#34;red&#34;&gt; $ &lt;/font&gt;。上边例子中我们虽然连续输入了3个以分号;结尾的查询语句并且按了回车键，但是输入的内容并没有被提交，直到敲下&lt;font color = &#34;red&#34;&gt; $ &lt;/font&gt;符号并回车，MySQL客户端才会将我们输入的内容提交到服务器，此时我们输入的内容里已经包含了2个独立的查询语句了，所以返回了2个结果集。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; delimiter $
+mysql&amp;gt; select age from a ;
+    -&amp;gt; select id from a ;
+    -&amp;gt; $
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们也可以将语句结束分隔符重新 &lt;font color = &#34;red&#34;&gt;  &lt;strong&gt;定义为$以外的其他包含单个或多个字符的字符串&lt;/strong&gt;&lt;/font&gt;，比方说这样 把&lt;font color = &#34;red&#34;&gt; $ &lt;/font&gt;改为&lt;font color = &#34;red&#34;&gt; end&lt;/font&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;mysql&amp;gt; delimiter end
+mysql&amp;gt; select id from a ;
+    -&amp;gt; select age from a ;
+    -&amp;gt; end
++----+
+| id |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+
++-----+
+| age |
++-----+
+|  11 |
+|  15 |
+|  11 |
++-----+
+3 rows in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
@@ -40,7 +657,159 @@
       <pubDate>Wed, 24 Jun 2020 19:56:25 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2020-06-24-logstash%E5%89%B2%E6%8E%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0es/</guid>
-      <description>ElasticSearch创建索引 创建ES索引 PUT logstash_demo { &amp;quot;mappings&amp;quot; : { &amp;quot;properties&amp;quot; : { &amp;quot;email&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;first_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;last_name&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot; }, &amp;quot;uid&amp;quot; : { &amp;quot;type&amp;quot; : &amp;quot;long&amp;quot; } } } } 创建好后查询索</description>
+      <description>
+
+&lt;h2 id=&#34;elasticsearch创建索引&#34;&gt;ElasticSearch创建索引&lt;/h2&gt;
+
+&lt;p&gt;创建ES索引&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PUT logstash_demo
+{
+    &amp;quot;mappings&amp;quot; : {
+      &amp;quot;properties&amp;quot; : {
+        &amp;quot;email&amp;quot; : {
+          &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;
+        },
+        &amp;quot;first_name&amp;quot; : {
+          &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;
+        },
+        &amp;quot;last_name&amp;quot; : {
+          &amp;quot;type&amp;quot; : &amp;quot;text&amp;quot;
+        },
+        &amp;quot;uid&amp;quot; : {
+          &amp;quot;type&amp;quot; : &amp;quot;long&amp;quot;
+        }
+      }
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;创建好后查询索引数据&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;GET logstash_demo/_search
+{
+  &amp;quot;query&amp;quot;: {
+    &amp;quot;match_all&amp;quot;: {}
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这时查询熟的数据为空。&lt;/p&gt;
+
+&lt;h2 id=&#34;mysql创建表&#34;&gt;MySql创建表&lt;/h2&gt;
+
+&lt;p&gt;创建表并插入数据&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sql&#34;&gt;create table contacts (
+    uid serial,
+    email VARCHAR(80) not null,
+    first_name VARCHAR(80) NOT NULL,
+    last_name VARCHAR(80) NOT NULL
+);
+
+INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;jim@example.com&#39;, &#39;Jim&#39;, &#39;Smith&#39;);
+INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;john@example.com&#39;, &#39;John&#39;, &#39;Smith&#39;);
+INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;carol@example.com&#39;, &#39;Carol&#39;, &#39;Smith&#39;);
+INSERT INTO contacts(email, first_name, last_name) VALUES(&#39;sam@example.com&#39;, &#39;Sam&#39;, Smith);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;准备logstash&#34;&gt;准备LogStash&lt;/h2&gt;
+
+&lt;h3 id=&#34;安装logstash&#34;&gt;安装LogStash&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.elastic.co/cn/downloads/logstash&#34;&gt;去官网&lt;/a&gt;下载LogStash安装包，并解压。&lt;/p&gt;
+
+&lt;h3 id=&#34;安装jdbc插件&#34;&gt;安装jdbc插件&lt;/h3&gt;
+
+&lt;p&gt;解压后进入logstash解压包的bin目录，执行命令&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./logstash-plugin install logstash-input-jdbc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如何是在win上，则执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./logstash-plugin.bat install logstash-input-jdbc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果这个命令安装不了，可以去&lt;a href=&#34;https://mvnrepository.com/artifact/mysql/mysql-connector-java&#34;&gt;这里&lt;/a&gt;下载 mysql-connector-java  jar包，我这里下载的是mysql-connector-java-8.0.18.jar。&lt;/p&gt;
+
+&lt;p&gt;然后把jar包放在LogStash文件夹下的vendor下，创建/jar/jdbc ，放入jar。&lt;/p&gt;
+
+&lt;h3 id=&#34;编写logstash脚本&#34;&gt;编写LogStash脚本&lt;/h3&gt;
+
+&lt;h4 id=&#34;demo1&#34;&gt;demo1&lt;/h4&gt;
+
+&lt;p&gt;简单的脚本，把数据库中数据打印出来&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;input {
+    jdbc {
+        # Postgres jdbc connection string to our database, mydb
+        jdbc_connection_string =&amp;gt; &amp;quot;jdbc:mysql://127.0.0.1:3306/demo&amp;quot;
+        # 用户名密码
+        jdbc_user =&amp;gt; &amp;quot;root&amp;quot;
+        jdbc_password =&amp;gt; &amp;quot;123456&amp;quot;
+        # jar包的位置
+        jdbc_driver_library =&amp;gt; &amp;quot;../vendor/jar/jdbc/mysql-connector-java-8.0.18.jar&amp;quot;
+        # mysql的Driver
+        jdbc_driver_class =&amp;gt; &amp;quot;com.mysql.jdbc.Driver&amp;quot;
+        # our query
+        statement =&amp;gt; &amp;quot;SELECT * FROM contacts&amp;quot;
+    }
+}
+output {
+    stdout { codec =&amp;gt; json_lines }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;demo2&#34;&gt;demo2&lt;/h4&gt;
+
+&lt;p&gt;把MySql中数据割进ElasticSearch中&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-conf&#34;&gt;input {
+    jdbc {
+        # Postgres jdbc connection string to our database, mydb
+        jdbc_connection_string =&amp;gt; &amp;quot;jdbc:mysql://127.0.0.1:3306/demo&amp;quot;
+        # 用户名密码
+        jdbc_user =&amp;gt; &amp;quot;root&amp;quot;
+        jdbc_password =&amp;gt; &amp;quot;123456&amp;quot;
+        # jar包的位置
+        jdbc_driver_library =&amp;gt; &amp;quot;../vendor/jar/jdbc/mysql-connector-java-8.0.18.jar&amp;quot;
+        # mysql的Driver
+        jdbc_driver_class =&amp;gt; &amp;quot;com.mysql.jdbc.Driver&amp;quot;
+        # our query
+        statement =&amp;gt; &amp;quot;SELECT * FROM contacts&amp;quot;
+    }
+}
+
+filter {
+    json {
+        source =&amp;gt; &amp;quot;message&amp;quot;
+        remove_field =&amp;gt; [&amp;quot;message&amp;quot;]
+    }
+
+    mutate {
+        remove_field =&amp;gt; &amp;quot;@version&amp;quot;
+        remove_field =&amp;gt; &amp;quot;@timestamp&amp;quot;
+    }
+}
+
+output {
+    elasticsearch {
+        index =&amp;gt; &amp;quot;contact1&amp;quot;
+        action =&amp;gt; &amp;quot;create&amp;quot;
+        document_type =&amp;gt; &amp;quot;_doc&amp;quot;
+        document_id =&amp;gt; &amp;quot;%{uid}&amp;quot;
+        hosts =&amp;gt; &amp;quot;127.0.0.1:9200&amp;quot;
+       }
+} 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.elastic.co/cn/blog/logstash-jdbc-input-plugin&#34;&gt;www.elastic.co&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -49,7 +818,141 @@
       <pubDate>Wed, 18 Sep 2019 15:06:02 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/</guid>
-      <description>General Request URL:请求的URL地址 Request Method: 请求方法，get/post/put/…… Status Code：状态码，200 为请求成功 Remote Address：路由地址 注： x-forwarded-for</description>
+      <description>
+
+&lt;h2 id=&#34;general&#34;&gt;General&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Request URL:请求的URL地址
+Request Method: 请求方法，get/post/put/……
+Status Code：状态码，200 为请求成功
+Remote Address：路由地址
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注：
+&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;x-forwarded-for&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;针对这个，去了解了下，总结下其他人的经验：
+当你使用了代理时，web服务器就不知道你的真实IP了，为了避免这个情况，代理服务器通常会增加一个叫做x_forwarded_for的头信息，把连接它的客户端IP（即你的上网机器IP）加到这个头信息里，这样就能保证网站的web服务器能获取到真实IP，
+X-Forwarded-For 是一个扩展头。HTTP/1.1（RFC 2616）协议并没有对它的定义，它最开始是由 Squid 这个缓存代理软件引入，用来表示 HTTP 请求端真实 IP，现在已经成为事实上的标准，被各大 HTTP 代理、负载均衡等转发服务广泛使用，并被写入 RFC 7239 （Forwarded HTTP Extension）标准之中。&lt;/p&gt;
+
+&lt;p&gt;X-Forwarded-For 请求头格式非常简单，就这样：&lt;code&gt;X-Forwarded-For: client, proxy1, proxy2&lt;/code&gt;
+可以看到，XFF 的内容由「英文逗号 + 空格」隔开的多个部分组成，最开始的是离服务端最远的设备 IP，然后是每一级代理设备的 IP。&lt;/p&gt;
+
+&lt;p&gt;如果一个 HTTP 请求到达服务器之前，经过了三个代理 Proxy1、Proxy2、Proxy3，IP 分别为 IP1、IP2、IP3，用户真实 IP 为 IP0，那么按照 XFF 标准，服务端最终会收到以下信息：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;X-Forwarded-For: IP0, IP1, IP2&lt;/code&gt;
+总结是：&lt;strong&gt;在使用nginx等反向代理服务器的时候，是必须使用X-Forward-For来获取用户IP地址的（此时Remote Address是nginx的地址），因为此时X-Forward-For中的地址是由nginx写入的，而nginx是可信任的。不过此时要注意，要禁止web对外提供服务。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;Remote Address&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Remote Address代表的是当前HTTP请求的远程地址，即HTTP请求的源地址。HTTP协议在三次握手时使用的就是这个Remote Address地址，在发送响应报文时也是使用这个Remote Address地址。因此，如果请求者伪造Remote Address地址，他将无法收到HTTP的响应报文，
+此时伪造没有任何意义。这也就使得Remote Address默认具有防篡改的功能。如果Http请求经过代理服务器转发，则这种情况，用户的真实ip会丢失，所以才有了 “X-Forwarded-For”的方式。&lt;/p&gt;
+
+&lt;h2 id=&#34;response-headers&#34;&gt;Response Headers&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;1）Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。
+2）Accept-Ranges：WEB服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。
+3） Cache-Control：服务器应遵循的缓存机制。
+        public(可以用 Cached 内容回应任何用户)
+        private（只能用缓存内容回应先前请求该内容的那个用户）
+        no-cache（可以缓存，但是只有在跟WEB服务器验证了其有效后，才能返回给客户端） 
+        max-age：（本响应包含的对象的过期时间）  
+        ALL:  no-store（不允许缓存）  
+4） Connection： 是否需要持久连接
+        close（连接已经关闭）。
+        keepalive（连接保持着，在等待本次连接的后续请求）。
+        Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300
+5）Content-Encoding：WEB服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。 例如：Content-Encoding：gzip 
+6）Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。
+7）Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length: 26012
+8）Content-Range：WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022
+9）Content-Type：WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml
+10）Expired：WEB服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟WEB服务器验证了其有效性后，才能用来响应客户请求。
+11）Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。
+12）Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部指定的位置去取。
+13）Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。
+14）Server: WEB 服务器表明自己是什么软件及版本等信息。
+15）Refresh：表示浏览器应该在多少时间之后刷新文档，以秒计。
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;request-headers&#34;&gt;Request Headers&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;1）Accept：  告诉WEB服务器自己接受什么介质类型，&#39;*/*&#39; 表示任何类型，type &#39;/*&#39; 表示该类型下的所有子类型；
+2）Accept-Charset：  浏览器申明自己接收的字符集
+3）Accept-Encoding：浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法  （gzip，deflate）
+4）Accept-Language：  浏览器申明自己接收的语言。语言跟字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等等。
+5）Authorization： 包含了客户端提供给服务器，以便对其自身进行认证的数据。
+6）Connection：表示是否需要持久连接。close（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，断开连接，
+不要等待本次连接的后续请求了）。keep-alive（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。
+7）Content-Length：请求的内容长度。
+8）Connection-Type： 表示具体请求中的媒体类型信息。
+9）Referer：发送请求页面URL。浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。
+10）User-Agent: 浏览器表明自己的身份（是哪种浏览器）。
+11）Host：指定请求的服务器的域名和端口号。
+12）Origin：存在于请求中，用于指明当前请求来自于哪个站点。
+13）Cache-Control：浏览器应遵循的缓存机制。
+        no-cache（不要缓存的实体，要求现在从WEB服务器去取）
+        max-age：（只接受 Age 值小于 max-age 值，并且没有过期的对象） 
+        max-stale：（可以接受过去的对象，但是过期时间必须小于 max-stale 值）  
+        min-fresh：（接受其新鲜生命期大于其当前 Age 跟 min-fresh 值之和的缓存对象）
+14）Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。
+15）Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。
+16）Form：一种请求头标，给定控制用户代理的人工用户的电子邮件地址。
+17）Cookie：这是最重要的请求头信息之一。
+18）Sec-Fetch-Mode：代表請求的模式。主要有 cors、navigate、nested-navigate、no-cors 等等。
+        來判断这个请求是什么，类似 fetch 当中 mode。
+        像是 Set-Fetch-User 我们也可以知道使用者是否是投过操作（例如点击、键盘等等）來发出請求的
+19）Sec-Fetch-Site：代表请求的来源是同源还是跨域。
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Content-Type&lt;/strong&gt;
+ 常见的媒体格式类型如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;text/html ： HTML格式
+text/plain ：纯文本格式     
+text/xml ：  XML格式
+image/gif ：gif图片格式   
+image/jpeg ：jpg图片格式
+image/png：png图片格式
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以application开头的媒体格式类型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;application/xhtml+xml ：XHTML格式
+application/xml     ： XML数据格式
+application/atom+xml  ：Atom XML聚合格式   
+application/json    ： JSON数据格式
+application/pdf       ：pdf格式 
+application/msword  ： Word文档格式
+application/octet-stream ： 二进制流数据（如常见的文件下载）
+application/x-www-form-urlencoded ： &amp;lt;form encType=””&amp;gt;中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外一种常见的媒体格式是上传文件之时使用的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上就是我们在日常的开发中，经常会用到的若干content-type的内容格式。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/eba76cfc0424&#34;&gt;HTTP首部Connection实践&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://www.cnblogs.com/jimcsharp/p/8043410.html&#34;&gt;Http请求中Content-Type讲解以及在Spring MVC中的应用&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://blog.kalan.dev/fetch-metadata-request-headers/&#34;&gt;更安全的請求標頭 - Fetch Metadata Request Headers&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://juejin.im/post/5cd81b59518825686a06fd05&#34;&gt;HTTP请求中的referrer和Referrer-Policy&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://blog.csdn.net/zdavb/article/details/51161130&#34;&gt;彻底搞清referrer和origin&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://blog.csdn.net/phpfenghuo/article/details/50527768&#34;&gt;Origin字段&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;http://www.ruanyifeng.com/blog/2019/06/http-referer.html&#34;&gt;HTTP Referer 教程&lt;/a&gt;&lt;/br&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -58,7 +961,253 @@
       <pubDate>Mon, 02 Sep 2019 16:47:28 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/</guid>
-      <description>什么是常量 用final修饰的成员变量表示常量，值一但确定就无法修改。 final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类</description>
+      <description>
+
+&lt;h2 id=&#34;什么是常量&#34;&gt;什么是常量&lt;/h2&gt;
+
+&lt;p&gt;用final修饰的成员变量表示常量，值一但确定就无法修改。
+final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类型的常量&lt;/p&gt;
+
+&lt;h2 id=&#34;jvm常量池&#34;&gt;JVM常量池&lt;/h2&gt;
+
+&lt;p&gt;常量池大体可以分为两种：&lt;strong&gt;静态常量池&lt;/strong&gt;和&lt;strong&gt;运行时常量池&lt;/strong&gt;。
+* 静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。
+* 运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。&lt;/p&gt;
+
+&lt;h3 id=&#34;静态常量池-class文件中的常量池&#34;&gt;静态常量池（Class文件中的常量池）&lt;/h3&gt;
+
+&lt;p&gt;常量池主要用于存放两大类常量：字面量(Literal)和符号引用量(Symbolic References)，字面量相当于Java语言层面常量的概念，如文本字符串，声明为final的常量值等，符号引用则属于编译原理方面的概念，包括了如下三种类型的常量：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;类和接口的全限定名&lt;/li&gt;
+&lt;li&gt;字段名称和描述符&lt;/li&gt;
+&lt;li&gt;方法名称和描述符&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###　方法区中的运行时常量池&lt;/p&gt;
+
+&lt;p&gt;运行时常量池是方法区的一部分。
+CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项&lt;strong&gt;信息是常量池，用于存放编译期生成的各种字面量和符号引用&lt;/strong&gt;，这部分内容将在类加载后进入方法区的运行时常量池中存放。&lt;/p&gt;
+
+&lt;p&gt;运行时常量池相对于CLass文件常量池的另外一个重要特征是&lt;strong&gt;具备动态性&lt;/strong&gt;，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。&lt;/p&gt;
+
+&lt;h3 id=&#34;常量池的好处&#34;&gt;常量池的好处&lt;/h3&gt;
+
+&lt;p&gt;常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享。
+例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。
+1. 节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。
+2. 节省运行时间：比较字符串时，&amp;rdquo;\==&amp;ldquo;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。&lt;/p&gt;
+
+&lt;p&gt;##　8种基本类型的包装类和常量池&lt;/p&gt;
+
+&lt;h3 id=&#34;java基本类型&#34;&gt;Java基本类型&lt;/h3&gt;
+
+&lt;p&gt;java中基本类型的包装类的大部分都实现了常量池技术,即Byte,Short,Integer,Long,Character,Boolean；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  Integer i1 = 40;
+  Integer i2 = 40;
+  System.out.println(i1==i2);//输出TRUE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//Integer 缓存代码 ：
+public static Integer valueOf(int i) {
+        assert IntegerCache.high &amp;gt;= 127;
+        if (i &amp;gt;= IntegerCache.low &amp;amp;&amp;amp; i &amp;lt;= IntegerCache.high)
+            return IntegerCache.cache[i + (-IntegerCache.low)];
+        return new Integer(i);
+    }
+  Integer i1 = 400;
+  Integer i2 = 400;
+  System.out.println(i1==i2);//输出false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;java浮点类型&#34;&gt;Java浮点类型&lt;/h3&gt;
+
+&lt;p&gt;两种浮点数类型的包装类Float,Double并没有实现常量池技术。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;   Double i1=1.2;
+   Double i2=1.2;
+   System.out.println(i1==i2);//输出false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;应用常量池的场景
+(1)&lt;code&gt;Integer i1=40&lt;/code&gt;；Java在编译的时候会直接将代码封装成&lt;code&gt;Integer i1=Integer.valueOf(40)&lt;/code&gt;;，从而使用常量池中的对象。
+(2)&lt;code&gt;Integer i1 = new Integer(40)&lt;/code&gt;;这种情况下会创建新的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  Integer i1 = 40;
+  Integer i2 = new Integer(40);
+  System.out.println(i1==i2);//输出false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Integer比较更丰富的一个例子&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  Integer i1 = 40;
+  Integer i2 = 40;
+  Integer i3 = 0;
+  Integer i4 = new Integer(40);
+  Integer i5 = new Integer(40);
+  Integer i6 = new Integer(0);
+  
+  System.out.println(&amp;quot;i1=i2   &amp;quot; + (i1 == i2));
+  System.out.println(&amp;quot;i1=i2+i3   &amp;quot; + (i1 == i2 + i3));
+  System.out.println(&amp;quot;i1=i4   &amp;quot; + (i1 == i4));
+  System.out.println(&amp;quot;i4=i5   &amp;quot; + (i4 == i5));
+  System.out.println(&amp;quot;i4=i5+i6   &amp;quot; + (i4 == i5 + i6));   
+  System.out.println(&amp;quot;40=i5+i6   &amp;quot; + (40 == i5 + i6));  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;i1=i2   true
+i1=i2+i3   true
+i1=i4   false
+i4=i5   false
+i4=i5+i6   true
+40=i5+i6   true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
+Java中的自动装箱与拆箱&lt;/p&gt;
+
+&lt;h2 id=&#34;string类和常量池&#34;&gt;String类和常量池&lt;/h2&gt;
+
+&lt;h3 id=&#34;string对象创建方式&#34;&gt;String对象创建方式&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String str1 = &amp;quot;abcd&amp;quot;;
+String str2 = new String(&amp;quot;abcd&amp;quot;);
+System.out.println(str1==str2);//false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
+&lt;strong&gt;只要使用new方法，便需要创建新的对象&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;连接表达式&#34;&gt;连接表达式 +&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。&lt;/br&gt;&lt;/li&gt;
+&lt;li&gt;对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String str1 = &amp;quot;str&amp;quot;;
+String str2 = &amp;quot;ing&amp;quot;;
+
+String str3 = &amp;quot;str&amp;quot; + &amp;quot;ing&amp;quot;;
+String str4 = str1 + str2;
+System.out.println(str3 == str4);//false
+
+String str5 = &amp;quot;string&amp;quot;;
+System.out.println(str3 == str5);//true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/88aa19fc21c6&#34;&gt;java基础：字符串的拼接&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;特例1&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static final String A = &amp;quot;ab&amp;quot;; // 常量A
+public static final String B = &amp;quot;cd&amp;quot;; // 常量B
+public static void main(String[] args) {
+     String s = A + B;  // 将两个常量用+连接对s进行初始化 
+     String t = &amp;quot;abcd&amp;quot;;   
+    if (s == t) {   
+         System.out.println(&amp;quot;s等于t，它们是同一个对象&amp;quot;);   
+     } else {   
+         System.out.println(&amp;quot;s不等于t，它们不是同一个对象&amp;quot;);   
+     }   
+ } 
+结果为:
+s等于t，它们是同一个对象
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&amp;ldquo;ab&amp;rdquo;+&amp;ldquo;cd&amp;rdquo;;&lt;/p&gt;
+
+&lt;p&gt;特例2&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static final String A; // 常量A
+public static final String B;    // 常量B
+static {   
+     A = &amp;quot;ab&amp;quot;;   
+     B = &amp;quot;cd&amp;quot;;   
+ }   
+ public static void main(String[] args) {   
+    // 将两个常量用+连接对s进行初始化   
+     String s = A + B;   
+     String t = &amp;quot;abcd&amp;quot;;   
+    if (s == t) {   
+         System.out.println(&amp;quot;s等于t，它们是同一个对象&amp;quot;);   
+     } else {   
+         System.out.println(&amp;quot;s不等于t，它们不是同一个对象&amp;quot;);   
+     }   
+ } 
+ 结果：
+ s不等于t，它们不是同一个对象
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。&lt;/p&gt;
+
+&lt;h3 id=&#34;string-s1-new-string-xyz&#34;&gt;String s1 = new String(&amp;ldquo;xyz&amp;rdquo;)&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;String s1 = new String(&amp;quot;xyz&amp;quot;);&lt;/code&gt; &lt;strong&gt;创建了几个对象？&lt;/strong&gt;
+考虑类加载阶段和实际执行时。&lt;/br&gt;
+1. 类加载对一个类只会进行一次。&amp;rdquo;xyz&amp;rdquo;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&amp;rdquo;xyz&amp;rdquo;字符串被驻留过则不需要重复创建用于驻留的&amp;rdquo;xyz&amp;rdquo;实例）。驻留的字符串是放在全局共享的字符串常量池中的。&lt;/br&gt;
+2. 在这段代码后续被运行的时候，&amp;rdquo;xyz&amp;rdquo;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
+这条语句创建了2个对象。&lt;/p&gt;
+
+&lt;h3 id=&#34;java-lang-string-intern&#34;&gt;java.lang.String.intern()&lt;/h3&gt;
+
+&lt;p&gt;运行时常量池相对于CLass文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。
+String的intern()方法会查找在常量池中是否存在一份equal相等的字符串,如果有则返回该字符串的引用,如果没有则添加自己的字符串进入常量池。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static void main(String[] args) {    
+      String s1 = new String(&amp;quot;计算机&amp;quot;);
+      String s2 = s1.intern();
+      String s3 = &amp;quot;计算机&amp;quot;;
+      System.out.println(&amp;quot;s1 == s2? &amp;quot; + (s1 == s2));
+      System.out.println(&amp;quot;s3 == s2? &amp;quot; + (s3 == s2));
+  }
+结果为：
+s1 == s2? false
+s3 == s2? true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串比较更丰富的一个例子&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+public class Test {
+ public static void main(String[] args) {   
+      String hello = &amp;quot;Hello&amp;quot;, lo = &amp;quot;lo&amp;quot;;
+      System.out.println((hello == &amp;quot;Hello&amp;quot;) + &amp;quot; &amp;quot;);
+      System.out.println((Other.hello == hello) + &amp;quot; &amp;quot;);
+      System.out.println((other.Other.hello == hello) + &amp;quot; &amp;quot;);
+      System.out.println((hello == (&amp;quot;Hel&amp;quot;+&amp;quot;lo&amp;quot;)) + &amp;quot; &amp;quot;);
+      System.out.println((hello == (&amp;quot;Hel&amp;quot;+lo)) + &amp;quot; &amp;quot;);
+      System.out.println(hello == (&amp;quot;Hel&amp;quot;+lo).intern());
+ }   
+}
+
+class Other { 
+    static String hello = &amp;quot;Hello&amp;quot;; 
+}
+
+package other;
+public class Other { 
+    public static String hello = &amp;quot;Hello&amp;quot;; 
+}
+结果为：
+
+true true true true false true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在同包同类下,引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在同包不同类下,引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在不同包不同类下,依然引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在编译成.class时能够识别为同一字符串的,自动优化成常量,引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在运行时创建的字符串具有独立的内存地址,所以不引用自同一String对象&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
@@ -67,7 +1216,134 @@
       <pubDate>Mon, 26 Aug 2019 10:23:46 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-08-26-integer%E7%9A%84integercache/</guid>
-      <description>首先我们来看这样一个例子: int m = 10; int n = 10; System.out.println(m == n); int j = 128; int k = 128; System.out.println(j == k); 输出结果： true true 出现这样的一个结果大家都意外。 下面我们再看一个例子： Integer a</description>
+      <description>&lt;p&gt;首先我们来看这样一个例子:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int m = 10;
+int n = 10;
+System.out.println(m == n);
+
+int j = 128;
+int k = 128;
+System.out.println(j == k);
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;true
+true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;出现这样的一个结果大家都意外。&lt;/p&gt;
+
+&lt;p&gt;下面我们再看一个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Integer a = 10;
+Integer b = 10;
+System.out.println(a == b);
+
+Integer c = 128;
+Integer d = 128;
+System.out.println(c == d);
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;true
+false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是因为，Integer是包装类型，是Object对象，因此==比较的是Integer指向的内存地址。然而-128~127直接的Integer数据直接缓存进入常量池（IntegerCache），所以这个区间的比较返回true，其他区间返回false。当然，new的Integer对象不适用。&lt;/p&gt;
+
+&lt;p&gt;看下Integer源码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static Integer valueOf(String s) throws NumberFormatException {
+    return Integer.valueOf(parseInt(s, 10));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Java 编译器把原始类型自动转换为封装类的过程称为自动装箱（autoboxing），这相当于调用 valueOf 方法。&lt;/br&gt;
+我们
+Integer a = 10 或者 Integer c = 200 都进行了一次自动装箱。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Integer a = 10;
+//等价于：
+Integer a = Integer.valueOf(10);
+
+Integer c = 128
+//等价于：
+Integer a = Integer.valueOf(128);
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Integer在赋值时自动装箱，调用valueOf(),其中valueOf源码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static Integer valueOf(int i) {
+    if (i &amp;gt;= IntegerCache.low &amp;amp;&amp;amp; i &amp;lt;= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    return new Integer(i);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到如果这个数值在cache数组的范围内（low和high之间），就返回cache缓存数组的中的数据，否则产生一个新的Integer值。其IntegerCache源码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static class IntegerCache {
+    static final int low = -128;
+    static final int high;
+    static final Integer cache[];
+
+    static {
+        // high value may be configured by property
+        int h = 127;
+        String integerCacheHighPropValue =
+            sun.misc.VM.getSavedProperty(&amp;quot;java.lang.Integer.IntegerCache.high&amp;quot;);
+        if (integerCacheHighPropValue != null) {
+            try {
+                int i = parseInt(integerCacheHighPropValue);
+                i = Math.max(i, 127);
+                // Maximum array size is Integer.MAX_VALUE
+                h = Math.min(i, Integer.MAX_VALUE - (-low) -1);
+            } catch( NumberFormatException nfe) {
+                // If the property cannot be parsed into an int, ignore it.
+            }
+        }
+        high = h;
+
+        cache = new Integer[(high - low) + 1];
+        int j = low;
+        for(int k = 0; k &amp;lt; cache.length; k++)
+            cache[k] = new Integer(j++);
+
+        // range [-128, 127] must be interned (JLS7 5.1.7)
+        assert IntegerCache.high &amp;gt;= 127;
+    }
+
+    private IntegerCache() {}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通常这个范围是-128-127，然而这个范围的最大值是可变的，可以通过-XX:AutoBoxCacheMax=&lt;size&gt;参数去修改这个值，在JVM初始化的时候，这个值被写入sun.misc.VM class系统私有配置文件中，并加载。&lt;/p&gt;
+
+&lt;p&gt;所以这就是为什么在阿里巴巴Java开发手册的OOP规约中强制使用equals比较两个Integer的值&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;4.7【强制】所有的相同类型的包装类对象之间值的比较，全部使用 equals 方法比较。
+说明： 对于 Integer var=?在-128 至 127 之间的赋值， Integer 对象是在
+IntegerCache.cache 产生，会复用已有对象，这个区间内的 Integer 值可以直接使用==进行
+判断。
+但是这个区间之外的所有数据，都会在堆上产生，并不会复用已有对象，这是一个大坑，
+推荐使用 equals 方法进行判断&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这种缓存行为不仅适用于Integer对象。我们针对所有整数类型的类都有类似的缓存机制。
+有 ByteCache 用于缓存 Byte 对象
+有 ShortCache 用于缓存 Short 对象
+有 LongCache 用于缓存 Long 对象
+有 CharacterCache 用于缓存 Character 对象
+Byte，Short，Long 有固定范围: -128 到 127。对于 Character, 范围是 0 到 127。除了 Integer 可以通过参数改变范围外，其它的都不行。&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -76,7 +1352,292 @@
       <pubDate>Sat, 24 Aug 2019 15:09:25 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
-      <description>单位换算 bit：位 一个二进制数据0或1，是1bit； byte：字节 1 byte = 8 bit , 存储空间的基本计量单位； 一个英文字符占一个字节 1 字母 = 1 byte = 8</description>
+      <description>
+
+&lt;h2 id=&#34;单位换算&#34;&gt;单位换算&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;bit：位
+一个二进制数据0或1，是1bit；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;byte：字节
+1 byte = 8 bit , 存储空间的基本计量单位；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;一个英文字符占一个字节
+1 字母 = 1 byte = 8 bit；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;一个汉字占2个字节
+1 汉字 = 2 byte = 16 bit；&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;支持的数据类型&#34;&gt;支持的数据类型&lt;/h2&gt;
+
+&lt;p&gt;首先明确一点，Java中的位运算是针对整型的数据类型进行运算的，所以操作数必须是一下五种之一。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;数据类型&lt;/th&gt;
+&lt;th&gt;所占位数（bit）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;byte&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;short&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;int&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;long&lt;/td&gt;
+&lt;td&gt;64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;char&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;数据存储方式&#34;&gt;数据存储方式&lt;/h2&gt;
+
+&lt;p&gt;计算机中存储的数据最终是以二进制存储(补码存储)，如int类型的十进制数字10表示为32bit的二进制：&lt;/p&gt;
+
+&lt;p&gt;0000 0000 0000 0000 0000 0000 0000 1010&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;注：数据在计算机中都是以反码形式存在。正数的的原码与反码相同。
+    有关原码、反码、补码的知识，请看另一个章节&lt;a href=&#34;https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/&#34;&gt;原码、反码、补码&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;位运算符&#34;&gt;位运算符&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;运算符&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;amp;&lt;/td&gt;
+&lt;td&gt;按位与(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;对应位同为1时，才为1，否则全为0&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;|&lt;/td&gt;
+&lt;td&gt;按位或(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;对应位只要有1时，即为1，否则全为0&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;~&lt;/td&gt;
+&lt;td&gt;按位非(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;对每位进行取反&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;^&lt;/td&gt;
+&lt;td&gt;按位异或(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;只要对应为不同即为1&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&amp;lt;&amp;lt;&lt;/td&gt;
+&lt;td&gt;左移(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;左移 左边最高位丢弃，右边补齐0&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&amp;gt;&amp;gt;&lt;/td&gt;
+&lt;td&gt;右移(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;最高位是0，左边补齐0；最高为是1，左边补齐1&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/td&gt;
+&lt;td&gt;无符号右移(&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;无论操作数是正数还是负数，高位都是补0&lt;/font&gt;&lt;/strong&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&#34;按位与&#34;&gt;按位与 &amp;amp;&lt;/h3&gt;
+
+&lt;p&gt;规则：&lt;strong&gt;&lt;font color = &#34;red&#34;&gt; 对应位同为1时，才为1，否则全为0（对应位只要有0，全为0，否则为1） &lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 127;
+int b = 128;
+System.out.println(&amp;quot;127 &amp;amp; 128 的结果是：&amp;quot;+(a &amp;amp; b));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;127 &amp;amp; 128 的结果是：0
+
+解析: 
+127的二进制(补码)：00000000 00000000 00000000 01111111
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 &amp;amp; 规则结果：  00000000 00000000 00000000 00000000
+所以结果为0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;按位或&#34;&gt;按位或 |&lt;/h3&gt;
+
+&lt;p&gt;规则： &lt;strong&gt;&lt;font color = &#34;red&#34;&gt; 对应位只要有1时，即为1，否则全为0（对应位只有全是0时，结果才是0，否则为1） &lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 127;
+int b = 128;
+System.out.println(&amp;quot;127 | 128 的结果是：&amp;quot;+(a | b));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;127 | 128 的结果是：255
+
+解析: 
+127的二进制(补码)：00000000 00000000 00000000 01111111
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 | 规则结果：  00000000 00000000 00000000 11111111
+最高为0，为正数，原码补码一样，所以结果为255
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;按位非&#34;&gt;按位非 ~&lt;/h3&gt;
+
+&lt;p&gt;规则： &lt;strong&gt;&lt;font color = &#34;red&#34;&gt;对每位进行取反 &lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 128;
+System.out.println(&amp;quot;~128 的结果是：&amp;quot; + ~ a);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~128 的结果是：-129
+
+解析: 
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 ~ 规则结果：  11111111 11111111 11111111 01111111
+最高为1，为负数。
+补码：11111111 11111111 11111111 01111111
+反码：11111111 11111111 11111111 01111110
+原码：10000000 00000000 00000000 10000001
+结果为 -129
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;按位异或&#34;&gt;按位异或 ^&lt;/h3&gt;
+
+&lt;p&gt;规则： &lt;strong&gt;&lt;font color = &#34;red&#34;&gt; 只要对应为不同即为1。 &lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 127;
+int b = 128;
+System.out.println(&amp;quot;127 ^ 128 的结果是：&amp;quot; + (a ^  b));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;127 ^ 128 的结果是：255
+
+解析: 
+127的二进制(补码)：00000000 00000000 00000000 01111111
+128的二进制(补码)：00000000 00000000 00000000 10000000
+根据 | 规则结果：  00000000 00000000 00000000 11111111
+最高为0，为正数，原码补码一样，所以结果为255
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;位移动运算符&#34;&gt;位移动运算符&lt;/h3&gt;
+
+&lt;h4 id=&#34;左移&#34;&gt;左移 &amp;lt;&amp;lt;&lt;/h4&gt;
+
+&lt;p&gt;规则：&lt;strong&gt;&lt;font color = &#34;red&#34;&gt; &amp;lt;&amp;lt; :左移 左边最高位丢弃，右边补齐0; &lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;左移的规则只记住一点：丢弃最高位，0补最低位&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;如果移动的位数超过了该类型的最大位数，那么编译器会对移动的位数取模&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;通用格式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;value &amp;lt;&amp;lt; num 
+num : 指要移位值   
+value : 指移动的位数。
+意思是value向左位移num位，左移num位，相当于乘以2^num
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 1;
+System.out.println(&amp;quot;1 &amp;lt;&amp;lt; 2 的结果是：&amp;quot; + (a &amp;lt;&amp;lt; 2));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果(图片来自于网络)：
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%B7%A6%E7%A7%BB2.png&#34; alt=&#34;左移&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1 &amp;lt;&amp;lt; 2 的结果是：4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;右移&#34;&gt;右移 &amp;gt;&amp;gt;&lt;/h4&gt;
+
+&lt;p&gt;规则：&lt;strong&gt;&lt;font color = &#34;red&#34;&gt; &amp;gt;&amp;gt;:右移, 最高位是0(正数时)，左边补齐0；最高为是1(正数时)，左边补齐1，保持为负数；&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;m&amp;gt;&amp;gt;n即相当于m除以2的n次方，得到的为整数时，即为结果。如果结果为小数，此时会出现两种情况：&lt;/p&gt;
+
+&lt;p&gt;1 如果m为正数，得到的商会无条件 的舍弃小数位；&lt;/p&gt;
+
+&lt;p&gt;2 如果m为负数，舍弃小数部分，然后把整数部分加+1得到位移后的值。&lt;/p&gt;
+
+&lt;p&gt;通用格式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;value &amp;gt;&amp;gt; num 
+num : 指要移位值   
+value : 指移动的位数。
+意思是value向左位移num位，左移num位，相当于除以2^num
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 12;
+System.out.println(&amp;quot;12 &amp;gt;&amp;gt; 2 的结果是：&amp;quot; + (a &amp;gt;&amp;gt; 2));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果(图片来自于网络，图中稍有错误，其中10应该为12)：
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%8F%B3%E7%A7%BB.png&#34; alt=&#34;右移&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1 &amp;lt;&amp;lt; 2 的结果是：4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;无符号右移&#34;&gt;无符号右移 &amp;gt;&amp;gt;&amp;gt;&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;无符号右移&amp;gt;&amp;gt;&amp;gt; 与 右移&amp;gt;&amp;gt; 的区别就是无论操作数是正数还是负数，高位都是补0&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;int a = 12;
+System.out.println(&amp;quot;12 &amp;gt;&amp;gt;&amp;gt; 2 的结果是：&amp;quot; + (a &amp;gt;&amp;gt;&amp;gt; 2));
+
+int b = -12;
+System.out.println(&amp;quot;-12 &amp;gt;&amp;gt;&amp;gt; 2 的结果是：&amp;quot; + (b &amp;gt;&amp;gt;&amp;gt; 2));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;12 &amp;gt;&amp;gt;&amp;gt; 2 的结果是：3
+-12 &amp;gt;&amp;gt;&amp;gt; 2 的结果是：1073741821
+
+解析: 
+12 &amp;gt;&amp;gt;&amp;gt; 2 跟 12 &amp;gt;&amp;gt; 2 过程一样，上面有过程，我们说下 -12 &amp;gt;&amp;gt;&amp;gt; 2
+-12的原码：        10000000 00000000 00000000 00001100
+-12的二进制(补码): 11111111 11111111 11111111 11110100
+右移2位：           11111111 11111111 11111111 11110100
+补齐：            0011111111 11111111 11111111 111101
+注意这个补齐因为是无符号的，最高位补0，结果为正数
+最高为0，为正数，原码补码一样，所以结果为的结果是：1073741821
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
@@ -85,7 +1646,41 @@
       <pubDate>Sat, 24 Aug 2019 11:13:05 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/</guid>
-      <description>java中为什么int类型的-129转换成byte类型的会变成127 int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完整形</description>
+      <description>
+
+&lt;h2 id=&#34;java中为什么int类型的-129转换成byte类型的会变成127&#34;&gt;java中为什么int类型的-129转换成byte类型的会变成127&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;int类型一般是4个字节，一个字节有8位，这样int型数据二进制的完整形式有32位，而byte表示一个字节，于是byte类型数据二进制的完整形式有8位。&lt;/strong&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;二进制数据在计算机内是以二进制存储的，要注意一点，计算机在存储某个数据时，是存储的数据的补码，说明一下补码与原码关系，正数补码与原码相同，负数补码是原码减1后取反。
+&lt;/br&gt;&lt;br /&gt;
+根据上面阐述，129的原码是00000000 00000000 00000000 10000001 ，负数最高位取1，那么-129便是10000000 00000000 00000000 10000001 ，补码计算：取反为11111111 11111111 11111111 01111110（最高位是符号位，不参与取反），加1为11111111 11111111 11111111 01111111 ，现在转换为byte，只有8位，于是只能保留低8位，前面24位丢去，得到01111111，符号位为0,代表正数，原码、反码、补码一致。原码也是01111111。这就对应着十进制的127.&lt;/p&gt;
+
+&lt;h2 id=&#34;int类型的129转换成byte类型的会变成-127&#34;&gt;int类型的129转换成byte类型的会变成-127&lt;/h2&gt;
+
+&lt;p&gt;129为正数，原码补码反码相同：00000000 00000000 00000000 10000001
+现在转换为byte，只有8位，于是只能保留低8位，前面24位丢去，得到10000001，&lt;/p&gt;
+
+&lt;p&gt;补码为10000001， 开头为1 为负数   反码与补码不一样  为补码减1  得到反码：10000000
+负数反码转成原码  符号位不变，其他位取反 得到原码：11111111
+为 -127&lt;/p&gt;
+
+&lt;h2 id=&#34;int类型的128转换成byte类型的会变成-128&#34;&gt;int类型的128转换成byte类型的会变成-128&lt;/h2&gt;
+
+&lt;p&gt;128为正数，原码补码反码相同：00000000 00000000 00000000 10000000
+现在转换为byte，只有8位，于是只能保留低8位，前面24位丢去，得到10000000，
+因为补码为10000000，所以为-128&lt;/p&gt;
+
+&lt;p&gt;在规定中，8位二进制码能表示的反码范围是-127~127。
+-128没有反码。
+那么，为什么规定-128没有反码呢?下面解释。
+首先看-0，[-0]原码=1000 000，其中1是符号位，根据反码规定，算出[-0]反码=1111 1111，
+再看-128，[-128]原码=1000 000，假如让-128也有反码，根据反码规定，则[-128]反码=1111 1111，
+你会发现，-128的反码和-0的反码相同，所以为了避免面混淆，有了-0，便不能有-128，这是反码规则决定的。&lt;/p&gt;
+
+&lt;p&gt;-128的原码是10000000。
+补码是反码+1：依然是10000000。（因为加1进位了，但是只有8位，所以进位无法显示）。&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -94,25 +1689,542 @@
       <pubDate>Fri, 23 Aug 2019 16:28:33 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/</guid>
-      <description>Java数据类型 了解原码、补码、反码之前，我们先看下java的数据类型： Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环</description>
+      <description>
+
+&lt;h2 id=&#34;java数据类型&#34;&gt;Java数据类型&lt;/h2&gt;
+
+&lt;p&gt;了解原码、补码、反码之前，我们先看下java的数据类型：&lt;/p&gt;
+
+&lt;p&gt;Java基本类型共有八种，它们的取值范围是固定的，不会随着机器硬件环境或者操作系统的改变而改变。实际上，JAVA中还存在另外一种基本类型void，它也有对应的包装类 java.lang.Void，不过我们无法直接对它们进行操作。8 中类型表示范围如下：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;byte：8位，最大存储数据量是255，存放的数据范围是-128~127之间。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;boolean：只有true和false两个取值。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;char：16位，存储Unicode码，用单引号赋值。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以上各种类型占用内存：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;数据类型&lt;/th&gt;
+&lt;th&gt;类别&lt;/th&gt;
+&lt;th&gt;大小/位&lt;/th&gt;
+&lt;th&gt;大小范围&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;byte(位)&lt;/td&gt;
+&lt;td&gt;整型&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;-128~127&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;short(短整数)&lt;/td&gt;
+&lt;td&gt;整型&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;-32768~32767&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;int(整数)&lt;/td&gt;
+&lt;td&gt;整型&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;-2147483648~2147483647&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;long(长整数)&lt;/td&gt;
+&lt;td&gt;整型&lt;/td&gt;
+&lt;td&gt;64&lt;/td&gt;
+&lt;td&gt;-9223372036854775808~9223372036854775807&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;float(单精度)&lt;/td&gt;
+&lt;td&gt;浮点型&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;1.4E-45~3.4028235E38&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;double(双精度)&lt;/td&gt;
+&lt;td&gt;浮点型&lt;/td&gt;
+&lt;td&gt;64&lt;/td&gt;
+&lt;td&gt;4.9E-324~1.7976931348623157E308&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;char(字符)&lt;/td&gt;
+&lt;td&gt;字符型&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;0~65535&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;boolean&lt;/td&gt;
+&lt;td&gt;布尔型&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;true或false&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;byte占用一个字节，取值范围是-128~127,因为在二进制中，最高位是符号位，0表示正、1表示负，其他位是数据位。 byte共占8个bit，最大值为01111111，转成十进制为127，最小值为10000000，1是符号位，表示负数，转成十进制为128。所以最小值为-128 ，具体为什么是-128？二进制和十进制如何在底层转换？将涉及到原码、反码、补码，我们往下继续看&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;原码-补码-反码&#34;&gt;原码 补码 反码&lt;/h2&gt;
+
+&lt;h3 id=&#34;机器数和真值&#34;&gt;机器数和真值&lt;/h3&gt;
+
+&lt;p&gt;我们先了解下数据在计算机中是怎么表示的&lt;/p&gt;
+
+&lt;h4 id=&#34;机器数&#34;&gt;机器数&lt;/h4&gt;
+
+&lt;p&gt;　一个数在计算机中的二进制表示形式,  叫做这个数的机器数。机器数是带符号的，在计算机用一个数的最高位存放符号, 正数为0, 负数为1.比如，十进制中的数 &lt;strong&gt;3&lt;/strong&gt; ，计算机字长为8位，转换成二进制就是00000011。如果是 -3 ，就是 10000011 。那么，这里的 00000011 和 10000011 就是机器数。&lt;/p&gt;
+
+&lt;h4 id=&#34;真值&#34;&gt;真值&lt;/h4&gt;
+
+&lt;p&gt;因为第一位是符号位，所以机器数的形式值就不等于真正的数值。
+例如上面的有符号数10000011，其最高位1代表负，其真正数值是-3而不是形式值131（10000011转换成十进制等于131）。所以，为区别起见，将带符号位的机器数对应的真正数值称为机器数的真值。&lt;/br&gt;
+例：0000 0001的真值 = +000 0001 = +1，1000 0001的真值 = –000 0001 = –1&lt;/p&gt;
+
+&lt;h3 id=&#34;原码概念&#34;&gt;原码概念&lt;/h3&gt;
+
+&lt;p&gt;数值X的原码记为[x]原，如果机器字长为n(即采用n个二进制位表示数据)。则&lt;font color = &#34;red&#34;&gt;最高位是符号位。0表示正号，1表示负号&lt;/font&gt;，其余的n-1位表示数值的绝对值。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;数值零的原码表示有两种形式:[+0]原=0000 0000   ,-[0]原=1000 0000.&lt;/p&gt;
+
+&lt;p&gt;例子：若机器字长n等于8，则&lt;/p&gt;
+
+&lt;p&gt;[+1]原=0000 00001           [-1]原=1000 00001  &lt;/p&gt;
+
+&lt;p&gt;[+127]原=0111 1111          [-127]原=1111 1111&lt;/p&gt;
+
+&lt;p&gt;[+45]原=0010 1101           [-45]原=1010 1101    &lt;/p&gt;
+
+&lt;p&gt;可见，原码，在计算数值上出问题了，当然，你也可以实验下，原码在计算正数和正数的时候，它是一点问题都没有的，但是出现负数的时候就出现问题了。所以才会有我下面将的问题：反码&lt;/p&gt;
+
+&lt;h3 id=&#34;反码概念&#34;&gt;反码概念&lt;/h3&gt;
+
+&lt;p&gt;数值X的反码记作[x]反，如果机器字长为n，则&lt;font color = &#34;red&#34;&gt;最高位是符号位，0表示正号，1表示负号&lt;/font&gt;，&lt;font color = &#34;red&#34;&gt;&lt;strong&gt;正数的反码与原码相同，负数的反码 则是其绝对值按位求反&lt;/strong&gt;&lt;/font&gt;。&lt;/p&gt;
+
+&lt;p&gt;数值0的反码表示有两种形式：[+0]反=0000 0000   ,-[0]反=1111 1111.&lt;/p&gt;
+
+&lt;p&gt;例子：若机器字长n等于8，则&lt;/p&gt;
+
+&lt;p&gt;[+1]反=0000 00001           [-1]反=1111 1110 &lt;/p&gt;
+
+&lt;p&gt;[+127]反=0111 1111          [-127]反=1000 0000&lt;/p&gt;
+
+&lt;p&gt;[+45]反=0010 1101           [-45]反=1101 0010  &lt;/p&gt;
+
+&lt;p&gt;在看反码计算的问题：&lt;/p&gt;
+
+&lt;p&gt;1+（-1）=0   |  （0000 0001）反+（1111 1110）反=（1111 1111）反=（1000 0000）原=【-0】  可以看到，虽然是-0，但是问题还不是很大&lt;/p&gt;
+
+&lt;p&gt;1+（-2）=-1  |  （0000 0001）反+（1111 1101）反=（1111 1110）反=（1000 0001）原=【-1】  可以看到，没有问题&lt;/p&gt;
+
+&lt;p&gt;-1+（2）=1   |  （1111 1110）反+（0000 0010）反=（0000 0000）反=（0000 0000）原=【0】  可以看到，问题发生了，因为溢出，导致结果变为0了。&lt;/p&gt;
+
+&lt;p&gt;所以，看以看到，用反码表示，问题依然没有解决，所以，出现了下面的补码&lt;/p&gt;
+
+&lt;h3 id=&#34;补码概念&#34;&gt;补码概念&lt;/h3&gt;
+
+&lt;p&gt;数值X的补码记作[x]补，如果机器字长为n，则&lt;font color = &#34;red&#34;&gt;最高位是符号位，0表示正号，1表示负号&lt;/font&gt;，&lt;font color = &#34;red&#34;&gt;&lt;strong&gt;正数的补码与原码反码都相同，负数的补码则等于其反码的末尾加1&lt;/strong&gt;&lt;/font&gt;。&lt;/br&gt;
+数值0的补码表示有唯一的编码：[+0]补=0000 0000   ,-[0]补=0000 0000.&lt;/p&gt;
+
+&lt;p&gt;例子：若机器字长n等于8，则&lt;/p&gt;
+
+&lt;p&gt;[+1]补=0000 00001           [-1]补=1111 1111  &lt;/br&gt;
+[+127]补=0111 1111          [-127]补=1000 0001&lt;/br&gt;
+[+45]补=0010 1101           [-45]补=1101 0011  &lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;在看补码计算的问题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1+（-1）=0  |  （0000 0001）补+（1111 1111）补=（0000 0000）补=（0000 0000）原=【0】  可以看到。没有问题
+
+1+（-2）=-1 |  （0000 0001）补+（1111 1110）补=（1111 1111）补=（1000 0001）原=【-1】  可以看到，没有问题
+
+-1+（2）=1  |  （1111 1111）补+（0000 0010）补=（0000 0001）补 =（0000 0001）原=【1】  可以看到，没有问题
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通过上面的计算，我们发现，用补码的方式，就不存在在原码和反码中存在的计算问题了。其实，这也是&lt;font color = &#34;red&#34;&gt;计算机表达带符号整数用补码&lt;/font&gt;的原因。如果，你觉得我举得例子太少，缺少代表行，你可以自己试试。不过，放心补码一定是不会存在原码和反码的问题的。&lt;/p&gt;
+
+&lt;p&gt;明白了计算机中补数的道理，那么就明白补码的问题了。还是用例子说明：&lt;/p&gt;
+
+&lt;p&gt;在计算机中计算十进制 1+（-2）。&lt;/p&gt;
+
+&lt;p&gt;1的原码是：0000 0001&lt;/p&gt;
+
+&lt;p&gt;-2的原码是：1000 0010&lt;/p&gt;
+
+&lt;p&gt;-2的补码是：1111 1110   这个二进制换做无符号的整数大小就是254，而8位二进制数的M=2^8=256。（很多文章中把M写成2^7，这根本就是不对的，根本没有解决符号位的问题）&lt;/p&gt;
+
+&lt;p&gt;你发现什么了没，当换成补码后，-2和254就是补数的关系。&lt;/p&gt;
+
+&lt;p&gt;也就是1+（-2）  等价于了 1+254了。&lt;/p&gt;
+
+&lt;p&gt;这样做，好处在什么地方，你自己都可以看得到：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;利用补数和溢出的原理，减法变成了加法&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;符号位不在是约束计算的问题，不会存在原码中的问题了，因为变成补码后，虽然最高位依然是1，但是这个1就不在是最为符号位了，而是作为一个普通的二进制位，参与运算了。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;补码计算规则&#34;&gt;补码计算规则&lt;/h4&gt;
+
+&lt;p&gt;&lt;font color = &#34;red&#34;&gt;&lt;strong&gt;正数：原码 = 补码 = 反码&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;font color = &#34;red&#34;&gt;&lt;strong&gt;负数：反码 = 符号不变，其它位取反&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;font color = &#34;red&#34;&gt;&lt;strong&gt;补码 = 反码 + 1&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;十进制数&lt;/th&gt;
+&lt;th&gt;原码&lt;/th&gt;
+&lt;th&gt;反码&lt;/th&gt;
+&lt;th&gt;补码&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;85&lt;/td&gt;
+&lt;td&gt;0101 0101&lt;/td&gt;
+&lt;td&gt;0101 0101&lt;/td&gt;
+&lt;td&gt;0101 0101&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-85&lt;/td&gt;
+&lt;td&gt;1101 0101&lt;/td&gt;
+&lt;td&gt;1010 1010&lt;/td&gt;
+&lt;td&gt;1010 1011&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;0000 1001&lt;/td&gt;
+&lt;td&gt;0000 1001&lt;/td&gt;
+&lt;td&gt;0000 1001&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;-9&lt;/td&gt;
+&lt;td&gt;1000 1001&lt;/td&gt;
+&lt;td&gt;1111 0110&lt;/td&gt;
+&lt;td&gt;1111 0111&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;请计算出 -1 + 1：&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;十进制的 1 原码  :  0000 0000 0000 0001&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;十进制的 -1 原码  : 1000 0000 0000 0001&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;十进制的 -1 反码  :  1111  1111  1111  1110&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;十进制的 -1 补码  :  1111  1111  1111  1111&lt;/strong&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;计算-1+1即得 ,即-1补码+1的补码&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;1111 1111 1111 1111 + 0000 0000 0000 0001 = 0000 0000 0000 0000&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;结果即为0&lt;/strong&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>MYSQL配置读取</title>
-      <link>https://wangzitao6.github.io/2019-08-19-MYSQL%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/</link>
+      <link>https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96</link>
       <pubDate>Mon, 19 Aug 2019 15:06:29 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2019-08-19-MYSQL%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96/</guid>
-      <description>配置文件读取 在Unix, Linux 或者 Mac OS X 系统中, MYSQL 从以下配置文件中读取启动配置, 读取顺序由上到下: File Name Purpose /etc/my.cnf 全局配置选项 /etc/mysql/my.cnf 全局配置选项 SYSCONFDIR/my.cnf 全局配置选</description>
+      <guid>https://wangzitao6.github.io/2019-08-19-mysql%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%8F%96</guid>
+      <description>
+
+&lt;h2 id=&#34;配置文件读取&#34;&gt;配置文件读取&lt;/h2&gt;
+
+&lt;p&gt;在Unix, Linux 或者 Mac OS X 系统中, MYSQL 从以下配置文件中读取启动配置, 读取顺序由上到下:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;File Name&lt;/th&gt;
+&lt;th&gt;Purpose&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; /etc/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;全局配置选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; /etc/mysql/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;全局配置选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; SYSCONFDIR/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;全局配置选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; $MYSQL_HOME/my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;特定于服务器的选项（仅限服务器）&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; defaults-extra-file &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;命令行指定的额外配置文件路径&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; ~/.my.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;用户特定选项&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;font color=Red&gt; ~/.mylogin.cnf &lt;/font&gt;&lt;/td&gt;
+&lt;td&gt;用户特定的登录路径选项（仅限客户端）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&amp;ndash;defaults-extra-file
+ 在读取全局配置文件之后，读取用户配置文件(~/.my.cnf)之前，读取extra指定的参数文件&lt;/p&gt;
+
+&lt;p&gt;~/.my.cnf&lt;br /&gt;
+home目录下面的隐藏文件，my.cnf前面的点，说明my.cnf是隐藏文件&lt;/p&gt;
+
+&lt;p&gt;~/.mylogin.cnf&lt;br /&gt;
+配置文件有点儿特殊，它不是一个纯文本文件（其他的配置文件都是纯文本文件），而是使用mysql_config_editor实用程序创建的加密文件。文件中只能包含一些用于启动客户端软件时连接服务器的一些选项，包括 host、user、password、port和 socket。而且它只能被客户端程序所使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color=Red&gt;读取顺序:&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;/etc/my.cnf&lt;/li&gt;
+&lt;li&gt;basedir/my.cnf&lt;/li&gt;
+&lt;li&gt;datadir/my.cnf&lt;/li&gt;
+&lt;li&gt;&amp;ndash;defaults-extra-file&lt;/li&gt;
+&lt;li&gt;~/.my.cnf&lt;/li&gt;
+&lt;li&gt;~/.mylogin.cnf&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最后两个以~开头的路径是用户相关的，&lt;strong&gt;&lt;font color=Red&gt;~&lt;/font&gt;&lt;/strong&gt; 就代表这个用户目录. 用户可以在自己的用户目录下创建&lt;font color=Red&gt;.my.cnf&lt;/font&gt;或者&lt;font color=Red&gt;.mylogin.cnf&lt;/font&gt;，换句话说，不同登录用户使用的 &lt;font color=Red&gt;.my.cnf&lt;/font&gt;或者 &lt;font color=Red&gt;.mylogin.cnf&lt;/font&gt; 配置文件是不同的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;当多个文件中出现同一个配置时,以最后读取的配置为准&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;比方说&lt;font color=Red&gt;/etc/my.cnf&lt;/font&gt;文件的内容是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=InnoDB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而~/.my.cnf文件中的内容是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;又因为&lt;font color=Red&gt;~/.my.cnf&lt;/font&gt;比&lt;font color=Red&gt;/etc/my.cnf&lt;/font&gt;顺序靠后，所以如果两个配置文件中出现相同的启动选项，以&lt;font color=Red&gt;~/.my.cnf&lt;/font&gt;中的为准，所以MySQL服务器程序启动之后，&lt;font color=Red&gt;default-storage-engine&lt;/font&gt;的值就是&lt;font color=Red&gt;MyISAM&lt;/font&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;文件中配置读取&#34;&gt;文件中配置读取&lt;/h2&gt;
+
+&lt;p&gt;与在命令行中指定启动选项不同的是，配置文件中的启动选项被划分为若干个组，每个组有一个组名，用中括号[]扩起来，像这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+(具体的启动选项...)
+
+[mysqld]
+(具体的启动选项...)
+
+[mysqld_safe]
+(具体的启动选项...)
+
+[client]
+(具体的启动选项...)
+
+[mysql]
+(具体的启动选项...)
+
+[mysqladmin]
+(具体的启动选项...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;配置文件中不同的选项组是给不同的启动命令使用的，&lt;font color=Red&gt;[mysqld]&lt;/font&gt;和&lt;font color=Red&gt;[mysql]&lt;/font&gt;组分别应用于&lt;font color=Red&gt;mysqld&lt;/font&gt;服务器程序和&lt;font color=Red&gt;mysql&lt;/font&gt;客户端程序。不过有两个选项组比较特别：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;[server]组下边的启动选项将作用于所有的服务器程序。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;[client]组下边的启动选项将作用于所有的客户端程序。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;启动命令&lt;/th&gt;
+&lt;th&gt;类别&lt;/th&gt;
+&lt;th&gt;能读取的组&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;mysqld&lt;/td&gt;
+&lt;td&gt;启动服务器&lt;/td&gt;
+&lt;td&gt;[mysqld]、[server]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysqld_safe&lt;/td&gt;
+&lt;td&gt;启动服务器&lt;/td&gt;
+&lt;td&gt;[mysqld]、[server]、[mysqld_safe]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysql.server&lt;/td&gt;
+&lt;td&gt;启动服务器&lt;/td&gt;
+&lt;td&gt;[mysqld]、[server]、[mysql.server]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysql&lt;/td&gt;
+&lt;td&gt;启动客户端&lt;/td&gt;
+&lt;td&gt;[mysql]、[client]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysqladmin&lt;/td&gt;
+&lt;td&gt;启动客户端&lt;/td&gt;
+&lt;td&gt;[mysqladmin]、[client]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;mysqldump&lt;/td&gt;
+&lt;td&gt;启动客户端&lt;/td&gt;
+&lt;td&gt;[mysqldump]、[client]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;假如我们在&lt;font color=Red&gt;/etc/mysql/my.cnf&lt;/font&gt; 中添加配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+skip-networking
+default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后直接用mysqld启动服务器程序：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysqld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;虽然在命令行没有添加启动选项，但是在程序启动的时候，就会默认的到我们上边提到的配置文件路径下查找配置文件，其中就包括&lt;font color=Red&gt;/etc/mysql/my.cnf&lt;/font&gt;。又由于&lt;font color=Red&gt;mysqld&lt;/font&gt;命令可以读取&lt;font color=Red&gt;[server]&lt;/font&gt;选项组的内容，所以&lt;font color=Red&gt;skip-networking&lt;/font&gt;和&lt;font color=Red&gt;default-storage-engine=MyISAM&lt;/font&gt;这两个选项是生效的。你可以把这些启动选项放在&lt;font color=Red&gt;[client]&lt;/font&gt;组里再试试用&lt;font color=Red&gt;mysqld&lt;/font&gt;启动服务器程序，结果是&lt;strong&gt;不生效&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;同一个配置文件中多个组的优先级&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;我们说同一个命令可以访问配置文件中的多个组，比如&lt;font color=Red&gt;mysqld&lt;/font&gt;可以访问&lt;font color=Red&gt;[mysqld]&lt;/font&gt;、&lt;font color=Red&gt;[server]&lt;/font&gt;组，如果在同一个配置文件中，比如&lt;font color=Red&gt;~/.my.cnf&lt;/font&gt;，在这些组里出现了同样的配置项，比如这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=InnoDB
+
+[mysqld]
+default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么，将以最后一个出现的组中的启动选项为准，比方说例子中&lt;font color=Red&gt;default-storage-engine&lt;/font&gt;既出现在&lt;font color=Red&gt;[mysqld]&lt;/font&gt;组也出现在&lt;font color=Red&gt;[server]&lt;/font&gt;组，因为&lt;font color=Red&gt;[mysqld]&lt;/font&gt;组在&lt;font color=Red&gt;[server]&lt;/font&gt;组后边，就以&lt;font color=Red&gt;[mysqld]&lt;/font&gt;组中的配置项为准。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color=Red&gt;如果同一个启动选项既出现在命令行中，又出现在配置文件中，那么以命令行中的启动选项为准。&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;例如我们在配置文件中写了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[server]
+default-storage-engine=InnoDB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而我们的启动命令是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysql.server start --default-storage-engine=MyISAM
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那最后&lt;font color=Red&gt;default-storage-engine&lt;/font&gt;的值就是&lt;font color=Red&gt;MyISAM&lt;/font&gt;！&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Markdown进阶语法</title>
-      <link>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</link>
+      <link>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95</link>
       <pubDate>Fri, 02 Aug 2019 13:59:37 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95/</guid>
-      <description>字体、大小、颜色 &amp;lt;font face=&amp;quot;黑体&amp;quot;&amp;gt;我是黑体字&amp;lt;/font&amp;gt; &amp;lt;font face=&amp;quot;微软雅黑&amp;quo</description>
+      <guid>https://wangzitao6.github.io/2018-08-02-markdown%E8%BF%9B%E9%98%B6%E8%AF%AD%E6%B3%95</guid>
+      <description>
+
+&lt;h2 id=&#34;字体-大小-颜色&#34;&gt;字体、大小、颜色&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;font face=&amp;quot;黑体&amp;quot;&amp;gt;我是黑体字&amp;lt;/font&amp;gt;
+&amp;lt;font face=&amp;quot;微软雅黑&amp;quot;&amp;gt;我是微软雅黑&amp;lt;/font&amp;gt;
+&amp;lt;font face=&amp;quot;STCAIYUN&amp;quot;&amp;gt;我是华文彩云&amp;lt;/font&amp;gt;
+&amp;lt;font color=red&amp;gt;我是红色&amp;lt;/font&amp;gt;
+&amp;lt;font color=#008000&amp;gt;我是绿色&amp;lt;/font&amp;gt;
+&amp;lt;font color=&amp;quot;#00dd00&amp;quot;&amp;gt;我是浅绿色&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;
+&amp;lt;font color=Blue&amp;gt;我是蓝色&amp;lt;/font&amp;gt;
+&amp;lt;font size=8&amp;gt;我是尺寸&amp;lt;/font&amp;gt;
+&amp;lt;font face=&amp;quot;黑体&amp;quot; color=red size=8&amp;gt;我是黑体，红色，尺寸为8&amp;lt;/font&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：&lt;/p&gt;
+
+&lt;p&gt;&lt;font face=&#34;黑体&#34;&gt;我是黑体字&lt;/font&gt;
+&lt;font face=&#34;微软雅黑&#34;&gt;我是微软雅黑&lt;/font&gt;
+&lt;font face=&#34;STCAIYUN&#34;&gt;我是华文彩云&lt;/font&gt;
+&lt;font color=red&gt;我是红色&lt;/font&gt;
+&lt;font color=#008000&gt;我是绿色&lt;/font&gt;
+&lt;font color=&#34;#00dd00&#34;&gt;我是浅绿色&lt;/font&gt;&lt;br /&gt;
+&lt;font color=Blue&gt;我是蓝色&lt;/font&gt;
+&lt;font size=8&gt;我是尺寸&lt;/font&gt;
+&lt;font face=&#34;黑体&#34; color=red size=8&gt;我是黑体，红色，尺寸为8&lt;/font&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;空格&#34;&gt;空格&lt;/h2&gt;
+
+&lt;p&gt;一个汉字占两个空格大小，所以使用四个空格就可以达到首行缩进两个汉字的效果。有如下几种方法：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;一个空格大小的表示：&lt;strong&gt;&amp;amp;ensp&lt;/strong&gt;;或 &lt;strong&gt;&amp;amp;#8194&lt;/strong&gt;;，此时只要在相应需要缩进的段落前加上 4个 如上的标记即可，&lt;strong&gt;注意要带上分号&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;两个空格的大小表示：&lt;strong&gt;&amp;amp;emsp&lt;/strong&gt;;或 &lt;strong&gt;&amp;amp;#8195&lt;/strong&gt;;，同理，使用2个即可缩进2个汉字，&lt;strong&gt;推荐使用该方式&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;不换行空格：&lt;strong&gt;&amp;amp;nbsp&lt;/strong&gt;;或 &lt;strong&gt;&amp;amp;#160&lt;/strong&gt;;，使用4个 &lt;strong&gt;&amp;amp;#160&lt;/strong&gt;;即可。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;文字背景&#34;&gt;文字背景&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;table&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td bgcolor=red&amp;gt;红色背景&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/table&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;效果：
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=red&gt;红色背景&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;a href=&#34;https://www.appinn.com/markdown/basic.html&#34;&gt;Markdown: Basics （快速入门）&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -121,241 +2233,152 @@
       <pubDate>Sat, 20 Apr 2019 14:38:17 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</guid>
-      <description>三次握手 TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接</description>
-    </item>
-    
-    <item>
-      <title>http协议无状态中的状态到底指的是什么</title>
-      <link>https://wangzitao6.github.io/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/</link>
-      <pubDate>Fri, 19 Apr 2019 17:52:39 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/</guid>
-      <description>转载自：http协议无状态中的【状态】到底指的是什么？！ http协议无状态中的【状态】到底指的是什么？！ 先来看这句话的另外两个概念：（标准的</description>
-    </item>
-    
-    <item>
-      <title>了解ARP协议</title>
-      <link>https://wangzitao6.github.io/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/</link>
-      <pubDate>Fri, 19 Apr 2019 13:50:49 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/</guid>
-      <description>MAC地址 什么是MAC地址？MAC地址与IP有什么区别？ 大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？ 知乎回答:http</description>
-    </item>
-    
-    <item>
-      <title>tcpip协议与socket区别</title>
-      <link>https://wangzitao6.github.io/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</link>
-      <pubDate>Fri, 19 Apr 2019 10:29:22 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</guid>
-      <description>TCP/IP协议的组成 TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。 TCP/IP协议</description>
-    </item>
-    
-    <item>
-      <title>Mysql内置条件判断函数</title>
-      <link>https://wangzitao6.github.io/2018-03-16-mysql%E5%86%85%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0/</link>
-      <pubDate>Sat, 16 Mar 2019 11:33:44 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-03-16-mysql%E5%86%85%E7%BD%AE%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0/</guid>
-      <description>常见的条件判断函数 Name Description CASE Case operator IF() If/else construct IFNULL() Null if/else construct NULLIF(expr1,expr2) Return NULL if expr1 = expr2 CASE 为了后面容易举例子，我们先创建一张表并插入数据 CREATE TABLE demo ( id INT, NAME VARCHAR ( 20 ), age INT ) ENGINE = INNODB; insert</description>
-    </item>
-    
-    <item>
-      <title>设计模式之单例模式</title>
-      <link>https://wangzitao6.github.io/2018-11-12-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
-      <pubDate>Mon, 12 Nov 2018 15:11:17 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-11-12-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
-      <description>单例模式 首先我们来考虑下，如何设计一个类，在系统中只能生成该类的一个实体? 懒汉，线程不安全 面对这个问题，我们可以想到把构造函数私有化，以禁止</description>
-    </item>
-    
-    <item>
-      <title>HashMap实现原理</title>
-      <link>https://wangzitao6.github.io/2019-09-12-hashmap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</link>
-      <pubDate>Wed, 12 Sep 2018 11:49:31 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2019-09-12-hashmap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</guid>
-      <description>什么是哈希表 哈希表（hash table）也叫散列表，是一种非常重要的数据结构，应用场景及其丰富，许多缓存技术（比如memcached）的核心</description>
-    </item>
-    
-    <item>
-      <title>了解MySQL中EXPLAIN解释命令</title>
-      <link>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Mon, 13 Aug 2018 11:49:13 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-08-13-%E4%BA%86%E8%A7%A3explain%E8%A7%A3%E9%87%8A%E5%91%BD%E4%BB%A4/</guid>
-      <description>1 EXPLAIN概念 EXPLAIN会向我们提供一些MySQL是执行sql的信息： EXPLAIN可以解释说明 SELECT, DELETE, INSERT, REPLACE, and UPDATE 等语句. 当EXPLAI</description>
-    </item>
-    
-    <item>
-      <title>死锁-了解MySQL死锁日志</title>
-      <link>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</link>
-      <pubDate>Sun, 05 Aug 2018 13:36:46 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-08-05-%E6%AD%BB%E9%94%81%E6%97%A5%E5%BF%97/</guid>
-      <description>锁的种类&amp;amp;概念 Shared and Exclusive Locks 1. Shared lock: 共享锁,官方描述：permits the transaction that holds the lock to read a row eg：select * from xx where a=1 lock in share mode 2. Exclusive Locks：</description>
-    </item>
-    
-    <item>
-      <title>MySQL加锁处理分析</title>
-      <link>https://wangzitao6.github.io/2018-08-03-mysql%E5%8A%A0%E9%94%81%E5%A4%84%E7%90%86%E5%88%86%E6%9E%90/</link>
-      <pubDate>Fri, 03 Aug 2018 10:12:06 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-08-03-mysql%E5%8A%A0%E9%94%81%E5%A4%84%E7%90%86%E5%88%86%E6%9E%90/</guid>
-      <description>1 背景 MySQL/InnoDB的加锁分析，一直是一个比较困难的话题。我在工作过程中，经常会有同事咨询这方面的问题。同时，微博上也经常会收到M</description>
-    </item>
-    
-    <item>
-      <title>死锁-常见SQL的语句加锁分析</title>
-      <link>https://wangzitao6.github.io/2018-07-29-%E5%B8%B8%E8%A7%81sql%E7%9A%84%E8%AF%AD%E5%8F%A5%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/</link>
-      <pubDate>Sun, 29 Jul 2018 10:20:22 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-07-29-%E5%B8%B8%E8%A7%81sql%E7%9A%84%E8%AF%AD%E5%8F%A5%E5%8A%A0%E9%94%81%E5%88%86%E6%9E%90/</guid>
-      <description>解决死锁之路 - 常见 SQL 语句的加锁分析 这篇博客将对一些常见的 SQL 语句进行加锁分析，看看我们平时执行的那些 SQL 都会加什么锁。只有对我们所写的 SQL 语句加锁</description>
-    </item>
-    
-    <item>
-      <title>死锁 - 了解常见的锁类型</title>
-      <link>https://wangzitao6.github.io/2018-07-28-%E4%BA%86%E8%A7%A3%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%81%E7%B1%BB%E5%9E%8B/</link>
-      <pubDate>Sat, 28 Jul 2018 10:20:22 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-07-28-%E4%BA%86%E8%A7%A3%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%81%E7%B1%BB%E5%9E%8B/</guid>
-      <description>表锁 vs. 行锁 在 MySQL 中锁的种类有很多，但是最基本的还是表锁和行锁：表锁指的是对一整张表加锁，一般是 DDL 处理时使用，也可以自己在 SQL 中指定；而行锁指的是</description>
-    </item>
-    
-    <item>
-      <title>死锁 - 了解事务与隔离级别</title>
-      <link>https://wangzitao6.github.io/2018-07-25-%E4%BA%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</link>
-      <pubDate>Wed, 25 Jul 2018 15:36:47 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-07-25-%E4%BA%86%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</guid>
-      <description>这个月线上环境突然经常报警，排查后发现了下面这样的异常，一天出现三四次的样子。看异常信息就知道是发生了数据库死锁，由于这块对业务影响不是很大</description>
-    </item>
-    
-    <item>
-      <title>Java中静态代码块、代码块、main()方法和构造函数加载顺序</title>
-      <link>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81main%28%29%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</link>
-      <pubDate>Mon, 02 Jul 2018 10:38:28 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81main%28%29%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</guid>
-      <description>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。构造代码块：类中直接用{}定义，每一次创建对象时执行。同一个类中，执行顺序优</description>
-    </item>
-    
-    <item>
-      <title>Jvm类加载过程</title>
-      <link>https://wangzitao6.github.io/2018-07-02-jvm%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</link>
-      <pubDate>Mon, 02 Jul 2018 10:05:16 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-07-02-jvm%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</guid>
-      <description>什么是类加载 虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，</description>
-    </item>
-    
-    <item>
-      <title>gitment登录失败</title>
-      <link>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</link>
-      <pubDate>Tue, 12 Jun 2018 09:31:57 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-06-12-gitment%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5/</guid>
-      <description>gitment登录失败 搭建个人博客之后, 最终还是选择了gitment. 最近突然发现gitment登录失败,报错 [object ProgressEvent]</description>
-    </item>
-    
-    <item>
-      <title>HotSpot选项笔记</title>
-      <link>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Tue, 05 Jun 2018 11:05:33 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0/</guid>
-      <description>语法 java [ options ] class [ argument &amp;hellip; ] java [ options ] -jar file.jar [ argument &amp;hellip; ] 标准选项 -d32|-d64 -client|-server 以客户端模式还是服务器模式执行虚拟机。服务器模式的特点是启动速度比较慢，但运行时性能和</description>
-    </item>
-    
-    <item>
-      <title>校验手机号码正则表达式</title>
-      <link>https://wangzitao6.github.io/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
-      <pubDate>Tue, 29 May 2018 10:16:26 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-05-29-%E6%A0%A1%E9%AA%8C%E6%89%8B%E6%9C%BA%E5%8F%B7%E7%A0%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
-      <description>需要通过的手机号： 中国移动：134、135、136、137、138、139、148、150、151、152、157(TD)、158、159、</description>
-    </item>
-    
-    <item>
-      <title>SSH端口转发</title>
-      <link>https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/</link>
-      <pubDate>Sat, 12 May 2018 15:37:21 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-05-12-%E4%BA%86%E8%A7%A3ssh%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/</guid>
-      <description>概述 当你在咖啡馆享受免费 WiFi 的时候，有没有想到可能有人正在窃取你的密码及隐私信息？当你发现实验室的防火墙阻止了你的网络应用端口，是不是有苦难言</description>
-    </item>
-    
-    <item>
-      <title>了解SQL注入</title>
-      <link>https://wangzitao6.github.io/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5/</link>
-      <pubDate>Sun, 06 May 2018 10:41:29 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-05-06-%E4%BA%86%E8%A7%A3sql%E6%B3%A8%E5%85%A5/</guid>
-      <description>1.简介 SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。一般来</description>
-    </item>
-    
-    <item>
-      <title>Hugo集成Algolia搜索</title>
-      <link>https://wangzitao6.github.io/2018-04-10-%E9%9B%86%E6%88%90algolia%E6%90%9C%E7%B4%A2/</link>
-      <pubDate>Tue, 10 Apr 2018 18:21:17 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-04-10-%E9%9B%86%E6%88%90algolia%E6%90%9C%E7%B4%A2/</guid>
-      <description>1.简介 Algolia是为你的 APP 或者网站添加搜索的最佳方式。 开发人员可以使用 API 上传并同步希望搜索的数据，然后可以进行相关的配置，比如产品转化</description>
-    </item>
-    
-    <item>
-      <title>Hugo集成gitment评论系统</title>
-      <link>https://wangzitao6.github.io/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link>
-      <pubDate>Tue, 20 Mar 2018 11:06:11 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid>
-      <description>引言 Gitment 是作者实现的一款基于 GitHub Issues 的评论系统。支持在前端直接引入，不需要任何后端代码。可以在页面进行登录、查看、评论、点赞等操作，同时有完整的 Markdown</description>
-    </item>
-    
-    <item>
-      <title>利用Travis CI将Hugo自動部署到Github Pages</title>
-      <link>https://wangzitao6.github.io/2018-03-10-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</link>
-      <pubDate>Sat, 10 Mar 2018 00:16:42 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-03-10-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/</guid>
-      <description>1.简介 Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个</description>
-    </item>
-    
-    <item>
-      <title>ip地址,子网掩码,网关,dns协议关系</title>
-      <link>https://wangzitao6.github.io/2018-02-15-%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</link>
-      <pubDate>Thu, 15 Feb 2018 23:44:45 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2018-02-15-%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
-      <description>简介 IP地址，标示你电脑的身份！ 子网掩码，可以标示子网划分的情况，所属子网。 默认网关，数据包默认选择的出口！一般是你的路由器地址！ DNS服务</description>
-    </item>
-    
-    <item>
-      <title>markdown常用语法</title>
-      <link>https://wangzitao6.github.io/2017-10-28-markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</link>
-      <pubDate>Sat, 28 Oct 2017 22:59:30 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2017-10-28-markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</guid>
-      <description>1.内容目录 在段落中填写 [TOC] 以显示全文内容的目录结构。 2.标题 # 这是一级标题 ## 这是二级标题 ### 这是三级标题 #### 这是四级标题 ##### 这是五级标题 ###### 这是六级</description>
-    </item>
-    
-    <item>
-      <title>用hugo搭建个人网站</title>
-      <link>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</link>
-      <pubDate>Mon, 28 Aug 2017 23:41:16 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2017-08-28-%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</guid>
-      <description>摘要： 本文将介绍什么是Hugo，怎么用Hugo搭建个人网站，如何本地测试及如何发布到Github并生成Github pages。 什么是Hugo</description>
-    </item>
-    
-    <item>
-      <title>git常用命令</title>
-      <link>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
-      <pubDate>Thu, 03 Nov 2016 23:10:30 +0800</pubDate>
-      
-      <guid>https://wangzitao6.github.io/2017-11-03-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>1. 分支操作 1.创建，删除本地分支 git branch 分支名 创建名称为branchname的本地分支 git branch branchName git branch -d 分支名 删除名称为branchname的本地分支</description>
+      <description>
+
+&lt;h2 id=&#34;三次握手&#34;&gt;三次握手&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接收数据。&lt;/strong&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;起初服务器和客户端都为&lt;strong&gt;CLOSED&lt;/strong&gt;状态。在通信开始前双方都得创建各自的传输控制块（TCB）。&lt;/br&gt;
+服务器创建完TCB后遍进入&lt;strong&gt;LISTEN&lt;/strong&gt;状态，&lt;strong&gt;此时准备接收客户端发来的连接请求。&lt;/strong&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;SYN 是发起一个连接
+ACK 是回复
+RST 是重新连接
+FIN 是结束连接等
+
+ACK=1: 除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第一次握手&#34;&gt;第一次握手&lt;/h3&gt;
+
+&lt;p&gt;客户端向服务端发送连接请求报文段。该报文段的头部中&lt;strong&gt;SYN=1，ACK=0，seq=x&lt;/strong&gt;。请求发送后，客户端便进入&lt;strong&gt;SYN-SENT&lt;/strong&gt;状态。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;PS1：SYN=1，ACK=0表示该报文段为连接请求报文。
+PS2：x为本次TCP通信的字节流的初始序号。
+TCP规定：SYN=1的报文段不能有数据部分，但要消耗掉一个序号。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第二次握手&#34;&gt;第二次握手&lt;/h3&gt;
+
+&lt;p&gt;服务端收到连接请求报文段后，如果同意连接，则会发送一个应答：&lt;strong&gt;SYN=1，ACK=1，seq=y，ack=x+1&lt;/strong&gt;。
+该应答发送完成后便进入&lt;strong&gt;SYN-RCVD&lt;/strong&gt;状态。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;PS1：SYN=1，ACK=1表示该报文段为连接同意的应答报文。
+PS2：seq=y表示服务端作为发送者时，发送字节流的初始序号。
+PS3：ack=x+1表示服务端希望下一个数据报发送序号从x+1开始的字节。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第三次握手&#34;&gt;第三次握手&lt;/h3&gt;
+
+&lt;p&gt;当客户端收到连接同意的应答后，还要向服务端发送一个确认报文段，表示：服务端发来的连接同意应答已经成功收到。
+该报文段的头部为：&lt;strong&gt;ACK=1，seq=x+1，ack=y+1&lt;/strong&gt;。
+客户端发完这个报文段后便进入&lt;strong&gt;ESTABLISHED&lt;/strong&gt;状态，服务端收到这个应答后也进入&lt;strong&gt;ESTABLISHED&lt;/strong&gt;状态，此时连接的建立完成！&lt;/p&gt;
+
+&lt;h3 id=&#34;各个状态名称与含义&#34;&gt;各个状态名称与含义&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;CLOSED&lt;/strong&gt;: 这个没什么好说的了，表示初始状态。&lt;/br&gt;
+&lt;strong&gt;LISTEN&lt;/strong&gt;: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。&lt;/br&gt;
+&lt;strong&gt;SYN_RECV&lt;/strong&gt;: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用  netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态 时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。&lt;/br&gt;
+&lt;strong&gt;SYN_SENT&lt;/strong&gt;: 这个状态与SYN_RECV遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状 态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。&lt;/br&gt;
+&lt;strong&gt;ESTABLISHED&lt;/strong&gt;：这个容易理解了，表示连接已经建立了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/15.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;为什么连接建立需要三次握手-而不是两次握手&#34;&gt;为什么连接建立需要三次握手，而不是两次握手&lt;/h3&gt;
+
+&lt;p&gt;防止失效的连接请求报文段被服务端接收，从而产生错误。&lt;/p&gt;
+
+&lt;p&gt;PS：失效的连接请求：若客户端向服务端发送的连接请求丢失，客户端等待应答超时后就会再次发送连接请求，此时，上一个连接请求就是『失效的』。&lt;/p&gt;
+
+&lt;p&gt;若建立连接只需两次握手，客户端并没有太大的变化，仍然需要获得服务端的应答后才进入ESTABLISHED状态，而服务端在收到连接请求后就进入ESTABLISHED状态。此时如果网络拥塞，客户端发送的连接请求迟迟到不了服务端，客户端便超时重发请求，如果服务端正确接收并确认应答，双方便开始通信，通信结束后释放连接。此时，如果那个失效的连接请求抵达了服务端，由于只有两次握手，服务端收到请求就会进入ESTABLISHED状态，等待发送数据或主动发送数据。但此时的客户端早已进入CLOSED状态，服务端将会一直等待下去，这样浪费服务端连接资源。
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/16.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/18.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四次挥手&#34;&gt;四次挥手&lt;/h2&gt;
+
+&lt;p&gt;TCP连接的释放一共需要四步，因此称为『四次挥手』。
+我们知道，TCP连接是双向的，因此在四次挥手中，前两次挥手用于断开一个方向的连接，后两次挥手用于断开另一方向的连接。&lt;/p&gt;
+
+&lt;h3 id=&#34;第一次挥手&#34;&gt;第一次挥手&lt;/h3&gt;
+
+&lt;p&gt;若A认为数据发送完成，则它需要向B发送连接释放请求。该请求只有报文头，头中携带的主要参数为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;FIN=1，seq=u。
+
+此时，A将进入FIN-WAIT-1状态。
+PS1：FIN=1表示该报文段是一个连接释放请求。
+PS2：seq=u，u-1是A向B发送的最后一个字节的序号。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第二次挥手&#34;&gt;第二次挥手&lt;/h3&gt;
+
+&lt;p&gt;B收到连接释放请求后，会通知相应的应用程序，告诉它A向B这个方向的连接已经释放。此时B进入&lt;strong&gt;CLOSE-WAIT&lt;/strong&gt;状态，并向A发送连接释放的应答，其报文头包含：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;ACK=1，seq=v，ack=u+1。
+
+PS1：ACK=1：除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答。
+PS2：seq=v，v-1是B向A发送的最后一个字节的序号。
+PS3：ack=u+1表示希望收到从第u+1个字节开始的报文段，并且已经成功接收了前u个字节。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A收到该应答，进入&lt;strong&gt;FIN-WAIT-2&lt;/strong&gt;状态，等待B发送连接释放请求。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;第二次挥手完成后，A到B方向的连接已经释放，B不会再接收数据，A也不会再向B发送数据报文(第四次应答是确认报文(ACK=1)，无数据)&lt;/strong&gt;。但&lt;strong&gt;B到A方向的连接仍然存在，B可以继续向A发送数据报文&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;第三次挥手&#34;&gt;第三次挥手&lt;/h3&gt;
+
+&lt;p&gt;当B向A发完所有数据后，向A发送连接释放请求，请求头：&lt;code&gt;FIN=1，ACK=1，seq=w，ack=u+1&lt;/code&gt;。B便进入&lt;strong&gt;LAST-ACK&lt;/strong&gt;状态。&lt;/p&gt;
+
+&lt;h3 id=&#34;第四次挥手&#34;&gt;第四次挥手&lt;/h3&gt;
+
+&lt;p&gt;A收到释放请求后，向B发送确认应答，此时A进入&lt;strong&gt;TIME-WAIT&lt;/strong&gt;状态。
+该状态会持续2MSL时间，若该时间段内没有B的重发请求的话，就进入&lt;strong&gt;CLOSED&lt;/strong&gt;状态，撤销TCB。当B收到确认应答后，也便进入&lt;strong&gt;CLOSED&lt;/strong&gt;状态，撤销TCB。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/17.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;为什么A要先进入TIME-WAIT状态，等待2MSL时间后才进入CLOSED状态？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了保证B能收到A的确认应答。
+若A发完确认应答后直接进入CLOSED状态，那么如果该应答丢失，B等待超时后就会重新发送连接释放请求，但此时A已经关闭了，不会作出任何响应，因此B永远无法正常关闭。&lt;/p&gt;
+
+&lt;p&gt;下面附加一个知乎上答案的问答&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;问&lt;/strong&gt;：问一下如果第四次挥手没有成功&amp;hellip;&amp;hellip;.
+主动方已经关闭了通道，但是因为被动方没有成功收到连接中断的确认，会一直在那边等？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;答&lt;/strong&gt;：第四次挥手主动方会等待2MSL 如果第四次挥手没成功 那么被动方会重发FIN=1的请求&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追问&lt;/strong&gt;：那么被动方是怎么知道第四次挥手有没有成功的？
+如果第四次挥手失败，对于被动方来说它只是一直没有等到主动方的ACK消息&amp;hellip;.
+有可能被动方一直在那边等，然后等了2MSL以后还是没有收到主动方的ACK，
+然后其实这个时候主动方已经关闭了，但是被动方还开着？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追答&lt;/strong&gt;：最后一次挥手，主动方向被动方发送确认报文(ACK=1) ，若挥手失败，确认报文则未发送到被动方 。
+超时后被动方则会重传FIN=1的报文给主动方，重新进行第四次挥手 。
+而主动方所需要等待的时间&lt;strong&gt;两个&lt;/strong&gt;最大报文生存时间，
+恰恰是为了被动方重发FIN=1的消息时主动方有充足的时间可以收到。
+所以就可以避免了仅有一方关闭的情况发生。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追问&lt;/strong&gt;：超时后被动方则会重传FIN=1的报文给主动方
+这个超时是指多久呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追答&lt;/strong&gt;：一个最大报文生存周期。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追答&lt;/strong&gt;：最大报文生存周期MSL(Maximum Segment Lifetime)，被动方等待MSL，主动方等待2MSL。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考图&#34;&gt;参考图&lt;/h2&gt;
+
+&lt;p&gt;放两张参考文章的图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/19.jpg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/20.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;参考文章&#34;&gt;参考文章&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zhoulujun.cn/html/theory/network/2015_0708_65.html&#34;&gt;再深谈TCP/IP三步握手&amp;amp;四步挥手原理及衍生问题—长文解剖IP&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://www.zhihu.com/question/63264012&#34;&gt;TCP为什么是四次挥手，而不是三次？&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

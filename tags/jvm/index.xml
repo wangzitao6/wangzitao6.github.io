@@ -1,28 +1,629 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>jvm on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/tags/jvm/</link>
+    <link>https://wangzitao6.github.io/tags/jvm/index.xml</link>
     <description>Recent content in jvm on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Sep 2019 16:47:28 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://wangzitao6.github.io/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>Java常量池理解与总结</title>
       <link>https://wangzitao6.github.io/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/</link>
       <pubDate>Mon, 02 Sep 2019 16:47:28 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-07-03-java%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%90%86%E8%A7%A3%E4%B8%8E%E6%80%BB%E7%BB%93/</guid>
-      <description>什么是常量 用final修饰的成员变量表示常量，值一但确定就无法修改。 final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类</description>
+      <description>
+
+&lt;h2 id=&#34;什么是常量&#34;&gt;什么是常量&lt;/h2&gt;
+
+&lt;p&gt;用final修饰的成员变量表示常量，值一但确定就无法修改。
+final修饰的变量有三种：静态变量、实例变量和局部变量，分别表示三种类型的常量&lt;/p&gt;
+
+&lt;h2 id=&#34;jvm常量池&#34;&gt;JVM常量池&lt;/h2&gt;
+
+&lt;p&gt;常量池大体可以分为两种：&lt;strong&gt;静态常量池&lt;/strong&gt;和&lt;strong&gt;运行时常量池&lt;/strong&gt;。
+* 静态常量池，也就是*.class文件中的常量池，主要存放编译期生成的各种字面量和符号引用。字面量（Literal）相当于java层面的常量概念，比如字符串和final声明的常量等。符号引用（Symbolic References）可以理解为编译原理方面的，包括：类和接口的全限定名、字段名和描述符、方法名称和描述符。
+* 运行时常量池。存在于方法区，个人理解就是在类被加载之后，原来的静态常量池存放到方法区的运行时常量池。除此之外，运行时常量池一个重要特征就是动态性。&lt;/p&gt;
+
+&lt;h3 id=&#34;静态常量池-class文件中的常量池&#34;&gt;静态常量池（Class文件中的常量池）&lt;/h3&gt;
+
+&lt;p&gt;常量池主要用于存放两大类常量：字面量(Literal)和符号引用量(Symbolic References)，字面量相当于Java语言层面常量的概念，如文本字符串，声明为final的常量值等，符号引用则属于编译原理方面的概念，包括了如下三种类型的常量：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;类和接口的全限定名&lt;/li&gt;
+&lt;li&gt;字段名称和描述符&lt;/li&gt;
+&lt;li&gt;方法名称和描述符&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###　方法区中的运行时常量池&lt;/p&gt;
+
+&lt;p&gt;运行时常量池是方法区的一部分。
+CLass文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项&lt;strong&gt;信息是常量池，用于存放编译期生成的各种字面量和符号引用&lt;/strong&gt;，这部分内容将在类加载后进入方法区的运行时常量池中存放。&lt;/p&gt;
+
+&lt;p&gt;运行时常量池相对于CLass文件常量池的另外一个重要特征是&lt;strong&gt;具备动态性&lt;/strong&gt;，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。&lt;/p&gt;
+
+&lt;h3 id=&#34;常量池的好处&#34;&gt;常量池的好处&lt;/h3&gt;
+
+&lt;p&gt;常量池是为了避免频繁的创建和销毁对象而影响系统性能，其实现了对象的共享。
+例如字符串常量池，在编译阶段就把所有的字符串文字放到一个常量池中。
+1. 节省内存空间：常量池中所有相同的字符串常量被合并，只占用一个空间。
+2. 节省运行时间：比较字符串时，&amp;rdquo;\==&amp;ldquo;比equals()快。对于两个引用变量，只用==判断引用是否相等，也就可以判断实际值是否相等。&lt;/p&gt;
+
+&lt;p&gt;##　8种基本类型的包装类和常量池&lt;/p&gt;
+
+&lt;h3 id=&#34;java基本类型&#34;&gt;Java基本类型&lt;/h3&gt;
+
+&lt;p&gt;java中基本类型的包装类的大部分都实现了常量池技术,即Byte,Short,Integer,Long,Character,Boolean；&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  Integer i1 = 40;
+  Integer i2 = 40;
+  System.out.println(i1==i2);//输出TRUE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这5种包装类默认创建了数值[-128，127]的相应类型的缓存数据，但是超出此范围仍然会去创建新的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//Integer 缓存代码 ：
+public static Integer valueOf(int i) {
+        assert IntegerCache.high &amp;gt;= 127;
+        if (i &amp;gt;= IntegerCache.low &amp;amp;&amp;amp; i &amp;lt;= IntegerCache.high)
+            return IntegerCache.cache[i + (-IntegerCache.low)];
+        return new Integer(i);
+    }
+  Integer i1 = 400;
+  Integer i2 = 400;
+  System.out.println(i1==i2);//输出false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;java浮点类型&#34;&gt;Java浮点类型&lt;/h3&gt;
+
+&lt;p&gt;两种浮点数类型的包装类Float,Double并没有实现常量池技术。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;   Double i1=1.2;
+   Double i2=1.2;
+   System.out.println(i1==i2);//输出false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;应用常量池的场景
+(1)&lt;code&gt;Integer i1=40&lt;/code&gt;；Java在编译的时候会直接将代码封装成&lt;code&gt;Integer i1=Integer.valueOf(40)&lt;/code&gt;;，从而使用常量池中的对象。
+(2)&lt;code&gt;Integer i1 = new Integer(40)&lt;/code&gt;;这种情况下会创建新的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  Integer i1 = 40;
+  Integer i2 = new Integer(40);
+  System.out.println(i1==i2);//输出false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Integer比较更丰富的一个例子&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;  Integer i1 = 40;
+  Integer i2 = 40;
+  Integer i3 = 0;
+  Integer i4 = new Integer(40);
+  Integer i5 = new Integer(40);
+  Integer i6 = new Integer(0);
+  
+  System.out.println(&amp;quot;i1=i2   &amp;quot; + (i1 == i2));
+  System.out.println(&amp;quot;i1=i2+i3   &amp;quot; + (i1 == i2 + i3));
+  System.out.println(&amp;quot;i1=i4   &amp;quot; + (i1 == i4));
+  System.out.println(&amp;quot;i4=i5   &amp;quot; + (i4 == i5));
+  System.out.println(&amp;quot;i4=i5+i6   &amp;quot; + (i4 == i5 + i6));   
+  System.out.println(&amp;quot;40=i5+i6   &amp;quot; + (40 == i5 + i6));  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;i1=i2   true
+i1=i2+i3   true
+i1=i4   false
+i4=i5   false
+i4=i5+i6   true
+40=i5+i6   true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;解释：语句i4 == i5 + i6，因为+这个操作符不适用于Integer对象，首先i5和i6进行自动拆箱操作，进行数值相加，即i4 == 40。然后Integer对象无法与数值进行直接比较，所以i4自动拆箱转为int值40，最终这条语句转为40 == 40进行数值比较。
+Java中的自动装箱与拆箱&lt;/p&gt;
+
+&lt;h2 id=&#34;string类和常量池&#34;&gt;String类和常量池&lt;/h2&gt;
+
+&lt;h3 id=&#34;string对象创建方式&#34;&gt;String对象创建方式&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String str1 = &amp;quot;abcd&amp;quot;;
+String str2 = new String(&amp;quot;abcd&amp;quot;);
+System.out.println(str1==str2);//false
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这两种不同的创建方法是有差别的，第一种方式是在常量池中拿对象，第二种方式是直接在堆内存空间创建一个新的对象。
+&lt;strong&gt;只要使用new方法，便需要创建新的对象&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;连接表达式&#34;&gt;连接表达式 +&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;只有使用引号包含文本的方式创建的String对象之间使用“+”连接产生的新对象才会被加入字符串池中。&lt;/br&gt;&lt;/li&gt;
+&lt;li&gt;对于所有包含new方式新建对象（包括null）的“+”连接表达式，它所产生的新对象都不会被加入字符串池中。
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String str1 = &amp;quot;str&amp;quot;;
+String str2 = &amp;quot;ing&amp;quot;;
+
+String str3 = &amp;quot;str&amp;quot; + &amp;quot;ing&amp;quot;;
+String str4 = str1 + str2;
+System.out.println(str3 == str4);//false
+
+String str5 = &amp;quot;string&amp;quot;;
+System.out.println(str3 == str5);//true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/88aa19fc21c6&#34;&gt;java基础：字符串的拼接&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;特例1&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static final String A = &amp;quot;ab&amp;quot;; // 常量A
+public static final String B = &amp;quot;cd&amp;quot;; // 常量B
+public static void main(String[] args) {
+     String s = A + B;  // 将两个常量用+连接对s进行初始化 
+     String t = &amp;quot;abcd&amp;quot;;   
+    if (s == t) {   
+         System.out.println(&amp;quot;s等于t，它们是同一个对象&amp;quot;);   
+     } else {   
+         System.out.println(&amp;quot;s不等于t，它们不是同一个对象&amp;quot;);   
+     }   
+ } 
+结果为:
+s等于t，它们是同一个对象
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A和B都是常量，值是固定的，因此s的值也是固定的，它在类被编译时就已经确定了。也就是说：String s=A+B; 等同于：String s=&amp;ldquo;ab&amp;rdquo;+&amp;ldquo;cd&amp;rdquo;;&lt;/p&gt;
+
+&lt;p&gt;特例2&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static final String A; // 常量A
+public static final String B;    // 常量B
+static {   
+     A = &amp;quot;ab&amp;quot;;   
+     B = &amp;quot;cd&amp;quot;;   
+ }   
+ public static void main(String[] args) {   
+    // 将两个常量用+连接对s进行初始化   
+     String s = A + B;   
+     String t = &amp;quot;abcd&amp;quot;;   
+    if (s == t) {   
+         System.out.println(&amp;quot;s等于t，它们是同一个对象&amp;quot;);   
+     } else {   
+         System.out.println(&amp;quot;s不等于t，它们不是同一个对象&amp;quot;);   
+     }   
+ } 
+ 结果：
+ s不等于t，它们不是同一个对象
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A和B虽然被定义为常量，但是它们都没有马上被赋值。在运算出s的值之前，他们何时被赋值，以及被赋予什么样的值，都是个变数。因此A和B在被赋值之前，性质类似于一个变量。那么s就不能在编译期被确定，而只能在运行时被创建了。&lt;/p&gt;
+
+&lt;h3 id=&#34;string-s1-new-string-xyz&#34;&gt;String s1 = new String(&amp;ldquo;xyz&amp;rdquo;)&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;String s1 = new String(&amp;quot;xyz&amp;quot;);&lt;/code&gt; &lt;strong&gt;创建了几个对象？&lt;/strong&gt;
+考虑类加载阶段和实际执行时。&lt;/br&gt;
+1. 类加载对一个类只会进行一次。&amp;rdquo;xyz&amp;rdquo;在类加载时就已经创建并驻留了（如果该类被加载之前已经有&amp;rdquo;xyz&amp;rdquo;字符串被驻留过则不需要重复创建用于驻留的&amp;rdquo;xyz&amp;rdquo;实例）。驻留的字符串是放在全局共享的字符串常量池中的。&lt;/br&gt;
+2. 在这段代码后续被运行的时候，&amp;rdquo;xyz&amp;rdquo;字面量对应的String实例已经固定了，不会再被重复创建。所以这段代码将常量池中的对象复制一份放到heap中，并且把heap中的这个对象的引用交给s1 持有。
+这条语句创建了2个对象。&lt;/p&gt;
+
+&lt;h3 id=&#34;java-lang-string-intern&#34;&gt;java.lang.String.intern()&lt;/h3&gt;
+
+&lt;p&gt;运行时常量池相对于CLass文件常量池的另外一个重要特征是具备动态性，Java语言并不要求常量一定只有编译期才能产生，也就是并非预置入CLass文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被开发人员利用比较多的就是String类的intern()方法。
+String的intern()方法会查找在常量池中是否存在一份equal相等的字符串,如果有则返回该字符串的引用,如果没有则添加自己的字符串进入常量池。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public static void main(String[] args) {    
+      String s1 = new String(&amp;quot;计算机&amp;quot;);
+      String s2 = s1.intern();
+      String s3 = &amp;quot;计算机&amp;quot;;
+      System.out.println(&amp;quot;s1 == s2? &amp;quot; + (s1 == s2));
+      System.out.println(&amp;quot;s3 == s2? &amp;quot; + (s3 == s2));
+  }
+结果为：
+s1 == s2? false
+s3 == s2? true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;字符串比较更丰富的一个例子&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;
+public class Test {
+ public static void main(String[] args) {   
+      String hello = &amp;quot;Hello&amp;quot;, lo = &amp;quot;lo&amp;quot;;
+      System.out.println((hello == &amp;quot;Hello&amp;quot;) + &amp;quot; &amp;quot;);
+      System.out.println((Other.hello == hello) + &amp;quot; &amp;quot;);
+      System.out.println((other.Other.hello == hello) + &amp;quot; &amp;quot;);
+      System.out.println((hello == (&amp;quot;Hel&amp;quot;+&amp;quot;lo&amp;quot;)) + &amp;quot; &amp;quot;);
+      System.out.println((hello == (&amp;quot;Hel&amp;quot;+lo)) + &amp;quot; &amp;quot;);
+      System.out.println(hello == (&amp;quot;Hel&amp;quot;+lo).intern());
+ }   
+}
+
+class Other { 
+    static String hello = &amp;quot;Hello&amp;quot;; 
+}
+
+package other;
+public class Other { 
+    public static String hello = &amp;quot;Hello&amp;quot;; 
+}
+结果为：
+
+true true true true false true
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;在同包同类下,引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在同包不同类下,引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在不同包不同类下,依然引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在编译成.class时能够识别为同一字符串的,自动优化成常量,引用自同一String对象&lt;/li&gt;
+&lt;li&gt;在运行时创建的字符串具有独立的内存地址,所以不引用自同一String对象&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
       <title>Java中静态代码块、代码块、main()方法和构造函数加载顺序</title>
-      <link>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81main%28%29%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</link>
+      <link>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%BB%A3%E7%A0%81%E5%9D%97main%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</link>
       <pubDate>Mon, 02 Jul 2018 10:38:28 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81main%28%29%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</guid>
-      <description>静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。构造代码块：类中直接用{}定义，每一次创建对象时执行。同一个类中，执行顺序优</description>
+      <guid>https://wangzitao6.github.io/2018-07-02-java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%BB%A3%E7%A0%81%E5%9D%97main%E6%96%B9%E6%B3%95%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/</guid>
+      <description>
+
+&lt;blockquote&gt;
+&lt;p&gt;静态代码块：用staitc声明，jvm加载类时执行，仅执行一次。&lt;/br&gt;
+构造代码块：类中直接用{}定义，每一次创建对象时执行。&lt;/br&gt;
+同一个类中，执行顺序优先级：&lt;strong&gt;静态代码块 &amp;gt; main() &amp;gt; 构造代码块 &amp;gt; 构造函数&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;构造函数&#34;&gt;构造函数&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//构造函数
+public ClassLoadDemo(){
+    System.out.println(&amp;quot;这里是构造函数&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：&lt;/br&gt;
+1. 对象一建立，就会调用与之相应的构造函数，也就是说，不建立对象，构造函数时不会运行的。&lt;/br&gt;
+2. &lt;strong&gt;构造函数的作用是用于给对象进行初始化&lt;/strong&gt;。&lt;/br&gt;
+3. 一个对象建立，构造函数只运行一次，而一般方法可以被该对象调用多次。&lt;/p&gt;
+
+&lt;h2 id=&#34;构造代码块&#34;&gt;构造代码块&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//构造代码块
+{
+    System.out.println(&amp;quot;这里是构造代码块&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：&lt;/br&gt;
+1. &lt;strong&gt;构造代码块的作用是给对象进行初始化&lt;/strong&gt;。&lt;/br&gt;
+2. &lt;strong&gt;对象一建立就运行构造代码块了，而且优先于构造函数执行&lt;/strong&gt;。这里要强调一下，有对象建立，才会运行构造代码块，类不能调用构造代码块的。&lt;/br&gt;
+3. 构造代码块与构造函数的区别是：&lt;strong&gt;构造代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化&lt;/strong&gt;，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，&lt;strong&gt;构造代码块中定义的是不同对象共性的初始化内容，所以构造代码块优先于构造函数执行&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;静态代码块&#34;&gt;静态代码块&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//静态代码块
+public ClassLoadDemo(){
+    System.out.println(&amp;quot;这里是构造函数&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：&lt;/br&gt;
+1. 它是随着类的加载而执行，只执行一次，并优先于主函数。具体说，静态代码块是由类调用的。类调用时，先执行静态代码块，然后才执行主函数的。&lt;/br&gt;
+2. 静态代码块其实就是给类初始化的，而构造代码块是给对象初始化的。&lt;/br&gt;
+3. 静态代码块中的变量是局部变量，与普通函数中的局部变量性质没有区别。&lt;/br&gt;
+4. 一个类中可以有多个静态代码块。&lt;/br&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassLoadDemo {
+    private static int num = 1;
+
+    //静态代码块
+    static{
+        num = num + 6;
+    }
+    //main()
+    public static void main(String[] args) {
+        System.out.println(&amp;quot;num: &amp;quot;+ num);
+    }
+    //静态代码块
+    static{
+        num = num - 5;
+    }
+}
+
+输出结果： num: 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;类初始化顺序&#34;&gt;类初始化顺序&lt;/h2&gt;
+
+&lt;p&gt;demo1:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassA {
+
+    //构造函数
+    public ClassA(){
+        System.out.println(&amp;quot;这里是ClassA构造函数&amp;quot;);
+    }
+    //静态代码块
+    static{
+        System.out.println(&amp;quot;这里是ClassA静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println(&amp;quot;这里是ClassA构造代码块&amp;quot;);
+    }
+    //main()
+    public static void main(String[] args) {
+        
+    }
+}
+
+运行结果: 这里是ClassA静态代码块
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;demo2:对ClassA对象进行初始化。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassA {
+
+    //构造函数
+    public ClassA(){
+        System.out.println(&amp;quot;这里是ClassA构造函数&amp;quot;);
+    }
+    //静态代码块
+    static{
+        System.out.println(&amp;quot;这里是ClassA静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println(&amp;quot;这里是ClassA构造代码块&amp;quot;);
+    }
+    //main()
+    public static void main(String[] args) {
+        ClassA a = new ClassA();
+    }
+}
+
+
+运行结果: 
+这里是ClassA静态代码块
+这里是ClassA构造代码块
+这里是ClassA构造函数
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;demo3:对ClassA对象进行初始化两次。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassA {
+
+    //构造函数
+    public ClassA(){
+        System.out.println(&amp;quot;这里是ClassA构造函数&amp;quot;);
+    }
+    //静态代码块
+    static{
+        System.out.println(&amp;quot;这里是ClassA静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println(&amp;quot;这里是ClassA构造代码块&amp;quot;);
+    }
+    //main()
+    public static void main(String[] args) {
+        ClassA a = new ClassA();
+        ClassA b = new ClassA();
+    }
+}
+
+运行结果：
+这里是ClassA静态代码块
+这里是ClassA构造代码块
+这里是ClassA构造函数
+这里是ClassA构造代码块
+这里是ClassA构造函数
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;对于一个类而言，按照如下顺序执行：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;执行静态代码块&lt;/li&gt;
+&lt;li&gt;执行构造代码块&lt;/li&gt;
+&lt;li&gt;执行构造函数&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;对于静态变量、静态初始化块、变量、初始化块、构造器，它们的初始化顺序依次是（静态变量、静态初始化块）&amp;gt;（变量、初始化块）&amp;gt;构造器。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;demo4: 加入静态变量、静态对ClassA进行初始化&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassA {
+    /* 静态变量 */
+    public static String staticField = &amp;quot;静态变量&amp;quot;;
+    /* 变量 */
+    public String field = &amp;quot;变量&amp;quot;;
+
+    //构造函数
+    public ClassA() {
+        System.out.println(&amp;quot;这里是ClassA构造函数&amp;quot;);
+    }
+
+    //静态代码块
+    static {
+        System.out.println( staticField );
+        System.out.println(&amp;quot;这里是ClassA静态代码块&amp;quot;);
+    }
+
+    //构造代码块
+    {
+        System.out.println( field);
+        System.out.println(&amp;quot;这里是ClassA构造代码块&amp;quot;);
+    }
+
+    //main()
+    public static void main(String[] args) {
+        ClassA a = new ClassA();
+    }
+}
+
+运行结果:
+
+静态变量
+这里是ClassA静态代码块
+变量
+这里是ClassA构造代码块
+这里是ClassA构造函数
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;继承下的类初始化顺序&#34;&gt;继承下的类初始化顺序&lt;/h2&gt;
+
+&lt;p&gt;上面我们说的是单独Class下的加载顺序，下面我们讨论下继承下的加载顺序。&lt;/p&gt;
+
+&lt;p&gt;demo5:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassA {
+
+    //构造函数
+    public ClassA() {
+        System.out.println(&amp;quot;这里是ClassA构造函数&amp;quot;);
+    }
+    //静态代码块
+    static {
+        System.out.println(&amp;quot;这里是ClassA静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println(&amp;quot;这里是ClassA构造代码块&amp;quot;);
+    }
+}
+
+public class ClassB extends ClassA{
+
+    //构造函数
+    public ClassB(){
+        System.out.println(&amp;quot;这里是ClassB构造函数&amp;quot;);
+    }
+    //静态代码块
+    static{
+        System.out.println(&amp;quot;这里是ClassB静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println(&amp;quot;这里是ClassB代码块&amp;quot;);
+    }
+    //main()
+    public static void main(String[] args) {
+        ClassB b = new ClassB();
+    }
+}
+
+运行ClassB结果：
+
+这里是ClassA静态代码块
+这里是ClassB静态代码块
+这里是ClassA构造代码块
+这里是ClassA构造函数
+这里是ClassB代码块
+这里是ClassB构造函数
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：&lt;/br&gt;
+当涉及到继承时，按照如下顺序执行：&lt;/br&gt;
+1. 执行父类的静态代码块，并初始化父类静态成员变量&lt;/br&gt;
+2. 执行子类的静态代码块，并初始化子类静态成员变量&lt;/br&gt;
+3. 执行父类的构造代码块，执行父类的构造函数，并初始化父类普通成员变量&lt;/br&gt;
+4. 执行子类的构造代码块， 执行子类的构造函数，并初始化子类普通成员变量&lt;/p&gt;
+
+&lt;p&gt;Java初始化顺序如图：
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ClassA {
+    /* 静态变量 */
+    public static String p_StaticField = &amp;quot;父类--静态变量&amp;quot;;
+    /* 变量 */
+    public String    p_Field = &amp;quot;父类--变量&amp;quot;;
+    protected int    i    = 9;
+    protected int    j    = 0;
+
+    //构造函数
+    public ClassA() {
+        System.out.println(&amp;quot;这里是父类构造函数&amp;quot;);
+        System.out.println( &amp;quot;i=&amp;quot; + i + &amp;quot;, j=&amp;quot; + j );
+        j = 20;
+    }
+    //静态代码块
+    static {
+        System.out.println( p_StaticField );
+        System.out.println(&amp;quot;这里是父类静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println( p_Field);
+        System.out.println(&amp;quot;这里是父类构造代码块&amp;quot;);
+    }
+}
+
+public class ClassB extends ClassA{
+    /* 静态变量 */
+    public static String s_StaticField = &amp;quot;子类--静态变量&amp;quot;;
+    /* 变量 */
+    public String s_Field = &amp;quot;子类--变量&amp;quot;;
+
+    //构造函数
+    public ClassB(){
+        System.out.println(&amp;quot;这里是子类构造函数&amp;quot;);
+        System.out.println( &amp;quot;i=&amp;quot; + i + &amp;quot;,j=&amp;quot; + j );
+    }
+    //静态代码块
+    static{
+        System.out.println( s_StaticField );
+        System.out.println(&amp;quot;这里是子类静态代码块&amp;quot;);
+    }
+    //构造代码块
+    {
+        System.out.println( s_Field );
+        System.out.println(&amp;quot;这里是子类代码块&amp;quot;);
+    }
+    //main()
+    public static void main(String[] args) {
+        System.out.println( &amp;quot;子类main方法&amp;quot; );
+        ClassB b = new ClassB();
+    }
+}
+
+运行结果：
+父类--静态变量
+这里是父类静态代码块
+子类--静态变量
+这里是子类静态代码块
+子类main方法
+父类--变量
+这里是父类构造代码块
+这里是父类构造函数
+i=9, j=0
+子类--变量
+这里是子类代码块
+这里是子类构造函数
+i=9,j=20
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;子类的静态变量和静态初始化块的初始化是在父类的变量、初始化块和构造器初始化之前就完成了。静态变量、静态初始化块，变量、初始化块初始化了顺序取决于它们在类中出现的先后顺序。&lt;/p&gt;
+
+&lt;h2 id=&#34;分析&#34;&gt;分析&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;运行ClassB.main(),(这是一个static方法)，于是装载器就会为你寻找已经编译的ClassB类的代码（也就是ClassB.class文件）。在装载的过程中，装载器注意到它有一个基类（也就是extends所要表示的意思），于是它再装载基类。不管你创不创建基类对象，这个过程总会发生。如果基类还有基类，那么第二个基类也会被装载，依此类推。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;执行根基类的static初始化，然后是下一个派生类的static初始化，依此类推。这个顺序非常重要，因为派生类的“static初始化”有可能要依赖基类成员的正确初始化。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当所有必要的类都已经装载结束，开始执行main()方法体，并用new ClassB() 创建对象。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;类ClassB存在父类，则调用父类的构造函数，你可以使用super来指定调用哪个构造函数。基类的构造过程以及构造顺序，同派生类的相同。首先基类中各个变量按照字面顺序进行初始化，然后执行基类的构造函数的其余部分。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;对子类成员数据按照它们声明的顺序初始化，执行子类构造函数的其余部分。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
     </item>
     
     <item>
@@ -31,16 +632,365 @@
       <pubDate>Mon, 02 Jul 2018 10:05:16 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-07-02-jvm%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/</guid>
-      <description>什么是类加载 虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，</description>
+      <description>
+
+&lt;h2 id=&#34;什么是类加载&#34;&gt;什么是类加载&lt;/h2&gt;
+
+&lt;p&gt;虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的java类型，这就是虚拟机的类加载机制。&lt;/p&gt;
+
+&lt;h2 id=&#34;类加载的时机&#34;&gt;类加载的时机&lt;/h2&gt;
+
+&lt;p&gt;类从被加载到虚拟内存中开始，到卸载出内存位置，它的生命周期包括：&lt;strong&gt;&lt;font color = &#34;red&#34;&gt; 加载
+（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化
+（Initialization）、使用（Using）和卸载（Unloading）&lt;/font&gt;&lt;/strong&gt;7个阶段。其中验证、准备、解析3
+个部分统称为 &lt;strong&gt;&lt;font color = &#34;red&#34;&gt;连接（Linking）&lt;/font&gt;&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/01/1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;加载&lt;/strong&gt;、&lt;strong&gt;验证&lt;/strong&gt;、&lt;strong&gt;准备&lt;/strong&gt;、&lt;strong&gt;初始化&lt;/strong&gt;和&lt;strong&gt;卸载&lt;/strong&gt;这5个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而&lt;strong&gt;解析阶段&lt;/strong&gt;则不一定：它在某些情况下可以在&lt;strong&gt;初始化阶段&lt;/strong&gt;之后再开始，这是为了支持Java语言的运行时绑定（也称为动态绑定或晚期绑定）。&lt;/p&gt;
+
+&lt;p&gt;什么情况下需要开始类加载过程的第一个阶段：加载？Java虚拟机规范中并没有进行强制约束，这点可以交给虚拟机的具体实现来自由把握。但是对于初始化阶段，虚拟机规范则是严格规定了有且只有5种情况必须立即对类进行“初始化”（而加载、验证、准备自然需要在此之前开始）：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;遇到new、getstatic、putstatic或invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。生成这4条指令的最常见的Java代码场景是：使用new关键字实例化对象的时候、读取或设置一个类的静态字段（被final修饰、已在编译期把结果放入常量池的静态字段除外）的时候，以及调用一个类的静态方法的时候。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用java.lang.reflect包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当虚拟机启动时，用户需要指定一个要执行的主类（包含main（）方法的那个类），虚拟机会先初始化这个主类。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当使用JDK 1.7的动态语言支持时，如果一个java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatic、REF_invokeStatic的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
     </item>
     
     <item>
       <title>HotSpot选项笔记</title>
-      <link>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0/</link>
+      <link>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0</link>
       <pubDate>Tue, 05 Jun 2018 11:05:33 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0/</guid>
-      <description>语法 java [ options ] class [ argument &amp;hellip; ] java [ options ] -jar file.jar [ argument &amp;hellip; ] 标准选项 -d32|-d64 -client|-server 以客户端模式还是服务器模式执行虚拟机。服务器模式的特点是启动速度比较慢，但运行时性能和</description>
+      <guid>https://wangzitao6.github.io/2018-06-05-%E8%99%9A%E6%8B%9F%E6%9C%BAhotspot%E9%80%89%E9%A1%B9%E7%AC%94%E8%AE%B0</guid>
+      <description>
+
+&lt;h2 id=&#34;语法&#34;&gt;语法&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;java [ options ] class [ argument &amp;hellip; ]&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;java [ options ] -jar file.jar [ argument &amp;hellip; ]&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;标准选项&#34;&gt;标准选项&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;-d32|-d64&lt;/strong&gt;
+&lt;/br&gt;
+&lt;strong&gt;-client|-server&lt;/strong&gt;
+&lt;/br&gt;
+ 以客户端模式还是服务器模式执行虚拟机。&lt;/br&gt;
+ 服务器模式的特点是启动速度比较慢，但运行时性能和内存管理效率很高，适用于生产环境。&lt;/br&gt;
+ 对于64位虚拟机而言，服务器模式是默认值，也是唯一支持的模式。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-agentlib:库名[=启动选项]&lt;/strong&gt; &lt;/br&gt;
+&lt;strong&gt;-agentpath:绝对路径[=启动选项]&lt;/strong&gt; &lt;/br&gt;
+ 从指定的路径(必须是绝对路径)/库名称中加载JVMT Tool Interface agent库(还可传递启动选项)。&lt;/br&gt;
+例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-agentlib:foo=opt1,opt2
+-agentpath:/opt/lib/foo.so=opt1,opt2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;-classpath 路径列表&lt;/strong&gt; &lt;/br&gt;
+&lt;strong&gt;-cp 路径列表&lt;/strong&gt; &lt;/br&gt;
+ 指定一个搜索classic文件的目录/JAR/ZIP列表，列表项之间用分号(;)分隔。 &lt;/br&gt;
+ 这里指定的值将会覆盖CLASSPATH环境变量的设置。 &lt;/br&gt;
+ 如果既没有指定 -classpath 也没有设置CLASSPATH环境变量，那么其默认值将是用户的当前目录(.) &lt;/br&gt;
+ 可以用星号(*)作为通配符，表示目录下的所有.jar文件。单独一个星号表示用户的当前目录下的所有.jar文件。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-D属性=值&lt;/strong&gt; &lt;/br&gt;
+ 将系统&amp;rdquo;属性&amp;rdquo;设为&amp;rdquo;值&amp;rdquo;。如果&amp;rdquo;值&amp;rdquo;是一个包含空格的字符串，那么必须用双引号进行界定。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-enableassertions[:包名&amp;rdquo;&amp;hellip;&amp;rdquo; | :类名 ]&lt;/strong&gt; &lt;/br&gt;
+&lt;strong&gt;-ea[:包名&amp;rdquo;&amp;hellip;&amp;rdquo; | :类名 ]&lt;/strong&gt; &lt;/br&gt;
+&lt;strong&gt;-disableassertions[:包名&amp;rdquo;&amp;hellip;&amp;rdquo; | :类名 ]&lt;/strong&gt; &lt;/br&gt;
+&lt;strong&gt;-da[:包名&amp;rdquo;&amp;hellip;&amp;rdquo; | :类名 ]&lt;/strong&gt; &lt;/br&gt;
+ 为指定的包或者类启用/禁止断言，默认值为禁止。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-enablesystemassertions&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-esa&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-disablesystemassertions&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-dsa&lt;/strong&gt;&lt;/br&gt;
+仅对所有的系统类启用/禁止断言&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-jar file.jar&lt;/strong&gt;&lt;/br&gt;
+ 执行封装在file.jar文件内的程序。&lt;/br&gt;
+ 使用此选项后，file.jar文件内必须包含所有的用户class，并且所有-classpath选项都将被忽略。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-javaagent:jar文件[=选项]&lt;/strong&gt;&lt;/br&gt;
+ 指定jvm启动时装入java语言代理。参见：&lt;code&gt;java.lang.instrument&lt;/code&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-jre-restrict-search&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-no-jre-restrict-search&lt;/strong&gt;&lt;/br&gt;
+ 在版本搜索的时候，包含/排除用户私人的JRE&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-verbose&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-verbose:class&lt;/strong&gt;&lt;/br&gt;
+输出jvm载入类的相关信息，当jvm报告说找不到类或者类冲突时可此进行诊断。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-verbose:gc&lt;/strong&gt;&lt;/br&gt;
+输出每次垃圾回收的相关情况。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-verbose:jni&lt;/strong&gt;&lt;/br&gt;
+输出native方法调用的相关情况，一般用于诊断jni调用错误信息。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-version&lt;/strong&gt;&lt;/br&gt;
+输出java的版本信息&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-version:版本信息&lt;/strong&gt;&lt;/br&gt;
+指定class或者jar运行时需要的jdk版本信息；若指定版本未找到，则以能找到的系统默认jdk版本执行；&lt;/br&gt;
+一般情况下，对于jar文件，可以在manifest文件中指定需要的版本信息，而不是在命令行。&lt;/br&gt;
+&amp;ldquo;版本信息&amp;rdquo;中可以指定单个版本，也可以指定一个列表，中间用空格隔开，且支持复杂组合，例如：-version:&amp;ldquo;1.6.0_13 1.6* &amp;amp; 1.6.0_10+&amp;rdquo;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-showversion&lt;/strong&gt;&lt;/br&gt;
+输出java版本信息(与-version相同)之后，继续输出java的标准参数列表及其描述。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-?&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-help&lt;/strong&gt;&lt;/br&gt;
+输出java标准参数列表及其描述。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-X&lt;/strong&gt;&lt;/br&gt;
+输出非标准的参数列表及其描述。&lt;/p&gt;
+
+&lt;h2 id=&#34;非标准选项&#34;&gt;非标准选项&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xint&lt;/strong&gt;&lt;/br&gt;
+仅以解释模式运行虚拟机，全部字节码都以解释方式执行&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xcomp&lt;/strong&gt;&lt;/br&gt;
+仅以编译模式运行虚拟机，优先采用编译方式执行字节码，仅在无法编译的情况下解释器才介入执行&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xmixed&lt;/strong&gt;&lt;/br&gt;
+以混合模式运行虚拟机，对热点代码使用编译器执行，其他代码使用解释器执行。这是默认值。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xbatch&lt;/strong&gt;&lt;/br&gt;
+禁止后台编译。&lt;/br&gt;
+默认情况下，对于尚未编译完成的热点代码，虚拟机会先使用解释方式执行，同时将编译任务放到后台。&lt;/br&gt;
+此选项将会把编译任务放到前台进行，直到编译完成后再继续执行。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xbootclasspath:启动类路径&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-Xbootclasspath/a:路径&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;-Xbootclasspath/p:路径&lt;/strong&gt;&lt;/br&gt;
+指定一个分号(;)分隔的目录/JAR/ZIP列表，在其中搜索boot class&lt;/br&gt;
+此选项用于改变虚拟机自带的系统运行包&amp;rdquo;rt.jar&amp;rdquo;，除非你自己能写一个运行时，否则不会用到该参数。&lt;/br&gt;
+/a:在默认搜索路径后加上path中的搜索路径。&lt;/br&gt;
+/p:在默认搜索路径前加上path中的搜索路径。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xcheck:jni&lt;/strong&gt;&lt;/br&gt;
+调用JNI(Java Native Interface)函数时进行额外的检查，特别地，虚拟机将校验传递给JNI函数参数的合法性。&lt;/br&gt;
+在本地代码中遇到非法数据时，虚拟机将报一个致命错误而终止。使用该参数后将造成性能下降。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xfuture&lt;/strong&gt;&lt;/br&gt;
+对类文件进行严格的格式检查，以保证类代码严格符合新规范。&lt;/br&gt;
+为保持向后兼容1.1.x版本的JDK，虚拟机缺省不进行严格的格式检查。&lt;/br&gt;
+建议明确开启此参数，特别是在开发阶段。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xnoclassgc&lt;/strong&gt;&lt;/br&gt;
+关闭虚拟机对class的垃圾回收功能。很可能会导致OutOfMemoryError异常。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xincgc&lt;/strong&gt;&lt;/br&gt;
+启动增量垃圾收集器(默认关闭)。&lt;/br&gt;
+增量垃圾收集器能减少偶然发生的长时间垃圾回收造成的暂停时间。&lt;/br&gt;
+但增量垃圾收集器和应用程序并发执行，因此会抢占部分应用程序的CPU资源。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xloggc:文件&lt;/strong&gt;&lt;/br&gt;
+将虚拟机每次垃圾回收的信息写到&amp;rdquo;文件&amp;rdquo;中，内容和 -verbose:gc 的输出内容相同，但增加了时间戳。&lt;/br&gt;
+务必指定一个本机文件，以避免因为网络拥堵造成虚拟机停顿。&lt;/br&gt;
+当文件系统被填满后，日志文件会被自动从头截掉(类似日志滚动)，并继续记录。&lt;/br&gt;
+如果同时使用了 -verbose:gc 和本选项，那么 -verbose:gc 将会被忽略。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xms字节数&lt;/strong&gt;&lt;/br&gt;
+设置初始Java heap的大小，可以使用K或M或G后缀。建议和-Xmx设为相同。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xmx字节数&lt;/strong&gt;&lt;/br&gt;
+设置最大Java heap的大小，可以使用K或M或G后缀。建议和-Xms设为相同。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xss字节数&lt;/strong&gt;&lt;/br&gt;
+设置单个java线程的stack大小，可以使用K或M后缀。&lt;/br&gt;
+在64bit平台上默认是1024K，在32bit平台上默认是512K。&lt;/br&gt;
+建议不要设的太大(一般设为256K)，若无特殊情况，512K已经绰绰有余了。&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xprof&lt;/strong&gt;&lt;/br&gt;
+对运行中的程序进行性能分析(profile)，并将结果发送到标准输出。仅用于开发目的，切勿用于生产环境！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;-Xrs&lt;/strong&gt;&lt;/br&gt;
+Shutdown Hook功能允许应用程序在终止前(可能是虚拟机自身被终止所致)执行一些诸如关闭数据库连接之类的清理操作。&lt;/br&gt;
+JVM会注册一个控制台控制句柄(console control handler)，用于捕获要求虚拟机进程终止的控制信号。&lt;/br&gt;
+该句柄会触发shutdown-hook进程，同时对 SIGHUP, SIGINT, SIGTERM, CTRL_LOGOFF_EVENT 信号返回TURE。&lt;/br&gt;
+如果JVM是作为service运行(例如Tomcat)，它可以接受CTRL_LOGOFF_EVENT信号但却不应该终止整个进程。&lt;/br&gt;
+使用该选项之后，JVM将不会注册控制台控制句柄，因此也就不会对上述信号做出响应。&lt;/br&gt;
+使用此选项会造成如下两个后果：&lt;/br&gt;
+(1)Ctrl-Break线程转储功能将不可用&lt;/br&gt;
+(2)应用程序代码必须自己负责触发Shutdown Hook，比如在JVM终止前调用System.exit()方法。&lt;/p&gt;
+
+&lt;h2 id=&#34;不稳定选项&#34;&gt;不稳定选项&lt;/h2&gt;
+
+&lt;p&gt;这些&amp;rdquo;不稳定&amp;rdquo;选项的意思是很容易在没有通知的情况下改变。语法格式如下：&lt;/br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;-XX:+OPT    开启OPT选项 &lt;/br&gt;
+-XX:-OPT    关闭OPT选项 &lt;/br&gt;
+-XX:OPT=VAL 将OPT选项的值设为VAL &lt;/br&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;说明：&amp;rdquo;=&amp;ldquo;后面的内容表示的是此选项的默认值。&lt;/p&gt;
+
+&lt;h3 id=&#34;内存管理参数&#34;&gt;内存管理参数&lt;/h3&gt;
+
+&lt;p&gt;JVM最大总内存 = 线程数*(-Xss) + (-Xmx) + MaxPermSize + MaxDirectMemorySize + ReservedCodeCacheSize　&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DisableExplicitGC = false&lt;/strong&gt;&lt;/br&gt;
+忽略程序中System.gc()方法触发的垃圾收集动作&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MaxDirectMemorySize = -1&lt;/strong&gt;&lt;/br&gt;
+最大直接内存大小，可以使用K或M或G后缀。默认值&amp;rdquo;-1&amp;rdquo;表示使用-Xmx的值。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PermSize = [依赖于物理内存大小]&lt;/strong&gt;&lt;/br&gt;
+永久代区域的初始值，可以使用K或M或G后缀。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MaxPermSize = [依赖于物理内存大小]&lt;/strong&gt;&lt;/br&gt;
+永久代区域的最大值，可以使用K或M或G后缀。&lt;/br&gt;
+一些JSP页面可能需要很大的永久代去存放动态生成与加载的类。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NewRatio = 2&lt;/strong&gt;&lt;/br&gt;
+老年代对新生代的比例。默认值2表示老年代是新生代大小的2倍。&lt;/br&gt;
+如果想要更精细的调整新生代的大小，应该使用下面两个参数：
+&lt;strong&gt;NewSize = [依赖于-Xms,-Xmx的设置]&lt;/strong&gt;&lt;/br&gt;
+新生代大小的初始值(最小值)，可以把这个参数设成与MaxNewSize相同来固定新生代的大小&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MaxNewSize = 无穷大&lt;/strong&gt;&lt;/br&gt;
+新生代大小的最大值(上限)，可以把这个参数设成与NewSize相同来固定新生代的大小&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;SurvivorRatio = 8&lt;/strong&gt;&lt;/br&gt;
+新生代中Eden区域与Survivor区域容量的比值。&lt;/br&gt;
+默认值8表示Eden区的容量是Survivor区的8倍。&lt;/br&gt;
+因为有两个Survivor区，所以Eden:Survivor1:Survivor2=8:1:1&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PretenureSizeThreshold = 0&lt;/strong&gt;&lt;/br&gt;
+直接晋升到老年代的对象大小阈值(无默认值)，大于这个值的对象将直接在老年代内分配&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MaxTenuringThreshold = 15&lt;/strong&gt;&lt;/br&gt;
+晋升到老年代的对象的年龄阈值。&lt;/br&gt;
+对象每坚持过一次Minor GC之后，年龄加1，当超过这个阈值之后，该对象将进入老年代&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseAdaptiveSizePolicy = true&lt;/strong&gt;&lt;/br&gt;
+允许JVM动态调整java堆中老年代、新生代区域的大小以及进入老年代的年龄&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseG1GC = false&lt;/strong&gt;&lt;/br&gt;
+使用G1(Garbage First)垃圾收集器&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;GCTimeRatio = 9&lt;/strong&gt;&lt;/br&gt;
+垃圾回收时间占总运行时间的比率=1/(1+GCTimeRatio)。默认值9表示最大允许1/(1+9)=10%的时间用于GC&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MaxGCPauseMillis = 200&lt;/strong&gt;&lt;/br&gt;
+设置GC最大停顿时间，也就是在垃圾回收时允许正常工作进程最大允许停顿多长时间，单位是毫秒&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;GCPauseIntervalMillis = 201&lt;/strong&gt;&lt;/br&gt;
+设置两次GC之间的时间间隔，也就是每隔多长时间可以接受一次GC停顿 ，单位是毫秒&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseGCOverheadLimit = true&lt;/strong&gt;&lt;/br&gt;
+如果有过多的时间花费在垃圾收集上(超过98%)，就抛OutOfMemoryError异常。&lt;/br&gt;
+这个功能是用来防止堆太小导致程序长时间无法正常工作而设计的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseCompressedOops = false&lt;/strong&gt;&lt;/br&gt;
+指针压缩功能&lt;/p&gt;
+
+&lt;h3 id=&#34;即时编译参数&#34;&gt;即时编译参数&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;BackgroundCompilation = true&lt;/strong&gt;&lt;/br&gt;
+使用后台编译。也就是在将方法编译为本地代码完成之前，先解释执行，而不是暂停执行&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TieredCompilation = false&lt;/strong&gt;&lt;/br&gt;
+启用分层编译策略：C0为解释执行，C1进行可靠优化编译，C2进行激进优化编译。&lt;/br&gt;
+分层编译可以逐步优化代码，以使最终运行速度更快，且降低C2编译时对执行速度的影响，建议开启。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;InitialCodeCacheSize = 4M&lt;/strong&gt;&lt;/br&gt;
+即时编译器编译的代码缓存的初始值，可以使用K或M或G后缀。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ReservedCodeCacheSize = 48M&lt;/strong&gt;&lt;/br&gt;
+即时编译器编译的代码缓存的最大值，可以使用K或M或G后缀。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CompileThreshold = 10000&lt;/strong&gt;&lt;/br&gt;
+触发即时编译的阈值。&lt;/br&gt;
+当调用计数器(用于函数)或者回边计数器(用于代码块)超过此值时，将被编译为机器码&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;InterpreterProfilePercentage = 33&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;OnStackReplacePercentage = 140&lt;/strong&gt;&lt;/br&gt;
+用于计算回边计数器阈值的两个参数，当计算结果大于CompileThreshold时，代码块所在的函数将被编译为机器码。&lt;/p&gt;
+
+&lt;p&gt;回边计数器阈值=CompileThreshold*(OnStackReplacePercentage-&lt;strong&gt;InterpreterProfilePercentage)/100&lt;/strong&gt;&lt;/br&gt;
+&lt;strong&gt;UseCounterDecay = true&lt;/strong&gt;&lt;/br&gt;
+对方法调用计数器使用热度衰减算法。&lt;/br&gt;
+建议关闭热度衰减算法，这样，只要运行时间足够长，绝大部分方法都将被编译成本地代码&lt;/p&gt;
+
+&lt;h3 id=&#34;类型加载参数&#34;&gt;类型加载参数&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;UseSplitVerifier = true&lt;/strong&gt;&lt;/br&gt;
+使用新的Class类型校验器(依赖StackMapTable信息的类型检查)，以加快字节码校验速度，建议启用。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;FailOverToOldVerifier = true&lt;/strong&gt;&lt;/br&gt;
+当类型校验失败时，回到老的类型推导校验方式进行校验。建议关闭。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;RelaxAccessControlCheck = false&lt;/strong&gt;&lt;/br&gt;
+在校验阶段放松对类型访问性的限制。建议关闭。&lt;/br&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;多线程相关参数&#34;&gt;多线程相关参数&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;UseBiasedLocking = true&lt;/strong&gt;&lt;/br&gt;
+使用偏向锁，它通过消除资源无竞争情况下的同步原语，进一步提高了程序的运行性能。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseSpinning = false&lt;/strong&gt;&lt;/br&gt;
+使用自旋锁以避免线程频繁的挂起和唤醒，建议开启&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PreBlockSpin = 10&lt;/strong&gt;&lt;/br&gt;
+在挂起线程前，使用自旋锁时的最大自旋次数，超过这个次数后，线程将被挂起&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseThreadPriorities = true&lt;/strong&gt;&lt;/br&gt;
+使用线程优先级&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseFastAccessorMethods = true&lt;/strong&gt;&lt;/br&gt;
+当频繁反射执行某个方法时，编译成字节码来加快反射的执行速度&lt;/p&gt;
+
+&lt;h3 id=&#34;性能参数&#34;&gt;性能参数&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;AggressiveOpts = false&lt;/strong&gt;&lt;/br&gt;
+使用比较激进的优化特性，这些特性具有双重影响，并不一定能够加速应用的执行&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;UseLargePages = false&lt;/strong&gt;&lt;/br&gt;
+使用大的内存页，需要操作系统内核的支持。在大内存的机器上建议开启&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;LargePageSizeInBytes = 0&lt;/strong&gt;&lt;/br&gt;
+设置堆内存的内存页大小，一般是4M，需要操作系统内核的支持&lt;/p&gt;
+
+&lt;h3 id=&#34;调试参数&#34;&gt;调试参数&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;PrintCommandLineFlags = false&lt;/strong&gt;&lt;/br&gt;
+打印当前启用的非稳态选项&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PrintFlagsFinal = false&lt;/strong&gt;&lt;/br&gt;
+输出所有不稳定选项的名称及其当前值&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PrintGCTimeStamps = false&lt;/strong&gt;&lt;/br&gt;
+打印每次回收开始时间的时间戳，对于查看垃圾回收频率非常有用。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ErrorFile =&lt;/strong&gt;&lt;/br&gt;
+如果JVM崩溃，则将错误日志输出到指定的文件路径。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;HeapDumpPath =&lt;/strong&gt;&lt;/br&gt;
+当java进程因OutOfMemory或crash被OS强制终止后，生成一个Heap Profling格式的堆内存快照文件。&lt;/p&gt;
+
+&lt;p&gt;转载自:
+&lt;a href=&#34;http://www.jinbuguo.com/&#34;&gt;金步国作品集&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

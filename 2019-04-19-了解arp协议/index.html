@@ -1,747 +1,232 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
-    <meta name="baidu-site-verification" content="LRrmH41lz7" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <meta property="og:site_name" content="王子滔的学习笔记">
-    <meta property="og:type" content="article">
-
-    
-    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
-    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
-    
-
-    
-    <meta name="title" content="了解ARP协议" />
-    <meta property="og:title" content="了解ARP协议" />
-    <meta property="twitter:title" content="了解ARP协议" />
-    
-
-    
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
-    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    
-
-    
-    <meta property="twitter:card" content="summary" />
-    
-    
-
-    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <title>了解ARP协议</title>
-
-    <link rel="canonical" href="/2019-04-19-%e4%ba%86%e8%a7%a3arp%e5%8d%8f%e8%ae%ae/">
-
-    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
-	
-    
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
-    
-    <link rel="stylesheet" href="/css/syntax.css">
-
-    
-    <link rel="stylesheet" href="/css/zanshang.css">
-
-    
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    
-    <script src="/js/jquery.min.js"></script>
-    
-    
-    <script src="/js/bootstrap.min.js"></script>
-    
-    
-    <script src="/js/hux-blog.min.js"></script>
-	
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
-
-
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
-        </div>
-
-        
-        
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/build">build</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/elk">elk</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/java">java</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/jvm">jvm</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/net">net</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/other">other</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/sql">sql</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
-                    </li>
-                    
-
-		    
-                        <li><a href="/top/about/">ABOUT</a></li>
-                    
-
-                    
-		    <li>
-                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
-		    </li>
-                    
-                </ul>
-            </div>
-        </div>
-        
-    </div>
-    
-</nav>
-<script>
-    
-    
-    
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        
-            $navbar.className = " ";
-            
-            setTimeout(function(){
-                
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
 
 
 
-
-<style type="text/css">
-    header.intro-header {
-        background-image: url('/images/1.jpg')
-    }
-</style>
-<header class="intro-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
-                        </a>
-                        
-                    </div>
-                    <h1>了解ARP协议</h1>
-                    <h2 class="subheading">了解ARP协议</h2>
-                    <span class="meta">
-			Posted by
-			
-			    WangZiTao
-			
-			on
-			Friday, April 19, 2019
-                        
-                            <span id="/2019-04-19-了解arp协议/" class="leancloud_visitors meta_data_item" data-flag-title="">
-    <span class="post-meta-item-icon">
-      <span class="octicon octicon-eye"></span> 
-    </span>
-    <i class="fa fa-eye"></i>
-    <span class="old-visitors-count" style="display: none;"></span>
-    <span class="leancloud-visitors-count"></span>
-</span>
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
 
 
-
-<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-
-<script>
-	AV.initialize("", "");
-</script>
-
-<script type="text/javascript">
-function showTime(Counter) {
-    var query = new AV.Query(Counter);
-    var entries = [];
-    var $visitors = $(".leancloud_visitors");
-
-    $visitors.each(function() {
-        entries.push($(this).attr("id").trim());
-    });
-
-    query.containedIn('url', entries);
-    query.find()
-        .done(function(results) {
-            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-
-            
-            
-            
-            
-
-            for (var i = 0; i < results.length; i++) {
-                var item = results[i];
-                var url = item.get('url');
-                var time = item.get('time');
-                var element = document.getElementById(url);
-
-                $(element).find(COUNT_CONTAINER_REF).text(time);
-            }
-            for (var i = 0; i < entries.length; i++) {
-                var url = entries[i];
-                var element = document.getElementById(url);
-                var countSpan = $(element).find(COUNT_CONTAINER_REF);
-                if (countSpan.text() == '') {
-                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
-                    if(oldCountSpan!=''){
-                        countSpan.text(0+parseInt(oldCountSpan));
-                    }else{
-                        countSpan.text(0);          
-                    }
-                }
-            }
-        })
-        .fail(function(object, error) {
-            console.log("Error: " + error.code + " " + error.message);
-        });
-}
-
-function addCount(Counter) {
-    var $visitors = $(".leancloud_visitors");
-    var url = $visitors.attr('id').trim();
-    var title = $visitors.attr('data-flag-title').trim();
-    var query = new AV.Query(Counter);
-
-    query.equalTo("url", url);
-    query.find({
-        success: function(results) {
-            if (results.length > 0) {
-                var counter = results[0];
-                counter.fetchWhenSave(true);
-                counter.increment("time");
-                counter.save(null, {
-                    success: function(counter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
-                    },
-                    error: function(counter, error) {
-                        console.log('Failed to save Visitor num, with error message: ' + error.message);
-                    }
-                });
-            } else {
-                var newcounter = new Counter();
-                 
-                var acl = new AV.ACL();
-                acl.setPublicReadAccess(true);
-                acl.setPublicWriteAccess(true);
-                newcounter.setACL(acl);
-                 
-                newcounter.set("title", title);
-                newcounter.set("url", url);
-                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-                var $element = $(document.getElementById(url));
-                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
-                if(oldCountSpan!=''){
-                    newcounter.set("time", parseInt(oldCountSpan)+1);
-                }else{
- 	                    newcounter.set("time",  1);
-                }
-                newcounter.save(null, {
-                    success: function(newcounter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-                    },
-                    error: function(newcounter, error) {
-                        console.log('Failed to create');
-                    }
-                });
-            }
-        },
-        error: function(error) {
-            console.log('Error:' + error.code + " " + error.message);
-        }
-    });
-}
-$(function() {
-    var Counter = AV.Object.extend("Counter");
-    
-    
-    if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-    } else {
-        showTime(Counter);
-    }
-});
-</script>
-
-                        
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
 </header>
 
 
 
+<main class="content" role="main">
 
-<article>
-    <div class="container">
-        <div class="row">
 
-            
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
 
-                
-                <header>
-                    <h2>目录</h2>
-                </header>
-                <nav id="TableOfContents">
-  <ul>
-    <li><a href="#mac地址">MAC地址</a></li>
-    <li><a href="#arp地址解析协议">ARP：地址解析协议</a>
-      <ul>
-        <li><a href="#在同一局域网中">在同一局域网中</a></li>
-        <li><a href="#在不同局域网中">在不同局域网中</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-                
-                <h2 id="mac地址">MAC地址</h2>
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">了解ARP协议</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-04-19T13:50:49&#43;08:00">
+            Apr 19, 2019
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/">#网络</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="mac地址">MAC地址</h2>
+
 <p>什么是MAC地址？MAC地址与IP有什么区别？
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/6.png" alt=""></p>
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/6.png" alt="" /></p>
+
 <p>大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？
 知乎回答:<a href="https://www.zhihu.com/question/21546408">https://www.zhihu.com/question/21546408</a></p>
+
 <p>互联网是范围概念；以太网是技术概念。</p>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/7.png" alt=""></p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/7.png" alt="" /></p>
+
 <p>　Ethernet物理地址长度为48位，通常表示为12个16进制数，每2个16进制数之间用冒号隔开，如：08:00:20:0A:8C:6D就是一个MAC地址，其中前6位16进制数08:00:20代表网络硬件制造商的编号，它由IEEE（电气与电子工程师协会）分配。理论上存在物理地址为2^48个，但是第32位为组播标识位，必须为0，因此允许分配的物理地址为2^47个，即140737488355328个！
 　　所以2^48=281474976710656是错误的！
 　　标准为2^47=140737488355328个。
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/8.png" alt=""></p>
-<h2 id="arp地址解析协议">ARP：地址解析协议</h2>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/9.png" alt=""></p>
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/8.png" alt="" /></p>
+
+<h2 id="arp-地址解析协议">ARP：地址解析协议</h2>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/9.png" alt="" /></p>
+
 <h3 id="在同一局域网中">在同一局域网中</h3>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/10.png" alt=""></p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/10.png" alt="" /></p>
+
 <p>用ping说明ARP工作的原理
 假设我们的计算机IP地址是192.168.1.1，要执行这个命令：ping192.168.1.2。该命令会通过ICMP协议发送ICMP(以太网控制报文协议)数据包
 该过程需要经过下面的步骤：</p>
-<pre><code class="language-java　　" data-lang="java　　">1&gt; 应用程序构造数据包，该示例是产生ICMP包，被提交给内核（网络驱动程序）； 　　
+
+<pre><code class="language-java">1&gt; 应用程序构造数据包，该示例是产生ICMP包，被提交给内核（网络驱动程序）； 　　
 2&gt; 内核检查是否能够转化该IP地址为MAC地址，也就是在本地的ARP缓存中查看IP-MAC对应表;
 3&gt; 如果存在该IP-MAC对应关系，那么跳到步骤&lt;7；如果不存在该IP-MAC对应关系，那么接续下面的步骤;
 4&gt; 内核进行ARP广播，目的MAC地址是FF-FF-FF-FF-FF-FF，ARP命令类型为REQUEST（1），其中包含有自己的MAC地址； 　　
 5&gt; 当192.168.1.2主机接收到该ARP请求后，就发送一个ARP的REPLY（2）命令，其中包含自己的MAC地址； 　　
 6&gt; 本地获得192.168.1.2主机的IP-MAC地址对应关系，并保存到ARP缓存中； 　　
 7&gt; 内核将把IP转化为MAC地址，然后封装在以太网头结构中，再把数据发送出去；
-</code></pre><h3 id="在不同局域网中">在不同局域网中</h3>
+</code></pre>
+
+<h3 id="在不同局域网中">在不同局域网中</h3>
+
 <p>寻址：从一个LAN路由至另一个LAN</p>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/11.png" alt=""></p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/11.png" alt="" /></p>
+
 <p>step 1:</p>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/12.png" alt=""></p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/12.png" alt="" /></p>
+
 <p>step 2:
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/13.png" alt=""></p>
-<p>如果左侧是内网，右侧是互联网的话，可能要更改源IP地址；<!-- raw HTML omitted -->
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/13.png" alt="" /></p>
+
+<p>如果左侧是内网，右侧是互联网的话，可能要更改源IP地址；</br>
 如果左侧是互联网，右侧是内网，可能要更改目的IP地址；</p>
+
 <p>step 3:
-<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/14.png" alt=""></p>
+<img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/14.png" alt="" /></p>
+
 <p>如果所要找的目标设备和源主机不在同一个局域网上。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">1<span style="color:#f92672">&gt;</span>此时主机A就无法解析出主机B的硬件地址<span style="color:#960050;background-color:#1e0010">（</span>实际上主机A也不需要知道远程主机B的硬件地址<span style="color:#960050;background-color:#1e0010">）</span><span style="color:#f92672">;</span>
-2<span style="color:#f92672">&gt;</span>此时主机A需要的是将路由器R1的IP地址解析出来<span style="color:#960050;background-color:#1e0010">，</span>然后将该IP数据报发送给路由器R1<span style="color:#f92672">.</span>
-3<span style="color:#f92672">&gt;</span>R1从路由表中找出下一跳路由器R2<span style="color:#960050;background-color:#1e0010">，</span>同时使用ARP解析出R2的硬件地址<span style="color:#960050;background-color:#1e0010">。</span>于是IP数据报按照路由器R2的硬件地址转发到路由器R2<span style="color:#960050;background-color:#1e0010">。</span>
-4<span style="color:#f92672">&gt;</span>路由器R2在转发这个IP数据报时用类似方法解析出目的主机B的硬件地址<span style="color:#960050;background-color:#1e0010">，</span>使IP数据报最终交付给主机B<span style="color:#f92672">.</span>
-</code></pre></div><p>说明：<!-- raw HTML omitted -->
+
+<pre><code class="language-java">1&gt;此时主机A就无法解析出主机B的硬件地址（实际上主机A也不需要知道远程主机B的硬件地址）;
+2&gt;此时主机A需要的是将路由器R1的IP地址解析出来，然后将该IP数据报发送给路由器R1.
+3&gt;R1从路由表中找出下一跳路由器R2，同时使用ARP解析出R2的硬件地址。于是IP数据报按照路由器R2的硬件地址转发到路由器R2。
+4&gt;路由器R2在转发这个IP数据报时用类似方法解析出目的主机B的硬件地址，使IP数据报最终交付给主机B.
+</code></pre>
+
+<p>说明：</br>
 如果你的数据包是发送到不同网段的目的地，那么就一定存在一条网关的IP-MAC地址对应的记录。知道了ARP协议的作用，就能够很清楚地知道，数据包的向外传输很依靠ARP协议，当然，也就是依赖ARP缓存。要知道，ARP协议的所有操作都是内核自动完成的，同其他的应用程序没有任何关系。同时需要注意的是，ARP协议只使用于本网络。</p>
 
-
-                
-
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2019-04-19-tcpip%e5%8d%8f%e8%ae%ae%e4%b8%8esocket%e5%8c%ba%e5%88%ab/" data-toggle="tooltip" data-placement="top" title="tcpip协议与socket区别">&larr;
-                            上一篇</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/2019-01-19-http%e5%8d%8f%e8%ae%ae%e6%97%a0%e7%8a%b6%e6%80%81%e4%b8%ad%e7%9a%84%e7%8a%b6%e6%80%81%e5%88%b0%e5%ba%95%e6%8c%87%e7%9a%84%e6%98%af%e4%bb%80%e4%b9%88/" data-toggle="tooltip" data-placement="top" title="http协议无状态中的状态到底指的是什么">下一篇 &rarr;</a>
-                    </li>
-                    
-                </ul>
-
-                
-
-<div id="git-comments"></div>
+    </section>
 
 
-<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
-<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+  <footer class="post-footer">
 
 
+    
+
+
+
+
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=%e4%ba%86%e8%a7%a3ARP%e5%8d%8f%e8%ae%ae&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-%25E4%25BA%2586%25E8%25A7%25A3arp%25E5%258D%258F%25E8%25AE%25AE%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-%25E4%25BA%2586%25E8%25A7%25A3arp%25E5%258D%258F%25E8%25AE%25AE%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-%25E4%25BA%2586%25E8%25A7%25A3arp%25E5%258D%258F%25E8%25AE%25AE%2f&amp;description=%e4%ba%86%e8%a7%a3ARP%e5%8d%8f%e8%ae%ae"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2019-04-19-%25E4%25BA%2586%25E8%25A7%25A3arp%25E5%258D%258F%25E8%25AE%25AE%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
 <script>
-  var gitment = new Gitment({
-    id: '了解ARP协议', 
-    title: '了解ARP协议',
-    owner: 'wangzitao6',
-    repo: 'wangzitao6.github.io',
-    oauth: {
-      client_id: 'a09fff4950f8823cd23b',
-      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
-    }
-  })
-  gitment.render('git-comments')
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
 </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
 
-            </div>
-            
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
 
-                
-                
-                <section>
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                        
-                        
-                        <a href="/tags/blog" title="blog">
-                            blog
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/elk" title="elk">
-                            elk
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/git" title="git">
-                            git
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/java" title="java">
-                            java
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/juc" title="juc">
-                            juc
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/jvm" title="jvm">
-                            jvm
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/mysql" title="mysql">
-                            mysql
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
-                            sql注入
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                            其他
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
-                            基础
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
-                            性能
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
-                            正则
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
-                            死锁
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
-                            端口转发
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
-                            设计模式
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
-                            配置
-                        </a>
-                        
-                        
-                    </div>
-                </section>
-                
 
-                
-                
-                <section>
-                    <hr>
-                    <h5>FRIENDS</h5>
-                    <ul class="list-inline">
-                        
-                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
-                        
-                    </ul>
-                </section>
-                
-            </div>
-        </div>
-    </div>
+
+
+
+  </footer>
 </article>
 
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/">
+          <section class="post">
+              <h2>http协议无状态中的状态到底指的是什么</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/">
+          <section class="post">
+              <h2>tcpip协议与socket区别</h2>
+          </section>
+      </a>
+  
+</aside>
 
 
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                   
-                    
-                    <li>
-                        <a href="mailto:wang_zitao@foxmail.com">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-
-                    
-                    
-                    
-
-                    
-
-		    
-                    
-                    <li>
-                        <a target="_blank" href="/images/qrcode.jpg">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    <li>
-                        <a target="_blank" href="https://github.com/wangzitao6">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    
-                </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2021
-                    <br>
-                </p>
-            </div>
-        </div>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
     </div>
-</footer>
-
-
-
-
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-
-
-
-
-
-<script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     
-    if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-
-<script>
-    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https'){
-       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-      }
-      else{
-      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-      }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
-
-
-
-
-<script>
-    
-    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
-
-    
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135479251-2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-135479251-2');
-</script>
-
-
 </body>
 </html>
+

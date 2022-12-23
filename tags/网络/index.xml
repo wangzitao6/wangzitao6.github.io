@@ -1,19 +1,209 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>网络 on 王子滔的学习笔记</title>
-    <link>https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/</link>
+    <link>https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/index.xml</link>
     <description>Recent content in 网络 on 王子滔的学习笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Sep 2019 15:06:02 +0800</lastBuildDate><atom:link href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://wangzitao6.github.io/tags/%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>mqtt</title>
+      <link>https://wangzitao6.github.io/2021-06-15-mqtt/</link>
+      <pubDate>Tue, 15 Jun 2021 15:35:35 +0800</pubDate>
+      
+      <guid>https://wangzitao6.github.io/2021-06-15-mqtt/</guid>
+      <description>&lt;p&gt;MQTT（Message Queuing Telemetry Transport，消息队列遥测传输协议），是一种基于发布/订阅（publish/subscribe）模式的轻量级协议，该协议构建于TCP/IP协议之上，MQTT最大优点在于，可以以极少的代码和有限的带宽，为连接远程设备提供实时可靠的消息服务。
+作为一种低开销、低带宽占用的即时通讯协议，使其在物联网、小型设备、移动应用等方面有较广泛的应用。&lt;/p&gt;
+
+&lt;p&gt;MQTT是一个基于客户端-服务器的消息发布/订阅传输协议。MQTT协议是轻量、简单、开放和易于实现的，这些特点使它适用范围非常广泛。在很多情况下，包括受限的环境中，
+如：机器与机器（M2M）通信和物联网（IoT）。其在，通过卫星链路通信传感器、偶尔拨号的医疗设备、智能家居、及一些小型化设备中已广泛使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;固定报头
+7654    四个bit   16位数字 消息类型
+3       一个bit    重发
+21      两个bit    qos类型 0至多一次 1至少一次  2有且只有一次
+0       一个bit    是否保留消息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第二个字节，最高最 0没有下一次字节，1还有下一个字节，最多只有五个字节&lt;/p&gt;
+
+&lt;p&gt;特性：
+MQTT协议工作在低带宽、不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;（1）使用发布/订阅消息模式，提供一对多的消息发布，解除应用程序耦合。
+（2）对负载内容屏蔽的消息传输。
+（3）使用TCP/IP提供网络连接。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;主流的MQTT是基于TCP连接进行数据推送的，但是同样有基于UDP的版本，叫做MQTT-SN。这两种版本由于基于不同的连接方式，优缺点自然也就各有不同了。&lt;/p&gt;
+
+&lt;p&gt;（4）有三种消息发布服务质量：&lt;/p&gt;
+
+&lt;p&gt;“至多一次”，消息发布完全依赖底层TCP/IP网络。会发生消息丢失或重复。这一级别可用于如下情况，环境传感器数据，丢失一次读记录无所谓，因为不久后还会有第二次发送。这一种方式主要普通APP的推送，倘若你的智能设备在消息推送时未联网，推送过去没收到，再次联网也就收不到了。&lt;/p&gt;
+
+&lt;p&gt;“至少一次”，确保消息到达，但消息重复可能会发生。&lt;/p&gt;
+
+&lt;p&gt;“只有一次”，确保消息到达一次。在一些要求比较严格的计费系统中，可以使用此级别。在计费系统中，消息重复或丢失会导致不正确的结果。这种最高质量的消息发布服务还可以用于即时通讯类的APP的推送，确保用户收到且只会收到一次。&lt;/p&gt;
+
+&lt;p&gt;（5）小型传输，开销很小（固定长度的头部是2字节），协议交换最小化，以降低网络流量。&lt;/p&gt;
+
+&lt;p&gt;这就是为什么在介绍里说它非常适合“在物联网领域，传感器与服务器的通信，信息的收集”，要知道嵌入式设备的运算能力和带宽都相对薄弱，使用这种协议来传递消息再适合不过了。&lt;/p&gt;
+
+&lt;p&gt;实现方式:&lt;/p&gt;
+
+&lt;p&gt;实现MQTT协议需要客户端和服务器端通讯完成，在通讯过程中，MQTT协议中有三种身份：发布者（Publish）、代理（Broker）（服务器）、订阅者（Subscribe）。其中，消息的发布者和订阅者都是客户端，消息代理是服务器，消息发布者可以同时是订阅者。&lt;/p&gt;
+
+&lt;p&gt;MQTT传输的消息分为：主题（Topic）和负载（payload）两部分：&lt;/p&gt;
+
+&lt;p&gt;（1）Topic，可以理解为消息的类型，订阅者订阅（Subscribe）后，就会收到该主题的消息内容（payload）；&lt;/p&gt;
+
+&lt;p&gt;（2）payload，可以理解为消息的内容，是指订阅者具体要使用的内容。&lt;/p&gt;
+</description>
+    </item>
+    
     <item>
       <title>http报文解析</title>
       <link>https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Wed, 18 Sep 2019 15:06:02 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-09-15-http%E6%8A%A5%E6%96%87%E8%A7%A3%E6%9E%90/</guid>
-      <description>General Request URL:请求的URL地址 Request Method: 请求方法，get/post/put/…… Status Code：状态码，200 为请求成功 Remote Address：路由地址 注： x-forwarded-for</description>
+      <description>
+
+&lt;h2 id=&#34;general&#34;&gt;General&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;Request URL:请求的URL地址
+Request Method: 请求方法，get/post/put/……
+Status Code：状态码，200 为请求成功
+Remote Address：路由地址
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注：
+&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;x-forwarded-for&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;针对这个，去了解了下，总结下其他人的经验：
+当你使用了代理时，web服务器就不知道你的真实IP了，为了避免这个情况，代理服务器通常会增加一个叫做x_forwarded_for的头信息，把连接它的客户端IP（即你的上网机器IP）加到这个头信息里，这样就能保证网站的web服务器能获取到真实IP，
+X-Forwarded-For 是一个扩展头。HTTP/1.1（RFC 2616）协议并没有对它的定义，它最开始是由 Squid 这个缓存代理软件引入，用来表示 HTTP 请求端真实 IP，现在已经成为事实上的标准，被各大 HTTP 代理、负载均衡等转发服务广泛使用，并被写入 RFC 7239 （Forwarded HTTP Extension）标准之中。&lt;/p&gt;
+
+&lt;p&gt;X-Forwarded-For 请求头格式非常简单，就这样：&lt;code&gt;X-Forwarded-For: client, proxy1, proxy2&lt;/code&gt;
+可以看到，XFF 的内容由「英文逗号 + 空格」隔开的多个部分组成，最开始的是离服务端最远的设备 IP，然后是每一级代理设备的 IP。&lt;/p&gt;
+
+&lt;p&gt;如果一个 HTTP 请求到达服务器之前，经过了三个代理 Proxy1、Proxy2、Proxy3，IP 分别为 IP1、IP2、IP3，用户真实 IP 为 IP0，那么按照 XFF 标准，服务端最终会收到以下信息：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;X-Forwarded-For: IP0, IP1, IP2&lt;/code&gt;
+总结是：&lt;strong&gt;在使用nginx等反向代理服务器的时候，是必须使用X-Forward-For来获取用户IP地址的（此时Remote Address是nginx的地址），因为此时X-Forward-For中的地址是由nginx写入的，而nginx是可信任的。不过此时要注意，要禁止web对外提供服务。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;font color = &#34;red&#34;&gt;Remote Address&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Remote Address代表的是当前HTTP请求的远程地址，即HTTP请求的源地址。HTTP协议在三次握手时使用的就是这个Remote Address地址，在发送响应报文时也是使用这个Remote Address地址。因此，如果请求者伪造Remote Address地址，他将无法收到HTTP的响应报文，
+此时伪造没有任何意义。这也就使得Remote Address默认具有防篡改的功能。如果Http请求经过代理服务器转发，则这种情况，用户的真实ip会丢失，所以才有了 “X-Forwarded-For”的方式。&lt;/p&gt;
+
+&lt;h2 id=&#34;response-headers&#34;&gt;Response Headers&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;1）Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。
+2）Accept-Ranges：WEB服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。
+3） Cache-Control：服务器应遵循的缓存机制。
+        public(可以用 Cached 内容回应任何用户)
+        private（只能用缓存内容回应先前请求该内容的那个用户）
+        no-cache（可以缓存，但是只有在跟WEB服务器验证了其有效后，才能返回给客户端） 
+        max-age：（本响应包含的对象的过期时间）  
+        ALL:  no-store（不允许缓存）  
+4） Connection： 是否需要持久连接
+        close（连接已经关闭）。
+        keepalive（连接保持着，在等待本次连接的后续请求）。
+        Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300
+5）Content-Encoding：WEB服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。 例如：Content-Encoding：gzip 
+6）Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。
+7）Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length: 26012
+8）Content-Range：WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022
+9）Content-Type：WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml
+10）Expired：WEB服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟WEB服务器验证了其有效性后，才能用来响应客户请求。
+11）Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。
+12）Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部指定的位置去取。
+13）Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。
+14）Server: WEB 服务器表明自己是什么软件及版本等信息。
+15）Refresh：表示浏览器应该在多少时间之后刷新文档，以秒计。
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;request-headers&#34;&gt;Request Headers&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/18/3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;1）Accept：  告诉WEB服务器自己接受什么介质类型，&#39;*/*&#39; 表示任何类型，type &#39;/*&#39; 表示该类型下的所有子类型；
+2）Accept-Charset：  浏览器申明自己接收的字符集
+3）Accept-Encoding：浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法  （gzip，deflate）
+4）Accept-Language：  浏览器申明自己接收的语言。语言跟字符集的区别：中文是语言，中文有多种字符集，比如big5，gb2312，gbk等等。
+5）Authorization： 包含了客户端提供给服务器，以便对其自身进行认证的数据。
+6）Connection：表示是否需要持久连接。close（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，断开连接，
+不要等待本次连接的后续请求了）。keep-alive（告诉WEB服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。
+7）Content-Length：请求的内容长度。
+8）Connection-Type： 表示具体请求中的媒体类型信息。
+9）Referer：发送请求页面URL。浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。
+10）User-Agent: 浏览器表明自己的身份（是哪种浏览器）。
+11）Host：指定请求的服务器的域名和端口号。
+12）Origin：存在于请求中，用于指明当前请求来自于哪个站点。
+13）Cache-Control：浏览器应遵循的缓存机制。
+        no-cache（不要缓存的实体，要求现在从WEB服务器去取）
+        max-age：（只接受 Age 值小于 max-age 值，并且没有过期的对象） 
+        max-stale：（可以接受过去的对象，但是过期时间必须小于 max-stale 值）  
+        min-fresh：（接受其新鲜生命期大于其当前 Age 跟 min-fresh 值之和的缓存对象）
+14）Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。
+15）Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。
+16）Form：一种请求头标，给定控制用户代理的人工用户的电子邮件地址。
+17）Cookie：这是最重要的请求头信息之一。
+18）Sec-Fetch-Mode：代表請求的模式。主要有 cors、navigate、nested-navigate、no-cors 等等。
+        來判断这个请求是什么，类似 fetch 当中 mode。
+        像是 Set-Fetch-User 我们也可以知道使用者是否是投过操作（例如点击、键盘等等）來发出請求的
+19）Sec-Fetch-Site：代表请求的来源是同源还是跨域。
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Content-Type&lt;/strong&gt;
+ 常见的媒体格式类型如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;text/html ： HTML格式
+text/plain ：纯文本格式     
+text/xml ：  XML格式
+image/gif ：gif图片格式   
+image/jpeg ：jpg图片格式
+image/png：png图片格式
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以application开头的媒体格式类型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;application/xhtml+xml ：XHTML格式
+application/xml     ： XML数据格式
+application/atom+xml  ：Atom XML聚合格式   
+application/json    ： JSON数据格式
+application/pdf       ：pdf格式 
+application/msword  ： Word文档格式
+application/octet-stream ： 二进制流数据（如常见的文件下载）
+application/x-www-form-urlencoded ： &amp;lt;form encType=””&amp;gt;中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另外一种常见的媒体格式是上传文件之时使用的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上就是我们在日常的开发中，经常会用到的若干content-type的内容格式。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/eba76cfc0424&#34;&gt;HTTP首部Connection实践&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://www.cnblogs.com/jimcsharp/p/8043410.html&#34;&gt;Http请求中Content-Type讲解以及在Spring MVC中的应用&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://blog.kalan.dev/fetch-metadata-request-headers/&#34;&gt;更安全的請求標頭 - Fetch Metadata Request Headers&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://juejin.im/post/5cd81b59518825686a06fd05&#34;&gt;HTTP请求中的referrer和Referrer-Policy&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://blog.csdn.net/zdavb/article/details/51161130&#34;&gt;彻底搞清referrer和origin&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://blog.csdn.net/phpfenghuo/article/details/50527768&#34;&gt;Origin字段&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;http://www.ruanyifeng.com/blog/2019/06/http-referer.html&#34;&gt;HTTP Referer 教程&lt;/a&gt;&lt;/br&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -22,7 +212,152 @@
       <pubDate>Sat, 20 Apr 2019 14:38:17 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-04-20-%E4%BA%86%E8%A7%A3%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/</guid>
-      <description>三次握手 TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接</description>
+      <description>
+
+&lt;h2 id=&#34;三次握手&#34;&gt;三次握手&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;TCP协议中，主动发起请求的一端称为『客户端』，被动连接的一端称为『服务端』。不管是客户端还是服务端，TCP连接建立完后都能发送和接收数据。&lt;/strong&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;起初服务器和客户端都为&lt;strong&gt;CLOSED&lt;/strong&gt;状态。在通信开始前双方都得创建各自的传输控制块（TCB）。&lt;/br&gt;
+服务器创建完TCB后遍进入&lt;strong&gt;LISTEN&lt;/strong&gt;状态，&lt;strong&gt;此时准备接收客户端发来的连接请求。&lt;/strong&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;SYN 是发起一个连接
+ACK 是回复
+RST 是重新连接
+FIN 是结束连接等
+
+ACK=1: 除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第一次握手&#34;&gt;第一次握手&lt;/h3&gt;
+
+&lt;p&gt;客户端向服务端发送连接请求报文段。该报文段的头部中&lt;strong&gt;SYN=1，ACK=0，seq=x&lt;/strong&gt;。请求发送后，客户端便进入&lt;strong&gt;SYN-SENT&lt;/strong&gt;状态。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;PS1：SYN=1，ACK=0表示该报文段为连接请求报文。
+PS2：x为本次TCP通信的字节流的初始序号。
+TCP规定：SYN=1的报文段不能有数据部分，但要消耗掉一个序号。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第二次握手&#34;&gt;第二次握手&lt;/h3&gt;
+
+&lt;p&gt;服务端收到连接请求报文段后，如果同意连接，则会发送一个应答：&lt;strong&gt;SYN=1，ACK=1，seq=y，ack=x+1&lt;/strong&gt;。
+该应答发送完成后便进入&lt;strong&gt;SYN-RCVD&lt;/strong&gt;状态。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;PS1：SYN=1，ACK=1表示该报文段为连接同意的应答报文。
+PS2：seq=y表示服务端作为发送者时，发送字节流的初始序号。
+PS3：ack=x+1表示服务端希望下一个数据报发送序号从x+1开始的字节。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第三次握手&#34;&gt;第三次握手&lt;/h3&gt;
+
+&lt;p&gt;当客户端收到连接同意的应答后，还要向服务端发送一个确认报文段，表示：服务端发来的连接同意应答已经成功收到。
+该报文段的头部为：&lt;strong&gt;ACK=1，seq=x+1，ack=y+1&lt;/strong&gt;。
+客户端发完这个报文段后便进入&lt;strong&gt;ESTABLISHED&lt;/strong&gt;状态，服务端收到这个应答后也进入&lt;strong&gt;ESTABLISHED&lt;/strong&gt;状态，此时连接的建立完成！&lt;/p&gt;
+
+&lt;h3 id=&#34;各个状态名称与含义&#34;&gt;各个状态名称与含义&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;CLOSED&lt;/strong&gt;: 这个没什么好说的了，表示初始状态。&lt;/br&gt;
+&lt;strong&gt;LISTEN&lt;/strong&gt;: 这个也是非常容易理解的一个状态，表示服务器端的某个SOCKET处于监听状态，可以接受连接了。&lt;/br&gt;
+&lt;strong&gt;SYN_RECV&lt;/strong&gt;: 这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用  netstat你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次TCP握手过程中最后一个ACK报文不予发送。因此这种状态 时，当收到客户端的ACK报文后，它会进入到ESTABLISHED状态。&lt;/br&gt;
+&lt;strong&gt;SYN_SENT&lt;/strong&gt;: 这个状态与SYN_RECV遥想呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，因此也随即它会进入到了SYN_SENT状 态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。&lt;/br&gt;
+&lt;strong&gt;ESTABLISHED&lt;/strong&gt;：这个容易理解了，表示连接已经建立了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/15.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;为什么连接建立需要三次握手-而不是两次握手&#34;&gt;为什么连接建立需要三次握手，而不是两次握手&lt;/h3&gt;
+
+&lt;p&gt;防止失效的连接请求报文段被服务端接收，从而产生错误。&lt;/p&gt;
+
+&lt;p&gt;PS：失效的连接请求：若客户端向服务端发送的连接请求丢失，客户端等待应答超时后就会再次发送连接请求，此时，上一个连接请求就是『失效的』。&lt;/p&gt;
+
+&lt;p&gt;若建立连接只需两次握手，客户端并没有太大的变化，仍然需要获得服务端的应答后才进入ESTABLISHED状态，而服务端在收到连接请求后就进入ESTABLISHED状态。此时如果网络拥塞，客户端发送的连接请求迟迟到不了服务端，客户端便超时重发请求，如果服务端正确接收并确认应答，双方便开始通信，通信结束后释放连接。此时，如果那个失效的连接请求抵达了服务端，由于只有两次握手，服务端收到请求就会进入ESTABLISHED状态，等待发送数据或主动发送数据。但此时的客户端早已进入CLOSED状态，服务端将会一直等待下去，这样浪费服务端连接资源。
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/16.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/18.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;四次挥手&#34;&gt;四次挥手&lt;/h2&gt;
+
+&lt;p&gt;TCP连接的释放一共需要四步，因此称为『四次挥手』。
+我们知道，TCP连接是双向的，因此在四次挥手中，前两次挥手用于断开一个方向的连接，后两次挥手用于断开另一方向的连接。&lt;/p&gt;
+
+&lt;h3 id=&#34;第一次挥手&#34;&gt;第一次挥手&lt;/h3&gt;
+
+&lt;p&gt;若A认为数据发送完成，则它需要向B发送连接释放请求。该请求只有报文头，头中携带的主要参数为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;FIN=1，seq=u。
+
+此时，A将进入FIN-WAIT-1状态。
+PS1：FIN=1表示该报文段是一个连接释放请求。
+PS2：seq=u，u-1是A向B发送的最后一个字节的序号。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;第二次挥手&#34;&gt;第二次挥手&lt;/h3&gt;
+
+&lt;p&gt;B收到连接释放请求后，会通知相应的应用程序，告诉它A向B这个方向的连接已经释放。此时B进入&lt;strong&gt;CLOSE-WAIT&lt;/strong&gt;状态，并向A发送连接释放的应答，其报文头包含：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;ACK=1，seq=v，ack=u+1。
+
+PS1：ACK=1：除TCP连接请求报文段以外，TCP通信过程中所有数据报的ACK都为1，表示应答。
+PS2：seq=v，v-1是B向A发送的最后一个字节的序号。
+PS3：ack=u+1表示希望收到从第u+1个字节开始的报文段，并且已经成功接收了前u个字节。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A收到该应答，进入&lt;strong&gt;FIN-WAIT-2&lt;/strong&gt;状态，等待B发送连接释放请求。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;第二次挥手完成后，A到B方向的连接已经释放，B不会再接收数据，A也不会再向B发送数据报文(第四次应答是确认报文(ACK=1)，无数据)&lt;/strong&gt;。但&lt;strong&gt;B到A方向的连接仍然存在，B可以继续向A发送数据报文&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;第三次挥手&#34;&gt;第三次挥手&lt;/h3&gt;
+
+&lt;p&gt;当B向A发完所有数据后，向A发送连接释放请求，请求头：&lt;code&gt;FIN=1，ACK=1，seq=w，ack=u+1&lt;/code&gt;。B便进入&lt;strong&gt;LAST-ACK&lt;/strong&gt;状态。&lt;/p&gt;
+
+&lt;h3 id=&#34;第四次挥手&#34;&gt;第四次挥手&lt;/h3&gt;
+
+&lt;p&gt;A收到释放请求后，向B发送确认应答，此时A进入&lt;strong&gt;TIME-WAIT&lt;/strong&gt;状态。
+该状态会持续2MSL时间，若该时间段内没有B的重发请求的话，就进入&lt;strong&gt;CLOSED&lt;/strong&gt;状态，撤销TCB。当B收到确认应答后，也便进入&lt;strong&gt;CLOSED&lt;/strong&gt;状态，撤销TCB。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/17.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;为什么A要先进入TIME-WAIT状态，等待2MSL时间后才进入CLOSED状态？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;为了保证B能收到A的确认应答。
+若A发完确认应答后直接进入CLOSED状态，那么如果该应答丢失，B等待超时后就会重新发送连接释放请求，但此时A已经关闭了，不会作出任何响应，因此B永远无法正常关闭。&lt;/p&gt;
+
+&lt;p&gt;下面附加一个知乎上答案的问答&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;问&lt;/strong&gt;：问一下如果第四次挥手没有成功&amp;hellip;&amp;hellip;.
+主动方已经关闭了通道，但是因为被动方没有成功收到连接中断的确认，会一直在那边等？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;答&lt;/strong&gt;：第四次挥手主动方会等待2MSL 如果第四次挥手没成功 那么被动方会重发FIN=1的请求&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追问&lt;/strong&gt;：那么被动方是怎么知道第四次挥手有没有成功的？
+如果第四次挥手失败，对于被动方来说它只是一直没有等到主动方的ACK消息&amp;hellip;.
+有可能被动方一直在那边等，然后等了2MSL以后还是没有收到主动方的ACK，
+然后其实这个时候主动方已经关闭了，但是被动方还开着？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追答&lt;/strong&gt;：最后一次挥手，主动方向被动方发送确认报文(ACK=1) ，若挥手失败，确认报文则未发送到被动方 。
+超时后被动方则会重传FIN=1的报文给主动方，重新进行第四次挥手 。
+而主动方所需要等待的时间&lt;strong&gt;两个&lt;/strong&gt;最大报文生存时间，
+恰恰是为了被动方重发FIN=1的消息时主动方有充足的时间可以收到。
+所以就可以避免了仅有一方关闭的情况发生。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追问&lt;/strong&gt;：超时后被动方则会重传FIN=1的报文给主动方
+这个超时是指多久呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追答&lt;/strong&gt;：一个最大报文生存周期。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;追答&lt;/strong&gt;：最大报文生存周期MSL(Maximum Segment Lifetime)，被动方等待MSL，主动方等待2MSL。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考图&#34;&gt;参考图&lt;/h2&gt;
+
+&lt;p&gt;放两张参考文章的图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/19.jpg&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/20.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;参考文章&#34;&gt;参考文章&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.zhoulujun.cn/html/theory/network/2015_0708_65.html&#34;&gt;再深谈TCP/IP三步握手&amp;amp;四步挥手原理及衍生问题—长文解剖IP&lt;/a&gt;&lt;/br&gt;
+&lt;a href=&#34;https://www.zhihu.com/question/63264012&#34;&gt;TCP为什么是四次挥手，而不是三次？&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -31,7 +366,165 @@
       <pubDate>Fri, 19 Apr 2019 17:52:39 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-01-19-http%E5%8D%8F%E8%AE%AE%E6%97%A0%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81%E5%88%B0%E5%BA%95%E6%8C%87%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88/</guid>
-      <description>转载自：http协议无状态中的【状态】到底指的是什么？！ http协议无状态中的【状态】到底指的是什么？！ 先来看这句话的另外两个概念：（标准的</description>
+      <description>&lt;p&gt;转载自：&lt;a href=&#34;https://www.cnblogs.com/bellkosmos/p/5237146.html&#34;&gt;http协议无状态中的【状态】到底指的是什么？！&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;http协议无状态中的【状态】到底指的是什么？！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;先来看这句话的另外两个概念：（标准的http协议是无状态的，无连接的）&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;标准的http协议指的是不包括cookies, session，application的http协议，
+他们都不属于标准协议，虽然各种网络应用提供商，实现语言、web容器等，都默认支持它&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;无连接指的是什么&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;每一个访问都是无连接，服务器挨个处理访问队列里的访问，
+处理完一个就关闭连接，这事儿就完了，然后处理下一个新的&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;无连接的含义是限制每次连接只处理一个请求。
+服务器处理完客户的请求，并收到客户的应答后，即断开连接&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;对于【无状态】，我看到很多隔着一层磨砂玻璃一样的模糊说法（官方或者教程里的说法），看着非常难受（但其实算是对的）（后来我发现我为什么觉得它看着难受了，因为他们引入了很多新的，而且明显是一个可能用在很多地方的广义名词，这些词最大的作用就是，混淆概念，下面我标注了）&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;协议对于事务处理没有记忆能力【事物处理】【记忆能力】&lt;/li&gt;
+&lt;li&gt;对同一个url请求没有上下文关系【上下文关系】&lt;/li&gt;
+&lt;li&gt;每次的请求都是独立的，它的执行情况和结果与前面的请求和之后的请求是无直接关系的，它不会受前面的请求应答情况直接影响，也不会直接影响后面的请求应答情况【无直接联系】【受直接影响】&lt;/li&gt;
+&lt;li&gt;服务器中没有保存客户端的状态，客户端必须每次带上自己的状态去请求服务器【状态】&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;我必须得到确切而具体的解释！&lt;/p&gt;
+
+&lt;p&gt;这几点给了我下一步思考的方向：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;【服务器中没有保存客户端的状态，客户端必须每次带上自己的状态去请求服务器 】这里的客户端的状态是不是确切地指服务器没有保存客户的信息呢？但显然不是啊&lt;/li&gt;
+&lt;li&gt;【HTTP无状态的特性严重阻碍了这些应用程序的实现，毕竟交互是需要承前启后的，简单的购物车程序也要知道用户到底在之前选择了什么商品】我对此质疑为什么无状态就不能实现购物车呢？服务器就不能存储东西了么？&lt;/li&gt;
+&lt;li&gt;【 每次的请求都是独立的，&amp;lt;它的执行情况和结果&amp;gt;与&amp;lt;前面的请求&amp;gt;和&amp;lt;之后的请求&amp;gt;是无直接关系的】我觉得这个说法比较靠谱，但是所谓的不同请求间的没有关系，是指的请求内容没有关系，还是只是指请求本身没有关系？
+
+&lt;ol&gt;
+&lt;li&gt;请求内容没有关系只可能是服务器上不存有用户数据才可能啊，但是显然是存有的啊&lt;/li&gt;
+&lt;li&gt;请求本身没有关系，这又有什么意义呢，每一次的请求有什么价值？&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;根据这个方向我做了一个模拟访问实验：假如没有cookie没有session，只有http的时候，那当一个注册用户访问这个购物网站的时候，会发生这些事情：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;前提情况：
+
+&lt;ol&gt;
+&lt;li&gt;服务器肯定为每个注册用户建立了数据表，记录用户的数据&lt;/li&gt;
+&lt;li&gt;http是无连接的&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;第一步需要登录
+
+&lt;ol&gt;
+&lt;li&gt;用户通过http把用户的用户名和密码发送给服务器，服务器把他们跟自己存有的用户资料对比，如果一致，则返回信息登录成功&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;然后用户点击某一商品页
+
+&lt;ol&gt;
+&lt;li&gt;这个动作相当于输入一个商品页的网址&lt;/li&gt;
+&lt;li&gt;假如商品页比较机密不对外公开，需要是用户才能访问&lt;/li&gt;
+&lt;li&gt;而虽然http能传送用户名和密码，而且刚才也输入了，还验证成功了，但是因为服务器既不会记得你登录的状态，你的客户端也不会存储你刚才输入的用户名和密码&lt;/li&gt;
+&lt;li&gt;所以因为这一次访问因为无法确定你的身份，只能访问失败
+
+&lt;ol&gt;
+&lt;li&gt;这时候如果要解决这个问题，而且没有cookie没有session，那就只能你在访问网址的同时继续带上你的用户名和密码（继续输入咯）其实就像我现在的APP一样&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;假设上一步的问题解决了，就是每次访问的时候都会手动输入用户名和密码，然后现在的情况是：你已经选了几件商品在你的购物车中，你想再添加一件商品，于是你点击某个商品旁边的加号
+
+&lt;ol&gt;
+&lt;li&gt;这个动作也相当于输入一个网址，网址的内容是发送一个请求，往你的购物车中加入这个商品&lt;/li&gt;
+&lt;li&gt;系统首先用你传来的用户名和密码验证你的身份，然后访问你的数据库，在其中的购物车属性下加一条数据，就是这个商品的数据&lt;/li&gt;
+&lt;li&gt;操作结束后，返回操作成功，并结束访问&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;OK，实验结束，看似没有cookie没有session也能凑合解决问题，其实两个操作都有很大的问题
+
+&lt;ol&gt;
+&lt;li&gt;你每访问一次需要权限的内容都需要在客户端输入用户名和密码，这一项的繁琐就不必赘述了&lt;/li&gt;
+&lt;li&gt;你的每一次操作都要与系统底层的数据库进行交互
+
+&lt;ol&gt;
+&lt;li&gt;多次少量的访问存在非常大的性能浪费。非常容易就能想到肯定是一次大量的操作更加有效率，于是就想到了缓存区&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;你的非重要琐碎数据也被写进数据库中，跟你的主要数据放在一起
+
+&lt;ol&gt;
+&lt;li&gt;一次次添加和删除购物车其实只是跟你这次浏览，或者叫这次会话有关，是临时的数据，跟用户的主要信息无关，它们没什么价值，纯粹的冗余数据（不排除现在有的公司觉得这种数据也有非常大的价值可以让它们巧妙的利用），用什么存放这些临时的数据，我们也很容易想到缓存区&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;经过这个模拟访问实验，结合前面的思考方向，我们知道了三点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;服务器上肯定存有用户的数据，你提交的增删改查它也能够处理，所以这句话中【服务器中没有保存客户端的状态】的状态并不是指用户的数据，我们的猜测不对&lt;/li&gt;
+&lt;li&gt;我们的质疑对了，无状态能实现购物车，可以通过服务器上存有的用户数据来实现&lt;/li&gt;
+&lt;li&gt;但是，使用上面这种方式实现购物车，存在三个比较大的问题。由此，我们不禁会想，这三个问题的解决是不是跟我们不确切了解的【状态】一词有关？于是，接下来我们来通过解决这三个问题来把【状态】的意义探寻下去&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;OK，通过独立地解决纯http机制会产生的问题，我们探讨了cookie和session机制的本质。而且想到：【使用http协议，服务器中不会保存客户端的状态】所产生的问题通过增加cookie和session机制解决了，是不是就意味着这个【状态】跟cookie和session的关系非常紧密？所以这个无状态指的是【没有对 本次会话 设置一个缓存区，记录这次会话的状态，缓存区包括服务器端和用户端】但好像还是没有点破关键（主要是觉得跟前面那些官方对状态的说法不太吻合，甚至没有对应关系）&lt;/p&gt;
+
+&lt;p&gt;忽然我想到一个问题：一个有状态的http是什么样的？&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;很难直接想象有状态的http是什么样，因为http这种机制是天然无状态的&lt;/li&gt;
+&lt;li&gt;那就类比一下吧，另一个天然有状态的机制叫TCP
+
+&lt;ol&gt;
+&lt;li&gt;如果有状态的意思是它的每次请求是有联系的，那么有状态的TCP的样子是：假如一份数据分了三份TCP包发送，那这个包上面会标明这是第几个包，会标明这个包跟那几个包是有联系的，有什么联系&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;但好像这个有状态的TCP跟我们想要的有状态的HTTP没有关系，因为即使每次http请求之间互相有联系，它也不能解决上面提到的http无状态的问题&lt;/li&gt;
+&lt;li&gt;诶，等等，好像能类比：
+
+&lt;ol&gt;
+&lt;li&gt;假如每个http连接都有一个签名，于是第一次登陆成功之后，服务器就知道了这个签名是允许登陆的，于是之后所有同样签名的http连接都能登陆，这里利用了同一个用户发出的http连接之间的同主人关系，这里解决了一个保持登录状态的问题&lt;/li&gt;
+&lt;li&gt;同样，来尝试利用这个【每次http请求之间互相有联系】来解决上面碰到的那个问题【每一次操作都要与系统底层的数据库进行交互】，但想了半天确实无法进行下去&lt;/li&gt;
+&lt;li&gt;不过我灵机一动，从另一个角度来想，好像解决了这个问题：
+
+&lt;ol&gt;
+&lt;li&gt;只有【每次http请求之间互相有联系】这个条件，无法解决【每一次操作都要与系统底层的数据库进行交互】&lt;/li&gt;
+&lt;li&gt;因为很明显，要解决【每一次操作都要与系统底层的数据库进行交互】就必须在服务器端开辟一块缓存区&lt;/li&gt;
+&lt;li&gt;不过如果你思考一下如何实现【每次http请求之间互相有联系】，你就会发现，它也需要在服务器端开辟一块缓存区&lt;/li&gt;
+&lt;li&gt;所以【在服务器端开辟一块缓存区】才是真正的条件，也就是说，它确实等价于【有状态】&lt;/li&gt;
+&lt;li&gt;而且我也找到了这个【在服务器端开辟一块缓存区】的条件跟前面那些官方对状态的说法对应的点，那就是：
+
+&lt;ol&gt;
+&lt;li&gt;通过在服务器端开辟一块缓存区，存储、记忆、共享一些临时数据，你就可以：
+
+&lt;ol&gt;
+&lt;li&gt;协议对于事务处理有记忆能力【事物处理】【记忆能力】&lt;/li&gt;
+&lt;li&gt;对同一个url请求有上下文关系【上下文关系】&lt;/li&gt;
+&lt;li&gt;每次的请求都是不独立的，它的执行情况和结果与前面的请求和之后的请求是直接关系的【不独立】【直接关系】&lt;/li&gt;
+&lt;li&gt;服务器中保存客户端的状态【状态】&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;所以，这个状态，加上前面说的客户端也有cookie，就是指，客户端和服务器在临时会话中产生的数据！而前面也说道了，使用缓存区保存临时会话中的数据是多么重要
+
+&lt;ol&gt;
+&lt;li&gt;所以状态不仅包括不同URL访问之间的关系，还有对其他URL访问的数据记录，还有一些其他的东西，所以更确切地说，状态应该是【实现了这些东西所凭借的后面的缓存空间】中的客户的临时数据&lt;/li&gt;
+&lt;li&gt;cookie和session应该是完全实现了有状态这个功能&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;一种常见的对状态的误解：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;有人在解释HTTP的无状态时，把它跟有连接对立，说是两种方式，也就是如果想不无状态，就必须有连接，但其实不然&lt;/li&gt;
+&lt;li&gt;有连接和无连接以及之后的Keep-Alive都是指TCP连接&lt;/li&gt;
+&lt;li&gt;有状态和无状态可以指TCP也可以指HTTP&lt;/li&gt;
+&lt;li&gt;TCP一直有状态，HTTP一直无状态，但是应用为了有状态，就给HTTP加了cookie和session机制，让使用http的应用也能有状态，但http还是无状态&lt;/li&gt;
+&lt;li&gt;开始TCP是有连接，后来TCP无连接，再后来也就是现在TCP是Keep-Alive，有点像有连接&lt;/li&gt;
+&lt;/ol&gt;
+</description>
     </item>
     
     <item>
@@ -40,7 +533,76 @@
       <pubDate>Fri, 19 Apr 2019 13:50:49 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-04-19-%E4%BA%86%E8%A7%A3arp%E5%8D%8F%E8%AE%AE/</guid>
-      <description>MAC地址 什么是MAC地址？MAC地址与IP有什么区别？ 大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？ 知乎回答:http</description>
+      <description>
+
+&lt;h2 id=&#34;mac地址&#34;&gt;MAC地址&lt;/h2&gt;
+
+&lt;p&gt;什么是MAC地址？MAC地址与IP有什么区别？
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/6.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;大概了解后禁不住会问，那么有了IP地址为什么还要一个MAC地址呢？
+知乎回答:&lt;a href=&#34;https://www.zhihu.com/question/21546408&#34;&gt;https://www.zhihu.com/question/21546408&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;互联网是范围概念；以太网是技术概念。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/7.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;　Ethernet物理地址长度为48位，通常表示为12个16进制数，每2个16进制数之间用冒号隔开，如：08:00:20:0A:8C:6D就是一个MAC地址，其中前6位16进制数08:00:20代表网络硬件制造商的编号，它由IEEE（电气与电子工程师协会）分配。理论上存在物理地址为2^48个，但是第32位为组播标识位，必须为0，因此允许分配的物理地址为2^47个，即140737488355328个！
+　　所以2^48=281474976710656是错误的！
+　　标准为2^47=140737488355328个。
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/8.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;arp-地址解析协议&#34;&gt;ARP：地址解析协议&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/9.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;在同一局域网中&#34;&gt;在同一局域网中&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/10.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;用ping说明ARP工作的原理
+假设我们的计算机IP地址是192.168.1.1，要执行这个命令：ping192.168.1.2。该命令会通过ICMP协议发送ICMP(以太网控制报文协议)数据包
+该过程需要经过下面的步骤：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;1&amp;gt; 应用程序构造数据包，该示例是产生ICMP包，被提交给内核（网络驱动程序）； 　　
+2&amp;gt; 内核检查是否能够转化该IP地址为MAC地址，也就是在本地的ARP缓存中查看IP-MAC对应表;
+3&amp;gt; 如果存在该IP-MAC对应关系，那么跳到步骤&amp;lt;7；如果不存在该IP-MAC对应关系，那么接续下面的步骤;
+4&amp;gt; 内核进行ARP广播，目的MAC地址是FF-FF-FF-FF-FF-FF，ARP命令类型为REQUEST（1），其中包含有自己的MAC地址； 　　
+5&amp;gt; 当192.168.1.2主机接收到该ARP请求后，就发送一个ARP的REPLY（2）命令，其中包含自己的MAC地址； 　　
+6&amp;gt; 本地获得192.168.1.2主机的IP-MAC地址对应关系，并保存到ARP缓存中； 　　
+7&amp;gt; 内核将把IP转化为MAC地址，然后封装在以太网头结构中，再把数据发送出去；
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;在不同局域网中&#34;&gt;在不同局域网中&lt;/h3&gt;
+
+&lt;p&gt;寻址：从一个LAN路由至另一个LAN&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/11.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;step 1:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/12.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;step 2:
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/13.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果左侧是内网，右侧是互联网的话，可能要更改源IP地址；&lt;/br&gt;
+如果左侧是互联网，右侧是内网，可能要更改目的IP地址；&lt;/p&gt;
+
+&lt;p&gt;step 3:
+&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/14.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果所要找的目标设备和源主机不在同一个局域网上。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;1&amp;gt;此时主机A就无法解析出主机B的硬件地址（实际上主机A也不需要知道远程主机B的硬件地址）;
+2&amp;gt;此时主机A需要的是将路由器R1的IP地址解析出来，然后将该IP数据报发送给路由器R1.
+3&amp;gt;R1从路由表中找出下一跳路由器R2，同时使用ARP解析出R2的硬件地址。于是IP数据报按照路由器R2的硬件地址转发到路由器R2。
+4&amp;gt;路由器R2在转发这个IP数据报时用类似方法解析出目的主机B的硬件地址，使IP数据报最终交付给主机B.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;说明：&lt;/br&gt;
+如果你的数据包是发送到不同网段的目的地，那么就一定存在一条网关的IP-MAC地址对应的记录。知道了ARP协议的作用，就能够很清楚地知道，数据包的向外传输很依靠ARP协议，当然，也就是依赖ARP缓存。要知道，ARP协议的所有操作都是内核自动完成的，同其他的应用程序没有任何关系。同时需要注意的是，ARP协议只使用于本网络。&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -49,16 +611,173 @@
       <pubDate>Fri, 19 Apr 2019 10:29:22 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2019-04-19-tcpip%E5%8D%8F%E8%AE%AE%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</guid>
-      <description>TCP/IP协议的组成 TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。 TCP/IP协议</description>
+      <description>
+
+&lt;h2 id=&#34;tcp-ip协议的组成&#34;&gt;TCP/IP协议的组成&lt;/h2&gt;
+
+&lt;p&gt;TCP/IP传输协议，即传输控制/网络协议，也叫作网络通讯协议。它是在网络的使用中的最基本的通信协议。&lt;/p&gt;
+
+&lt;p&gt;TCP/IP协议在一定程度上参考了OSI的体系结构。OSI模型共有七层，从下到上分别是物理层、数据链路层、网络层、运输层、会话层、表示层和应用层。但是这显然是有些复杂的，所以在TCP/IP协议中，它们被简化为了四个层次&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;应用层：TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet 等等
+传输层：TCP，UDP
+网络层：IP，ICMP，OSPF，EIGRP，IGMP
+数据链路层：SLIP，CSLIP，PPP，MTU
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ISO模型的七个分层与四个抽象层关系如下图:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;通信过程及相关协议&#34;&gt;通信过程及相关协议&lt;/h2&gt;
+
+&lt;p&gt;在网络通信的过程中，将发出数据的主机称为&lt;strong&gt;源主机&lt;/strong&gt;，接收数据的主机称为&lt;strong&gt;目的主机&lt;/strong&gt;。当&lt;strong&gt;源主机&lt;/strong&gt;发出数据时，数据在源主机中从上层向下层传送。&lt;font color = &#34;red&#34;&gt;源主机中的应用进程先将数据交给&lt;strong&gt;应用层&lt;/strong&gt;，&lt;strong&gt;应用层&lt;/strong&gt;加上必要的控制信息就成了报文流，向下传给&lt;strong&gt;传输层&lt;/strong&gt;。&lt;strong&gt;传输层&lt;/strong&gt;将收到的数据单元加上本层的控制信息，形成报文段、数据报，再交给&lt;strong&gt;网络层&lt;/strong&gt;。&lt;strong&gt;网络层&lt;/strong&gt;加上本层的控制信息，形成IP数据报，传给&lt;strong&gt;网络接口层&lt;/strong&gt;。网络接口层将网际层交下来的IP数据报组装成帧，并以比特流的形式传给网络硬件（即物理层），数据就离开源主机。&lt;/font&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;链路层&#34;&gt;链路层&lt;/h3&gt;
+
+&lt;p&gt;以太网协议规定，接入网络的设备都必须安装网络适配器，即网卡，数据包必须从一块网卡送到另一块网卡。而网卡地址就是数据包的发送地址和接收地址，有了MAC地址以后，以太网才用广播形式，把数据包发给该子网内所有主机，子网内每台主机在接收到这个包以后，都会读取首部里的目标MAC地址，然后和自己的MAC地址进行对比，如果相同就做下一步处理，如果不同，就丢弃这个包。&lt;/br&gt;
+所以链路层的主要工作就是对电信号进行分组并形成具有特定意义的数据帧，然后以广播的形式通过物理介质发送给接收方。&lt;/p&gt;
+
+&lt;h3 id=&#34;网络层&#34;&gt;网络层&lt;/h3&gt;
+
+&lt;h4 id=&#34;ip协议&#34;&gt;IP协议&lt;/h4&gt;
+
+&lt;p&gt;网络层引入&lt;strong&gt;IP&lt;/strong&gt;协议，制定了一套新地址，使得我们能够区分两台主机是否同属一个网络，这套地址就是网络地址，也就是所谓的&lt;strong&gt;IP&lt;/strong&gt;地址，&lt;strong&gt;IP&lt;/strong&gt;协议将这32位的地址分为两部分，前面部分代表网络地址，后面部分表示该主机在局域网中的地址。如果两个&lt;strong&gt;IP&lt;/strong&gt;在同一个子网内，则网络地址一定相同。为了判断&lt;strong&gt;IP&lt;/strong&gt;地址中的网络地址，&lt;strong&gt;IP&lt;/strong&gt;协议还引入了子网掩码，&lt;strong&gt;IP&lt;/strong&gt;地址和子网掩码通过按位与运算后就可以得到网络地址。&lt;/p&gt;
+
+&lt;h4 id=&#34;arp协议&#34;&gt;ARP协议&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;ARP&lt;/strong&gt;协议即地址解析协议，是根据&lt;strong&gt;IP&lt;/strong&gt;地址获取&lt;strong&gt;MAC&lt;/strong&gt;地址的一个网络层协议。其工作原理如下：&lt;strong&gt;ARP&lt;/strong&gt;首先会发起一个请求数据包，数据包的首部包含了目标主机的&lt;strong&gt;IP&lt;/strong&gt;地址，然后这个数据包会在链路层进行再次包装，生成以太网数据包，最终由以太网广播给子网内的所有主机，每一台主机都会接收到这个数据包，并取出标头里的&lt;strong&gt;IP&lt;/strong&gt;地址，然后和自己的IP地址进行比较，如果相同就返回自己的&lt;strong&gt;MAC&lt;/strong&gt;地址，如果不同就丢弃该数据包。&lt;strong&gt;ARP&lt;/strong&gt;接收返回消息，以此确定目标机的MAC地址；与此同时，&lt;strong&gt;ARP&lt;/strong&gt;还会将返回的&lt;strong&gt;MAC&lt;/strong&gt;地址与对应的&lt;strong&gt;IP&lt;/strong&gt;地址存入本机&lt;strong&gt;ARP&lt;/strong&gt;缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。&lt;/p&gt;
+
+&lt;h4 id=&#34;路由协议&#34;&gt;路由协议&lt;/h4&gt;
+
+&lt;p&gt;首先通过&lt;strong&gt;IP&lt;/strong&gt;协议来判断两台主机是否在同一个子网中，如果在同一个子网，就通过&lt;strong&gt;ARP&lt;/strong&gt;协议查询对应的&lt;strong&gt;MAC&lt;/strong&gt;地址，然后以广播的形式向该子网内的主机发送数据包；如果不在同一个子网，以太网会将该数据包转发给本子网的网关进行路由。网关是互联网上子网与子网之间的桥梁，所以网关会进行多次转发，最终将该数据包转发到目标&lt;strong&gt;IP&lt;/strong&gt;所在的子网中，然后再通过ARP获取目标机&lt;strong&gt;MAC&lt;/strong&gt;，最终也是通过广播形式将数据包发送给接收方。而完成这个路由协议的物理设备就是路由器，路由器扮演着交通枢纽的角色，它会根据信道情况，选择并设定路由，以最佳路径来转发数据包。&lt;/p&gt;
+
+&lt;p&gt;所以，网络层的主要工作是定义网络地址、区分网段、子网内&lt;strong&gt;MAC&lt;/strong&gt;寻址、对于不同子网的数据包进行路由。&lt;/p&gt;
+
+&lt;h3 id=&#34;传输层&#34;&gt;传输层&lt;/h3&gt;
+
+&lt;p&gt;链路层定义了主机的身份，即&lt;strong&gt;MAC&lt;/strong&gt;地址，而网络层定义了&lt;strong&gt;IP&lt;/strong&gt;地址，明确了主机所在的网段，有了这两个地址，数据包就从可以从一个主机发送到另一台主机。但实际上数据包是从一个主机的某个应用程序发出，然后由对方主机的应用程序接收。而每台电脑都有可能同时运行着很多个应用程序，所以当数据包被发送到主机上以后，是无法确定哪个应用程序要接收这个包。因此传输层引入了&lt;strong&gt;UDP&lt;/strong&gt;协议来解决这个问题，为了给每个应用程序标识身份。&lt;/p&gt;
+
+&lt;h4 id=&#34;udp协议&#34;&gt;UDP协议&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;UDP&lt;/strong&gt;协议定义了端口，同一个主机上的每个应用程序都需要指定唯一的端口号，并且规定网络中传输的数据包必须加上端口信息，当数据包到达主机以后，就可以根据端口号找到对应的应用程序了。&lt;strong&gt;UDP&lt;/strong&gt;协议比较简单，实现容易，但它没有确认机制，数据包一旦发出，无法知道对方是否收到，因此可靠性较差，为了解决这个问题，提高网络可靠性，&lt;strong&gt;TCP&lt;/strong&gt;协议就诞生了。&lt;/p&gt;
+
+&lt;h4 id=&#34;tcp协议&#34;&gt;TCP协议&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;TCP&lt;/strong&gt;即传输控制协议，是一种面向连接的、可靠的、基于字节流的通信协议。简单来说&lt;strong&gt;TCP&lt;/strong&gt;就是有确认机制的&lt;strong&gt;UDP&lt;/strong&gt;协议，每发出一个数据包都要求确认，如果有一个数据包丢失，就收不到确认，发送方就必须重发这个数据包。为了保证传输的可靠性，&lt;strong&gt;TCP&lt;/strong&gt;协议在&lt;strong&gt;UDP&lt;/strong&gt;基础之上建立了三次对话的确认机制，即在正式收发数据前，必须和对方建立可靠的连接。&lt;strong&gt;TCP&lt;/strong&gt;数据包和&lt;strong&gt;UDP&lt;/strong&gt;一样，都是由首部和数据两部分组成，唯一不同的是，&lt;strong&gt;TCP&lt;/strong&gt;数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常&lt;strong&gt;TCP&lt;/strong&gt;数据包的长度不会超过&lt;strong&gt;IP&lt;/strong&gt;数据包的长度，以确保单个&lt;strong&gt;TCP&lt;/strong&gt;数据包不必再分割。&lt;/br&gt;
+传输层的主要工作是定义端口，标识应用程序身份，实现端口到端口的通信，&lt;strong&gt;TCP&lt;/strong&gt;协议可以保证数据传输的可靠性。&lt;/p&gt;
+
+&lt;h3 id=&#34;应用层&#34;&gt;应用层&lt;/h3&gt;
+
+&lt;p&gt;理论上讲，有了以上三层协议的支持，数据已经可以从一个主机上的应用程序传输到另一台主机的应用程序了，但此时传过来的数据是字节流，不能很好的被程序识别，操作性差，因此，应用层定义了各种各样的协议来规范数据格式，常见的有&lt;strong&gt;http&lt;/strong&gt;,&lt;strong&gt;ftp&lt;/strong&gt;,&lt;strong&gt;smtp&lt;/strong&gt;等，在请求&lt;strong&gt;Header&lt;/strong&gt;中，分别定义了请求数据格式&lt;strong&gt;Accept&lt;/strong&gt;和响应数据格式&lt;strong&gt;Content-Type&lt;/strong&gt;，有了这个规范以后，当对方接收到请求以后就知道该用什么格式来解析，然后对请求进行处理，最后按照请求方要求的格式将数据返回，请求端接收到响应后，就按照规定的格式进行解读。&lt;/p&gt;
+
+&lt;p&gt;所以应用层的主要工作就是定义数据格式并按照对应的格式解读数据。&lt;/p&gt;
+
+&lt;h2 id=&#34;socket&#34;&gt;socket&lt;/h2&gt;
+
+&lt;p&gt;我们知道两个进程如果需要进行通讯最基本的一个前提能能够唯一的标示一个进程，在本地进程通讯中我们可以使用&lt;strong&gt;PID&lt;/strong&gt;来唯一标示一个进程，但&lt;strong&gt;PID&lt;/strong&gt;只在本地唯一，网络中的两个进程&lt;strong&gt;PID&lt;/strong&gt;冲突几率很大，这时候我们需要另辟它径了，我们知道&lt;strong&gt;IP&lt;/strong&gt;层的ip地址可以唯一标示主机，而&lt;strong&gt;TCP&lt;/strong&gt;层协议和端口号可以唯一标示主机的一个进程，这样我们可以利用ip地址＋协议＋端口号唯一标示网络中的一个进程。&lt;/p&gt;
+
+&lt;p&gt;能够唯一标示网络中的进程后，它们就可以利用socket进行通信了，什么是socket呢？我们经常把socket翻译为套接字，socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;socket是一种&amp;rdquo;打开—读/写—关闭&amp;rdquo;模式的实现，服务器和客户端各自维护一个&amp;rdquo;文件&amp;rdquo;，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。&lt;/p&gt;
+
+&lt;h3 id=&#34;socket通信流程&#34;&gt;socket通信流程&lt;/h3&gt;
+
+&lt;p&gt;socket是&amp;rdquo;打开—读/写—关闭&amp;rdquo;模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;服务器创建socket&#34;&gt;服务器创建socket&lt;/h3&gt;
+
+&lt;p&gt;服务器根据地址类型（ipv4,ipv6）、socket类型、协议创建socket
+服务器为socket绑定ip地址和端口号
+服务器socket监听端口号请求，随时准备接收客户端发来的连接，这时候服务器的socket并没有被打开&lt;/p&gt;
+
+&lt;h3 id=&#34;客户端创建socket&#34;&gt;客户端创建socket&lt;/h3&gt;
+
+&lt;p&gt;客户端打开socket
+根据服务器ip地址和端口号试图连接服务器socket
+服务器socket接收到客户端socket请求，被动打开，开始接收客户端请求，直到客户端返回连接信息。这时候socket进入阻塞状态，所谓阻塞即accept()方法一直到客户端返回连接信息后才返回，开始接收下一个客户端谅解请求
+客户端连接成功，向服务器发送连接状态信息
+服务器accept方法返回，连接成功
+客户端向socket写入信息
+服务器读取信息
+客户端关闭
+服务器端关闭&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/09/19/5.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;socket编程api&#34;&gt;socket编程API&lt;/h3&gt;
+
+&lt;p&gt;前面提到socket是&amp;rdquo;打开—读/写—关闭&amp;rdquo;模式的实现，简单了解一下socket提供了哪些API供应用程序使用，还是以TCP协议为例，看看Unix下的socket API，其它语言都很类似（PHP甚至名字都几乎一样），这里我就简单解释一下方法作用和参数，具体使用有兴趣同学可以看看博客参考中的链接或者上网搜索&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int socket(int domain, int type, int protocol);&lt;/code&gt;&lt;/br&gt;
+根据指定的地址族、数据类型和协议来分配一个socket的描述字及其所用的资源。&lt;/br&gt;
+domain:协议族，常用的有AF_INET、AF_INET6、AF_LOCAL、AF_ROUTE其中AF_INET代表使用ipv4地址&lt;/br&gt;
+type:socket类型，常用的socket类型有，SOCK_STREAM、SOCK_DGRAM、SOCK_RAW、SOCK_PACKET、SOCK_SEQPACKET等&lt;/br&gt;
+protocol:协议。常用的协议有，IPPROTO_TCP、IPPTOTO_UDP、IPPROTO_SCTP、IPPROTO_TIPC等&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);&lt;/code&gt;&lt;/br&gt;
+把一个地址族中的特定地址赋给socket&lt;/br&gt;
+sockfd:socket描述字，也就是socket引用&lt;/br&gt;
+addr:要绑定给sockfd的协议地址&lt;/br&gt;
+addrlen:地址的长度&lt;/br&gt;
+通常服务器在启动的时候都会绑定一个众所周知的地址（如ip地址+端口号），用于提供服务，客户就可以通过它来接连服务器；而客户端就不用指定，有系统自动分配一个端口号和自身的ip地址组合。这就是为什么通常服务器端在listen之前会调用bind()，而客户端就不会调用，而是在connect()时由系统随机生成一个。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int listen(int sockfd, int backlog);&lt;/code&gt;&lt;/br&gt;
+监听socket&lt;/br&gt;
+sockfd:要监听的socket描述字&lt;/br&gt;
+backlog:相应socket可以排队的最大连接个数 &lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);&lt;/code&gt;&lt;/br&gt;
+连接某个socket&lt;/br&gt;
+sockfd:客户端的socket描述字&lt;/br&gt;
+addr:服务器的socket地址&lt;/br&gt;
+addrlen:socket地址的长度&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);&lt;/code&gt;&lt;/br&gt;
+TCP服务器监听到客户端请求之后，调用accept()函数取接收请求&lt;/br&gt;
+sockfd:服务器的socket描述字&lt;/br&gt;
+addr:客户端的socket地址&lt;/br&gt;
+addrlen:socket地址的长度&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ssize_t read(int fd, void *buf, size_t count);&lt;/code&gt;&lt;/br&gt;
+读取socket内容&lt;/br&gt;
+fd:socket描述字&lt;/br&gt;
+buf：缓冲区&lt;/br&gt;
+count：缓冲区长度&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ssize_t write(int fd, const void *buf, size_t count);&lt;/code&gt;&lt;/br&gt;
+向socket写入内容，其实就是发送内容&lt;/br&gt;
+fd:socket描述字&lt;/br&gt;
+buf：缓冲区&lt;/br&gt;
+count：缓冲区长度&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;int close(int fd);&lt;/code&gt;&lt;/br&gt;
+socket标记为以关闭 ，使相应socket描述字的引用计数-1，当引用计数为0的时候，触发TCP客户端向服务器发送终止连接请求。&lt;/br&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>TcpIp协议族与socket区别</title>
-      <link>https://wangzitao6.github.io/2018-05-28-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</link>
+      <link>https://wangzitao6.github.io/2018-05-28-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E4%B8%8Esocket%E5%8C%BA%E5%88%AB</link>
       <pubDate>Mon, 28 May 2018 00:08:48 +0800</pubDate>
       
-      <guid>https://wangzitao6.github.io/2018-05-28-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E4%B8%8Esocket%E5%8C%BA%E5%88%AB/</guid>
-      <description>简介 TCP/IP协议是指因特网整个TCP/IP协议族。不同于ISO模型的七个分层，TCP/IP协议参考模型把所有的TCP/IP系列协议归类到</description>
+      <guid>https://wangzitao6.github.io/2018-05-28-tcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E4%B8%8Esocket%E5%8C%BA%E5%88%AB</guid>
+      <description>
+
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+
+&lt;p&gt;TCP/IP协议是指因特网整个TCP/IP协议族。不同于ISO模型的七个分层，TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层中
+- 应用层：TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet 等等
+- 传输层：TCP，UDP
+- 网络层：IP，ICMP，OSPF，EIGRP，IGMP
+- 数据链路层：SLIP，CSLIP，PPP，MTU&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -67,7 +786,75 @@
       <pubDate>Thu, 15 Feb 2018 23:44:45 +0800</pubDate>
       
       <guid>https://wangzitao6.github.io/2018-02-15-%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/</guid>
-      <description>简介 IP地址，标示你电脑的身份！ 子网掩码，可以标示子网划分的情况，所属子网。 默认网关，数据包默认选择的出口！一般是你的路由器地址！ DNS服务</description>
+      <description>
+
+&lt;h3 id=&#34;简介&#34;&gt;简介&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;IP地址，标示你电脑的身份！&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;子网掩码，可以标示子网划分的情况，所属子网。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;默认网关，数据包默认选择的出口！一般是你的路由器地址！&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;DNS服务器，把网站的域名转换成计算机能看懂的IP地址！&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;什么是ip地址&#34;&gt;什么是IP地址&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;ensp;&amp;ensp;所谓IP地址就是给每个连接在Internet上的主机分配的一个32bit地址。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;按照TCP/IP协议规定，IP地址用二进制来表示，每个IP地址长32bit，比特换算成字节，就是4个字节。例如一个采用二进制形式的IP地址是“00001010 00000000 00000000 00000001”，这么长的地址，人们处理起来也太费劲了。为了方便人们的使用，IP地址经常被写成十进制的形式，中间使用符号“.”分开不同的字节。于是，上面的IP地址可以表示为“10.0.0.1”。IP地址的这种表示法叫做“点分十进制表示法”，这显然比1和0容易记忆得多。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;什么是子网掩码&#34;&gt;什么是子网掩码&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;ensp;&amp;ensp;子网掩码(subnet mask)又叫网络掩码，地址掩码，子网络遮罩。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;子网掩码是一种用来指明一个ip地址的哪些位标识的是主机所在的子网，以及哪些位标识的是主机的位掩码。&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;子网掩码不能单独存在，它必须结合IP地址一起使用。子网掩码只有一个作用，就是将某个ip地址划分成网络地址和主机地址&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;什么是网关&#34;&gt;什么是网关&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;ensp;&amp;ensp;网关(Gateway)又称网间连接器、协议转换器。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;网关在传输层上以实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。网关既可以用于广域网互连，也可以用于局域网互连。&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;网关是一种充当转换重任的计算机系统或设备。在使用不同的通信协议、数据格式或语言，甚至体系结构完全不同的两种系统之间，网关是一个翻译器。与网桥只是简单地传达信息不同，网关对收到的信息要重新打包，以适应目的系统的需求。同时，网关也可以提供过滤和安全功能。大多数网关运行在OSI 7层协议的顶层&amp;ndash;应用层。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cE4kMHP.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;什么是dns&#34;&gt;什么是DNS&lt;/h3&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;DNS 是域名系统 (Domain Name System) 的缩写，是因特网的一项核心服务，它作为可以将域&lt;br /&gt;
+名和IP地址相互映射的一个分布式数据库，能够使人更方便的访问互联网，而不用去记住能够被机器直接读取的IP数串。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;ip地址-子网掩码-网关-dns的关系&#34;&gt;IP地址、子网掩码、网关、DNS的关系&lt;/h3&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;IP地址，标示你电脑的身份！&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;子网掩码，可以标示子网划分的情况，所属子网。&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;默认网关，数据包默认选择的出口！一般是你的路由器地址！&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;DNS服务器，把网站的域名转换成计算机能看懂的IP地址！&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;一般来说，子网掩码 就是判断两个IP地址，是不是在同一个网段(或称子网)，在同一网段的两个地址，可以直接通信。不管是通过IP地址也好，还是通过“计算机名”，都是可以的。如果两个IP地址，不在同一网段，这时候，要想通过IP地址访问另一网段的计算机(也是IP地址)，就需要网关地址。网关地址就是出口的地址，而且，网关地址，是你最近的一个出口的地址。&lt;/p&gt;
+
+&lt;p&gt;&amp;ensp;&amp;ensp;网关地址总是与你的计算机的IP地址是同一网段的。这一点是非常重要的。如果两台计算机，不在同一网段，如果想使用计算机名(就是类似于compute1、cp2之类的名称，称为NetBIOS名称)，这时候，必须要使用WINS服务器来解析(或者手动编辑本机的hosts文件)，这就是WINS服务器的做用。如果两台计算机，不在同一网段。&lt;/p&gt;
+</description>
     </item>
     
   </channel>

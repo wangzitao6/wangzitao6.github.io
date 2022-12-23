@@ -1,789 +1,262 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-    <meta name="google-site-verification" content="9vIieCe-Qpd78QOmBl63rGtIVbhY6sYyuxX3j8XWBA4" />
-    <meta name="baidu-site-verification" content="LRrmH41lz7" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <meta property="og:site_name" content="王子滔的学习笔记">
-    <meta property="og:type" content="article">
-
-    
-    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
-    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
-    
-
-    
-    <meta name="title" content="利用Travis CI将Hugo自動部署到Github Pages" />
-    <meta property="og:title" content="利用Travis CI将Hugo自動部署到Github Pages" />
-    <meta property="twitter:title" content="利用Travis CI将Hugo自動部署到Github Pages" />
-    
-
-    
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
-    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    
-
-    
-    <meta property="twitter:card" content="summary" />
-    
-    
-
-    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <title>利用Travis CI将Hugo自動部署到Github Pages</title>
-
-    <link rel="canonical" href="/2018-03-10-%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2/">
-
-    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
-	
-    
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
-    
-    <link rel="stylesheet" href="/css/syntax.css">
-
-    
-    <link rel="stylesheet" href="/css/zanshang.css">
-
-    
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    
-    <script src="/js/jquery.min.js"></script>
-    
-    
-    <script src="/js/bootstrap.min.js"></script>
-    
-    
-    <script src="/js/hux-blog.min.js"></script>
-	
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
-
-
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
-        </div>
-
-        
-        
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/build">build</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/elk">elk</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/java">java</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/jvm">jvm</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/net">net</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/other">other</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/sql">sql</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
-                    </li>
-                    
-
-		    
-                        <li><a href="/top/about/">ABOUT</a></li>
-                    
-
-                    
-		    <li>
-                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
-		    </li>
-                    
-                </ul>
-            </div>
-        </div>
-        
-    </div>
-    
-</nav>
-<script>
-    
-    
-    
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        
-            $navbar.className = " ";
-            
-            setTimeout(function(){
-                
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
 
 
 
-
-<style type="text/css">
-    header.intro-header {
-        background-image: url('/images/1.jpg')
-    }
-</style>
-<header class="intro-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/blog" title="blog">
-                            blog
-                        </a>
-                        
-                        <a class="tag" href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                            其他
-                        </a>
-                        
-                    </div>
-                    <h1>利用Travis CI将Hugo自動部署到Github Pages</h1>
-                    <h2 class="subheading">利用Travis CI将Hugo自動部署到Github Pages</h2>
-                    <span class="meta">
-			Posted by
-			
-			    WangZiTao
-			
-			on
-			Saturday, March 10, 2018
-                        
-                            <span id="/2018-03-10-自动部署/" class="leancloud_visitors meta_data_item" data-flag-title="">
-    <span class="post-meta-item-icon">
-      <span class="octicon octicon-eye"></span> 
-    </span>
-    <i class="fa fa-eye"></i>
-    <span class="old-visitors-count" style="display: none;"></span>
-    <span class="leancloud-visitors-count"></span>
-</span>
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
 
 
-
-<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-
-<script>
-	AV.initialize("", "");
-</script>
-
-<script type="text/javascript">
-function showTime(Counter) {
-    var query = new AV.Query(Counter);
-    var entries = [];
-    var $visitors = $(".leancloud_visitors");
-
-    $visitors.each(function() {
-        entries.push($(this).attr("id").trim());
-    });
-
-    query.containedIn('url', entries);
-    query.find()
-        .done(function(results) {
-            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-
-            
-            
-            
-            
-
-            for (var i = 0; i < results.length; i++) {
-                var item = results[i];
-                var url = item.get('url');
-                var time = item.get('time');
-                var element = document.getElementById(url);
-
-                $(element).find(COUNT_CONTAINER_REF).text(time);
-            }
-            for (var i = 0; i < entries.length; i++) {
-                var url = entries[i];
-                var element = document.getElementById(url);
-                var countSpan = $(element).find(COUNT_CONTAINER_REF);
-                if (countSpan.text() == '') {
-                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
-                    if(oldCountSpan!=''){
-                        countSpan.text(0+parseInt(oldCountSpan));
-                    }else{
-                        countSpan.text(0);          
-                    }
-                }
-            }
-        })
-        .fail(function(object, error) {
-            console.log("Error: " + error.code + " " + error.message);
-        });
-}
-
-function addCount(Counter) {
-    var $visitors = $(".leancloud_visitors");
-    var url = $visitors.attr('id').trim();
-    var title = $visitors.attr('data-flag-title').trim();
-    var query = new AV.Query(Counter);
-
-    query.equalTo("url", url);
-    query.find({
-        success: function(results) {
-            if (results.length > 0) {
-                var counter = results[0];
-                counter.fetchWhenSave(true);
-                counter.increment("time");
-                counter.save(null, {
-                    success: function(counter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
-                    },
-                    error: function(counter, error) {
-                        console.log('Failed to save Visitor num, with error message: ' + error.message);
-                    }
-                });
-            } else {
-                var newcounter = new Counter();
-                 
-                var acl = new AV.ACL();
-                acl.setPublicReadAccess(true);
-                acl.setPublicWriteAccess(true);
-                newcounter.setACL(acl);
-                 
-                newcounter.set("title", title);
-                newcounter.set("url", url);
-                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-                var $element = $(document.getElementById(url));
-                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
-                if(oldCountSpan!=''){
-                    newcounter.set("time", parseInt(oldCountSpan)+1);
-                }else{
- 	                    newcounter.set("time",  1);
-                }
-                newcounter.save(null, {
-                    success: function(newcounter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-                    },
-                    error: function(newcounter, error) {
-                        console.log('Failed to create');
-                    }
-                });
-            }
-        },
-        error: function(error) {
-            console.log('Error:' + error.code + " " + error.message);
-        }
-    });
-}
-$(function() {
-    var Counter = AV.Object.extend("Counter");
-    
-    
-    if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-    } else {
-        showTime(Counter);
-    }
-});
-</script>
-
-                        
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
+  
+  
+      <a class="menu-button icon-feed" href="/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
 </header>
 
 
 
+<main class="content" role="main">
 
-<article>
-    <div class="container">
-        <div class="row">
 
-            
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
 
-                
-                <header>
-                    <h2>目录</h2>
-                </header>
-                <nav id="TableOfContents">
-  <ul>
-    <li><a href="#1简介">1.简介</a></li>
-    <li><a href="#2travis-ci是什么">2.Travis CI是什么</a></li>
-    <li><a href="#3配置travis-ci">3.配置Travis CI</a>
-      <ul>
-        <li><a href="#31-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</a></li>
-        <li><a href="#32-配置travis-ci构建选项">3.2 配置Travis CI构建选项</a></li>
-        <li><a href="#33-添加配置文件">3.3 添加配置文件</a></li>
-      </ul>
-    </li>
-    <li><a href="#4自动部署">4.自动部署</a></li>
-  </ul>
-</nav>
-                
-                <h2 id="1简介">1.简介</h2>
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">利用Travis CI将Hugo自動部署到Github Pages</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2018-03-10T00:16:42&#43;08:00">
+            Mar 10, 2018
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/blog/">#blog</a></span>
+         
+          <span class="post-tag small"><a href="https://wangzitao6.github.io/tags/%E5%85%B6%E4%BB%96/">#其他</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h2 id="1-简介">1.简介</h2>
+
 <p>Hugo 有着 Go 语言的几大优点：跨平台、执行快、部署简单、无需安装依赖，同时作为一款静态博客系统，它主题多、拓展性好、操作简单。是用来搭建个人博客的绝佳选择。但是用hugo一段时间后,发现新增博客时部署比较麻烦,经过几天的折腾后发现了Travis CI。</p>
-<h2 id="2travis-ci是什么">2.Travis CI是什么</h2>
+
+<h2 id="2-travis-ci是什么">2.Travis CI是什么</h2>
+
 <p>一个持续化集成平台，类似Jenkins。功能强大，和GitHub的集成尤其好，我们用它部署个人博客算大材小用。它有两个版本:</p>
+
 <ul>
-<li>
-<p><a href="https://travis-ci.org/">https://travis-ci.org/</a> 免费版本，可以集成GitHub的public项目</p>
-</li>
-<li>
-<p><a href="https://travis-ci.com/">https://travis-ci.com/</a> 商业版本，可以集成GitHub的private项目</p>
-</li>
+<li><p><a href="https://travis-ci.org/">https://travis-ci.org/</a> 免费版本，可以集成GitHub的public项目</p></li>
+
+<li><p><a href="https://travis-ci.com/">https://travis-ci.com/</a> 商业版本，可以集成GitHub的private项目</p></li>
 </ul>
+
 <p>我们使用第一个，免费版本。</p>
-<h2 id="3配置travis-ci">3.配置Travis CI</h2>
-<h3 id="31-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</h3>
+
+<h2 id="3-配置travis-ci">3.配置Travis CI</h2>
+
+<h3 id="3-1-为travis-ci生成github-token">3.1 为Travis CI生成GitHub Token</h3>
+
 <p>打开GitHub。路径: “Settings”-&gt;“Developer settings”-&gt;“Personal access tokens”-&gt;“Generate new token”。<a href="https://github.com/settings/tokens/new">直达车</a></p>
+
 <p>因为是public项目，而且Travis CI是用来push代码，所以只需勾选 public_repo, repo:status, repo_deployment 三项。</p>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png" alt=""></p>
-<!-- raw HTML omitted -->
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png" alt=""></p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/007.png" alt="" /></p>
+
+<p></br>
+然后点击Generate Token 生成token.</p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/008.png" alt="" /></p>
+
 <p>Token一会儿就会隐藏，不能找回，所以拷贝好，进入下一步。</p>
-<h3 id="32-配置travis-ci构建选项">3.2 配置Travis CI构建选项</h3>
+
+<h3 id="3-2-配置travis-ci构建选项">3.2 配置Travis CI构建选项</h3>
+
 <blockquote>
 <p>1.用GitHub方式登录<a href="https://travis-ci.org/">Travis CI</a></p>
-</blockquote>
-<blockquote>
+
 <p>2.“Settings”-“General” 勾选<code>Build pushed branches</code>和<code>Build pushed pull requests</code>两项。</p>
-</blockquote>
-<blockquote>
+
 <p>3.“Settings”-“Environment Variables” 添加<code>GITHUB_API_KEY</code>，值是上一步得到的Token</p>
 </blockquote>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png" alt=""></p>
-<h3 id="33-添加配置文件">3.3 添加配置文件</h3>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/009.png" alt="" /></p>
+
+<h3 id="3-3-添加配置文件">3.3 添加配置文件</h3>
+
 <p><strong>在git根目录下添加 .travis.yml 文件</strong></p>
+
 <blockquote>
 <p>注意我的项目背景,项目有两个git分支</p>
-</blockquote>
-<blockquote>
+
 <ul>
-<li>hugo: 存放博客源码</li>
+<li><p>hugo: 存放博客源码</p></li>
+
+<li><p>master: 存放Hugo生成的静态站点文件</p></li>
 </ul>
 </blockquote>
-<blockquote>
-<ul>
-<li>master: 存放Hugo生成的静态站点文件</li>
-</ul>
-</blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">language</span>: <span style="color:#ae81ff">go</span>
-<span style="color:#75715e"># Specify which branches to build using a safelist</span>
-<span style="color:#75715e"># 分支白名单限制: 只有hugo分支的提交才会触发构建</span>
-<span style="color:#f92672">branches</span>:
-  <span style="color:#f92672">only</span>:
-    - <span style="color:#ae81ff">hugo</span>
-<span style="color:#f92672">git</span>:
-  <span style="color:#f92672">depth</span>: <span style="color:#ae81ff">1</span>
-<span style="color:#f92672">install</span>:
-<span style="color:#75715e"># 安装最新的hugo</span>
-  - <span style="color:#ae81ff">go get github.com/spf13/hugo</span>
-<span style="color:#f92672">script</span>:
-  <span style="color:#75715e"># 运行hugo命令</span>
-  - <span style="color:#ae81ff">hugo</span>
-<span style="color:#f92672">deploy</span>:
-  <span style="color:#f92672">provider</span>: <span style="color:#ae81ff">pages </span> <span style="color:#75715e"># 重要，指定这是一份github pages的部署配置</span>
-  <span style="color:#f92672">skip-cleanup</span>: <span style="color:#66d9ef">true</span>  <span style="color:#75715e"># 重要，不能省略</span>
-  <span style="color:#75715e"># token is set in travis-ci.org dashboard</span>
-  <span style="color:#f92672">github_token</span>: <span style="color:#ae81ff">$GITHUB_API_KEY </span> <span style="color:#75715e"># 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis</span>
 
-  <span style="color:#f92672">local-dir</span>: <span style="color:#ae81ff">public</span> <span style="color:#75715e"># 静态站点文件所在目录</span>
-  <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">wangzitao6/wangzitao6.github.io</span> <span style="color:#75715e"># github用户名/博客仓库名称</span>
-  <span style="color:#f92672">target_branch</span>: <span style="color:#ae81ff">master</span> <span style="color:#75715e"># 要将静态站点文件发布到哪个分支</span>
-  <span style="color:#f92672">keep-history</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># 是否保持target-branch分支的提交记录</span>
-  <span style="color:#f92672">on</span>:
-    <span style="color:#f92672">branch</span>: <span style="color:#ae81ff">hugo</span> <span style="color:#75715e"># 博客源码的分支</span>
+<pre><code class="language-yml">  language: go
+  # Specify which branches to build using a safelist
+  # 分支白名单限制: 只有hugo分支的提交才会触发构建
+  branches:
+    only:
+      - hugo
+  git:
+    depth: 1
+  install:
+  # 安装最新的hugo
+    - go get github.com/spf13/hugo
+  script:
+    # 运行hugo命令
+    - hugo
+  deploy:
+    provider: pages  # 重要，指定这是一份github pages的部署配置
+    skip-cleanup: true  # 重要，不能省略
+    # token is set in travis-ci.org dashboard
+    github_token: $GITHUB_API_KEY  # 重要，$GITHUB_API_KEY 是变量，需要在GitHub上申请、再到配置到Travis
 
-</code></pre></div><p>把 .travis.yml 放到hugo分支，push到GitHub。</p>
-<h2 id="4自动部署">4.自动部署</h2>
+    local-dir: public # 静态站点文件所在目录
+    repo: wangzitao6/wangzitao6.github.io # github用户名/博客仓库名称
+    target_branch: master # 要将静态站点文件发布到哪个分支
+    keep-history: true # 是否保持target-branch分支的提交记录
+    on:
+      branch: hugo # 博客源码的分支
+
+</code></pre>
+
+<p>把 .travis.yml 放到hugo分支，push到GitHub。</p>
+
+<h2 id="4-自动部署">4.自动部署</h2>
+
 <p>上述操作完成后，自动部署就生效了。我们写完一篇博客，只需提交push到GitHub的hugo分支，Travis CI会自动触发后续的构建、在master分支生成静态文件,然后部署,可以在Travis CI中看到构建日志。</p>
-<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png" alt=""></p>
+
+<p><img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/18/04/010.png" alt="" /></p>
+
+    </section>
 
 
-                
-
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2018-02-15-%e5%8d%8f%e8%ae%ae%e5%85%b3%e7%b3%bb/" data-toggle="tooltip" data-placement="top" title="ip地址,子网掩码,网关,dns协议关系">&larr;
-                            上一篇</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/2018-03-20-%e9%9b%86%e6%88%90gitment%e8%af%84%e8%ae%ba%e7%b3%bb%e7%bb%9f/" data-toggle="tooltip" data-placement="top" title="Hugo集成gitment评论系统">下一篇 &rarr;</a>
-                    </li>
-                    
-                </ul>
-
-                
-
-<div id="git-comments"></div>
+  <footer class="post-footer">
 
 
-<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
-<script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+    
 
 
+
+
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://wangzitao6.github.io">WangZiTao</a></h4>
+  
+  <p>Read <a href="https://wangzitao6.github.io">more posts</a> by this author.</p>
+  
+  <div class="author-meta">
+    
+    
+  </div>
+</section>
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=%e5%88%a9%e7%94%a8Travis%20CI%e5%b0%86Hugo%e8%87%aa%e5%8b%95%e9%83%a8%e7%bd%b2%e5%88%b0Github%20Pages&nbsp;-&nbsp;%e7%8e%8b%e5%ad%90%e6%bb%94%e7%9a%84%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&amp;url=https%3a%2f%2fwangzitao6.github.io%2f2018-03-10-%25E8%2587%25AA%25E5%258A%25A8%25E9%2583%25A8%25E7%25BD%25B2%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwangzitao6.github.io%2f2018-03-10-%25E8%2587%25AA%25E5%258A%25A8%25E9%2583%25A8%25E7%25BD%25B2%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fwangzitao6.github.io%2f2018-03-10-%25E8%2587%25AA%25E5%258A%25A8%25E9%2583%25A8%25E7%25BD%25B2%2f&amp;description=%e5%88%a9%e7%94%a8Travis%20CI%e5%b0%86Hugo%e8%87%aa%e5%8b%95%e9%83%a8%e7%bd%b2%e5%88%b0Github%20Pages"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fwangzitao6.github.io%2f2018-03-10-%25E8%2587%25AA%25E5%258A%25A8%25E9%2583%25A8%25E7%25BD%25B2%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
 <script>
-  var gitment = new Gitment({
-    id: '利用TravisCI将Hugo自動部署到GithubPages', 
-    title: '利用TravisCI将Hugo自動部署到GithubPages',
-    owner: 'wangzitao6',
-    repo: 'wangzitao6.github.io',
-    oauth: {
-      client_id: 'a09fff4950f8823cd23b',
-      client_secret: 'ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9',
-    }
-  })
-  gitment.render('git-comments')
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/wangzitao6.github.io\/2018-03-10-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2\/";  
+this.page.identifier = "https:\/\/wangzitao6.github.io\/2018-03-10-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://WangZiTao.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
 </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
 
-            </div>
-            
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
 
-                
-                
-                <section>
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                        
-                        
-                        <a href="/tags/blog" title="blog">
-                            blog
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/elk" title="elk">
-                            elk
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/git" title="git">
-                            git
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/java" title="java">
-                            java
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/juc" title="juc">
-                            juc
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/jvm" title="jvm">
-                            jvm
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/mysql" title="mysql">
-                            mysql
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
-                            sql注入
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                            其他
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
-                            基础
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
-                            性能
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
-                            正则
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
-                            死锁
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
-                            端口转发
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
-                            设计模式
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
-                            配置
-                        </a>
-                        
-                        
-                    </div>
-                </section>
-                
 
-                
-                
-                <section>
-                    <hr>
-                    <h5>FRIENDS</h5>
-                    <ul class="list-inline">
-                        
-                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
-                        
-                    </ul>
-                </section>
-                
-            </div>
-        </div>
-    </div>
+
+
+
+  </footer>
 </article>
 
+</main>
+
+
+  <aside class="read-next">
+  
+      <a class="read-next-story" style="no-cover" href="/2018-03-20-%E9%9B%86%E6%88%90gitment%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">
+          <section class="post">
+              <h2>Hugo集成gitment评论系统</h2>
+              
+          </section>
+      </a>
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="/2018-02-15-%E5%8D%8F%E8%AE%AE%E5%85%B3%E7%B3%BB/">
+          <section class="post">
+              <h2>ip地址,子网掩码,网关,dns协议关系</h2>
+          </section>
+      </a>
+  
+</aside>
 
 
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                   
-                    
-                    <li>
-                        <a href="mailto:wang_zitao@foxmail.com">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-
-                    
-                    
-                    
-
-                    
-
-		    
-                    
-                    <li>
-                        <a target="_blank" href="/images/qrcode.jpg">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    <li>
-                        <a target="_blank" href="https://github.com/wangzitao6">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		    
-                    
-                    
-                </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2021
-                    <br>
-                </p>
-            </div>
-        </div>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">王子滔的学习笔记</a> </section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
     </div>
-</footer>
-
-
-
-
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-
-
-
-
-
-<script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
     
-    if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-
-<script>
-    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https'){
-       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-      }
-      else{
-      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-      }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
-
-
-
-
-<script>
-    
-    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
-
-    
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135479251-2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-135479251-2');
-</script>
-
-
 </body>
 </html>
+
