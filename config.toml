@@ -1,6 +1,6 @@
 baseurl = "https://wangzitao6.github.io" #一定要用https，github强制安全措施
 title = "王子滔的学习笔记"
-theme = "white"
+theme = "paper"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
 DisqusShortname = "WangZiTao"
@@ -11,6 +11,23 @@ archive-paginate = 20
 hasCJKLanguage = true
 
 [params]
+  #paper主题参数
+  color = 'linen'
+  # header social icons
+
+  email = "wang_zitao@foxmail.com" #邮箱
+  github = "https://github.com/wangzitao6" #github用户名
+  wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
+  rss = true                      # show rss icon with link
+
+  # home page profile
+  avatar = 'images/1.jpg'       # Gravatar email or image url(e.g. "https://deno.land/logo.svg")
+  name = 'WangZiTao'
+  bio = '~路漫漫其修远兮~'
+
+  # misc
+  disableHLJS = true              # disable requesting highlight.js
+  monoDarkIcon = true             # show monochrome dark mode icon
   header_image = "images/1.jpg"
   description = "王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"
   keyword = "王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"
