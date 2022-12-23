@@ -1,6 +1,6 @@
 baseurl = "https://wangzitao6.github.io" #一定要用https，github强制安全措施
 title = "王子滔的学习笔记"
-theme = "hugo-paper"
+theme = "hugo-theme-cleanwhite"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
 DisqusShortname = "WangZiTao"
@@ -11,106 +11,89 @@ archive-paginate = 20
 hasCJKLanguage = true
 
 [params]
-  #paper主题参数
-  color = 'linen'
-  # header social icons
+header_image = "images/1.jpg"
+description = "王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"
+keyword = "王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"
+slogan = "~路漫漫其修远兮~"
 
-  email = "wang_zitao@foxmail.com" #邮箱
-  github = "https://github.com/wangzitao6" #github用户名
-  wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
-  rss = true                      # show rss icon with link
+image_404 = "images/404-bg.jpg"
+title_404 = "你来到了没有知识的荒原 :("
 
-  # home page profile
-  avatar = 'images/1.jpg'       # Gravatar email or image url(e.g. "https://deno.land/logo.svg")
-  name = 'WangZiTao'
-  bio = '~路漫漫其修远兮~'
+# leancloud storage for page view counter
+page_view_conter = true
+leancloud_app_id = ""
+leancloud_app_key = ""
 
-  # misc
-  disableHLJS = true              # disable requesting highlight.js
-  monoDarkIcon = true             # show monochrome dark mode icon
-  header_image = "images/1.jpg"
-  description = "王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"
-  keyword = "王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"
-  slogan = "~路漫漫其修远兮~"
-
-  image_404 = "images/404-bg.jpg"
-  title_404 = "你来到了没有知识的荒原 :("
-
-  # leancloud storage for page view counter
-  page_view_conter = true
-  leancloud_app_id = ""
-  leancloud_app_key = ""
-
-  # algolia site search
-  algolia_search = true
-  algolia_appId = "ERVNYCU0PI"
-  algolia_indexName = "hugo"
-  algolia_apiKey = "5190c8b2fe47aa98509827362cd12f03"
+# algolia site search
+algolia_search = true
+algolia_appId = "ERVNYCU0PI"
+algolia_indexName = "hugo"
+algolia_apiKey = "5190c8b2fe47aa98509827362cd12f03"
 
 
-  #打赏
-  reward = false
+#打赏
+reward = false
 
-  # Sidebar settings
-  sidebar_about_description = "搬砖工程师"
-  #sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
-  sidebar_avatar = "images/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+# Sidebar settings
+sidebar_about_description = "搬砖工程师"
+#sidebar_avatar = "images/avatar-1.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar_avatar = "images/me.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
-  # 右侧的书签
-  featured_tags = true
-  # 书签最小数量
-  featured_condition_size = 0
+# 右侧的书签
+featured_tags = true
+# 书签最小数量
+featured_condition_size = 0
 
-  # 是否开启评论系统
-  gitment = true
-  gitment_owner = "wangzitao6"
-  gitment_repo = "wangzitao6.github.io"
-  gitment_client_id = "a09fff4950f8823cd23b"
-  gitment_client_secret = "ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9"
+# 是否开启评论系统
+gitment = true
+gitment_owner = "wangzitao6"
+gitment_repo = "wangzitao6.github.io"
+gitment_client_id = "a09fff4950f8823cd23b"
+gitment_client_secret = "ec6b34b620c98d6b91dcbcb2b17270b38b33f6d9"
 
-  # Baidu Analytics
-  ba_track_id = "28c952e35b6e860c096a2cdf52785c6f"
+# Baidu Analytics
+ba_track_id = "28c952e35b6e860c096a2cdf52785c6f"
 
-  googleAnalytics = "UA-135479251-2"
+googleAnalytics = "UA-135479251-2"
 
-  # We need a proxy to access Disqus api in China
-  # Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
-  disqus_proxy = ""
-  disqus_site = ""
+# We need a proxy to access Disqus api in China
+# Follow https://github.com/zhaohuabing/disqus-php-api to set up your own disqus proxy
+disqus_proxy = ""
+disqus_site = ""
 
-  friends = true
-  bookmarks = false
-  about_me = true
+friends = true
+bookmarks = false
+about_me = true
 
-  [params.social]
-  rss            = false
-  email = "wang_zitao@foxmail.com" #邮箱
-  github = "https://github.com/wangzitao6" #github用户名
-  wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
+[params.social]
+rss            = false
+email = "wang_zitao@foxmail.com" #邮箱
+github = "https://github.com/wangzitao6" #github用户名
+wechat= "images/qrcode.jpg"  # Replace with your wechat qrcode image
 
-  # h好友博客链接
-  [[params.friend_link]]
-  title = "IBM Developer 中国 "
-  href =  "https://www.ibm.com/developerworks/cn/"
+# h好友博客链接
+[[params.friend_link]]
+title = "IBM Developer 中国 "
+href =  "https://www.ibm.com/developerworks/cn/"
 
-  # 右侧书签链接
-  [[params.bookmark_link]]
-  title =  "Martin Fowler"
-  href =  "https://martinfowler.com"
-  [[params.bookmark_link]]
-  title = "ServiceMesher"
-  href =  "http://www.servicemesher.com"
-  [[params.bookmark_link]]
-  title =  "Pxhere"
-  href = "https://pxhere.com"
-  [[params.bookmark_link]]
-  title = "unsplash"
-  href = "https://unsplash.com"
+# 右侧书签链接
+[[params.bookmark_link]]
+title =  "Martin Fowler"
+href =  "https://martinfowler.com"
+[[params.bookmark_link]]
+title = "ServiceMesher"
+href =  "http://www.servicemesher.com"
+[[params.bookmark_link]]
+title =  "Pxhere"
+href = "https://pxhere.com"
+[[params.bookmark_link]]
+title = "unsplash"
+href = "https://unsplash.com"
 
-  # 上方文件夹总结，界面
-  [[params.addtional_menus]]
-  title =  "ABOUT"
-  href =  "/top/about/"
+# 上方文件夹总结，界面
+[[params.addtional_menus]]
+title =  "ABOUT"
+href =  "/top/about/"
 
 [outputFormats.Algolia]
 baseName = "algolia"
