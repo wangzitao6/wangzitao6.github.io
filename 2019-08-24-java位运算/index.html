@@ -1,532 +1,51 @@
-<!DOCTYPE html>
-<html lang="en-us">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <meta property="og:site_name" content="王子滔的学习笔记">
-    <meta property="og:type" content="article">
-
-    
-    <meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg">
-    <meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg" />
-    
-
-    
-    <meta name="title" content="Java位运算" />
-    <meta property="og:title" content="Java位运算" />
-    <meta property="twitter:title" content="Java位运算" />
-    
-
-    
-    <meta name="description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。">
-    <meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    <meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。" />
-    
-
-    
-    <meta property="twitter:card" content="summary" />
-    
-    
-
-    <meta name="keyword"  content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <title>Java位运算 | </title>
-
-    <link rel="canonical" href="/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/">
-
-    
-    
-    
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    
-    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
-
-    
-    <link rel="stylesheet" href="/css/zanshang.css">
-
-    
-    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
-
-    
-    
-
-    
-    <script src="/js/jquery.min.js"></script>
-
-    
-    <script src="/js/bootstrap.min.js"></script>
-
-    
-    <script src="/js/hux-blog.min.js"></script>
-
-    
-    <script src="/js/lazysizes.min.js"></script>
-
-    
-    
-
-</head>
-
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-135479251-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
-
-
-
-
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-
-    <div class="container-fluid">
-        
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">王子滔的学习笔记</a>
-        </div>
-
-        
-        
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">All Posts</a>
-                    </li>
-                    
-                        
-                        <li>
-                            <a href="/categories/build">build</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/elk">elk</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/java">java</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/jvm">jvm</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/life">life</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/net">net</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/other">other</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/sql">sql</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/tech">tech</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/tips">tips</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B">多线程</a>
-                        </li>
-                        
-                    
-                    
-		    
-                        <li><a href="/top/about/">ABOUT</a></li>
-                    
-		            <li>
-                        <a href="/search"><i class="fa fa-search"></i></a>
-		           </li>
-                </ul>
-            </div>
-        </div>
-        
-    </div>
-    
-</nav>
-<script>
-    
-    
-    
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        
-            $navbar.className = " ";
-            
-            setTimeout(function(){
-                
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
-
-
-
-
-<style type="text/css">
-    header.intro-header {
-        background-image: url('/images/1.jpg')
-    }
-</style>
-
-<header class="intro-header" >
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/java" title="java">
-                            java
-                        </a>
-                        
-                        <a class="tag" href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
-                            基础
-                        </a>
-                        
-                    </div>
-                    <h1>Java位运算</h1>
-                    <h2 class="subheading">Java位运算</h2>
-                    <span class="meta">
-                        
-                            Posted by 
-                            
-                                WangZiTao
-                             
-                            on 
-                            Saturday, August 24, 2019
-                            
-                                <span id="/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/" class="leancloud_visitors meta_data_item" data-flag-title="">
-    <span class="post-meta-item-icon">
-      <span class="octicon octicon-eye"></span> 
-    </span>
-    <i class="fa fa-eye"></i>
-    <span class="old-visitors-count" style="display: none;"></span>
-    <span class="leancloud-visitors-count"></span>
-</span>
-
-
-
-<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-
-<script>
-	AV.initialize("", "");
-</script>
-
-<script type="text/javascript">
-function showTime(Counter) {
-    var query = new AV.Query(Counter);
-    var entries = [];
-    var $visitors = $(".leancloud_visitors");
-
-    $visitors.each(function() {
-        entries.push($(this).attr("id").trim());
-    });
-
-    query.containedIn('url', entries);
-    query.find()
-        .done(function(results) {
-            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-
-            
-            
-            
-            
-
-            for (var i = 0; i < results.length; i++) {
-                var item = results[i];
-                var url = item.get('url');
-                var time = item.get('time');
-                var element = document.getElementById(url);
-
-                $(element).find(COUNT_CONTAINER_REF).text(time);
-            }
-            for (var i = 0; i < entries.length; i++) {
-                var url = entries[i];
-                var element = document.getElementById(url);
-                var countSpan = $(element).find(COUNT_CONTAINER_REF);
-                if (countSpan.text() == '') {
-                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
-                    if(oldCountSpan!=''){
-                        countSpan.text(0+parseInt(oldCountSpan));
-                    }else{
-                        countSpan.text(0);          
-                    }
-                }
-            }
-        })
-        .fail(function(object, error) {
-            console.log("Error: " + error.code + " " + error.message);
-        });
-}
-
-function addCount(Counter) {
-    var $visitors = $(".leancloud_visitors");
-    var url = $visitors.attr('id').trim();
-    var title = $visitors.attr('data-flag-title').trim();
-    var query = new AV.Query(Counter);
-
-    query.equalTo("url", url);
-    query.find({
-        success: function(results) {
-            if (results.length > 0) {
-                var counter = results[0];
-                counter.fetchWhenSave(true);
-                counter.increment("time");
-                counter.save(null, {
-                    success: function(counter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
-                    },
-                    error: function(counter, error) {
-                        console.log('Failed to save Visitor num, with error message: ' + error.message);
-                    }
-                });
-            } else {
-                var newcounter = new Counter();
-                 
-                var acl = new AV.ACL();
-                acl.setPublicReadAccess(true);
-                acl.setPublicWriteAccess(true);
-                newcounter.setACL(acl);
-                 
-                newcounter.set("title", title);
-                newcounter.set("url", url);
-                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
-                var $element = $(document.getElementById(url));
-                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
-                if(oldCountSpan!=''){
-                    newcounter.set("time", parseInt(oldCountSpan)+1);
-                }else{
- 	                    newcounter.set("time",  1);
-                }
-                newcounter.save(null, {
-                    success: function(newcounter) {
-                        var $element = $(document.getElementById(url));
-                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-                    },
-                    error: function(newcounter, error) {
-                        console.log('Failed to create');
-                    }
-                });
-            }
-        },
-        error: function(error) {
-            console.log('Error:' + error.code + " " + error.message);
-        }
-    });
-}
-$(function() {
-    var Counter = AV.Object.extend("Counter");
-    
-    
-    if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-    } else {
-        showTime(Counter);
-    }
-});
-</script>
-
-                            
-                            
-                            
-                            
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-
-
-
-<article>
-    <div class="container">
-        <div class="row">
-
-            
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                
-                <h2 id="单位换算">单位换算</h2>
-<ol>
-<li>
-<p>bit：位
-一个二进制数据0或1，是1bit；</p>
-</li>
-<li>
-<p>byte：字节
-1 byte = 8 bit , 存储空间的基本计量单位；</p>
-</li>
-<li>
-<p>一个英文字符占一个字节
-1 字母 = 1 byte = 8 bit；</p>
-</li>
-<li>
-<p>一个汉字占2个字节
-1 汉字 = 2 byte = 16 bit；</p>
-</li>
-</ol>
-<h2 id="支持的数据类型">支持的数据类型</h2>
-<p>首先明确一点，Java中的位运算是针对整型的数据类型进行运算的，所以操作数必须是一下五种之一。</p>
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>所占位数（bit）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>byte</td>
-<td>8</td>
-</tr>
-<tr>
-<td>short</td>
-<td>16</td>
-</tr>
-<tr>
-<td>int</td>
-<td>32</td>
-</tr>
-<tr>
-<td>long</td>
-<td>64</td>
-</tr>
-<tr>
-<td>char</td>
-<td>16</td>
-</tr>
-</tbody>
-</table>
-<h2 id="数据存储方式">数据存储方式</h2>
-<p>计算机中存储的数据最终是以二进制存储(补码存储)，如int类型的十进制数字10表示为32bit的二进制：</p>
-<p>0000 0000 0000 0000 0000 0000 0000 1010</p>
-<blockquote>
-<p>注：数据在计算机中都是以反码形式存在。正数的的原码与反码相同。
-有关原码、反码、补码的知识，请看另一个章节<a href="https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/">原码、反码、补码</a></p>
-</blockquote>
-<h2 id="位运算符">位运算符</h2>
-<table>
-<thead>
-<tr>
-<th>运算符</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&amp;</td>
-<td>按位与(<strong><!-- raw HTML omitted -->对应位同为1时，才为1，否则全为0<!-- raw HTML omitted --></strong>)</td>
-</tr>
-<tr>
-<td>|</td>
-<td>按位或(<strong><!-- raw HTML omitted -->对应位只要有1时，即为1，否则全为0<!-- raw HTML omitted --></strong>)</td>
-</tr>
-<tr>
-<td>~</td>
-<td>按位非(<strong><!-- raw HTML omitted -->对每位进行取反<!-- raw HTML omitted --></strong>)</td>
-</tr>
-<tr>
-<td>^</td>
-<td>按位异或(<strong><!-- raw HTML omitted -->只要对应为不同即为1<!-- raw HTML omitted --></strong>)</td>
-</tr>
-<tr>
-<td>&laquo;</td>
-<td>左移(<strong><!-- raw HTML omitted -->左移 左边最高位丢弃，右边补齐0<!-- raw HTML omitted --></strong>)</td>
-</tr>
-<tr>
-<td>&raquo;</td>
-<td>右移(<strong><!-- raw HTML omitted -->最高位是0，左边补齐0；最高为是1，左边补齐1<!-- raw HTML omitted --></strong>)</td>
-</tr>
-<tr>
-<td>&laquo;&lt;</td>
-<td>无符号右移(<strong><!-- raw HTML omitted -->无论操作数是正数还是负数，高位都是补0<!-- raw HTML omitted --></strong>)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="按位与-">按位与 &amp;</h3>
-<p>规则：<strong><!-- raw HTML omitted --> 对应位同为1时，才为1，否则全为0（对应位只要有0，全为0，否则为1） <!-- raw HTML omitted --></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127 &amp; 128 的结果是：&#34;</span><span style="color:#f92672">+(</span>a <span style="color:#f92672">&amp;</span> b<span style="color:#f92672">));</span>
-</span></span></code></pre></div><p>运行结果：</p>
-<pre tabindex="0"><code>127 &amp; 128 的结果是：0
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="王子滔的学习笔记"><meta property="og:type" content="article"><meta property="og:image" content="https://wangzitao6.github.io/images/1.jpg"><meta property="twitter:image" content="https://wangzitao6.github.io/images/1.jpg"><meta name=title content="Java位运算"><meta property="og:title" content="Java位运算"><meta property="twitter:title" content="Java位运算"><meta name=description content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:card" content="summary"><meta name=keyword content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"><link rel="shortcut icon" href=/img/favicon.ico><title>Java位运算 |</title><link rel=canonical href=/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script></head><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-135479251-2","auto"),ga("send","pageview"))</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>王子滔的学习笔记</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/build>build</a></li><li><a href=/categories/elk>elk</a></li><li><a href=/categories/java>java</a></li><li><a href=/categories/jvm>jvm</a></li><li><a href=/categories/life>life</a></li><li><a href=/categories/net>net</a></li><li><a href=/categories/other>other</a></li><li><a href=/categories/sql>sql</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/categories/tips>tips</a></li><li><a href=/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B>多线程</a></li><li><a href=/top/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/images/1.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/java title=java>java</a>
+<a class=tag href=/tags/%E5%9F%BA%E7%A1%80 title=基础>基础</a></div><h1>Java位运算</h1><h2 class=subheading>Java位运算</h2><span class=meta>Posted by
+WangZiTao
+on
+Saturday, August 24, 2019
+<span id=/2019-08-24-java%E4%BD%8D%E8%BF%90%E7%AE%97/ class="leancloud_visitors meta_data_item" data-flag-title><span class=post-meta-item-icon><span class="octicon octicon-eye"></span></span>
+<i class="fa fa-eye"></i>
+<span class=old-visitors-count style=display:none></span>
+<span class=leancloud-visitors-count></span></span>
+<script src=https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js></script>
+<script>AV.initialize("","")</script><script type=text/javascript>function showTime(e){var n=new AV.Query(e),t=[],s=$(".leancloud_visitors");s.each(function(){t.push($(this).attr("id").trim())}),n.containedIn("url",t),n.find().done(function(e){for(var s,o,i,a,r,l,c=".leancloud-visitors-count",d=".old-visitors-count",n=0;n<e.length;n++)a=e[n],o=a.get("url"),l=a.get("time"),s=document.getElementById(o),$(s).find(c).text(l);for(n=0;n<t.length;n++)o=t[n],s=document.getElementById(o),i=$(s).find(c),i.text()==""&&(r=$(s).find(d).text(),r!=""?i.text(0+parseInt(r)):i.text(0))}).fail(function(e,t){console.log("Error: "+t.code+" "+t.message)})}function addCount(e){var n=$(".leancloud_visitors"),t=n.attr("id").trim(),o=n.attr("data-flag-title").trim(),s=new AV.Query(e);s.equalTo("url",t),s.find({success:function(n){if(n.length>0){var s,i,r,c,l,a=n[0];a.fetchWhenSave(!0),a.increment("time"),a.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to save Visitor num, with error message: "+t.message)}})}else s=new e,i=new AV.ACL,i.setPublicReadAccess(!0),i.setPublicWriteAccess(!0),s.setACL(i),s.set("title",o),s.set("url",t),c=".old-visitors-count",l=$(document.getElementById(t)),r=l.find(c).text(),r!=""?s.set("time",parseInt(r)+1):s.set("time",1),s.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(){console.log("Failed to create")}})},error:function(e){console.log("Error:"+e.code+" "+e.message)}})}$(function(){var e=AV.Object.extend("Counter");$(".leancloud_visitors").length==1?addCount(e):showTime(e)})</script></span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h2 id=单位换算>单位换算</h2><ol><li><p>bit：位
+一个二进制数据0或1，是1bit；</p></li><li><p>byte：字节
+1 byte = 8 bit , 存储空间的基本计量单位；</p></li><li><p>一个英文字符占一个字节
+1 字母 = 1 byte = 8 bit；</p></li><li><p>一个汉字占2个字节
+1 汉字 = 2 byte = 16 bit；</p></li></ol><h2 id=支持的数据类型>支持的数据类型</h2><p>首先明确一点，Java中的位运算是针对整型的数据类型进行运算的，所以操作数必须是一下五种之一。</p><table><thead><tr><th>数据类型</th><th>所占位数（bit）</th></tr></thead><tbody><tr><td>byte</td><td>8</td></tr><tr><td>short</td><td>16</td></tr><tr><td>int</td><td>32</td></tr><tr><td>long</td><td>64</td></tr><tr><td>char</td><td>16</td></tr></tbody></table><h2 id=数据存储方式>数据存储方式</h2><p>计算机中存储的数据最终是以二进制存储(补码存储)，如int类型的十进制数字10表示为32bit的二进制：</p><p>0000 0000 0000 0000 0000 0000 0000 1010</p><blockquote><p>注：数据在计算机中都是以反码形式存在。正数的的原码与反码相同。
+有关原码、反码、补码的知识，请看另一个章节<a href=https://wangzitao6.github.io/2019-08-23-%E5%8E%9F%E7%A0%81-%E8%A1%A5%E7%A0%81-%E5%8F%8D%E7%A0%81/>原码、反码、补码</a></p></blockquote><h2 id=位运算符>位运算符</h2><table><thead><tr><th>运算符</th><th>含义</th></tr></thead><tbody><tr><td>&</td><td>按位与(<strong>对应位同为1时，才为1，否则全为0</strong>)</td></tr><tr><td>|</td><td>按位或(<strong>对应位只要有1时，即为1，否则全为0</strong>)</td></tr><tr><td>~</td><td>按位非(<strong>对每位进行取反</strong>)</td></tr><tr><td>^</td><td>按位异或(<strong>只要对应为不同即为1</strong>)</td></tr><tr><td>&#171;</td><td>左移(<strong>左移 左边最高位丢弃，右边补齐0</strong>)</td></tr><tr><td>&#187;</td><td>右移(<strong>最高位是0，左边补齐0；最高为是1，左边补齐1</strong>)</td></tr><tr><td>&#171;&lt;</td><td>无符号右移(<strong>无论操作数是正数还是负数，高位都是补0</strong>)</td></tr></tbody></table><h3 id=按位与->按位与 &</h3><p>规则：<strong> 对应位同为1时，才为1，否则全为0（对应位只要有0，全为0，否则为1）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>127</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> b <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;127 &amp; 128 的结果是：&#34;</span><span style=color:#f92672>+(</span>a <span style=color:#f92672>&amp;</span> b<span style=color:#f92672>));</span>
+</span></span></code></pre></div><p>运行结果：</p><pre tabindex=0><code>127 &amp; 128 的结果是：0
 
 解析: 
 127的二进制(补码)：00000000 00000000 00000000 01111111
 128的二进制(补码)：00000000 00000000 00000000 10000000
 根据 &amp; 规则结果：  00000000 00000000 00000000 00000000
 所以结果为0
-</code></pre><h3 id="按位或-">按位或 |</h3>
-<p>规则： <strong><!-- raw HTML omitted --> 对应位只要有1时，即为1，否则全为0（对应位只有全是0时，结果才是0，否则为1） <!-- raw HTML omitted --></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127 | 128 的结果是：&#34;</span><span style="color:#f92672">+(</span>a <span style="color:#f92672">|</span> b<span style="color:#f92672">));</span>
-</span></span></code></pre></div><p>运行结果：</p>
-<pre tabindex="0"><code>127 | 128 的结果是：255
+</code></pre><h3 id=按位或->按位或 |</h3><p>规则： <strong>对应位只要有1时，即为1，否则全为0（对应位只有全是0时，结果才是0，否则为1）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>127</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> b <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;127 | 128 的结果是：&#34;</span><span style=color:#f92672>+(</span>a <span style=color:#f92672>|</span> b<span style=color:#f92672>));</span>
+</span></span></code></pre></div><p>运行结果：</p><pre tabindex=0><code>127 | 128 的结果是：255
 
 解析: 
 127的二进制(补码)：00000000 00000000 00000000 01111111
 128的二进制(补码)：00000000 00000000 00000000 10000000
 根据 | 规则结果：  00000000 00000000 00000000 11111111
 最高为0，为正数，原码补码一样，所以结果为255
-</code></pre><h3 id="按位非-">按位非 ~</h3>
-<p>规则： <strong><!-- raw HTML omitted -->对每位进行取反 <!-- raw HTML omitted --></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;~128 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">~</span> a<span style="color:#f92672">);</span>
-</span></span></code></pre></div><p>运行结果：</p>
-<pre tabindex="0"><code>~128 的结果是：-129
+</code></pre><h3 id=按位非->按位非 ~</h3><p>规则： <strong>对每位进行取反</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;~128 的结果是：&#34;</span> <span style=color:#f92672>+</span> <span style=color:#f92672>~</span> a<span style=color:#f92672>);</span>
+</span></span></code></pre></div><p>运行结果：</p><pre tabindex=0><code>~128 的结果是：-129
 
 解析: 
 128的二进制(补码)：00000000 00000000 00000000 10000000
@@ -536,68 +55,38 @@ $(function() {
 反码：11111111 11111111 11111111 01111110
 原码：10000000 00000000 00000000 10000001
 结果为 -129
-</code></pre><h3 id="按位异或-">按位异或 ^</h3>
-<p>规则： <strong><!-- raw HTML omitted --> 只要对应为不同即为1。 <!-- raw HTML omitted --></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">127</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127 ^ 128 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">^</span>  b<span style="color:#f92672">));</span>
-</span></span></code></pre></div><p>运行结果：</p>
-<pre tabindex="0"><code>127 ^ 128 的结果是：255
+</code></pre><h3 id=按位异或->按位异或 ^</h3><p>规则： <strong>只要对应为不同即为1。</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>127</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> b <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;127 ^ 128 的结果是：&#34;</span> <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>a <span style=color:#f92672>^</span>  b<span style=color:#f92672>));</span>
+</span></span></code></pre></div><p>运行结果：</p><pre tabindex=0><code>127 ^ 128 的结果是：255
 
 解析: 
 127的二进制(补码)：00000000 00000000 00000000 01111111
 128的二进制(补码)：00000000 00000000 00000000 10000000
 根据 | 规则结果：  00000000 00000000 00000000 11111111
 最高为0，为正数，原码补码一样，所以结果为255
-</code></pre><h3 id="位移动运算符">位移动运算符</h3>
-<h4 id="左移-">左移 &laquo;</h4>
-<p>规则：<strong><!-- raw HTML omitted --> &laquo; :左移 左边最高位丢弃，右边补齐0; <!-- raw HTML omitted --></strong></p>
-<ul>
-<li><strong>左移的规则只记住一点：丢弃最高位，0补最低位</strong></li>
-<li><strong>如果移动的位数超过了该类型的最大位数，那么编译器会对移动的位数取模</strong></li>
-</ul>
-<p>通用格式：</p>
-<pre tabindex="0"><code>value &lt;&lt; num 
+</code></pre><h3 id=位移动运算符>位移动运算符</h3><h4 id=左移->左移 &#171;</h4><p>规则：<strong> &#171; :左移 左边最高位丢弃，右边补齐0;</strong></p><ul><li><strong>左移的规则只记住一点：丢弃最高位，0补最低位</strong></li><li><strong>如果移动的位数超过了该类型的最大位数，那么编译器会对移动的位数取模</strong></li></ul><p>通用格式：</p><pre tabindex=0><code>value &lt;&lt; num 
 num : 指要移位值   
 value : 指移动的位数。
 意思是value向左位移num位，左移num位，相当于乘以2^num
-</code></pre><p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1 &lt;&lt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">));</span>
+</code></pre><p>例如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;1 &lt;&lt; 2 的结果是：&#34;</span> <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>a <span style=color:#f92672>&lt;&lt;</span> <span style=color:#ae81ff>2</span><span style=color:#f92672>));</span>
 </span></span></code></pre></div><p>运行结果(图片来自于网络)：
-
-  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%B7%A6%E7%A7%BB2.png" alt="左移">
-
-</p>
-<pre tabindex="0"><code>1 &lt;&lt; 2 的结果是：4
-</code></pre><h4 id="右移-">右移 &raquo;</h4>
-<p>规则：<strong><!-- raw HTML omitted --> &raquo;:右移, 最高位是0(正数时)，左边补齐0；最高为是1(正数时)，左边补齐1，保持为负数；<!-- raw HTML omitted --></strong></p>
-<p>m&raquo;n即相当于m除以2的n次方，得到的为整数时，即为结果。如果结果为小数，此时会出现两种情况：</p>
-<p>1 如果m为正数，得到的商会无条件 的舍弃小数位；</p>
-<p>2 如果m为负数，舍弃小数部分，然后把整数部分加+1得到位移后的值。</p>
-<p>通用格式：</p>
-<pre tabindex="0"><code>value &gt;&gt; num 
+<img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%B7%A6%E7%A7%BB2.png alt=左移></p><pre tabindex=0><code>1 &lt;&lt; 2 的结果是：4
+</code></pre><h4 id=右移->右移 &#187;</h4><p>规则：<strong> &#187;:右移, 最高位是0(正数时)，左边补齐0；最高为是1(正数时)，左边补齐1，保持为负数；</strong></p><p>m&#187;n即相当于m除以2的n次方，得到的为整数时，即为结果。如果结果为小数，此时会出现两种情况：</p><p>1 如果m为正数，得到的商会无条件 的舍弃小数位；</p><p>2 如果m为负数，舍弃小数部分，然后把整数部分加+1得到位移后的值。</p><p>通用格式：</p><pre tabindex=0><code>value &gt;&gt; num 
 num : 指要移位值   
 value : 指移动的位数。
 意思是value向左位移num位，左移num位，相当于除以2^num
-</code></pre><p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;12 &gt;&gt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">));</span>
+</code></pre><p>例如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>12</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;12 &gt;&gt; 2 的结果是：&#34;</span> <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>a <span style=color:#f92672>&gt;&gt;</span> <span style=color:#ae81ff>2</span><span style=color:#f92672>));</span>
 </span></span></code></pre></div><p>运行结果(图片来自于网络，图中稍有错误，其中10应该为12)：
-
-  <img src="https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%8F%B3%E7%A7%BB.png" alt="右移">
-
-</p>
-<pre tabindex="0"><code>1 &lt;&lt; 2 的结果是：4
-</code></pre><h4 id="无符号右移-">无符号右移 &raquo;&gt;</h4>
-<p><strong><!-- raw HTML omitted -->无符号右移&raquo;&gt; 与 右移&raquo; 的区别就是无论操作数是正数还是负数，高位都是补0<!-- raw HTML omitted --></strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;12 &gt;&gt;&gt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>a <span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">));</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-12 &gt;&gt;&gt; 2 的结果是：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>b <span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">));</span>
-</span></span></code></pre></div><p>运行结果：</p>
-<pre tabindex="0"><code>12 &gt;&gt;&gt; 2 的结果是：3
+<img src=https://wangzitao-blog.oss-cn-hangzhou.aliyuncs.com/19/08/26/%E5%8F%B3%E7%A7%BB.png alt=右移></p><pre tabindex=0><code>1 &lt;&lt; 2 的结果是：4
+</code></pre><h4 id=无符号右移->无符号右移 &#187;></h4><p><strong>无符号右移&#187;> 与 右移&#187; 的区别就是无论操作数是正数还是负数，高位都是补0</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>int</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>12</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;12 &gt;&gt;&gt; 2 的结果是：&#34;</span> <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>a <span style=color:#f92672>&gt;&gt;&gt;</span> <span style=color:#ae81ff>2</span><span style=color:#f92672>));</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> b <span style=color:#f92672>=</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>12</span><span style=color:#f92672>;</span>
+</span></span><span style=display:flex><span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;-12 &gt;&gt;&gt; 2 的结果是：&#34;</span> <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>b <span style=color:#f92672>&gt;&gt;&gt;</span> <span style=color:#ae81ff>2</span><span style=color:#f92672>));</span>
+</span></span></code></pre></div><p>运行结果：</p><pre tabindex=0><code>12 &gt;&gt;&gt; 2 的结果是：3
 -12 &gt;&gt;&gt; 2 的结果是：1073741821
 
 解析: 
@@ -608,504 +97,45 @@ value : 指移动的位数。
 补齐：            0011111111 11111111 11111111 111101
 注意这个补齐因为是无符号的，最高位补0，结果为正数
 最高为0，为正数，原码补码一样，所以结果为的结果是：1073741821
-</code></pre>
-
-                
-
-                
-                <hr>
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/" data-toggle="tooltip" data-placement="top" title="Int类型强制转换byte类型">&larr;
-                            Previous Post</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/2019-08-26-integer%E7%9A%84integercache/" data-toggle="tooltip" data-placement="top" title="Integer的IntegerCache">Next
-                            Post &rarr;</a>
-                    </li>
-                    
-                </ul>
-                
-
-                
-
-
-<div id="disqus-comment"></div>
-<div id="disqus_thread"></div>
-<script type="application/javascript">
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "WangZiTao" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-
-            </div>
-
-            
-            
-            <div class="
-                col-lg-2 col-lg-offset-0
-                visible-lg-block
-                sidebar-container
-                catalog-container">
-                <div class="side-catalog">
-                    <hr class="hidden-sm hidden-xs">
-                    <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
-                    </h5>
-                    <ul class="catalog-body"></ul>
-                </div>
-            </div>
-            
-
-            
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                
-                
-                <section>
-                    <hr class="hidden-sm hidden-xs">
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                        
-                        
-                        
-                        <a href="/tags/api-gateway" title="api-gateway">
-                            api-gateway
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/blog" title="blog">
-                            blog
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/docker" title="docker">
-                            docker
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/elk" title="elk">
-                            elk
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/git" title="git">
-                            git
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/helm" title="helm">
-                            helm
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/io" title="io">
-                            io
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/istio" title="istio">
-                            istio
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/java" title="java">
-                            java
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/juc" title="juc">
-                            juc
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/jvm" title="jvm">
-                            jvm
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/kubernetes" title="kubernetes">
-                            kubernetes
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/microservice" title="microservice">
-                            microservice
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/mysql" title="mysql">
-                            mysql
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/nginmesh" title="nginmesh">
-                            nginmesh
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/security" title="security">
-                            security
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/service-mesh" title="service-mesh">
-                            service-mesh
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/sql%E6%B3%A8%E5%85%A5" title="sql注入">
-                            sql注入
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/tips" title="tips">
-                            tips
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/travel" title="travel">
-                            travel
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/ubuntu" title="ubuntu">
-                            ubuntu
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/vim" title="vim">
-                            vim
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E5%85%B6%E4%BB%96" title="其他">
-                            其他
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E5%9F%BA%E7%A1%80" title="基础">
-                            基础
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%80%A7%E8%83%BD" title="性能">
-                            性能
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%AD%A3%E5%88%99" title="正则">
-                            正则
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E6%AD%BB%E9%94%81" title="死锁">
-                            死锁
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91" title="端口转发">
-                            端口转发
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E7%BD%91%E7%BB%9C" title="网络">
-                            网络
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F" title="设计模式">
-                            设计模式
-                        </a>
-                        
-                        
-                        
-                        <a href="/tags/%E9%85%8D%E7%BD%AE" title="配置">
-                            配置
-                        </a>
-                        
-                        
-                    </div>
-                </section>
-                
-
-                
-                
-                <section>
-                    <hr>
-                    <h5>FRIENDS</h5>
-                    <ul class="list-inline">
-                        
-                        <li><a target="_blank" href="https://www.ibm.com/developerworks/cn/">IBM Developer 中国 </a></li>
-                        
-                    </ul>
-                </section>
-                
-            </div>
-        </div>
-    </div>
-</article>
-
-
-
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">                  
-                    
-                    <li>
-                        <a href="mailto:wang_zitao@foxmail.com">
-                            <span class="fa-stack fa-lg">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		           
-                    
-                    
-                    
-                    
-
-		            
-                    
-                    <li>
-                        <a target="_blank" href="/images/qrcode.jpg">
-                            <span class="fa-stack fa-lg">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		            
-                    
-                    <li>
-                        <a target="_blank" href="https://github.com/wangzitao6">
-                            <span class="fa-stack fa-lg">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-		            
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-            
-            
-            
-           
-             </ul>
-		<p class="copyright text-muted">
-                    Copyright &copy; 王子滔的学习笔记 2022
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
-                    </iframe>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-
-
-
-<script>
-    function loadAsync(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-
-
-
-
-
-<script>
-    
-    if($('#tag_cloud').length !== 0){
-        loadAsync("/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-
-<script>
-    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https'){
-       bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-      }
-      else{
-      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-      }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
-
-
-<script>
-    
-    var _baId = '28c952e35b6e860c096a2cdf52785c6f';
-
-    
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-<script type="text/javascript">
-    function generateCatalog(selector) {
-
-        
-        
-        
-        
-            _containerSelector = 'div.post-container'
-        
-
-        
-        var P = $(_containerSelector), a, n, t, l, i, c;
-        a = P.find('h1,h2,h3,h4,h5,h6');
-
-        
-        $(selector).html('')
-
-        
-        a.each(function () {
-            n = $(this).prop('tagName').toLowerCase();
-            i = "#" + $(this).prop('id');
-            t = $(this).text();
-            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
-            l = $('<li class="' + n + '_nav"></li>').append(c);
-            $(selector).append(l);
-        });
-        return true;
-    }
-
-    generateCatalog(".catalog-body");
-
-    
-    $(".catalog-toggle").click((function (e) {
-        e.preventDefault();
-        $('.side-catalog').toggleClass("fold")
-    }))
-
-    
-
-
-    loadAsync("\/js\/jquery.nav.js", function () {
-        $('.catalog-body').onePageNav({
-            currentClass: "active",
-            changeHash: !1,
-            easing: "swing",
-            filter: "",
-            scrollSpeed: 700,
-            scrollOffset: 0,
-            scrollThreshold: .2,
-            begin: null,
-            end: null,
-            scrollChange: null,
-            padding: 80
-        });
-    });
-</script>
-
-
-
-
-
-
-</body>
-</html>
+</code></pre><hr><ul class=pager><li class=previous><a href=/2019-08-24-int%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2byte%E7%B1%BB%E5%9E%8B/ data-toggle=tooltip data-placement=top title=Int类型强制转换byte类型>&larr;
+Previous Post</a></li><li class=next><a href=/2019-08-26-integer%E7%9A%84integercache/ data-toggle=tooltip data-placement=top title=Integer的IntegerCache>Next
+Post &rarr;</a></li></ul><div id=disqus-comment></div><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//WangZiTao.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/api-gateway title=api-gateway>api-gateway</a>
+<a href=/tags/blog title=blog>blog</a>
+<a href=/tags/docker title=docker>docker</a>
+<a href=/tags/elk title=elk>elk</a>
+<a href=/tags/git title=git>git</a>
+<a href=/tags/helm title=helm>helm</a>
+<a href=/tags/io title=io>io</a>
+<a href=/tags/istio title=istio>istio</a>
+<a href=/tags/java title=java>java</a>
+<a href=/tags/juc title=juc>juc</a>
+<a href=/tags/jvm title=jvm>jvm</a>
+<a href=/tags/kubernetes title=kubernetes>kubernetes</a>
+<a href=/tags/microservice title=microservice>microservice</a>
+<a href=/tags/mysql title=mysql>mysql</a>
+<a href=/tags/nginmesh title=nginmesh>nginmesh</a>
+<a href=/tags/security title=security>security</a>
+<a href=/tags/service-mesh title=service-mesh>service-mesh</a>
+<a href=/tags/sql%E6%B3%A8%E5%85%A5 title=sql注入>sql注入</a>
+<a href=/tags/tips title=tips>tips</a>
+<a href=/tags/travel title=travel>travel</a>
+<a href=/tags/ubuntu title=ubuntu>ubuntu</a>
+<a href=/tags/vim title=vim>vim</a>
+<a href=/tags/%E5%85%B6%E4%BB%96 title=其他>其他</a>
+<a href=/tags/%E5%9F%BA%E7%A1%80 title=基础>基础</a>
+<a href=/tags/%E6%80%A7%E8%83%BD title=性能>性能</a>
+<a href=/tags/%E6%AD%A3%E5%88%99 title=正则>正则</a>
+<a href=/tags/%E6%AD%BB%E9%94%81 title=死锁>死锁</a>
+<a href=/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91 title=端口转发>端口转发</a>
+<a href=/tags/%E7%BD%91%E7%BB%9C title=网络>网络</a>
+<a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F title=设计模式>设计模式</a>
+<a href=/tags/%E9%85%8D%E7%BD%AE title=配置>配置</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.ibm.com/developerworks/cn/>IBM Developer 中国</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:wang_zitao@foxmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/images/qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/wangzitao6><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; 王子滔的学习笔记 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script>(function(){var t,e=document.createElement("script"),n=window.location.protocol.split(":")[0];n==="https"?e.src="https://zz.bdstatic.com/linksubmit/push.js":e.src="http://push.zhanzhang.baidu.com/push.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)})()</script><script>var _baId="28c952e35b6e860c096a2cdf52785c6f",_hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="//hm.baidu.com/hm.js?"+_baId,e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
