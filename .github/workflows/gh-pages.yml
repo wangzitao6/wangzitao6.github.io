@@ -34,4 +34,4 @@ jobs:
           repository-name: wangzitao6/wangzitao6.github.io # 修改为你的 GitHub Pages 仓库
           # github_token: ${{ secrets.PERSONAL_TOKEN }}
           #publish_dir: ./public
-          publish_branch: master
+          publish_branch: main
