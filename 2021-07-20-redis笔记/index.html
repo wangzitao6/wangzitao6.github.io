@@ -1,0 +1,97 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="王子滔的学习笔记"><meta property="og:type" content="article"><meta property="og:image" content="https://wangzitao6.github.io/img/1.jpg"><meta property="twitter:image" content="https://wangzitao6.github.io/img/1.jpg"><meta name=title content="redis笔记"><meta property="og:title" content="redis笔记"><meta property="twitter:title" content="redis笔记"><meta name=description content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="og:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:description" content="王子滔, 美食爱好者，生活探险家 | 这里是 王子滔 的学习笔记，与你一起发现更大的世界。"><meta property="twitter:card" content="summary"><meta name=keyword content="王子滔, wangzitao, WangZiTao, 王子滔的网络日志, 王子滔的学习笔记, 学习笔记, 个人网站, 互联网, Web, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"><link rel="shortcut icon" href=/img/favicon.ico><title>redis笔记 |</title><link rel=canonical href=/2021-07-20-redis%E7%AC%94%E8%AE%B0/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script></head><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-135479251-2","auto"),ga("send","pageview"))</script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>王子滔的学习笔记</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/build>build</a></li><li><a href=/categories/elk>elk</a></li><li><a href=/categories/java>java</a></li><li><a href=/categories/jvm>jvm</a></li><li><a href=/categories/life>life</a></li><li><a href=/categories/net>net</a></li><li><a href=/categories/other>other</a></li><li><a href=/categories/sql>sql</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/categories/tips>tips</a></li><li><a href=/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B>多线程</a></li><li><a href=/top/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/1.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6 title=中间件>中间件</a></div><h1>redis笔记</h1><h2 class=subheading>redis笔记</h2><span class=meta>Posted by
+WangZiTao
+on
+Tuesday, July 20, 2021
+<span id=/2021-07-20-redis%E7%AC%94%E8%AE%B0/ class="leancloud_visitors meta_data_item" data-flag-title><span class=post-meta-item-icon><span class="octicon octicon-eye"></span></span>
+<i class="fa fa-eye"></i>
+<span class=old-visitors-count style=display:none></span>
+<span class=leancloud-visitors-count></span></span>
+<script src=https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js></script>
+<script>AV.initialize("","")</script><script type=text/javascript>function showTime(e){var n=new AV.Query(e),t=[],s=$(".leancloud_visitors");s.each(function(){t.push($(this).attr("id").trim())}),n.containedIn("url",t),n.find().done(function(e){for(var s,o,i,a,r,l,c=".leancloud-visitors-count",d=".old-visitors-count",n=0;n<e.length;n++)a=e[n],o=a.get("url"),l=a.get("time"),s=document.getElementById(o),$(s).find(c).text(l);for(n=0;n<t.length;n++)o=t[n],s=document.getElementById(o),i=$(s).find(c),i.text()==""&&(r=$(s).find(d).text(),r!=""?i.text(0+parseInt(r)):i.text(0))}).fail(function(e,t){console.log("Error: "+t.code+" "+t.message)})}function addCount(e){var n=$(".leancloud_visitors"),t=n.attr("id").trim(),o=n.attr("data-flag-title").trim(),s=new AV.Query(e);s.equalTo("url",t),s.find({success:function(n){if(n.length>0){var s,i,r,c,l,a=n[0];a.fetchWhenSave(!0),a.increment("time"),a.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to save Visitor num, with error message: "+t.message)}})}else s=new e,i=new AV.ACL,i.setPublicReadAccess(!0),i.setPublicWriteAccess(!0),s.setACL(i),s.set("title",o),s.set("url",t),c=".old-visitors-count",l=$(document.getElementById(t)),r=l.find(c).text(),r!=""?s.set("time",parseInt(r)+1):s.set("time",1),s.save(null,{success:function(e){var n=$(document.getElementById(t));n.find(".leancloud-visitors-count").text(e.get("time"))},error:function(){console.log("Failed to create")}})},error:function(e){console.log("Error:"+e.code+" "+e.message)}})}$(function(){var e=AV.Object.extend("Counter");$(".leancloud_visitors").length==1?addCount(e):showTime(e)})</script></span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h2 id=1-缓存异常>1 缓存异常</h2><h3 id=11-缓存雪崩>1.1 缓存雪崩</h3><p>缓存雪崩是指缓存同一时间大面积的失效，所以，后面的请求都会落到数据库上，造成数据库短时间内承受大量请求而崩掉。</p><p>解决方案
+缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。</p><pre><code>一般并发量不是特别多的时候，使用最多的解决方案是加锁排队
+
+给每一个缓存数据增加相应的缓存标记，记录缓存的是否失效，如果缓存标记失效，则更新数据缓存。
+</code></pre><h3 id=12-缓存穿透>1.2 缓存穿透</h3><p>缓存穿透是指缓存和数据库中都没有的数据，导致所有的请求都落到数据库上，造成数据库短时间内承受大量请求而崩掉。</p><p>解决方案
+接口层增加校验，如用户鉴权校验，id做基础校验，id&lt;=0的直接拦截；</p><pre><code>从缓存取不到的数据，在数据库中也没有取到，这时也可以将key-value对写为key-null，缓存有效时间可以设置短点，如30秒（设置太长会导致正常情况也没法使用）。
+这样可以防止攻击用户反复用同一个id暴力攻击
+
+采用布隆过滤器，将所有可能存在的数据哈希到一个足够大的 bitmap 中，一个一定不存在的数据会被这个 bitmap 拦截掉，从而避免了对底层存储系统的查询压力
+</code></pre><h3 id=13-缓存击穿>1.3 缓存击穿</h3><p>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力。
+和缓存雪崩不同的是，缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库。</p><p>解决方案
+设置热点数据永远不过期。
+加互斥锁，互斥锁</p><h3 id=14-缓存预热>1.4 缓存预热</h3><p>缓存预热就是系统上线后，将相关的缓存数据直接加载到缓存系统。这样就可以避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题！用户直接查询事先被预热的缓存数据！</p><h2 id=2-redis除了做缓存还可以用来做什么>2 redis除了做缓存，还可以用来做什么</h2><pre><code>分布式锁
+防重提交
+分布式限流
+简易版消息队列
+共享session
+延时任务（redisson）
+</code></pre><h2 id=3-redis锁如何保证任何时刻有且只有一个线程持有这个锁>3 redis锁如何保证任何时刻有且只有一个线程持有这个锁</h2><h2 id=4-如何保证分布式锁不产生死锁>4 如何保证分布式锁不产生死锁</h2><p>复现：设置key后系统挂了，锁无法释放<br>解决方案：使用命令 setnx key value ex seconds 设置key和它的过期时间，到了指定时间，锁自动释放</p><h2 id=5-如何防止释放别的线程锁>5 如何防止释放别的线程锁</h2><p>复现：线程A 拿到锁并设置过期时间10秒，但是业务逻辑时间为12秒，这是线程B拿到锁执行业务，线程A的业务执行完后，释放锁，这时释放的事线程B的锁，线程B释放锁时失败</p><p>解决方案：根据线程id生成uuid,设置到redis key对应的value里面去， 释放锁时判断uuid是否相同，相等释放锁，不相等，直接结束。</p><h2 id=6--分布式锁到期了业务没有执行完如何保证数据一致性>6 分布式锁到期了，业务没有执行完，如何保证数据一致性</h2><p>复现：线程A 拿到锁并设置过期时间10秒，但是业务逻辑时间为12秒，这是线程B拿到锁执行业务逻辑，会产生数据不一致</p><p>解决方案: 采用开门狗机制不断对锁续期。</p><pre><code>开门狗机制： 获取锁后启动一个定时任务，每隔三分之一默认过期时间判断是否持有当前线程锁，持有的话续期，没有持有的话，结束定时任务
+    1默认过期时间为30s
+    2是一个定时任务，默认10s扫描一次
+    3 业务没执行完，线程还持有锁，自动续期
+
+看门狗的问题是:获取锁成功后需要创建一个监听器消耗了cpu资源，高并发场景下会影响性能，在分布式锁的上层加个本地锁，先用本地锁拦截
+</code></pre><h2 id=7-分布式锁如何实现可重入>7 分布式锁如何实现可重入?</h2><p>可重入锁的要点是对于同一线程可以多次获取锁，不同线程之间同一把锁不能重复获取。</p><pre><code>如何保证线程可重入获取锁？
+	获取锁时判断是否是当前线程，如果是当前线程时，锁重入次数+1，解锁时相反。
+</code></pre><h2 id=8-分布式锁如何解决redis主从节点不同步导致锁失效>8 分布式锁如何解决redis主从节点不同步导致锁失效</h2><p>复现：主节点没来得及把刚刚加锁的数据同步给从节点，主节点挂了，哨兵重新选举一个从节点为主节点，这是新的主节点没有锁的信息，其他线程过来可以加锁，导致锁失效。</p><p>采用红锁算法解决这个问题，红锁算法认为，只要(N/2)+1个节点加锁成功，那么久认为是加锁成功。生产不太推荐</p><pre><code>如果真的需要这种强一致性的分布式锁的话，使用zk实现的分布式锁，性能比这个红锁的性能好。
+</code></pre><h2 id=9-分布式锁高并发下如何优化>9 分布式锁高并发下如何优化</h2><p>复现：分布式锁业务逻辑时长为20ms,那么1秒只能执行五次</p><p>优化方案，借鉴ConcurrentHashMap的设计思想，采用分段锁，比如可以分成三段，每段都有三分之一的库存，然后hash用户id分别引流到不同段，性能提升三倍</p><h2 id=10-不同场景如何选择分布式锁实现方案>10 不同场景如何选择分布式锁实现方案</h2><ol><li>redis分布式锁
+性能非常高，比较推荐</li><li>zk实现分布式锁
+可以选用ZOkkkeper作为分布式锁，采用cap理论中的cp模型保证高可用，性能不如redis，但是锁百分百可靠。</li><li>mysql实现分布式锁</li></ol><h2 id=11-redis大key解决方案>11 redis大key解决方案</h2><p>redis大key经典问题生产问题分析
+例如歌曲孤勇者，收藏接口，缓存是歌曲id为key,value是收藏的用户，如果收藏的用户过多，几万甚至更多，获取缓存时非常慢</p><h3 id=111-redis-大key基本概念及常见场景>11.1 redis 大key基本概念及常见场景:</h3><pre><code>所谓的redis大key问题是某个key对应的value比较大，所以本质还是打value问题。
+key是开发过程中可以自行设置，可以控制大小，value往往不受程序控制跟业务场景有关系，因此可能导致value很大
+</code></pre><h3 id=112-基本概念>11.2 基本概念：</h3><p>在redis中，大key指的是key对应的value值所占用的空间比较大</p><ul><li>value是string类型时，大小控制在10kb以内</li><li>value是hash，list，set，zset等集合类型时，元素数不要超过5000(或者1万，几万)</li></ul><h3 id=113-常见场景>11.3 常见场景：</h3><ul><li>大key的产生往往是业务方设计不合理，没有预见value的动态增长问题</li><li>一直往value中塞数据，没有删除及过期机制，迟早要爆炸</li><li>数据没有合理做分片，将大key变成一个个小key</li></ul><h3 id=114-场景>11.4 场景：</h3><ol><li>社交类，某些明星或者d大V的粉丝列表</li><li>统计类，统计某游戏活动玩家榜单列表</li><li>缓存类，将数据从数据库获取出来序列化到redis里</li></ol><p>例子：遇到一个例子，一个用户将某明星一个专辑下所有视频信息都缓存到一个巨大的json中，造成这个json打到6Mb,后面用户查询此信息时，redis大key瞬间扛不住了。</p><h3 id=115-redis大key造成的影响>11.5 redis大key造成的影响:</h3><ol><li>客户端超时阻塞：由于Redis 单线程的特性，操作 bigkey 的通常比较耗时，也就意味着阻塞 Redis 可能性越大，这样会造成客户端阻塞或者引起故障切换，会出现各种redis 慢查询中</li><li>内存空间不均匀：集群模式在 slot 分片均匀情况下，会出现数据和查询倾斜情况，部分有大 key 的Redis 节点占用内存多，QPS 高</li><li>引发网络阻塞：每次获取大 key 产生的网络流量较大，如果一个 key 的大小为 1MB，每秒访问量为 1000，那么每秒会产生 1000MB 的流量。这对于普通千兆网卡的服务器来说是灾难性的</li><li>阻塞工作线程：执行大key删除时，在低版本redis中可能阻塞线程。</li></ol><h3 id=116-redis大key如何检测>11.6 redis大key如何检测：</h3><ol><li>改写 redis 客户端，在 sdk 中加入埋点，实时上报数据给 redis 大 key 检测平台、监控告警</li><li>scan + debug object bigkey 命令。循环遍历 redis key 序列化后的长度。debug object bigkey可能会比较慢，它存在阻塞 Redis 的可能，建议在从节点执行该命令，官方不推荐</li><li>scan + memory usage 。该命令是在 Redis 4.0+ 以后提供的，可以循环遍历统计计算每个键值的字节数。</li><li>通过 python 脚本迭代的 scan key，对每次 scan 的内容进行判断是否大 key。</li><li>redis-cli &ndash;bigkeys 。可以找到某个 redis 实例 5 种数据类型(string、hash、list、set、zset)的最大 key。但如果 redis key 比较多，执行该命令会比较慢，建议在从节点执行该命令</li><li>rdbtools 开源工具包。rdbtools 是 python 写的一个第三方开源工具，用来解析 Redis 快照文件，redis 实例上执行 bgsave，然后对 dump 出来的 rdb 文件进行分析，找到其中的大 key</li></ol><h3 id=117-redis如何删除>11.7 redis如何删除：</h3><p>如果对这类大 key直接使用del命令进行删除，会导致长时间阻塞，甚至崩溃。因为del命令在删除集合类型数据时，时间复杂度为 O(M)，M是集合中元素的个数。Redis是单线程的，单个命令执行时间过长就会阻塞其他命令，容易引起雪崩。那我们怎么解决呢?</p><h4 id=1171-主动删除大-key>11.7.1 主动删除大 key</h4><ol><li>分批次渐进式删除<br>一般来说，对于 string 数据类型使用 del 命令不会产生阻塞。其它数据类型分批删除，通过 scan 命令遍历大 key，每次取得少部分元素进行删除，然后再获取和删除下一批元素。对 Hash, Sorted Set, List，Set 分别处理，思路相同，先对 key 改名进行逻辑删除，使客户端无 法使用原 key，然后使用批量小步删除。</li></ol><p>删除大 Hash 步骤：</p><ul><li>key 改名，相当于逻辑上把这个 key 删除了，任何 redis 命令都访问不到这 key了</li><li>小步多批次的删除</li></ul><ol start=2><li>采用 unlink + bigkey 异步非阻塞删除。这个命令是在 redis 4.0+提供的代替 del 命令，不会阻塞主线程</li></ol><h4 id=1172-被动删除大-key>11.7.2 被动删除大 key</h4><p>被动删除是指利用 redis 自身的 key 清除策略，配置 lazyfree 惰性删除。但是参数默认是关闭的，可配置如下参数开启，如下所示：</p><blockquote><p>lazyfree-lazy-expire on #过期惰性删除<br>lazyfree-lazy-eviction on #超过最大内存惰性删除<br>lazyfree-lazy-server-del on #服务端被动惰性删除</p></blockquote><h2 id=12-redis-大-key-如何设计与优化>12 redis 大 key 如何设计与优化</h2><p>主要针对以下两种经典场景进行优化：</p><h3 id=121-单个-key-存储的-value-很大超过-10kb>12.1 单个 key 存储的 value 很大（超过 10kb）</h3><ol><li>从业务角度评估，value 中只存储有用的字段，尽量去掉无用的字段。</li><li>可以考虑在应用层先对 value 进行压缩，比如采用 LZ4/Snappy 之类的压缩算法，配合 redis客户端序列化配置，可以无侵入完成 value 的压缩。</li><li>value设计的时候越小越好，关联的数据分不同的 key 进行存储。</li><li>大key分拆成几个 key-value， 使用multiGet 获取值，这样分拆的意义在于分拆单次操作的压力，将操作压力平摊到多个 redis 实例中，降低对单个 redis 的 IO 影响。</li><li>对redis集群进行扩容</li></ol><h3 id=122-集合数据类型>12.2 集合数据类型</h3><p>hash ，list，set ，sorted set 等存储过多的元素（超过 5000 个）</p><p>类似于场景一种的第一个做法，可以将这些元素分拆。</p><p>以 hash 为例，原先的正常存取流程是 hget(hashKey, field) ; hset(hashKey, field, value)<br>现在，我们可以分拆构建一个新的 newHashKey ，具体做法：固定一个桶的数量，比 10000，每次存取的时候，先在本地计算field的hash值，取模 10000，确定了该field落在哪个 newHashKey 上。</p><pre tabindex=0><code>newHashKey = hashKey + (*hash*(field) % 10000）;
+hset (newHashKey, field, value) ;
+hget(newHashKey, field) ；
+</code></pre><p>set, sorted set, list 也可以类似上述做法.</p><hr><ul class=pager><li class=previous><a href=/2021-07-12-jvm%E8%B0%83%E4%BC%98/ data-toggle=tooltip data-placement=top title=jvm调优>&larr;
+Previous Post</a></li><li class=next><a href=/2022-12-10-%E9%9B%86%E6%88%90GithubAction%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/ data-toggle=tooltip data-placement=top title="Hugo集成Github Action实现自动发布">Next
+Post &rarr;</a></li></ul><div id=disqus-comment></div><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//WangZiTao.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/api-gateway title=api-gateway>api-gateway</a>
+<a href=/tags/blog title=blog>blog</a>
+<a href=/tags/docker title=docker>docker</a>
+<a href=/tags/elk title=elk>elk</a>
+<a href=/tags/git title=git>git</a>
+<a href=/tags/helm title=helm>helm</a>
+<a href=/tags/io title=io>io</a>
+<a href=/tags/istio title=istio>istio</a>
+<a href=/tags/java title=java>java</a>
+<a href=/tags/juc title=juc>juc</a>
+<a href=/tags/jvm title=jvm>jvm</a>
+<a href=/tags/kubernetes title=kubernetes>kubernetes</a>
+<a href=/tags/microservice title=microservice>microservice</a>
+<a href=/tags/mysql title=mysql>mysql</a>
+<a href=/tags/nginmesh title=nginmesh>nginmesh</a>
+<a href=/tags/security title=security>security</a>
+<a href=/tags/service-mesh title=service-mesh>service-mesh</a>
+<a href=/tags/sql%E6%B3%A8%E5%85%A5 title=sql注入>sql注入</a>
+<a href=/tags/tips title=tips>tips</a>
+<a href=/tags/travel title=travel>travel</a>
+<a href=/tags/ubuntu title=ubuntu>ubuntu</a>
+<a href=/tags/vim title=vim>vim</a>
+<a href=/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6 title=中间件>中间件</a>
+<a href=/tags/%E5%85%B6%E4%BB%96 title=其他>其他</a>
+<a href=/tags/%E5%9F%BA%E7%A1%80 title=基础>基础</a>
+<a href=/tags/%E6%80%A7%E8%83%BD title=性能>性能</a>
+<a href=/tags/%E6%AD%A3%E5%88%99 title=正则>正则</a>
+<a href=/tags/%E6%AD%BB%E9%94%81 title=死锁>死锁</a>
+<a href=/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91 title=端口转发>端口转发</a>
+<a href=/tags/%E7%BD%91%E7%BB%9C title=网络>网络</a>
+<a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F title=设计模式>设计模式</a>
+<a href=/tags/%E9%85%8D%E7%BD%AE title=配置>配置</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.ibm.com/developerworks/cn/>IBM Developer 中国</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:wang_zitao@foxmail.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/images/qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/wangzitao6><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; 王子滔的学习笔记 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script>(function(){var t,e=document.createElement("script"),n=window.location.protocol.split(":")[0];n==="https"?e.src="https://zz.bdstatic.com/linksubmit/push.js":e.src="http://push.zhanzhang.baidu.com/push.js",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t)})()</script><script>var _baId="28c952e35b6e860c096a2cdf52785c6f",_hmt=_hmt||[];(function(){var e,t=document.createElement("script");t.src="//hm.baidu.com/hm.js?"+_baId,e=document.getElementsByTagName("script")[0],e.parentNode.insertBefore(t,e)})()</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
